@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLWS Essay Builder - 论文构建工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            border-right: 2px solid #e9ecef;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .main {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .step-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.95em;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .step-button:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            transform: translateX(5px);
+        }
+
+        .step-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .step-button .step-number {
+            display: inline-block;
+            width: 25px;
+            height: 25px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            margin-right: 8px;
+            font-size: 0.9em;
+        }
+
+        .step-button.active .step-number {
+            background: white;
+            color: #667eea;
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .instruction-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .instruction-box strong {
+            color: #667eea;
+        }
+
+        .example-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        .example-box .label {
+            color: #2e7d32;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .bad-example {
+            background: #ffebee;
+            border-left-color: #f44336;
+        }
+
+        .bad-example .label {
+            color: #c62828;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.95em;
+            resize: vertical;
+            min-height: 120px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.95em;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .checklist li {
+            padding: 10px;
+            margin-bottom: 8px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checklist li:hover {
+            background: #e9ecef;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .checklist input[type="checkbox"]:checked + span {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .tip-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+
+        .tip-box strong {
+            color: #e65100;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .vocabulary-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .vocab-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+
+        .vocab-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .vocab-item em {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .output-preview {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 2px solid #e9ecef;
+            min-height: 200px;
+        }
+
+        .output-preview h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .output-text {
+            line-height: 1.8;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .grade-indicator {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .comparison-table tr:first-child th {
+            background: #667eea;
+            color: white;
+        }
+
+        .comparison-table .col-grade {
+            font-weight: bold;
+            color: #667eea;
+            width: 25%;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid #e9ecef;
+            }
+
+            .step-button {
+                display: inline-block;
+                width: calc(50% - 5px);
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+            .step-button:nth-child(even) {
+                margin-right: 0;
+            }
+
+            .vocabulary-list {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 MLWS Essay Builder | 论文构建工具</h1>
+            <p>Learn to write excellent essays step by step | 学习一步步写优秀的论文</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content">
+            <div class="sidebar">
+                <h3 style="color: #667eea; margin-top: 0;">Your Grade: | 你的年级:</h3>
+                <div style="margin-bottom: 30px;">
+                    <select id="gradeSelect" style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; font-weight: 600;">
+                        <option value="10-1">Grade 10-1 | 10年级-1</option>
+                        <option value="10-2">Grade 10-2 | 10年级-2</option>
+                        <option value="11-1">Grade 11-1 | 11年级-1</option>
+                        <option value="11-2">Grade 11-2 | 11年级-2</option>
+                        <option value="12">Grade 12+ | 12年级+</option>
+                    </select>
+                </div>
+
+                <h3 style="color: #667eea; margin-top: 0; font-size: 1em;">Essay Parts: | 论文部分:</h3>
+                <button class="step-button active" onclick="showStep('introduction')">
+                    <span class="step-number">1</span> Introduction | 介绍
+                </button>
+                <button class="step-button" onclick="showStep('body1')">
+                    <span class="step-number">2</span> Body 1 | 正文1
+                </button>
+                <button class="step-button" onclick="showStep('body2')">
+                    <span class="step-number">3</span> Body 2 | 正文2
+                </button>
+                <button class="step-button" onclick="showStep('body3')">
+                    <span class="step-number">4</span> Body 3 | 正文3
+                </button>
+                <button class="step-button" onclick="showStep('conclusion')">
+                    <span class="step-number">5</span> Conclusion | 结论
+                </button>
+                <button class="step-button" onclick="showStep('review')">
+                    <span class="step-number">✓</span> Review & Check | 复习检查
+                </button>
+            </div>
+
+            <div class="main">
+                <!-- INTRODUCTION STEP -->
+                <div id="introduction" class="step-content active">
+                    <h2>Step 1: Write Your Introduction | 第1步:写你的介绍</h2>
+
+                    <div class="grade-indicator">Grades 10-1, 10-2, 11-1, 11-2, 12+ | 所有年级</div>
+
+                    <div class="instruction-box">
+                        <strong>What is an introduction? | 什么是介绍?</strong><br>
+                        The introduction is the first paragraph. It has three parts that prepare the reader for your essay. | 介绍是第一段。它有三部分来为你的论文做准备。
+                    </div>
+
+                    <h3>📌 Three Parts of Your Introduction: | 你的介绍的三部分:</h3>
+
+                    <h3 style="color: #333; font-size: 1.1em;">Part 1: Hook (Get Attention) | 第1部分:钩子(吸引注意力)</h3>
+                    <div class="example-box">
+                        <div class="label">What is a hook? | 什么是钩子?</div>
+                        A hook is the first sentence. It gets your reader interested. It starts with a general idea (not about your specific topic yet). | 钩子是第一句。它让你的读者感兴趣。它从一个一般的想法开始(还不是关于你的具体话题)。
+                    </div>
+
+                    <div class="example-box">
+                        <div class="label">✅ GOOD Hook Examples: | 好的钩子例子:</div>
+                        "Power can change people. When someone gets power, they often forget their values." | "权力可以改变人。当有人获得权力时,他们经常忘记自己的价值观。"<br><br>
+                        "Many students feel stressed about school. This pressure comes from different places." | "许多学生对学校感到压力。这种压力来自不同的地方。"<br><br>
+                        "Families are important to everyone. Sometimes families make us happy, and sometimes they hurt us." | "家庭对每个人都很重要。有时家庭使我们快乐,有时它们伤害我们。"
+                    </div>
+
+                    <div class="input-group">
+                        <label for="hookText">Write your hook: | 写你的钩子:</label>
+                        <textarea id="hookText" placeholder="Start with a general idea about your topic... | 以关于你话题的一般想法开始..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 2: Lead-In Statement (Connect to Your Topic) | 第2部分:引入语句(连接到你的话题)</h3>
+                    <div class="example-box">
+                        <div class="label">What is a lead-in statement? | 什么是引入语句?</div>
+                        This sentence connects your hook to your specific topic. It moves from general to specific. It explains how your hook connects to what you will discuss. | 这句话将你的钩子连接到你的具体话题。它从一般到具体。它解释了你的钩子如何连接到你将讨论的内容。
+                    </div>
+
+                    <div class="example-box">
+                        <div class="label">✅ GOOD Lead-In Examples: | 好的引入例子:</div>
+                        "In literature, many characters show us how power changes people in different ways." | "在文学中,许多人物向我们展示了权力如何以不同的方式改变人们。"<br><br>
+                        "In the texts we read, characters experience stress from family, friends, and school." | "在我们阅读的文本中,人物从家庭、朋友和学校经历压力。"<br><br>
+                        "Stories show us different kinds of families and the effects they have on people." | "故事向我们展示了不同类型的家庭及其对人的影响。"
+                    </div>
+
+                    <div class="input-group">
+                        <label for="leadin">Write your lead-in statement: | 写你的引入语句:</label>
+                        <textarea id="leadin" placeholder="Connect your hook to your topic. How does your general idea connect to what you will discuss? | 将你的钩子连接到你的话题。你的一般想法如何连接到你将讨论的内容?"></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 3: Thesis Statement (Your Main Argument + 3 Points) | 第3部分:论文陈述(你的主要论点+3个要点)</h3>
+                    <div class="example-box">
+                        <div class="label">What is a thesis statement? | 什么是论文陈述?</div>
+                        Your thesis is your main argument. It has TWO things: | 你的论文是你的主要论点。它有两件事:
+                        <br>1. Your main argument (what you believe about the topic) | 你的主要论点(你对该话题的信念)
+                        <br>2. Three general points you will discuss in your essay | 你将在论文中讨论的三个一般要点
+                    </div>
+
+                    <div class="example-box">
+                        <div class="label">✅ GOOD Thesis Examples: | 好的论文例子:</div>
+                        "Power changes people by making them forget their values, creating more problems, and making them unhappy." | "权力通过使人忘记自己的价值观、造成更多问题并使人不快乐来改变人。"<br><br>
+                        "Characters handle stress by changing themselves, asking for help from others, or they do not handle it and suffer." | "人物通过改变自己、向他人寻求帮助来处理压力,或者他们不处理并遭受痛苦。"<br><br>
+                        "Families show their love through words, through actions, and through teaching values." | "家庭通过言语、行动和教导价值观来表现他们的爱。"
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip: | 提示:</strong> Your three points should be DIFFERENT from each other. They should be interesting things that support your argument. | 你的三个要点应该彼此不同。它们应该是支持你的论点的有趣的事情。
+                    </div>
+
+                    <div class="input-group">
+                        <label for="mainArgument">Your main argument (what you believe): | 你的主要论点(你相信什么):</label>
+                        <input type="text" id="mainArgument" placeholder="Example: Power changes people | 例子:权力改变人" style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="point1">Point 1: | 要点1:</label>
+                        <input type="text" id="point1" placeholder="First point | 第一点" style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="point2">Point 2: | 要点2:</label>
+                        <input type="text" id="point2" placeholder="Second point | 第二点" style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="point3">Point 3: | 要点3:</label>
+                        <input type="text" id="point3" placeholder="Third point | 第三点" style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <div class="output-preview">
+                        <h4>📋 Your Introduction Preview: | 你的介绍预览:</h4>
+                        <div class="output-text" id="introPreview">
+                            <p><strong>Hook: | 钩子:</strong> <em>[Your hook will appear here | 你的钩子会出现在这里]</em></p>
+                            <p><strong>Lead-In: | 引入:</strong> <em>[Your lead-in will appear here | 你的引入会出现在这里]</em></p>
+                            <p><strong>Thesis: | 论文:</strong> <em>[Your thesis will appear here | 你的论文会出现在这里]</em></p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="updateIntroPreview()">✓ Check My Introduction | 检查我的介绍</button>
+                        <button class="btn-secondary" onclick="showStep('body1')">Next: Body Paragraph → | 下一步:正文段落→</button>
+                    </div>
+                </div>
+
+                <!-- BODY PARAGRAPH 1 STEP -->
+                <div id="body1" class="step-content">
+                    <h2>Step 2: Write Body Paragraph 1 | 第2步:写正文第1段</h2>
+
+                    <div class="grade-indicator">Grades 10-1, 10-2, 11-1, 11-2, 12+ | 所有年级</div>
+
+                    <div class="instruction-box">
+                        <strong>What is a body paragraph? | 什么是正文段落?</strong><br>
+                        Body paragraphs explain your points. Each body paragraph supports ONE of your three points from your thesis. | 正文段落解释你的要点。每个正文段落支持你论文中的三个要点中的一个。
+                    </div>
+
+                    <h3>📌 Body Paragraph Structure: | 正文段落结构:</h3>
+
+                    <div class="example-box">
+                        <div class="label">All grades use: | 所有年级使用:</div>
+                        1. Transition | 转换<br>
+                        2. Topic Sentence | 主题句<br>
+                        3. Reporting Phrase | 报告短语<br>
+                        4. Evidence (quote or example) | 证据(引用或例子)<br>
+                        5. Explanation | 解释<br>
+                        6. Transition | 转换<br>
+                        7. Concluding Sentence | 结论句
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em;">Part 1: Transition Word | 第1部分:转换词</h3>
+                    <div class="example-box">
+                        <div class="label">What is a transition? | 什么是转换?</div>
+                        A transition word connects this paragraph to the previous paragraph. It shows that you are making a new point. | 转换词将这一段连接到前一段。它表明你在提出新的观点。
+                    </div>
+
+                    <div class="vocabulary-list">
+                        <div class="vocab-item"><strong>First, | 首先,</strong> <em>use this at the start | 在开始时使用</em></div>
+                        <div class="vocab-item"><strong>Additionally, | 另外,</strong> <em>add more information | 添加更多信息</em></div>
+                        <div class="vocab-item"><strong>To begin with, | 首先,</strong> <em>start explaining | 开始解释</em></div>
+                        <div class="vocab-item"><strong>Furthermore, | 此外,</strong> <em>add more support | 添加更多支持</em></div>
+                        <div class="vocab-item"><strong>Moreover, | 而且,</strong> <em>add another example | 添加另一个例子</em></div>
+                        <div class="vocab-item"><strong>In addition, | 另外,</strong> <em>add to your idea | 增加你的想法</em></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="body1Transition">Choose a transition word and start your sentence: | 选择转换词并开始你的句子:</label>
+                        <input type="text" id="body1Transition" placeholder="Example: To begin with, | 例子:首先," style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 2: Topic Sentence (Restate Your First Point) | 第2部分:主题句(重述你的第一个要点)</h3>
+                    <div class="example-box">
+                        <div class="label">What is a topic sentence? | 什么是主题句?</div>
+                        Your topic sentence states what this paragraph will explain. It should be your first point from your thesis, but in DIFFERENT words. | 你的主题句说明这一段将解释什么。它应该是你论文中的第一个要点,但用不同的词表达。
+                    </div>
+
+                    <div class="input-group">
+                        <label for="body1Topic">Write your topic sentence (restate your Point 1 in different words): | 写你的主题句(用不同的词重述你的第一点):</label>
+                        <textarea id="body1Topic" placeholder="Restate your first point from your thesis... | 重述你论文中的第一点..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 3: Reporting Phrase | 第3部分:报告短语</h3>
+                    <div class="example-box">
+                        <div class="label">What is a reporting phrase? | 什么是报告短语?</div>
+                        A reporting phrase introduces your evidence. It tells where your information comes from and connects it to your topic sentence. | 报告短语介绍你的证据。它说明你的信息来自哪里,并将其连接到你的主题句。
+                    </div>
+
+                    <div class="vocabulary-list">
+                        <div class="vocab-item"><strong>According to [source], | 根据[来源],</strong> <em>use this to cite | 使用它来引用</em></div>
+                        <div class="vocab-item"><strong>[Author] states that | [作者]指出</strong> <em>mention the author | 提及作者</em></div>
+                        <div class="vocab-item"><strong>In [book/article], | 在[书/文章],</strong> <em>name the source | 命名来源</em></div>
+                        <div class="vocab-item"><strong>It is noted that | 值得注意的是</strong> <em>passive voice | 被动语态</em></div>
+                        <div class="vocab-item"><strong>[Source] explains | [来源]解释</strong> <em>the source explains | 来源解释</em></div>
+                        <div class="vocab-item"><strong>The character shows | 角色显示</strong> <em>from literature | 来自文学</em></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="body1Reporting">Write your reporting phrase: | 写你的报告短语:</label>
+                        <input type="text" id="body1Reporting" placeholder="Example: According to the text, | 例子:根据文本," style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 4: Evidence (Quote or Example) | 第4部分:证据(引用或例子)</h3>
+                    <div class="example-box">
+                        <div class="label">What is evidence? | 什么是证据?</div>
+                        Evidence is a quote from the text OR a description of what happened. It proves your topic sentence. | 证据是文本中的引用或对发生情况的描述。它证明了你的主题句。
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip: | 提示:</strong> Always use quotation marks around quotes: "exact words from the text" | 始终在引用周围使用引号:"文本中的确切词语"<br>
+                        If from a quote, include the page number: (page 5) or (5) | 如果来自引用,请包括页码:(第5页)或(5)
+                    </div>
+
+                    <div class="input-group">
+                        <label for="body1Evidence">Write your quote or example: | 写你的引用或例子:</label>
+                        <textarea id="body1Evidence" placeholder="Paste your quote here or describe what happened in the text... | 在此粘贴你的引用或描述文本中发生的情况..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 5: Explanation (Explain How It Proves Your Point) | 第5部分:解释(解释它如何证明你的观点)</h3>
+                    <div class="example-box">
+                        <div class="label">What is explanation? | 什么是解释?</div>
+                        Explain how your evidence proves your topic sentence. Tell your reader WHY this evidence is important. Don't just repeat the quote. | 解释你的证据如何证明你的主题句。告诉你的读者这个证据为什么很重要。不要只是重复引用。
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip: | 提示:</strong> Ask yourself: "How does this quote prove my point? What does it show?" | 问问自己:"这个引用如何证明我的观点?它显示了什么?"<br>
+                        Explanation should be 2-4 sentences. | 解释应该是2-4句话。
+                    </div>
+
+                    <div class="input-group">
+                        <label for="body1Explanation">Write your explanation: | 写你的解释:</label>
+                        <textarea id="body1Explanation" placeholder="Explain how your evidence proves your topic sentence... | 解释你的证据如何证明你的主题句..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 6: Transition + Part 7: Concluding Sentence | 第6部分:转换+第7部分:结论句</h3>
+                    <div class="example-box">
+                        <div class="label">What is a concluding sentence? | 什么是结论句?</div>
+                        The concluding sentence ends the paragraph. It restates your topic sentence in different words. It also connects back to your main thesis. | 结论句结束段落。它用不同的词重述你的主题句。它也连接回你的主要论文。
+                    </div>
+
+                    <div class="input-group">
+                        <label for="body1Concluding">Write your concluding sentence (restate your topic sentence with a new transition): | 写你的结论句(用新的转换重述你的主题句):</label>
+                        <textarea id="body1Concluding" placeholder="Restate your topic sentence in different words... | 用不同的词重述你的主题句..."></textarea>
+                    </div>
+
+                    <div class="output-preview">
+                        <h4>📋 Your Body Paragraph 1 Preview: | 你的正文第1段预览:</h4>
+                        <div class="output-text" id="body1Preview">
+                            <p><em>[Your paragraph will appear here | 你的段落会出现在这里]</em></p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="updateBody1Preview()">✓ Check My Paragraph | 检查我的段落</button>
+                        <button class="btn-secondary" onclick="showStep('body2')">Next: Body Paragraph 2 → | 下一步:正文第2段→</button>
+                    </div>
+                </div>
+
+                <!-- BODY PARAGRAPH 2 STEP -->
+                <div id="body2" class="step-content">
+                    <h2>Step 3: Write Body Paragraph 2 | 第3步:写正文第2段</h2>
+
+                    <div class="grade-indicator">Grades 10-1, 10-2, 11-1, 11-2, 12+ | 所有年级</div>
+
+                    <div class="instruction-box">
+                        <strong>This is the same as Body Paragraph 1 | 这与正文第1段相同</strong><br>
+                        But this paragraph explains your SECOND point from your thesis. Make sure it is different from Body Paragraph 1. | 但这一段解释你论文中的第二点。确保它与正文第1段不同。
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em;">Part 1: Transition Word | 第1部分:转换词</h3>
+                    <div class="input-group">
+                        <label for="body2Transition">Choose a transition word (use a different one from Body 1): | 选择转换词(使用与正文1不同的):</label>
+                        <input type="text" id="body2Transition" placeholder="Example: Furthermore, | 例子:此外," style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 2: Topic Sentence (Restate Your Second Point) | 第2部分:主题句(重述你的第二点)</h3>
+                    <div class="input-group">
+                        <label for="body2Topic">Write your topic sentence (restate your Point 2): | 写你的主题句(重述你的第二点):</label>
+                        <textarea id="body2Topic" placeholder="Restate your second point from your thesis... | 重述你论文中的第二点..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 3: Reporting Phrase | 第3部分:报告短语</h3>
+                    <div class="input-group">
+                        <label for="body2Reporting">Write your reporting phrase (use a different source than Body 1): | 写你的报告短语(使用与正文1不同的来源):</label>
+                        <input type="text" id="body2Reporting" placeholder="Example: In the story, | 例子:在故事中," style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 4: Evidence (Quote or Example) | 第4部分:证据(引用或例子)</h3>
+                    <div class="input-group">
+                        <label for="body2Evidence">Write your quote or example (from a DIFFERENT passage than Body 1): | 写你的引用或例子(来自与正文1不同的段落):</label>
+                        <textarea id="body2Evidence" placeholder="Paste your quote here or describe what happened... | 在此粘贴你的引用或描述发生的情况..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 5: Explanation | 第5部分:解释</h3>
+                    <div class="input-group">
+                        <label for="body2Explanation">Write your explanation: | 写你的解释:</label>
+                        <textarea id="body2Explanation" placeholder="Explain how your evidence proves your topic sentence... | 解释你的证据如何证明你的主题句..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 6-7: Concluding Sentence | 第6-7部分:结论句</h3>
+                    <div class="input-group">
+                        <label for="body2Concluding">Write your concluding sentence: | 写你的结论句:</label>
+                        <textarea id="body2Concluding" placeholder="Restate your topic sentence in different words... | 用不同的词重述你的主题句..."></textarea>
+                    </div>
+
+                    <div class="output-preview">
+                        <h4>📋 Your Body Paragraph 2 Preview: | 你的正文第2段预览:</h4>
+                        <div class="output-text" id="body2Preview">
+                            <p><em>[Your paragraph will appear here | 你的段落会出现在这里]</em></p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="updateBody2Preview()">✓ Check My Paragraph | 检查我的段落</button>
+                        <button class="btn-secondary" onclick="showStep('body3')">Next: Body Paragraph 3 → | 下一步:正文第3段→</button>
+                    </div>
+                </div>
+
+                <!-- BODY PARAGRAPH 3 STEP -->
+                <div id="body3" class="step-content">
+                    <h2>Step 4: Write Body Paragraph 3 | 第4步:写正文第3段</h2>
+
+                    <div class="grade-indicator">Grades 10-1, 10-2, 11-1, 11-2, 12+ | 所有年级</div>
+
+                    <div class="instruction-box">
+                        <strong>This is your FINAL body paragraph | 这是你的最后正文段落</strong><br>
+                        It explains your THIRD point from your thesis. This should be your strongest and most interesting point. | 它解释你论文中的第三点。这应该是你最强和最有趣的要点。
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em;">Part 1: Transition Word | 第1部分:转换词</h3>
+                    <div class="input-group">
+                        <label for="body3Transition">Choose a transition word: | 选择转换词:</label>
+                        <input type="text" id="body3Transition" placeholder="Example: Additionally, | 例子:另外," style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 2: Topic Sentence (Restate Your Third Point) | 第2部分:主题句(重述你的第三点)</h3>
+                    <div class="input-group">
+                        <label for="body3Topic">Write your topic sentence (restate your Point 3): | 写你的主题句(重述你的第三点):</label>
+                        <textarea id="body3Topic" placeholder="Restate your third point from your thesis... | 重述你论文中的第三点..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 3: Reporting Phrase | 第3部分:报告短语</h3>
+                    <div class="input-group">
+                        <label for="body3Reporting">Write your reporting phrase (use a DIFFERENT source): | 写你的报告短语(使用不同的来源):</label>
+                        <input type="text" id="body3Reporting" placeholder="Example: In the poem, | 例子:在诗中," style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 4: Evidence (Quote or Example) | 第4部分:证据(引用或例子)</h3>
+                    <div class="input-group">
+                        <label for="body3Evidence">Write your quote or example (from a DIFFERENT passage): | 写你的引用或例子(来自不同的段落):</label>
+                        <textarea id="body3Evidence" placeholder="Paste your quote here or describe what happened... | 在此粘贴你的引用或描述发生的情况..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 5: Explanation | 第5部分:解释</h3>
+                    <div class="input-group">
+                        <label for="body3Explanation">Write your explanation: | 写你的解释:</label>
+                        <textarea id="body3Explanation" placeholder="Explain how your evidence proves your topic sentence... | 解释你的证据如何证明你的主题句..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 6-7: Concluding Sentence | 第6-7部分:结论句</h3>
+                    <div class="input-group">
+                        <label for="body3Concluding">Write your concluding sentence: | 写你的结论句:</label>
+                        <textarea id="body3Concluding" placeholder="Restate your topic sentence in different words... | 用不同的词重述你的主题句..."></textarea>
+                    </div>
+
+                    <div class="output-preview">
+                        <h4>📋 Your Body Paragraph 3 Preview: | 你的正文第3段预览:</h4>
+                        <div class="output-text" id="body3Preview">
+                            <p><em>[Your paragraph will appear here | 你的段落会出现在这里]</em></p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="updateBody3Preview()">✓ Check My Paragraph | 检查我的段落</button>
+                        <button class="btn-secondary" onclick="showStep('conclusion')">Next: Conclusion → | 下一步:结论→</button>
+                    </div>
+                </div>
+
+                <!-- CONCLUSION STEP -->
+                <div id="conclusion" class="step-content">
+                    <h2>Step 5: Write Your Conclusion | 第5步:写你的结论</h2>
+
+                    <div class="grade-indicator">Grades 10-1, 10-2, 11-1, 11-2, 12+ | 所有年级</div>
+
+                    <div class="instruction-box">
+                        <strong>What is a conclusion? | 什么是结论?</strong><br>
+                        The conclusion is your last paragraph. It ends your essay and leaves your reader with a final thought. It has 3 parts. | 结论是你的最后一段。它结束你的论文,并给你的读者留下最后的想法。它有3部分。
+                    </div>
+
+                    <h3>📌 Three Parts of Your Conclusion: | 你的结论的三部分:</h3>
+
+                    <h3 style="color: #333; font-size: 1.1em;">Part 1: Transition | 第1部分:转换</h3>
+                    <div class="example-box">
+                        <div class="label">Conclusion transition words: | 结论转换词:</div>
+                        "In conclusion, | 总之," "In summary, | 总结," "Ultimately, | 最终," "Therefore, | 因此," "Thus, | 因此,"
+                    </div>
+
+                    <div class="input-group">
+                        <label for="conclusionTransition">Start your conclusion with a transition: | 用转换开始你的结论:</label>
+                        <input type="text" id="conclusionTransition" placeholder="Example: In conclusion, | 例子:总之," style="padding: 10px; border: 2px solid #e9ecef; border-radius: 8px; width: 100%;">
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 2: Summary / Restate Your Thesis | 第2部分:总结/重述你的论文</h3>
+                    <div class="example-box">
+                        <div class="label">What should you do? | 你应该做什么?</div>
+                        Restate your MAIN ARGUMENT and your THREE POINTS. Use DIFFERENT words than your introduction. Don't repeat the exact same words. | 重述你的主要论点和你的三个要点。使用与介绍不同的词。不要重复完全相同的词。
+                    </div>
+
+                    <div class="tip-box">
+                        <strong>💡 Tip: | 提示:</strong> Think: "What did I prove in my three body paragraphs? Now I'll say it again with new words." | 想想:"我在三个正文段落中证明了什么?现在我会用新词再说一遍。"
+                    </div>
+
+                    <div class="input-group">
+                        <label for="conclusionSummary">Restate your thesis (say your main argument and your 3 points again, but use DIFFERENT words): | 重述你的论文(再次说出你的主要论点和3个要点,但使用不同的词):</label>
+                        <textarea id="conclusionSummary" placeholder="Restate your thesis using new words... | 使用新词重述你的论文..."></textarea>
+                    </div>
+
+                    <h3 style="color: #333; font-size: 1.1em; margin-top: 30px;">Part 3: Final Thought / Clincher (Leave a Strong Ending) | 第3部分:最后想法/结束语(留下有力的结尾)</h3>
+                    <div class="example-box">
+                        <div class="label">What is a clincher? | 什么是结束语?</div>
+                        Your final thought should make your reader think. It shows why your topic is important. It connects your topic to the world outside your essay. | 你的最后想法应该让你的读者思考。它显示了你的话题为什么重要。它将你的话题连接到你论文之外的世界。
+                    </div>
+
+                    <div class="example-box">
+                        <div class="label">✅ Good Final Thoughts: | 好的最后想法:</div>
+                        "If we want to build a better world, we must understand these ideas." | "如果我们想建立一个更美好的世界,我们必须理解这些想法。"<br><br>
+                        "This shows why this topic matters to all people everywhere." | "这显示了这个话题对世界各地所有人的重要性。"<br><br>
+                        "By learning these lessons, we can help make positive changes in our communities." | "通过学习这些课程,我们可以帮助在我们的社区中进行积极改变。"<br><br>
+                        "Everyone should think about this problem and do something to help." | "每个人都应该思考这个问题并做一些事情来帮助。"
+                    </div>
+
+                    <div class="input-group">
+                        <label for="conclusionFinal">Write your final thought (clincher): | 写你的最后想法(结束语):</label>
+                        <textarea id="conclusionFinal" placeholder="Leave your reader with an important final thought... | 给你的读者留下一个重要的最后想法..."></textarea>
+                    </div>
+
+                    <div class="output-preview">
+                        <h4>📋 Your Conclusion Preview: | 你的结论预览:</h4>
+                        <div class="output-text" id="conclusionPreview">
+                            <p><em>[Your conclusion will appear here | 你的结论会出现在这里]</em></p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="updateConclusionPreview()">✓ Check My Conclusion | 检查我的结论</button>
+                        <button class="btn-secondary" onclick="showStep('review')">Next: Review Your Essay → | 下一步:复习你的论文→</button>
+                    </div>
+                </div>
+
+                <!-- REVIEW STEP -->
+                <div id="review" class="step-content">
+                    <h2>Step 6: Review & Check Your Essay | 第6步:复习并检查你的论文</h2>
+
+                    <div class="grade-indicator">Quality Check | 质量检查</div>
+
+                    <div class="instruction-box">
+                        <strong>Read through your entire essay and check each item below | 阅读你的整篇论文并检查以下每项</strong>
+                    </div>
+
+                    <h3>Introduction Checklist: | 介绍清单:</h3>
+                    <ul class="checklist">
+                        <li><input type="checkbox" id="check1"><span>My hook is a general statement (not specific to my topic) | 我的钩子是一般声明(不是特定于我的话题)</span></li>
+                        <li><input type="checkbox" id="check2"><span>My lead-in connects my hook to my topic | 我的引入将我的钩子连接到我的话题</span></li>
+                        <li><input type="checkbox" id="check3"><span>My thesis has my main argument AND my 3 points | 我的论文有我的主要论点和3个要点</span></li>
+                    </ul>
+
+                    <h3>Body Paragraphs Checklist: | 正文段落清单:</h3>
+                    <ul class="checklist">
+                        <li><input type="checkbox" id="check4"><span>Each body paragraph has a transition word | 每个正文段落都有一个转换词</span></li>
+                        <li><input type="checkbox" id="check5"><span>Each topic sentence restates a different point | 每个主题句都重述了一个不同的要点</span></li>
+                        <li><input type="checkbox" id="check6"><span>Each paragraph uses evidence from a DIFFERENT source | 每个段落使用来自不同来源的证据</span></li>
+                        <li><input type="checkbox" id="check7"><span>I explained how my evidence proves my point (not just repeated the quote) | 我解释了我的证据如何证明我的观点(不只是重复引用)</span></li>
+                        <li><input type="checkbox" id="check8"><span>Each paragraph has a concluding sentence | 每个段落都有一个结论句</span></li>
+                    </ul>
+
+                    <h3>Conclusion Checklist: | 结论清单:</h3>
+                    <ul class="checklist">
+                        <li><input type="checkbox" id="check9"><span>My conclusion has a transition word | 我的结论有一个转换词</span></li>
+                        <li><input type="checkbox" id="check10"><span>I restated my thesis with new words | 我用新词重述了我的论文</span></li>
+                        <li><input type="checkbox" id="check11"><span>My final thought connects my topic to the world | 我的最后想法将我的话题连接到世界</span></li>
+                    </ul>
+
+                    <h3>Grammar & Style Checklist: | 语法和风格清单:</h3>
+                    <ul class="checklist">
+                        <li><input type="checkbox" id="check12"><span>I used capital letters correctly | 我正确使用了大写字母</span></li>
+                        <li><input type="checkbox" id="check13"><span>I used periods at the end of sentences | 我在句子末尾使用了句号</span></li>
+                        <li><input type="checkbox" id="check14"><span>My quotes have quotation marks: "like this" | 我的引用有引号:"像这样"</span></li>
+                        <li><input type="checkbox" id="check15"><span>I spelled words correctly | 我正确拼写了单词</span></li>
+                    </ul>
+
+                    <h3>MLA Citations Checklist: | MLA引用清单:</h3>
+                    <ul class="checklist">
+                        <li><input type="checkbox" id="check16"><span>All quotes have the author or source name | 所有引用都有作者或来源名称</span></li>
+                        <li><input type="checkbox" id="check17"><span>All quotes have page numbers (Example: (Smith 5) or (5)) | 所有引用都有页码(例如:(Smith 5)或(5))</span></li>
+                        <li><input type="checkbox" id="check18"><span>I used different sources for each body paragraph | 我为每个正文段落使用了不同的来源</span></li>
+                    </ul>
+
+                    <h3 style="margin-top: 30px;">📝 Full Essay View: | 完整论文视图:</h3>
+                    <div class="output-preview">
+                        <div class="output-text" id="fullEssay">
+                            <p style="color: #999; text-align: center;">Your complete essay will be shown here | 你的完整论文将显示在这里</p>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="generateFullEssay()">📄 View Complete Essay | 查看完整论文</button>
+                        <button class="btn-secondary" onclick="downloadEssay()">⬇️ Download Essay | 下载论文</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showStep(stepName) {
+            // Hide all steps
+            const steps = document.querySelectorAll('.step-content');
+            steps.forEach(step => step.classList.remove('active'));
+
+            // Remove active from all buttons
+            const buttons = document.querySelectorAll('.step-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected step
+            const stepElement = document.getElementById(stepName);
+            if (stepElement) {
+                stepElement.classList.add('active');
+            }
+
+            // Add active to clicked button
+            buttons.forEach(btn => {
+                if (btn.innerHTML.includes(stepName) || btn.onclick.toString().includes(stepName)) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update progress
+            updateProgress();
+
+            // Scroll to top
+            const mainElement = document.querySelector('.main');
+            if (mainElement) {
+                mainElement.scrollTop = 0;
+            }
+        }
+
+        function updateProgress() {
+            const buttons = document.querySelectorAll('.step-button');
+            const active = document.querySelectorAll('.step-button.active').length;
+            const total = buttons.length;
+            const percent = (active / total) * 100;
+            const progressFill = document.getElementById('progressFill');
+            if (progressFill) {
+                progressFill.style.width = percent + '%';
+            }
+        }
+
+        function updateIntroPreview() {
+            const hook = document.getElementById('hookText').value;
+            const leadin = document.getElementById('leadin').value;
+            const argument = document.getElementById('mainArgument').value;
+            const p1 = document.getElementById('point1').value;
+            const p2 = document.getElementById('point2').value;
+            const p3 = document.getElementById('point3').value;
+
+            const thesis = `${argument} by ${p1}, ${p2}, and ${p3}.`;
+
+            const introPreview = document.getElementById('introPreview');
+            if (introPreview) {
+                introPreview.innerHTML = `
+                    <p>${hook}</p>
+                    <p>${leadin}</p>
+                    <p><strong>[Your Thesis: | 你的论文:]</strong> ${thesis}</p>
+                    ${!hook && !leadin ? '<p style="color: #ccc;">Fill in all parts above to see your preview | 填写上面的所有部分以查看预览</p>' : ''}
+                `;
+            }
+        }
+
+        function updateBody1Preview() {
+            const trans = document.getElementById('body1Transition').value;
+            const topic = document.getElementById('body1Topic').value;
+            const report = document.getElementById('body1Reporting').value;
+            const evidence = document.getElementById('body1Evidence').value;
+            const explain = document.getElementById('body1Explanation').value;
+            const conclude = document.getElementById('body1Concluding').value;
+
+            const body1Preview = document.getElementById('body1Preview');
+            if (body1Preview) {
+                body1Preview.innerHTML = `
+                    <p>${trans} ${topic} ${report} ${evidence} ${explain} ${conclude}</p>
+                    ${!trans && !topic ? '<p style="color: #ccc;">Fill in all parts above to see your preview | 填写上面的所有部分以查看预览</p>' : ''}
+                `;
+            }
+        }
+
+        function updateBody2Preview() {
+            const trans = document.getElementById('body2Transition').value;
+            const topic = document.getElementById('body2Topic').value;
+            const report = document.getElementById('body2Reporting').value;
+            const evidence = document.getElementById('body2Evidence').value;
+            const explain = document.getElementById('body2Explanation').value;
+            const conclude = document.getElementById('body2Concluding').value;
+
+            const body2Preview = document.getElementById('body2Preview');
+            if (body2Preview) {
+                body2Preview.innerHTML = `
+                    <p>${trans} ${topic} ${report} ${evidence} ${explain} ${conclude}</p>
+                    ${!trans && !topic ? '<p style="color: #ccc;">Fill in all parts above to see your preview | 填写上面的所有部分以查看预览</p>' : ''}
+                `;
+            }
+        }
+
+        function updateBody3Preview() {
+            const trans = document.getElementById('body3Transition').value;
+            const topic = document.getElementById('body3Topic').value;
+            const report = document.getElementById('body3Reporting').value;
+            const evidence = document.getElementById('body3Evidence').value;
+            const explain = document.getElementById('body3Explanation').value;
+            const conclude = document.getElementById('body3Concluding').value;
+
+            const body3Preview = document.getElementById('body3Preview');
+            if (body3Preview) {
+                body3Preview.innerHTML = `
+                    <p>${trans} ${topic} ${report} ${evidence} ${explain} ${conclude}</p>
+                    ${!trans && !topic ? '<p style="color: #ccc;">Fill in all parts above to see your preview | 填写上面的所有部分以查看预览</p>' : ''}
+                `;
+            }
+        }
+
+        function updateConclusionPreview() {
+            const trans = document.getElementById('conclusionTransition').value;
+            const summary = document.getElementById('conclusionSummary').value;
+            const final = document.getElementById('conclusionFinal').value;
+
+            const conclusionPreview = document.getElementById('conclusionPreview');
+            if (conclusionPreview) {
+                conclusionPreview.innerHTML = `
+                    <p>${trans} ${summary} ${final}</p>
+                    ${!trans && !summary ? '<p style="color: #ccc;">Fill in all parts above to see your preview | 填写上面的所有部分以查看预览</p>' : ''}
+                `;
+            }
+        }
+
+        function generateFullEssay() {
+            const intro = `${document.getElementById('hookText').value}\n${document.getElementById('leadin').value}\n${document.getElementById('mainArgument').value} by ${document.getElementById('point1').value}, ${document.getElementById('point2').value}, and ${document.getElementById('point3').value}.\n\n`;
+
+            const body1 = `${document.getElementById('body1Transition').value} ${document.getElementById('body1Topic').value} ${document.getElementById('body1Reporting').value} ${document.getElementById('body1Evidence').value} ${document.getElementById('body1Explanation').value} ${document.getElementById('body1Concluding').value}\n\n`;
+
+            const body2 = `${document.getElementById('body2Transition').value} ${document.getElementById('body2Topic').value} ${document.getElementById('body2Reporting').value} ${document.getElementById('body2Evidence').value} ${document.getElementById('body2Explanation').value} ${document.getElementById('body2Concluding').value}\n\n`;
+
+            const body3 = `${document.getElementById('body3Transition').value} ${document.getElementById('body3Topic').value} ${document.getElementById('body3Reporting').value} ${document.getElementById('body3Evidence').value} ${document.getElementById('body3Explanation').value} ${document.getElementById('body3Concluding').value}\n\n`;
+
+            const conclusion = `${document.getElementById('conclusionTransition').value} ${document.getElementById('conclusionSummary').value} ${document.getElementById('conclusionFinal').value}`;
+
+            const fullEssay = intro + body1 + body2 + body3 + conclusion;
+
+            const fullEssayElement = document.getElementById('fullEssay');
+            if (fullEssayElement) {
+                fullEssayElement.innerHTML = `<pre style="white-space: pre-wrap; line-height: 1.8;">${fullEssay}</pre>`;
+            }
+        }
+
+        function downloadEssay() {
+            generateFullEssay();
+            const essay = document.getElementById('fullEssay').innerText;
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(essay));
+            element.setAttribute('download', 'My_Essay.txt');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Initialize
+        window.addEventListener('load', function() {
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
