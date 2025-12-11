@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Science & Human Rights - Case Study Projects</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8edf2 100%);
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #003300 0%, #005500 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .project-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .project-card {
+            background: white;
+            border: 3px solid #003300;
+            border-radius: 10px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .project-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139,0,0,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .project-card:hover:before {
+            left: 100%;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139,0,0,0.3);
+            border-color: #8B0000;
+        }
+        
+        .project-card.selected {
+            border-color: #8B0000;
+            background: linear-gradient(135deg, #fff9f9 0%, #fff 100%);
+        }
+        
+        .project-number {
+            display: inline-block;
+            background: #8B0000;
+            color: white;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .project-title {
+            color: #003300;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .project-question {
+            color: #8B0000;
+            font-style: italic;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #fff5f5;
+            border-left: 4px solid #8B0000;
+        }
+        
+        .project-description {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #003300;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        
+        .btn:hover {
+            background: #8B0000;
+            transform: scale(1.05);
+        }
+        
+        .details-section {
+            display: none;
+            margin-top: 30px;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border: 2px solid #003300;
+            animation: slideDown 0.5s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .details-section.active {
+            display: block;
+        }
+        
+        .section-title {
+            color: #003300;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 20px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 3px solid #8B0000;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0 8px 30px;
+            position: relative;
+        }
+        
+        .checklist li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #003300;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .vocab-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #8B0000;
+            transition: all 0.3s ease;
+        }
+        
+        .vocab-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sentence-starter {
+            background: #fff9f9;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 4px solid #8B0000;
+        }
+        
+        .help-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #8B0000;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(139,0,0,0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .help-button:hover {
+            transform: scale(1.1);
+            background: #003300;
+        }
+        
+        .help-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .help-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .help-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #8B0000;
+            line-height: 1;
+        }
+        
+        .timeline {
+            margin: 20px 0;
+        }
+        
+        .timeline-item {
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: white;
+            border-left: 4px solid #003300;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        }
+        
+        .rubric-info {
+            background: #fff9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid #8B0000;
+        }
+        
+        .rubric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+        }
+        
+        .rubric-label {
+            font-weight: bold;
+            color: #003300;
+        }
+        
+        .rubric-points {
+            background: #8B0000;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .project-selector {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="data:image/png;base64,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 xzHSBEmE/PGGaRsCAj ehw4wY+Ch46Cif6tINIkFFB6PiRMCR90QZk6LRTzCCgG8AgHAgV56wf1SmIHRAwhknpaUBH2b6A8DTFI1iQBluorI7ps0bJZpqdT48TXaaoIwmFfk1jz8NG9lUWcbIrdHltaseVzR+zZsyeexXkiLx9/KZ4+chjDOvvrx6TLJJqu+hM7gYdQNoLPvAjvdGc7WBNGy+WHNWH1yCKR70bACDwMAQuHh6HjuA2HAAnhQU7cgEgJiiJBnT3q354iYkaT2EDPokcSZ+FqqwtY1jkdl8Yux4XLl+KbS+fiyo3vsULgfMzMzeCrGfMNQPz8WuY8CZK4DuMSgZJ4KQhUAgvBT1oVUKc3kh7JjkMdojslTkTObOxvJ7HDy5jEebgijD0ZuNWd+JNpEJbNKq7hp0BIyVOYVA7SrjWySgXGoFSVnIHPaaBG9WAZCBJRwy/hgUwSTsyMtCvoqdCqFBx/zpUqxKi3py8OPnUA+2QcwkFkh+LZo8/Ent1PxFDvIBa3NnCnOFqB0CGWGgZiLVB5Vis5la5yGF645ioXYevvjdTrY/xsBIzAgxCwcHgQKg7buAgUTEE2kD8RSpIGP+S/H21oyiYb+jqGMX7dbyNxcVJfE6nN1m7Gd9cgHsYwKfC7C3Hu269jEhMtZ29hI6OJ65gzgGWCnNGPr2N+wXNIobhTydTpV2WyHNSTkwZFi0XPAkmeERAecE3VE4FqRqe6WBj7f1AhDWnYgHnQ4yKmR9l8FAGjFtzPQIqL5TM9CR3h6j3JNWFaii0SPO46MAw9I2ipRBgniA4M7Ir+XszfwPbe3NL70L79mKNwNEaH9mBZaxcNJ4cmczMtHlxFAcLhB9lBrIrnpQAgZ0kxrB8iGZed0hcPP3Z/rEQ/ltnhRmDzIWDhsPneuVv8GAjkD3uROEUHv23xnwWklIid3MQeCfJUcfhWYZZUP3VzIiZnZ9Ez8S1WGVyJK1fHNLwxMTOJ/QpuY7IhViLcvgUBwa5/8h3IGMaK+QLbEnOnoQMIDc1/ICeyCrDfzI+sm+ZX5HoyPqkPxOQ8vCsj4+jqz/BAcNAuJ4yyVSmSfjhGMyNFAURFMSzBuQ73NSSBno76/AwcFoV5GN3tPTE4MBgD6E0Yxn4Wh9GTsJerSLDj5i6sLhnpG5b0SAWkq1ZApMJwZb2TeJFWoj83nOHKzGqqvs1W7DcCRuDnQMDC4edA2WVsOAQoFuh4lQ8XkS9JjeIBd/KmiI0p0I3OdJwbyYTcEwJJ1ril+0sxgZUaV29cx7bKWMWBIY7xqesxhd6JKWyKNDkzHXewMoE9FPPLNeyauAD/kr7it2LIg4S6FV//2ouApbEHIw+jFJ0N7Ml4mCMBi3yRSPMjSMhNfvErvealJNgsigKJm63R2toarZioyUPE2ts6ore1B5MyO2PX7t04JGw4hrHUdHhoV+wZGonRJ56MHggI9hRwymTDQYBgzws52Jc+0sYWFAsMTfXZwgj2dLBh+Mu2yzWbavanWF+NgBH4GRCwcPgZQHYRGw8BflmzF4B3DdST1chpuGdqywJCQQhLLNboqeDXOUIzUauznb0KD+B19lwsY5LlIn5m52ZjGntJjM+Ma84Ed1mcX6hhhcN83MTGSXNYGrmA350UIijtYFXDfw1bMy4uwkIYJmsXAD1DPIoHhFB/0V6cEbsQKjf7evtiBFRudWJ3Rjf0butv7YWeEYjN6E4PoUenCOxd0N3dC0Qnndix82etv6MAkLCgHM4lY+ig4UQYikIOo6AQDCRsJDWkIAsQhr4bAWK M/1YAV8hU5k 9A0/0bIdE7hYCXMJ0NlvmcE1q0KwFJjEBIL8RlwBfPbD3RH7cHhYT0lQx5JMZbhVLjgQIEJ06AE1j0CqF9Eg8KRfIHhSGOKSAkZTKJbTKnfSPIRGNJDaZjFI80zLc5HclzkbA CHwAAhYOHwD0S7nPO3ggHuhZCB9iSIHhh8Y2YkjR95LoaLv2zcjXM0Mgp+Kx6+mOPbUqo/FPbhwXoaE4i2RmM3kIJ7U0JE60uqJYZuAaChIkTD7Qr+qmcADjLgg4hAMJn+V6U3Xm+l50iBwKDCQK0gnXS3AqR+PQUIs0B+L0nBuq8rnMlF/03shSo7weCQYSDDwmAhYOjwmVE24gBCQcZANSpGlvCRUtcyBB8g8CQ4pQi1DzPi4MhRjL40NEVoQG1RfrTqmQzphpwVUViJuGiFKQkX+5Q9GgFrJEyEPCg37Vq+rwSx6VoiON04HPLZF4USRRdBFr7/YbASOwKRGwcNiUr3+Dtj1nfIoQf/KmzuJXv5i2YGp+H1JLM/P0XIiMOMMX0/Tv6lCR8O44XdE8RK4oAZ0rpQT kcKoMnuOa8qHaScUr3n5TYAhxSvRoBwsZYwv2GAEjsIkRsHDYxC9/wzfeZEsy46y1Pl+PBAtf5vM/QkMhQIJDgqJYb5mXaJEGc9Q1pZFQSQ1zpFJkV1bqL4ImpVBh1J44sn3IswRMlBfKMT0dquT9oN6NGCNgBIzAoSBg4XAoqErKbFgE5jUzgmSr59SkBTlJVpQCkWxmrvJRN0X8+zOdjPW1ofSw50QF/uL2RB0xL1dK8Vkip1EfYuwpOaV7hBHVjl+VQRRHwiHCKaLr8xoKBSf40DCZVNAIbBQELBw2yqt0/z01gu+U0PDIBh8khJpZhQmMZKcgGBT1nwoRhVE/y2xVp+JYXhQGDhpAciH6ojjyLPkS/3hhcX/+hzGc74 U8/xvPs/5b2HEZRsDCoYIfeXN3TUwv98moV0ckBPJ1bLyI0pHmCsuQR5z7iYaJ4pgkVBr9uIaG08v5Qp0yPO55zThYXq0OTJ8XDGk3G1YiO1yyW+wRmwH5sjC1Hp7w89QI7Br5JzFgBn4uBCwcfi6kXc7PIZAaJqjzRFkD8iN1fhzXw UB9xMeULJZFTpopPuRTaTU3T2koS4V fzK7mH1I8PKTqT/W8nAqKr1c/TqEIwqv/X3o4jEg0jIBvVNQ0hBkfI2vFD/Q8/Z5xEZl8MwJGwAh8UAhYOHxQ6Fey3/2Ib2b3I//m+SMOvzr5UxnrV8oTN2amJj2F1gY9Dc8u5i/8IjZkXD3/UvXSJyf9VJhsUBqUxz+yUhBl/Qnq5/r0Pd 1ZpKRgFz2k3smrTNYW8Sm6AvvR39FaCuQs8RJUyWkEjIAR OBAIsHD4Q3GpX80cCBhfzj5bTkBDYfpJQXlVRilhImcyUJqEg7QKOYgG5SleQkJCgYvSpDkktCdl/WckBPLjvK/q35fH8RtEhxB/ql99y/EUfMYXI2AEjMAnRuDh/ykfV5w9RmDLI8DPb4oH5CZZ6llg8CEcCAiSj LQJOZKrCBJEXOJWdkSbmRwliQZ6JAzkVy/M8u85xSZpkUQ8y5SqU wRJLEiY8JfgoPghKkO Bh7nH7yvURGGO9j/z65xXV/xUQfj4uI1Hd/W3kXq0VH3r6e/6xk8pshjS3g/fV0/Yw5BL/hgBI/D/H4H/BcZaNJ6pQpLKAAAAAElFTkSuQmCC" class="logo" alt="Maple Leaf Educational Systems">
+            <h1>Brain Science & Human Rights</h1>
+            <p class="subtitle">Case Study Project Options</p>
+        </div>
+        
+        <div class="content">
+            <div class="rubric-info">
+                <h3 style="color: #003300; margin-bottom: 15px;">📊 Assessment: 150-Point Rubric</h3>
+                <div class="rubric-item">
+                    <span class="rubric-label">Content (Knowledge & Understanding)</span>
+                    <span class="rubric-points">40 pts</span>
+                </div>
+                <div class="rubric-item">
+                    <span class="rubric-label">Organization (Application)</span>
+                    <span class="rubric-points">40 pts</span>
+                </div>
+                <div class="rubric-item">
+                    <span class="rubric-label">Language (Communication)</span>
+                    <span class="rubric-points">40 pts</span>
+                </div>
+                <div class="rubric-item">
+                    <span class="rubric-label">Reflection (Problem Solving)</span>
+                    <span class="rubric-points">30 pts</span>
+                </div>
+                <p style="margin-top: 15px; font-size: 1.1em; color: #8B0000; font-weight: bold;">
+                    📅 DUE: Thursday, December 18, 2025 by 23:59
+                </p>
+                <p style="margin-top: 10px; font-size: 0.95em; color: #666;">
+                    <strong>Format:</strong> 8-10 slides with detailed speaker notes | Explain to Mr. Alexander in person
+                </p>
+            </div>
+            
+            <h2 style="color: #8B0000; text-align: center; margin: 30px 0;">Choose Your Project</h2>
+            
+            <div class="project-selector">
+                <div class="project-card" onclick="selectProject(1)">
+                    <span class="project-number">1</span>
+                    <h3 class="project-title">Stanley's Experience at Camp Green Lake</h3>
+                    <div class="project-question">
+                        How does Stanley's teenage brain respond to Camp Green Lake's environment?
+                    </div>
+                    <p class="project-description">
+                        Create 8-10 slides with speaker notes analyzing Stanley's changes using brain science. Explain your findings to Mr. Alexander in person.
+                    </p>
+                    <button class="btn" onclick="selectProject(1); event.stopPropagation();">View Case Study</button>
+                </div>
+                
+                <div class="project-card" onclick="selectProject(2)">
+                    <span class="project-number">2</span>
+                    <h3 class="project-title">Zero's Social Isolation and Friendship</h3>
+                    <div class="project-question">
+                        How does social isolation and connection affect Zero's teenage brain?
+                    </div>
+                    <p class="project-description">
+                        Create 8-10 slides with speaker notes examining isolation and friendship effects on Zero's brain. Explain to Mr. Alexander in person.
+                    </p>
+                    <button class="btn" onclick="selectProject(2); event.stopPropagation();">View Case Study</button>
+                </div>
+            </div>
+            
+            <!-- Case Study 1 Details -->
+            <div id="project1-details" class="details-section">
+                <h2 class="section-title">Case Study 1: Stanley at Camp Green Lake</h2>
+                
+                <p style="background: #fff9f9; padding: 15px; border-left: 4px solid #8B0000; margin: 20px 0;">
+                    <strong>Your Task:</strong> Create 8-10 slides with detailed speaker notes analyzing Stanley's psychological and behavioral changes. Explain your analysis to Mr. Alexander in person.
+                </p>
+                
+                <h3 class="section-title">Required Slides:</h3>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 1: Title Slide</strong>
+                    <ul class="checklist">
+                        <li>Title, your name, date, image</li>
+                        <li>Speaker Notes: Introduce yourself and topic</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 2: Case Background</strong>
+                    <ul class="checklist">
+                        <li>Stanley before camp, his conviction, Camp Green Lake environment</li>
+                        <li>Speaker Notes: Explain Stanley's situation in detail</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 3: Research Question</strong>
+                    <ul class="checklist">
+                        <li>Display research question in large text</li>
+                        <li>Speaker Notes: Explain why this question matters</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slides 4-5: Brain Science (2 slides)</strong>
+                    <ul class="checklist">
+                        <li>Slide 4: Prefrontal cortex & decision-making (with visual)</li>
+                        <li>Slide 5: Stress response & neuroplasticity (with visual)</li>
+                        <li>Speaker Notes: Define terms, explain concepts, cite The Teenage Brain</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slides 6-7: Behavioral Analysis (2 slides)</strong>
+                    <ul class="checklist">
+                        <li>Slide 6: Stanley's initial behaviors (with examples from Holes)</li>
+                        <li>Slide 7: Changes over time & friendship with Zero</li>
+                        <li>Speaker Notes: Describe behaviors, connect to brain science</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 8: Conclusions</strong>
+                    <ul class="checklist">
+                        <li>Answer research question, key findings, protective factors</li>
+                        <li>Speaker Notes: Summarize research revelations</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 9: Personal Reflection (30 points)</strong>
+                    <ul class="checklist">
+                        <li>What surprised you, how research changed your thinking, how you'll apply it</li>
+                        <li>Speaker Notes: Share genuine personal insights</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 10: References</strong>
+                    <ul class="checklist">
+                        <li>List sources, thank you message</li>
+                        <li>Speaker Notes: Thank audience, invite questions</li>
+                    </ul>
+                </div>
+                
+                <h3 class="section-title">Speaker Notes Tips</h3>
+                <div class="sentence-starter">Speaker notes = what you will SAY</div>
+                <div class="sentence-starter">Include: key points, definitions, evidence, connections</div>
+                <div class="sentence-starter">Example: "The prefrontal cortex is responsible for decision-making. According to The Teenage Brain, this area isn't fully developed in teenagers..."</div>
+                
+                <h3 class="section-title">Required Vocabulary</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-item">Prefrontal cortex</div>
+                    <div class="vocab-item">Neuroplasticity</div>
+                    <div class="vocab-item">Stress response</div>
+                    <div class="vocab-item">Social cognition</div>
+                    <div class="vocab-item">Brain development</div>
+                    <div class="vocab-item">Cognitive development</div>
+                </div>
+            </div>
+            
+            <!-- Case Study 2 Details -->
+            <div id="project2-details" class="details-section">
+                <h2 class="section-title">Case Study 2: Zero's Isolation and Friendship</h2>
+                
+                <p style="background: #fff9f9; padding: 15px; border-left: 4px solid #8B0000; margin: 20px 0;">
+                    <strong>Your Task:</strong> Create 8-10 slides with detailed speaker notes examining isolation and friendship effects on Zero's brain. Explain your analysis to Mr. Alexander in person.
+                </p>
+                
+                <h3 class="section-title">Required Slides:</h3>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 1: Title Slide</strong>
+                    <ul class="checklist">
+                        <li>Title, your name, date, image</li>
+                        <li>Speaker Notes: Introduce yourself and topic</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 2: Case Background</strong>
+                    <ul class="checklist">
+                        <li>Zero's isolation history, social position at camp, how others treat him</li>
+                        <li>Speaker Notes: Explain Zero's isolation in detail</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 3: Research Question</strong>
+                    <ul class="checklist">
+                        <li>Display research question in large text</li>
+                        <li>Speaker Notes: Explain why this question matters</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slides 4-5: Brain Science (2 slides)</strong>
+                    <ul class="checklist">
+                        <li>Slide 4: Social isolation effects on adolescent brain (with visual)</li>
+                        <li>Slide 5: Social connection & social cognition (with visual)</li>
+                        <li>Speaker Notes: Define terms, explain concepts, cite The Teenage Brain</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slides 6-7: Behavioral Analysis (2 slides)</strong>
+                    <ul class="checklist">
+                        <li>Slide 6: Zero's isolation behaviors (communication, interactions, emotions)</li>
+                        <li>Slide 7: Changes after befriending Stanley (communication, confidence, learning)</li>
+                        <li>Speaker Notes: Describe behaviors, connect to brain science</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 8: Conclusions</strong>
+                    <ul class="checklist">
+                        <li>Answer research question, isolation effects, friendship as protective factor</li>
+                        <li>Speaker Notes: Summarize research revelations</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 9: Personal Reflection (30 points)</strong>
+                    <ul class="checklist">
+                        <li>What you learned, how research changed your understanding, how you'll apply it</li>
+                        <li>Speaker Notes: Share genuine personal insights</li>
+                    </ul>
+                </div>
+                
+                <div style="background: white; padding: 15px; margin: 10px 0; border-left: 3px solid #003300;">
+                    <strong>Slide 10: References</strong>
+                    <ul class="checklist">
+                        <li>List sources, thank you message</li>
+                        <li>Speaker Notes: Thank audience, invite questions</li>
+                    </ul>
+                </div>
+                
+                <h3 class="section-title">Speaker Notes Tips</h3>
+                <div class="sentence-starter">Speaker notes = what you will SAY during presentation</div>
+                <div class="sentence-starter">Include: key points, definitions, evidence, connections</div>
+                <div class="sentence-starter">Example: "Social isolation affects the teenage brain by reducing opportunities for social cognition development..."</div>
+                
+                <h3 class="section-title">Required Vocabulary</h3>
+                <div class="vocab-grid">
+                    <div class="vocab-item">Social cognition</div>
+                    <div class="vocab-item">Stress response</div>
+                    <div class="vocab-item">Mental health</div>
+                    <div class="vocab-item">Neuroplasticity</div>
+                    <div class="vocab-item">Brain development</div>
+                    <div class="vocab-item">Cognitive development</div>
+                </div>
+            </div>
+            
+            <div style="background: linear-gradient(135deg, #fff9f9 0%, #fff 100%); padding: 30px; border-radius: 10px; border: 3px solid #8B0000; margin: 30px 0; text-align: center;">
+                <h2 style="color: #8B0000; font-size: 2em; margin-bottom: 15px;">📅 DUE DATE</h2>
+                <p style="color: #003300; font-size: 1.8em; font-weight: bold; margin: 0;">
+                    Thursday, December 18, 2025
+                </p>
+                <p style="color: #8B0000; font-size: 1.4em; font-weight: bold; margin: 10px 0 0 0;">
+                    by 23:59
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="help-button" onclick="showHelp()">?</div>
+    
+    <div class="help-modal" id="helpModal" onclick="hideHelp()">
+        <div class="help-content" onclick="event.stopPropagation()">
+            <span class="close-btn" onclick="hideHelp()">×</span>
+            <h2 style="color: #003300; margin-bottom: 20px;">🆘 Need Help?</h2>
+            
+            <h3 style="color: #8B0000; margin-top: 20px;">Ask Your Teacher:</h3>
+            <ul style="line-height: 2;">
+                <li>"Can you help me understand [vocabulary term]?"</li>
+                <li>"How do I connect [brain science concept] to [behavior]?"</li>
+                <li>"Are my speaker notes detailed enough?"</li>
+                <li>"Can you check if my slides have enough visuals?"</li>
+                <li>"Can I meet with you to explain my analysis?"</li>
+            </ul>
+            
+            <h3 style="color: #8B0000; margin-top: 20px;">Presentation Tips:</h3>
+            <ul style="line-height: 2;">
+                <li>Slides = key points with visuals</li>
+                <li>Speaker notes = what you will SAY when explaining</li>
+                <li>Define all vocabulary terms in speaker notes</li>
+                <li>Include specific quotes from Holes with chapter numbers</li>
+                <li>Connect every behavior to brain science</li>
+                <li>Be ready to explain your analysis clearly</li>
+            </ul>
+            
+            <button class="btn" style="margin-top: 20px;" onclick="hideHelp()">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        function selectProject(projectNum) {
+            // Remove all selected states
+            document.querySelectorAll('.project-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Hide all details
+            document.querySelectorAll('.details-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Select clicked project
+            event.currentTarget.classList.add('selected');
+            
+            // Show corresponding details
+            document.getElementById('project' + projectNum + '-details').classList.add('active');
+            
+            // Scroll to details
+            setTimeout(() => {
+                document.getElementById('project' + projectNum + '-details').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 100);
+        }
+        
+        function showHelp() {
+            document.getElementById('helpModal').classList.add('active');
+        }
+        
+        function hideHelp() {
+            document.getElementById('helpModal').classList.remove('active');
+        }
+        
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                hideHelp();
+            }
+        });
+    </script>
+</body>
+</html>
