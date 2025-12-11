@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audience Feedback Handout</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 300;
+        }
+        
+        .student-info {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .student-info div {
+            flex: 1;
+        }
+        
+        .student-info label {
+            font-weight: 600;
+            color: #555;
+            margin-right: 10px;
+        }
+        
+        .student-info input {
+            border: none;
+            border-bottom: 2px solid #ddd;
+            padding: 5px;
+            font-size: 16px;
+            background: transparent;
+            transition: border-color 0.3s;
+        }
+        
+        .student-info input:focus {
+            outline: none;
+            border-bottom-color: #667eea;
+        }
+        
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .instructions h2 {
+            color: #28a745;
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+        
+        .feedback-section {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+        }
+        
+        .feedback-header {
+            background: linear-gradient(90deg, #28a745, #20c997);
+            color: white;
+            padding: 15px 20px;
+            display: grid;
+            grid-template-columns: 200px 1fr 1fr;
+            gap: 20px;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        
+        .feedback-row {
+            display: grid;
+            grid-template-columns: 200px 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s;
+        }
+        
+        .feedback-row:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .feedback-row:last-child {
+            border-bottom: none;
+        }
+        
+        .name-input {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .name-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .feedback-textarea {
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 16px;
+            min-height: 60px;
+            resize: vertical;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .feedback-textarea:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+        
+        .glow-section .feedback-textarea:focus {
+            border-color: #ffc107;
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.1);
+        }
+        
+        .grow-section .feedback-textarea:focus {
+            border-color: #17a2b8;
+            box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.1);
+        }
+        
+        .section-icon {
+            font-size: 1.2em;
+            margin-right: 8px;
+        }
+        
+        .tips {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 25px;
+        }
+        
+        .tips h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        
+        .tips ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .tips li {
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .feedback-header, .feedback-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .feedback-header {
+                text-align: center;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+        
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+                font-size: 12pt;
+                line-height: 1.4;
+                margin: 0;
+                padding: 10px;
+            }
+            
+            .header {
+                background: white !important;
+                color: black !important;
+                border: 2px solid #000;
+                page-break-inside: avoid;
+            }
+            
+            .header h1 {
+                color: black !important;
+                font-size: 18pt;
+            }
+            
+            .student-info {
+                background: white !important;
+                border: 1px solid #000;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            
+            .instructions {
+                background: white !important;
+                border: 1px solid #000;
+                border-left: 4px solid #000;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            
+            .instructions h2 {
+                color: black !important;
+            }
+            
+            .feedback-section {
+                background: white !important;
+                border: 2px solid #000;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+            
+            .feedback-header {
+                background: #f0f0f0 !important;
+                color: black !important;
+                border-bottom: 2px solid #000;
+            }
+            
+            .feedback-row {
+                border-bottom: 1px solid #000;
+                page-break-inside: avoid;
+            }
+            
+            .name-input, .feedback-textarea {
+                border: 1px solid #000 !important;
+                background: white !important;
+                min-height: 40px;
+                box-shadow: none !important;
+            }
+            
+            .feedback-textarea {
+                min-height: 60px;
+            }
+            
+            .tips {
+                background: white !important;
+                border: 1px solid #000;
+                page-break-inside: avoid;
+            }
+            
+            .tips h3 {
+                color: black !important;
+            }
+            
+            /* Remove gradients and shadows for print */
+            * {
+                background: white !important;
+                box-shadow: none !important;
+            }
+            
+            input, textarea {
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎤 Audience Feedback Form</h1>
+        <p>Help your classmates grow with constructive feedback</p>
+    </div>
+    
+    <div class="student-info">
+        <div>
+            <label>Your Name:</label>
+            <input type="text" placeholder="Enter your name">
+        </div>
+        <div>
+            <label>Class/Block:</label>
+            <input type="text" placeholder="Enter class or block">
+        </div>
+    </div>
+    
+    <div class="instructions">
+        <h2>📝 Instructions</h2>
+        <p>While your classmates are presenting, fill out this feedback form for each presenter. Focus on being specific, constructive, and kind. Be prepared to share your observations during the feedback discussion!</p>
+    </div>
+    
+    <div class="feedback-section">
+        <div class="feedback-header">
+            <div>👤 Presenter's Name</div>
+            <div class="glow-section">⭐ Glow (What they did well)</div>
+            <div class="grow-section">🌱 Grow (Area for improvement)</div>
+        </div>
+        
+        <div class="feedback-row">
+            <input type="text" class="name-input" placeholder="Presenter's name">
+            <textarea class="feedback-textarea glow-section" placeholder="What did they do particularly well? Be specific about their strengths..."></textarea>
+            <textarea class="feedback-textarea grow-section" placeholder="What's one thing they could work on? Offer constructive suggestions..."></textarea>
+        </div>
+        
+        <div class="feedback-row">
+            <input type="text" class="name-input" placeholder="Presenter's name">
+            <textarea class="feedback-textarea glow-section" placeholder="What did they do particularly well? Be specific about their strengths..."></textarea>
+            <textarea class="feedback-textarea grow-section" placeholder="What's one thing they could work on? Offer constructive suggestions..."></textarea>
+        </div>
+        
+        <div class="feedback-row">
+            <input type="text" class="name-input" placeholder="Presenter's name">
+            <textarea class="feedback-textarea glow-section" placeholder="What did they do particularly well? Be specific about their strengths..."></textarea>
+            <textarea class="feedback-textarea grow-section" placeholder="What's one thing they could work on? Offer constructive suggestions..."></textarea>
+        </div>
+        
+        <div class="feedback-row">
+            <input type="text" class="name-input" placeholder="Presenter's name">
+            <textarea class="feedback-textarea glow-section" placeholder="What did they do particularly well? Be specific about their strengths..."></textarea>
+            <textarea class="feedback-textarea grow-section" placeholder="What's one thing they could work on? Offer constructive suggestions..."></textarea>
+        </div>
+        
+        <div class="feedback-row">
+            <input type="text" class="name-input" placeholder="Presenter's name">
+            <textarea class="feedback-textarea glow-section" placeholder="What did they do particularly well? Be specific about their strengths..."></textarea>
+            <textarea class="feedback-textarea grow-section" placeholder="What's one thing they could work on? Offer constructive suggestions..."></textarea>
+        </div>
+    </div>
+    
+    <div class="tips">
+        <h3>💡 Tips for Great Feedback</h3>
+        <ul>
+            <li><strong>Be specific:</strong> Instead of "good job," try "your opening story really grabbed my attention"</li>
+            <li><strong>Focus on behavior:</strong> Comment on what they did, not who they are</li>
+            <li><strong>Be constructive:</strong> Offer suggestions for improvement, not just criticism</li>
+            <li><strong>Balance it out:</strong> Make sure both glow and grow feedback are meaningful</li>
+            <li><strong>Listen actively:</strong> Pay attention to content, delivery, and visual aids</li>
+        </ul>
+    </div>
+</body>
+</html>
