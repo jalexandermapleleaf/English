@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to Chinese New Year Break</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #c41e3a, #d4af37);
+            color: #ffd700;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: rgba(139, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 3px solid #d4af37;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            color: #ffd700;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            color: #ffeb99;
+        }
+        
+        .countdown-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(139, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 2px solid #d4af37;
+        }
+        
+        .countdown-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .time-unit {
+            background: rgba(196, 30, 58, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            min-width: 80px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid #d4af37;
+        }
+        
+        .number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            color: #ffd700;
+        }
+        
+        .label {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ffeb99;
+        }
+        
+        .school-days {
+            background: rgba(139, 0, 0, 0.4);
+            border: 2px solid #d4af37;
+        }
+        
+        .actual-days {
+            background: rgba(196, 30, 58, 0.4);
+            border: 2px solid #ffd700;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #d4af37;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #c41e3a, #d4af37, #ffd700);
+            border-radius: 6px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        .message {
+            margin-top: 30px;
+            font-size: 1.3em;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        @media (max-width: 600px) {
+            h1 { font-size: 2em; }
+            .countdown { gap: 10px; }
+            .time-unit { min-width: 60px; padding: 15px; }
+            .number { font-size: 2em; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3); }
+            50% { box-shadow: 0 8px 40px rgba(212, 175, 55, 0.6); }
+        }
+        
+        .container {
+            animation: glow 3s ease-in-out infinite;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="container">
+        <h1>🏮 Chinese New Year Break 🏮</h1>
+        <p class="subtitle">新年快乐</p>
+        
+        <div class="countdown-section school-days">
+            <div class="countdown-title">📚 School Days Remaining</div>
+            <div class="countdown" id="schoolCountdown">
+                <div class="time-unit">
+                    <span class="number" id="schoolDays">33</span>
+                    <span class="label">Days</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="schoolProgress" style="width: 100%"></div>
+            </div>
+        </div>
+        
+        <div class="countdown-section actual-days">
+            <div class="countdown-title">📅 Days Until January 31st</div>
+            <div class="countdown" id="actualCountdown">
+                <div class="time-unit">
+                    <span class="number" id="actualDays">50</span>
+                    <span class="label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="actualHours">0</span>
+                    <span class="label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="actualMinutes">0</span>
+                    <span class="label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span class="number" id="actualSeconds">0</span>
+                    <span class="label">Seconds</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="message">
+            <p>🎆 Countdown to Break! 🎆</p>
+        </div>
+    </div>
+
+    <script>
+        const targetDate = new Date('2026-01-31T00:00:00');
+        
+        function updateActualCountdown() {
+            const now = new Date();
+            const difference = targetDate - now;
+            
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                
+                document.getElementById('actualDays').textContent = days;
+                document.getElementById('actualHours').textContent = hours;
+                document.getElementById('actualMinutes').textContent = minutes;
+                document.getElementById('actualSeconds').textContent = seconds;
+            }
+        }
+        
+        let schoolDaysLeft = 33;
+        const totalSchoolDays = 33;
+        
+        function updateSchoolProgress() {
+            const progress = (schoolDaysLeft / totalSchoolDays) * 100;
+            document.getElementById('schoolProgress').style.width = progress + '%';
+        }
+        
+        setInterval(updateActualCountdown, 1000);
+        updateActualCountdown();
+        updateSchoolProgress();
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'd' || event.key === 'D') {
+                if (schoolDaysLeft > 0) {
+                    schoolDaysLeft--;
+                    document.getElementById('schoolDays').textContent = schoolDaysLeft;
+                    updateSchoolProgress();
+                    
+                    if (schoolDaysLeft === 25 || schoolDaysLeft === 10 || schoolDaysLeft === 5 || schoolDaysLeft === 1) {
+                        document.body.style.animation = 'pulse 1s ease-in-out';
+                        setTimeout(() => {
+                            document.body.style.animation = '';
+                        }, 1000);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
