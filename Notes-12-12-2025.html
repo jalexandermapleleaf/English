@@ -1,34 +1,675 @@
-<html>
-        <head><title>Downloaded HTML</title></head>
-        <body>
-            <pre style="white-space: pre-wrap; word-wrap: break-word;">Welcome! This is an offline-capable Notepad which is a Progressive Web App.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Holes Ch. 6-15 – Read-Aloud</title>
+<style>
+  body{font-family:system-ui, sans-serif; margin:2rem; background:#fafafa; color:#222}
+  #controls{margin-bottom:1rem}
+  button{padding:.4rem .8rem; margin-right:.5rem; font-size:1rem}
+  select, input{font-size:1rem}
+  #text{white-space:pre-line; line-height:1.6; max-width:50rem}
+  .current{background-color:#fffb00; transition:background .3s}
+</style>
+<base target="_blank">
+</head>
+<body>
 
-The app serves the following features:
+<h1>Holes – Chapters 6-15 (Read-Aloud)</h1>
 
-- Your notes are saved in real-time as you type.
-- Installable on supported browsers for offline usage.
-- "Add To Home Screen" feature on Android-supported devices to launch the app from the home screen.
-- Dark mode.
-- Privacy-focused - Never collects your precious data.
-- Light-weight - Loads almost instantly.
-- Writing timer.
-- View Note Statistics.
-- Ability to mimic typewriter sound when typing.
-- Keyboard shortcuts for common actions.
-- Focus mode to leave you with a barebones and pristine editor.
-- Full-screen mode for a distraction-free writing experience.
-- Floating window (in supported browsers) to effectively take notes across other apps.
-- Download notes as plain text, PDF, HTML, and DOCX file.
-- Ability to play ambient noise to help you focus.
-- It's proudly open-source!
+<div id="controls">
+  <button id="playBtn">▶ Read</button>
+  <button id="pauseBtn" disabled>⏸ Pause</button>
+  <button id="stopBtn" disabled>⏹ Stop</button>
+  <button id="nextBtn">⏭ Next Sentence</button>
+  <button id="prevBtn">⏮ Prev</button>
+  <label>Voice:
+    <select id="voiceSel"></select>
+  </label>
+  <label>Speed:
+    <input type="range" id="rate" min="0.6" max="1.4" step="0.1" value="0.95">
+    <span id="rateLbl">0.95</span>
+  </label>
+</div>
 
-CAUTION: Since the app uses the browser's localStorage to store your notes, 
-it's recommended that you take a backup of your notes more often using the 
-"Download Notes" button or by pressing the "Ctrl/Cmd + S" keys.
+<div id="text">
+6
+Stanley took a shower—if you could call it that, ate dinner—if you could call it that, and went to bed—if you could call his smelly and scratchy cot a bed.
+Because of the scarcity of water, each camper was only allowed a four-minute shower. It took Stanley nearly that long to get used to the cold water. There was no knob for hot water. He kept stepping into, then jumping back from, the spray, until the water shut off automatically. He never managed to use his bar of soap, which was just as well, because he wouldn't have had time to rinse off the suds.
+Dinner was some kind of stewed meat and vegetables. The meat was brown and the vegetables had once been green. Everything tasted pretty much the same. He ate it all, and used his slice of white bread to mop up the juice. Stanley had never been one to leave food on his plate, no matter how it tasted.
+"What'd you do?" one of the campers asked him.
+At first Stanley didn't know what he meant.
+"They sent you here for a reason."
+"Oh," he realized. "I stole a pair of sneakers."
+The other boys thought that was funny. Stanley wasn't sure why. Maybe because their crimes were a lot worse than stealing shoes.
+"From a store, or—were they on someone's feet?" asked Squid.
+"Uh, neither," Stanley answered. "They belonged to Clyde Livingston."
+Nobody believed him.
+"Sweet Feet?" said X-Ray. "Yeah, right!"
+"No way," said Squid.
+Now, as Stanley lay on his cot, he thought it was kind of funny in a way. Nobody had believed him when he said he was innocent. Now, when he said he stole them, nobody believed him either.
+Clyde "Sweet Feet" Livingston was a famous baseball player. He'd led the American League in stolen bases over the last three years. He was also the only player in history to ever hit four triples in one game.
+Stanley had a poster of him hanging on the wall of his bedroom. He used to have the poster anyway. He didn't know where it was now. It had been taken by the police and was used as evidence of his guilt in the courtroom.
+Clyde Livingston also came to court. In spite of everything, when Stanley found out that Sweet Feet was going to be there, he was actually excited about the prospect of meeting his hero.
+Clyde Livingston testified that they were his sneakers and that he had donated them to help raise money for the homeless shelter. He said he couldn't imagine what kind of horrible person would steal from homeless children.
+That was the worst part for Stanley. His hero thought he was a no-good-dirty-rotten thief.
+As Stanley tried to turn over on his cot, he was afraid it was going to collapse under all his weight. He barely fit in it. When he finally managed to roll over on his stomach, the smell was so bad that he had to turn over again and try sleeping on his back. The cot smelled like sour milk.
+Though it was night, the air was still very warm. Armpit was snoring two cots away.
+Back at school, a bully named Derrick Dunne used to torment Stanley. The teachers never took Stanley's complaints seriously, because Derrick was so much smaller than Stanley. Some teachers even seemed to find it amusing that a little kid like Derrick could pick on someone as big as Stanley.
+On the day Stanley was arrested, Derrick had taken Stanley's notebook and, after a long game of come-and-get-it, finally dropped it in the toilet in the boys' restroom. By the time Stanley retrieved it, he had missed his bus and had to walk home.
+It was while he was walking home, carrying his wet notebook, with the prospect of having to copy the ruined pages, that the sneakers fell from the sky.
+"I was walking home and the sneakers fell from the sky," he had told the judge. "One hit me on the head."
+It had hurt, too.
+They hadn't exactly fallen from the sky. He had just walked out from under a freeway overpass when the shoe hit him on the head.
+Stanley took it as some kind of sign. His father had been trying to figure out a way to recycle old sneakers, and suddenly a pair of sneakers fell on top of him, seemingly out of nowhere, like a gift from God.
+Naturally, he had no way of knowing they belonged to Clyde Livingston. In fact, the shoes were anything but sweet. Whoever had worn them had had a bad case of foot odor.
+Stanley couldn't help but think that there was something special about the shoes, that they would somehow provide the key to his father's invention. It was too much of a coincidence to be a mere accident. Stanley had felt like he was holding destiny's shoes.
+He ran. Thinking back now, he wasn't sure why he ran. Maybe he was in a hurry to bring the shoes to his father, or maybe he was trying to run away from his miserable and humiliating day at school.
+A patrol car pulled alongside him. A policeman asked him why he was running. Then he took the shoes and made a call on his radio. Shortly thereafter, Stanley was arrested.
+It turned out the sneakers had been stolen from a display at the homeless shelter. That evening rich people were going to come to the shelter and pay a hundred dollars to eat the food that the poor people ate every day for free. Clyde Livingston, who had once lived at the shelter when he was younger, was going to speak and sign autographs. His shoes would be auctioned, and it was expected that they would sell for over five thousand dollars. All the money would go to help the homeless.
+Because of the baseball schedule, Stanley's trial was delayed several months. His parents couldn't afford a lawyer. "You don't need a lawyer," his mother had said. "Just tell the truth."
+Stanley told the truth, but perhaps it would have been better if he had lied a little. He could have said he found the shoes in the street. No one believed they fell from the sky.
+It wasn't destiny, he realized. It was his no-good-dirty-rotten-pig-stealing-great-great-grandfather!
+The judge called Stanley's crime despicable. "The shoes were valued at over five thousand dollars. It was money that would provide food and shelter for the homeless. And you stole that from them, just so you could have a souvenir."
+The judge said that there was an opening at Camp Green Lake, and he suggested that the discipline of the camp might improve Stanley's character. It was either that or jail. Stanley's parents asked if they could have some time to find out more about Camp Green Lake, but the judge advised them to make a quick decision. "Vacancies don't last long at Camp Green Lake."
 
-Lastly, if you're using Notepad, and want to support the development, 
-you can buy me a coffee — the link of which is available in the About section.
+7
+The shovel felt heavy in Stanley's soft, fleshy hands. He tried to jam it into the earth, but the blade banged against the ground and bounced off without making a dent. The vibrations ran up the shaft of the shovel and into Stanley's wrists, making his bones rattle.
+It was still dark. The only light came from the moon and the stars, more stars than Stanley had ever seen before. It seemed he had only just gotten to sleep when Mr. Pendanski came in and woke everyone up.
+Using all his might, he brought the shovel back down onto the dry lake bed. The force stung his hands but made no impression on the earth. He wondered if he had a defective shovel. He glanced at Zero, about fifteen feet away, who scooped out a shovelful of dirt and dumped it on a pile that was already almost a foot tall.
+For breakfast they'd been served some kind of lukewarm cereal. The best part was the orange juice. They each got a pint carton. The cereal actually didn't taste too bad, but it had smelled just like his cot.
+Then they filled their canteens, got their shovels, and were marched out across the lake. Each group was assigned a different area.
+The shovels were kept in a shed near the showers. They all looked the same to Stanley, although X-Ray had his own special shovel, which no one else was allowed to use. X-Ray claimed it was shorter than the others, but if it was, it was only by a fraction of an inch.
+The shovels were five feet long, from the tip of the steel blade to the end of the wooden shaft. Stanley's hole would have to be as deep as his shovel, and he'd have to be able to lay the shovel flat across the bottom in any direction. That was why X-Ray wanted the shortest shovel.
+The lake was so full of holes and mounds that it reminded Stanley of pictures he'd seen of the moon. "If you find anything interesting or unusual," Mr. Pendanski had told him, "you should report it either to me or Mr. Sir when we come around with the water truck. If the Warden likes what you found, you'll get the rest of the day off."
+"What are we supposed to be looking for?" Stanley asked him.
+"You're not looking for anything. You're digging to build character. It's just if you find anything, the Warden would like to know about it."
+He glanced helplessly at his shovel. It wasn't defective. He was defective.
+He noticed a thin crack in the ground. He placed the point of his shovel on top of it, then jumped on the back of the blade with both feet.
+The shovel sank a few inches into the packed earth.
+He smiled. For once in his life it paid to be overweight.
+He leaned on the shaft and pried up his first shovelful of dirt, then dumped it off to the side.
+Only ten million more to go, he thought, then placed the shovel back in the crack and jumped on it again.
+He unearthed several shovelfuls of dirt in this manner, before it occurred to him that he was dumping his dirt within the perimeter of his hole. He laid his shovel flat on the ground and marked where the edges of his hole would be. Five feet was awfully wide.
+He moved the dirt he'd already dug up out past his mark. He took a drink from his canteen. Five feet would be awfully deep, too.
+The digging got easier after a while. The ground was hardest at the surface, where the sun had baked a crust about eight inches deep. Beneath that, the earth was looser. But by the time Stanley broke past the crust, a blister had formed in the middle of his right thumb, and it hurt to hold the shovel.
+Stanley's great-great-grandfather was named Elya Yelnats. He was born in Latvia. When he was fifteen years old he fell in love with Myra Menke.
+(He didn't know he was Stanley's great-great-grandfather.)
+Myra Menke was fourteen. She would turn fifteen in two months, at which time her father had decided she should be married.
+Elya went to her father to ask for her hand, but so did Igor Barkov, the pig farmer. Igor was fifty-seven years old. He had a red nose and fat puffy cheeks.
+"I will trade you my fattest pig for your daughter," Igor offered.
+"And what have you got?" Myra's father asked Elya.
+"A heart full of love," said Elya.
+"I'd rather have a fat pig," said Myra's father.
+Desperate, Elya went to see Madame Zeroni, an old Egyptian woman who lived on the edge of town. He had become friends with her, though she was quite a bit older than him. She was even older than Igor Barkov.
+The other boys of his village liked to mud wrestle. Elya preferred visiting Madame Zeroni and listening to her many stories.
+Madame Zeroni had dark skin and a very wide mouth. When she looked at you, her eyes seemed to expand, and you felt like she was looking right through you.
+"Elya, what's wrong?" she asked, before he even told her he was upset. She was sitting in a homemade wheelchair. She had no left foot. Her leg stopped at her ankle.
+"I'm in love with Myra Menke," Elya confessed. "But Igor Barkov has offered to trade his fattest pig for her. I can't compete with that."
+"Good," said Madame Zeroni. "You're too young to get married. You've got your whole life ahead of you."
+"But I love Myra."
+"Myra's head is as empty as a flowerpot."
+"But she's beautiful."
+"So is a flowerpot. Can she push a plow? Can she milk a goat? No, she is too delicate. Can she have an intelligent conversation? No, she is silly and foolish. Will she take care of you when you are sick? No, she is spoiled and will only want you to take care of her. So, she is beautiful. So what? Ptuui!"
+Madame Zeroni spat on the dirt.
+She told Elya that he should go to America. "Like my son. That's where your future lies. Not with Myra Menke."
+But Elya would hear none of that. He was fifteen, and all he could see was Myra's shallow beauty.
+Madame Zeroni hated to see Elya so forlorn. Against her better judgment, she agreed to help him.
+"It just so happens, my sow gave birth to a litter of piglets yesterday," she said. "There is one little runt whom she won't suckle. You may have him. He would die anyway."
+Madame Zeroni led Elya around the back of her house where she kept her pigs.
+Elya took the tiny piglet, but he didn't see what good it would do him. It wasn't much bigger than a rat.
+"He'll grow," Madame Zeroni assured him. "Do you see that mountain on the edge of the forest?"
+"Yes," said Elya.
+"On the top of the mountain there is a stream where the water runs uphill. You must carry the piglet every day to the top of the mountain and let it drink from the stream. As it drinks, you are to sing to him."
+She taught Elya a special song to sing to the pig.
+"On the day of Myra's fifteenth birthday, you should carry the pig up the mountain for the last time. Then take it directly to Myra's father. It will be fatter than any of Igor's pigs."
+"If it is that big and fat," asked Elya, "how will I be able to carry it up the mountain?"
+"The piglet is not too heavy for you now, is it?" asked Madame Zeroni.
+"Of course not," said Elya.
+"Do you think it will be too heavy for you tomorrow?"
+"No."
+"Every day you will carry the pig up the mountain. It will get a little bigger, but you will get a little stronger. After you give the pig to Myra's father, I want you to do one more thing for me."
+"Anything," said Elya.
+"I want you to carry me up the mountain. I want to drink from the stream, and I want you to sing the song to me."
+Elya promised he would.
+Madame Zeroni warned that if he failed to do this, he and his descendants would be doomed for all of eternity.
+At the time, Elya thought nothing of the curse. He was just a fifteen-year-old kid, and "eternity" didn't seem much longer than a week from Tuesday. Besides, he liked Madame Zeroni and would be glad to carry her up the mountain. He would have done it right then and there, but he wasn't yet strong enough.
+Stanley was still digging. His hole was about three feet deep, but only in the center. It sloped upward to the edges. The sun had only just come up over the horizon, but he already could feel its hot rays against his face.
+As he reached down to pick up his canteen, he felt a sudden rush of dizziness and put his hands on his knees to steady himself. For a moment he was afraid he would throw up, but the moment passed. He drank the last drop of water from his canteen. He had blisters on every one of his fingers, and one in the center of each palm.
+Everyone else's hole was a lot deeper than his. He couldn't actually see their holes but could tell by the size of their dirt piles.
+He saw a cloud of dust moving across the wasteland and noticed that the other boys had stopped digging and were watching it, too. The dirt cloud moved closer, and he could see that it trailed behind a red pickup truck.
+The truck stopped near where they were digging, and the boys lined up behind it, X-Ray in front, Zero at the rear. Stanley got in line behind Zero.
+Mr. Sir filled each of their canteens from a tank of water in the bed of the pickup. As he took Stanley's canteen from him, he said, "This isn't the Girl Scouts, is it?"
+Stanley raised and lowered one shoulder.
+Mr. Sir followed Stanley back to his hole to see how he was doing. "You better get with it," he said. "Or else you're going to be digging in the hottest part of the day." He popped some sunflower seeds into his mouth, deftly removed the shells with his teeth, and spat them into Stanley's hole.
+Every day Elya carried the little piglet up the mountain and sang to it as it drank from the stream. As the pig grew fatter, Elya grew stronger.
+On the day of Myra's fifteenth birthday, Elya's pig weighed over fifty stones. Madame Zeroni had told him to carry the pig up the mountain on that day as well, but Elya didn't want to present himself to Myra smelling like a pig.
+Instead, he took a bath. It was his second bath in less than a week.
+Then he led the pig to Myra's.
+Igor Barkov was there with his pig as well.
+"These are two of the finest pigs I've ever seen," Myra's father declared.
+He was also impressed with Elya, who seemed to have grown bigger and stronger in the last two months. "I used to think you were a good-for-nothing book reader," he said. "But I see now you could be an excellent mud wrestler."
+"May I marry your daughter?" Elya boldly asked.
+"First, I must weigh the pigs."
+Alas, poor Elya should have carried his pig up the mountain one last time. The two pigs weighed exactly the same.
+Stanley's blisters had ripped open, and new blisters formed. He kept changing his grip on the shovel to try to avoid the pain. Finally, he removed his cap and held it between the shaft of his shovel and his raw hands. This helped, but digging was harder because the cap would slip and slide. The sun beat down on his unprotected head and neck.
+Though he tried to convince himself otherwise, he'd been aware for a while that his piles of dirt were too close to his hole. The piles were outside his five-foot circle, but he could see he was going to run out of room. Still, he pretended otherwise and kept adding more dirt to the piles, piles that he would eventually have to move.
+The problem was that when the dirt was in the ground, it was compacted. It expanded when it was excavated. The piles were a lot bigger than his hole was deep.
+It was either now or later. Reluctantly, he climbed up out of his hole, and once again dug his shovel into his previously dug dirt.
+Myra's father got down on his hands and knees and closely examined each pig, tail to snout.
+"Those are two of the finest pigs I have ever seen," he said at last. "How am I to decide? I have only one daughter."
+"Why not let Myra decide?" suggested Elya.
+"That's preposterous!" exclaimed Igor, expelling saliva as he spoke.
+"Myra is just an empty-headed girl," said her father. "How can she possibly decide, when I, her father, can't?"
+"She knows how she feels in her heart," said Elya.
+Myra's father rubbed his chin. Then he laughed and said, "Why not?" He slapped Elya on the back. "It doesn't matter to me. A pig is a pig."
+He summoned his daughter.
+Elya blushed when Myra entered the room. "Good afternoon, Myra," he said.
+She looked at him. "You're Elya, right?" she asked.
+"Myra," said her father. "Elya and Igor have each offered a pig for your hand in marriage. It doesn't matter to me. A pig is a pig. So I will let you make the choice. Whom do you wish to marry?"
+Myra looked confused. "You want me to decide?"
+"That's right, my blossom," said her father.
+"Gee, I don't know," said Myra. "Which pig weighs more?"
+"They both weigh the same," said her father.
+"Golly," said Myra, "I guess I choose Elya— No, Igor. No, Elya. No, Igor. Oh, I know! I'll think of a number between one and ten. I'll marry whoever guesses the closest number. Okay, I'm ready."
+"Ten," guessed Igor.
+Elya said nothing.
+"Elya?" said Myra. "What number do you guess?"
+Elya didn't pick a number. "Marry Igor," he muttered. "You can keep my pig as a wedding present."
 
-** Delete this text and start writing your notes **</pre>
-        </body>
-    </html>
+The next time the water truck came it was driven by Mr. Pendanski, who also brought sack lunches. Stanley sat with his back against a pile of dirt and ate. He had a baloney sandwich, potato chips, and a large chocolate-chip cookie.
+"How you doin'?" asked Magnet.
+"Not real good," said Stanley.
+"Well, the first hole's the hardest," Magnet said.
+Stanley took a long, deep breath. He couldn't afford to dawdle. He was way behind the others, and the sun just kept getting hotter. It wasn't even noon yet. But he didn't know if he had the strength to stand up.
+He thought about quitting. He wondered what they would do to him. What could they do to him?
+His clothes were soaked with sweat. In school he had learned that sweating was good for you. It was nature's way of keeping you cool. So why was he so hot?
+Using his shovel for support, he managed to get to his feet.
+"Where are we supposed to go to the bathroom?" he asked Magnet.
+Magnet gestured with his arms to the great expanse around them. "Pick a hole, any hole," he said.
+Stanley staggered across the lake, almost falling over a dirt pile.
+Behind him he heard Magnet say, "But first make sure nothing's living in it."
+
+After leaving Myra's house, Elya wandered aimlessly through the town, until he found himself down by the wharf. He sat on the edge of a pier and stared down into the cold, black water. He could not understand how Myra had trouble deciding between him and Igor. He thought she loved him. Even if she didn't love him, couldn't she see what a foul person Igor was?
+It was like Madame Zeroni had said. Her head was as empty as a flowerpot.
+Some men were gathering on another dock, and he went to see what was going on. A sign read:
+DECK HANDS WANTED
+FREE PASSAGE TO AMERICA
+He had no sailing experience, but the ship's captain signed him aboard. The captain could see that Elya was a man of great strength. Not everybody could carry a full-grown pig up the side of a mountain.
+It wasn't until the ship had cleared the harbor and was heading out across the Atlantic that he suddenly remembered his promise to carry Madame Zeroni up the mountain. He felt terrible.
+He wasn't afraid of the curse. He thought that was a lot of nonsense. He felt bad because he knew Madame Zeroni had wanted to drink from the stream before she died.
+Zero was the smallest kid in Group D, but he was the first one to finish digging.
+"You're finished?" Stanley asked enviously.
+Zero said nothing.
+Stanley walked to Zero's hole and watched him measure it with his shovel. The top of his hole was a perfect circle, and the sides were smooth and steep. Not one dirt clod more than necessary had been removed from the earth.
+Zero pulled himself up to the surface. He didn't even smile. He looked down at his perfectly dug hole, spat in it, then turned and headed back to the camp compound.
+"Zero's one weird dude," said Zigzag.
+Stanley would have laughed, but he didn't have the strength. Zigzag had to be the "weirdest dude" Stanley had ever seen. He had a long skinny neck, and a big round head with wild frizzy blond hair that stuck out in all directions. His head seemed to bob up and down on his neck, like it was on a spring.
+Armpit was the second one to finish digging. He also spat into his hole before heading back to the camp compound. One by one, Stanley watched each of the boys spit into his hole and return to the camp compound.
+Stanley kept digging. His hole was almost up to his shoulders, although it was hard to tell exactly where ground level was because his dirt piles completely surrounded the hole. The deeper he got, the harder it was to raise the dirt up and out of the hole. Once again, he realized, he was going to have to move the piles.
+His cap was stained with blood from his hands. He felt like he was digging his own grave.
+In America, Elya learned to speak English. He fell in love with a woman named Sarah Miller. She could push a plow, milk a goat, and, most important, think for herself. She and Elya often stayed up half the night talking and laughing together.
+Their life was not easy. Elya worked hard, but bad luck seemed to follow him everywhere. He always seemed to be in the wrong place at the wrong time.
+He remembered Madame Zeroni telling him that she had a son in America. Elya was forever looking for him. He'd walk up to complete strangers and ask if they knew someone named Zeroni, or had ever heard of anyone named Zeroni.
+No one did. Elya wasn't sure what he'd do if he ever found Madame Zeroni's son anyway. Carry him up a mountain and sing the pig lullaby to him?
+After his barn was struck by lightning for the third time, he told Sarah about his broken promise to Madame Zeroni. "I'm worse than a pig thief," he said. "You should leave me and find someone who isn't cursed."
+"I'm not leaving you," said Sarah. "But I want you to do one thing for me."
+"Anything," said Elya.
+Sarah smiled. "Sing me the pig lullaby."
+He sang it for her.
+Her eyes sparkled. "That's so pretty. What does it mean?"
+Elya tried his best to translate it from Latvian into English, but it wasn't the same. "It rhymes in Latvian," he told her.
+"I could tell," said Sarah.
+A year later their child was born. Sarah named him Stanley because she noticed that "Stanley" was "Yelnats" spelled backward.
+Sarah changed the words of the pig lullaby so that they rhymed, and every night she sang it to little Stanley.
+"If only, if only," the woodpecker sighs,
+"The bark on the tree was as soft as the skies."
+While the wolf waits below, hungry and lonely,
+Crying to the moo—oo—oon,
+"If only, if only."
+Stanley's hole was as deep as his shovel, but not quite wide enough on the bottom. He grimaced as he sliced off a chunk of dirt, then raised it up and flung it onto a pile.
+He laid his shovel back down on the bottom of his hole and, to his surprise, it fit. He rotated it and only had to chip off a few chunks of dirt, here and there, before it could lie flat across his hole in every direction.
+He heard the water truck approaching, and felt a strange sense of pride at being able to show Mr. Sir, or Mr. Pendanski, that he had dug his first hole.
+He put his hands on the rim and tried to pull himself up.
+He couldn't do it. His arms were too weak to lift his heavy body.
+He used his legs to help, but he just didn't have any strength. He was trapped in his hole. It was almost funny, but he wasn't in the mood to laugh.
+"Stanley!" he heard Mr. Pendanski call.
+Using his shovel, he dug two footholds in the hole wall. He climbed out to see Mr. Pendanski walking over to him.
+"I was afraid you'd fainted," Mr. Pendanski said. "You wouldn't have been the first."
+"I'm finished," Stanley said, putting his blood-spotted cap back on his head.
+"All right!" said Mr. Pendanski, raising his hand for a high five, but Stanley ignored it. He didn't have the strength.
+Mr. Pendanski lowered his hand and looked down at Stanley's hole. "Well done," he said. "You want a ride back?"
+Stanley shook his head. "I'll walk."
+Mr. Pendanski climbed back into the truck without filling Stanley's canteen. Stanley waited for him to drive away, then took another look at his hole. He knew it was nothing to be proud of, but he felt proud nonetheless.
+He sucked up his last bit of saliva and spat.
+
+8
+A lot of people don't believe in curses.
+A lot of people don't believe in yellow-spotted lizards either, but if one bites you, it doesn't make a difference whether you believe in it or not.
+Actually, it is kind of odd that scientists named the lizard after its yellow spots. Each lizard has exactly eleven yellow spots, but the spots are hard to see on its yellow-green body.
+The lizard is from six to ten inches long and has big red eyes. In truth, its eyes are yellow, and it is the skin around the eyes which is red, but everyone always speaks of its red eyes. It also has black teeth and a milky white tongue.
+Looking at one, you would have thought that it should have been named a "red-eyed" lizard, or a "black-toothed" lizard, or perhaps a "white-tongued" lizard.
+If you've ever been close enough to see the yellow spots, you are probably dead.
+The yellow-spotted lizards like to live in holes, which offer shade from the sun and protection from predatory birds. Up to twenty lizards may live in one hole. They have strong, powerful legs, and can leap out of very deep holes to attack their prey. They eat small animals, insects, certain cactus thorns, and the shells of sunflower seeds.
+
+9
+Stanley stood in the shower and let the cold water pour over his hot and sore body. It was four minutes of heaven. For the second day in a row he didn't use soap. He was too tired.
+There was no roof over the shower building, and the walls were raised up six inches off the ground except in the corners. There was no drain in the floor. The water ran out under the walls and evaporated quickly in the sun.
+He put on his clean set of orange clothes. He returned to his tent, put his duty clothes in his crate, got out his pen and box of stationery, and headed to the rec room.
+A sign on the door said WRECK ROOM.
+Nearly everything in the room was broken; the TV, the pinball machine, the furniture. Even the people looked broken, with their worn-out bodies sprawled over the various chairs and sofas.
+X-Ray and Armpit were playing pool. The surface of the table reminded Stanley of the surface of the lake. It was full of bumps and holes because so many people had carved their initials into the felt.
+There was a hole in the far wall, and an electric fan had been placed in front of it. Cheap air-conditioning. At least the fan worked.
+As Stanley made his way across the room, he tripped over an outstretched leg.
+"Hey, watch it!" said an orange lump on a chair.
+"You watch it," muttered Stanley, too tired to care.
+"What'd you say?" the Lump demanded.
+"Nothin'," said Stanley.
+The Lump rose. He was almost as big as Stanley and a lot tougher. "You said something." He poked his fat finger in Stanley's neck. "What'd you say?"
+A crowd quickly formed around them.
+"Be cool," said X-Ray. He put his hand on Stanley's shoulder. "You don't want to mess with the Caveman," he warned.
+"The Caveman's cool," said Armpit.
+"I'm not looking for trouble," Stanley said. "I'm just tired, that's all."
+The Lump grunted.
+X-Ray and Armpit led Stanley over to a couch. Squid slid over to make room as Stanley sat down.
+"Did you see the Caveman back there?" X-Ray asked.
+"The Caveman's one tough dude," said Squid, and he lightly punched Stanley's arm.
+Stanley leaned back against the torn vinyl upholstery. Despite his shower, his body still radiated heat. "I wasn't trying to start anything," he said.
+The last thing he wanted to do after killing himself all day on the lake was to get in a fight with a boy called the Caveman. He was glad X-Ray and Armpit had come to his rescue.
+"Well, how'd you like your first hole?" asked Squid.
+Stanley groaned, and the other boys laughed.
+"Well, the first hole's the hardest," said Stanley.
+"No way," said X-Ray. "The second hole's a lot harder. You're hurting before you even get started. If you think you're sore now, just wait and see how you feel tomorrow morning, right?"
+"That's right," said Squid.
+"Plus, the fun's gone," said X-Ray.
+"The fun?" asked Stanley.
+"Don't lie to me," said X-Ray. "I bet you always wanted to dig a great big hole, right? Am I right?"
+Stanley had never really thought about it before, but he knew better than to tell X-Ray he wasn't right.
+"Every kid in the world wants to dig a great big hole," said X-Ray. "To China, right?"
+"Right," said Stanley.
+"See what I mean," said X-Ray. "That's what I'm saying. But now the fun's gone. And you still got to do it again, and again, and again."
+"Camp Fun and Games," said Stanley.
+"What's in the box?" asked Squid.
+Stanley had forgotten he had brought it. "Uh, paper. I was going to write a letter to my mother."
+"Your mother?" laughed Squid.
+"She'll worry if I don't."
+Squid scowled.
+Stanley looked around the room. This was the one place in camp where the boys could enjoy themselves, and what'd they do? They wrecked it. The glass on the TV was smashed, as if someone had put his foot through it. Every table and chair seemed to be missing at least one leg. Everything leaned.
+He waited to write the letter until after Squid had gotten up and joined the game of pool.
+Dear Mom,
+Today was my first day at camp, and I've already made some friends. We've been out on the lake all day, so I'm pretty tired. Once I pass the swimming test, I'll get to learn how to water-ski. I
+He stopped writing as he became aware that somebody was reading over his shoulder. He turned to see Zero, standing behind the couch.
+"I don't want her to worry about me," he explained.
+Zero said nothing. He just stared at the letter with a serious, almost angry look on his face.
+Stanley slipped it back into the stationery box.
+"Did the shoes have red X's on the back?" Zero asked him.
+It took Stanley a moment, but then he realized Zero was asking about Clyde Livingston's shoes.
+"Yes, they did," he said. He wondered how Zero knew that. Brand X was a popular brand of sneakers. Maybe Clyde Livingston made a commercial for them.
+Zero stared at him for a moment, with the same intensity with which he had been staring at the letter.
+Stanley poked his finger through a hole in the vinyl couch and pulled out some of the stuffing. He wasn't aware of what he was doing.
+"C'mon, Caveman, dinner," said Armpit.
+"You coming, Caveman?" said Squid.
+Stanley looked around to see that Armpit and Squid were talking to him. "Uh, sure," he said. He put the piece of stationery back in the box, then got up and followed the boys out to the tables.
+The Lump wasn't the Caveman. He was.
+He shrugged his left shoulder. It was better than Barf Bag.
+
+10
+Stanley had no trouble falling asleep, but morning came much too quickly. Every muscle and joint in his body ached as he tried to get out of bed. He didn't think it was possible but his body hurt more than it had the day before. It wasn't just his arms and back, but his legs, ankles, and waist also hurt. The only thing that got him out of bed was knowing that every second he wasted meant he was one second closer to the rising of the sun. He hated the sun.
+He could hardly lift his spoon during breakfast, and then he was out on the lake, his spoon replaced by a shovel. He found a crack in the ground, and began his second hole.
+He stepped on the shovel blade, and pushed on the very back of the shaft with the base of his thumb. This hurt less than trying to hold the shaft with his blistered fingers.
+As he dug, he was careful to dump the dirt far away from the hole. He needed to save the area around the hole for when his hole was much deeper.
+He didn't know if he'd ever get that far. X-Ray was right. The second hole was the hardest. It would take a miracle.
+As long as the sun wasn't out yet, he removed his cap and used it to help protect his hands. Once the sun rose, he would have to put it back on his head. His neck and forehead had been badly burned the day before.
+He took it one shovelful at a time, and tried not to think of the awesome task that lay ahead of him. After an hour or so, his sore muscles seemed to loosen up a little bit.
+He grunted as he tried to stick his shovel into the dirt. His cap slipped out from under his fingers, and the shovel fell free.
+He let it lie there.
+He took a drink from his canteen. He guessed that the water truck should be coming soon, but he didn't finish all the water, just in case he was wrong. He'd learned to wait until he saw the truck, before drinking the last drop.
+The sun wasn't yet up, but its rays arced over the horizon and brought light to the sky.
+He reached down to pick up his cap, and there next to it he saw a wide flat rock. As he put his cap on his head, he continued to look down at the rock.
+He picked it up. He thought he could see the shape of a fish, fossilized in it.
+He rubbed off some dirt, and the outline of the fish became clearer. The sun peeked over the horizon, and he could actually see tiny lines where every one of the fish's bones had been.
+He looked at the barren land all around him. True, everyone referred to this area as "the lake," but it was still hard to believe that this dry wasteland was once full of water.
+Then he remembered what Mr. Sir and Mr. Pendanski had both said. If he dug up anything interesting, he should report it to one of them. If the Warden liked what you found, you'd get the rest of the day off.
+He looked back down at his fish. He'd found his miracle.
+He continued to dig, though very slowly, as he waited for the water truck. He didn't want to bring attention to his find, afraid that one of the other boys might try to take it from him. He tossed the rock, face down, beside his dirt pile, as if it had no special value. A short while later he saw the cloud of dirt heading across the lake.
+The truck stopped and the boys lined up. They always lined up in the same order, Stanley realized, no matter who got there first. X-Ray was always at the front of the line. Then came Armpit, Squid, Zigzag, Magnet, and Zero.
+Stanley got in line behind Zero. He was glad to be at the back, so no one would notice the fossil. His pants had very large pockets, but the rock still made a bulge.
+Mr. Pendanski filled each boy's canteen, until Stanley was the only one left.
+"I found something," Stanley said, taking it out of his pocket.
+Mr. Pendanski reached for Stanley's canteen, but Stanley handed him the rock instead.
+"What's this?"
+"It's a fossil," said Stanley. "See the fish?"
+Mr. Pendanski looked at it again.
+"See, you can even see all of its little bones," said Stanley.
+"Interesting," said Mr. Pendanski. "Let me have your canteen."
+Stanley handed it to him. Mr. Pendanski filled it, then returned it.
+"So do I get the rest of the day off?"
+"What for?"
+"You know, you said if I found something interesting, the Warden would give me the day off."
+Mr. Pendanski laughed as he gave the fossil back to Stanley. "Sorry, Stanley. The Warden isn't interested in fossils."
+"Let me see that," said Magnet, taking the rock from Stanley.
+Stanley continued to stare at Mr. Pendanski.
+"Hey, Zig, dig this rock."
+"Cool," said Zigzag.
+Stanley saw his fossil being passed around.
+"I don't see nothing," said X-Ray. He took off his glasses, wiped them on his dirty clothes, and put them back on.
+"See, look at the little fishy," said Armpit.
+
+11
+Stanley returned to his hole. It wasn't fair. Mr. Pendanski had even said his fossil was interesting. He slammed his shovel into the ground and pried up another piece of earth.
+After a while, he noticed X-Ray had come by and was watching him dig.
+"Hey, Caveman, let me talk to you a second," X-Ray said.
+Stanley put down his shovel and stepped up out of his hole.
+"Say, listen," said X-Ray. "If you find something else, give it to me, okay?"
+Stanley wasn't sure what to say. X-Ray was clearly the leader of the group, and Stanley didn't want to get on his bad side.
+"You're new here, right?" said X-Ray. "I've been here for almost a year. I've never found anything. You know, my eyesight's not so good. No one knows this, but you know why my name's X-Ray?"
+Stanley shrugged one shoulder.
+"It's pig latin for Rex. That's all. I'm too blind to find anything."
+Stanley tried to remember how pig latin worked.
+"I mean," X-Ray went on, "why should you get a day off when you've only been here a couple of days? If anybody gets a day off, it should be me. That's only fair, right?"
+"I guess," Stanley agreed.
+X-Ray smiled. "You're a good guy, Caveman."
+Stanley picked up his shovel.
+The more he thought about it, the more he was glad that he agreed to let X-Ray have anything he might find. If he was going to survive at Camp Green Lake, it was far more important that X-Ray think he was a good guy than it was for him to get one day off. Besides, he didn't expect to find anything anyway. There probably wasn't anything "of interest" out there, and even if there was, he'd never been what you could call lucky.
+He slammed his blade into the ground, then dumped out another shovelful of dirt. It was a little surprising, he thought, that X-Ray was the leader of the group, since he obviously wasn't the biggest or the toughest. In fact, except for Zero, X-Ray was the smallest. Armpit was the biggest. Zigzag may have been taller than Armpit, but that was only because of his neck. Yet Armpit, and all the others, seemed to be willing to do whatever X-Ray asked of them.
+As Stanley dug up another shovelful of dirt, it occurred to him that Armpit wasn't the biggest. He, the Caveman, was bigger.
+He was glad they called him Caveman. It meant they accepted him as a member of the group. He would have been glad even if they'd called him Barf Bag.
+It was really quite remarkable to him. At school, bullies like Derrick Dunne used to pick on him. Yet Derrick Dunne would be scared senseless by any of the boys here.
+As he dug his hole, Stanley thought about what it would be like if Derrick Dunne had to fight Armpit or Squid. Derrick wouldn't stand a chance.
+He imagined what it would be like if he became good friends with all of them, and then for some reason they all went with him to his school, and then Derrick Dunne tried to steal his notebook . . .
+"Just what do you think you're doing?" asks Squid, as he slams his hands into Derrick Dunne's smug face.
+"Caveman's our friend," says Armpit, grabbing him by the shin collar.
+Stanley played the scene over and over again in his mind, each time watching another boy from Group D beat up Derrick Dunne. It helped him dig his hole and ease his own suffering. Whatever pain he felt was being felt ten times worse by Derrick.
+
+12
+Again, Stanley was the last one to finish digging. It was late afternoon when he dragged himself back to the compound. This time he would have accepted a ride on the truck if it was offered.
+When he got to the tent, he found Mr. Pendanski and the other boys sitting in a circle on the ground.
+"Welcome, Stanley," said Mr. Pendanski.
+"Hey, Caveman. You get your hole dug?" asked Magnet.
+He managed to nod.
+"You spit in it?" asked Squid.
+He nodded again. "You're right," he said to X-Ray. "The second hole's the hardest."
+X-Ray shook his head. "The third hole's the hardest," he said.
+"Come join our circle," said Mr. Pendanski.
+Stanley plopped down between Squid and Magnet. He needed to rest up before taking a shower.
+"We've been discussing what we want to do with our lives," said Mr. Pendanski. "We're not going to be at Camp Green Lake forever. We need to prepare for the day we leave here and join the rest of society."
+"Hey, that's great, Mom!" said Magnet. "They're going to finally let you out of here?"
+The other boys laughed.
+"Okay, José," said Mr. Pendanski. "What do you want to do with your life?"
+"I don't know," said Magnet.
+"You need to think about that," said Mr. Pendanski. "It's important to have goals. Otherwise you're going to end up right back in jail. What do you like to do?"
+"I don't know," said Magnet.
+"You must like something," said Mr. Pendanski.
+"I like animals," said Magnet.
+"Good," said Mr. Pendanski. "Does anyone know of any jobs that involve animals?"
+"Veterinarian," said Armpit.
+"That's right," said Mr. Pendanski.
+"He could work in a zoo," said Zigzag.
+"He belongs in the zoo," said Squid, then he and X-Ray laughed.
+"How about you, Stanley? Any ideas for José?"
+Stanley sighed. "Animal trainer," he said. "Like for the circus, or movies, or something like that."
+"Any of those jobs sound good to you, José?" asked Mr. Pendanski.
+"Yeah, I like what Caveman said. About training animals for movies. I think it would be fun to train monkeys."
+X-Ray laughed.
+"Don't laugh, Rex," said Mr. Pendanski. "We don't laugh at people's dreams. Someone is going to have to train monkeys for the movies."
+"Who are you kidding, Mom?" asked X-Ray. "Magnet's never going to be a monkey trainer."
+"You don't know that," said Mr. Pendanski. "I'm not saying it's going to be easy. Nothing in life is easy. But that's no reason to give up. You'll be surprised what you can accomplish if you set your mind to it. After all, you only have one life, so you should try to make the most of it."
+Stanley tried to figure out what he'd say if Mr. Pendanski asked him what he wanted to do with his life. He used to think he wanted to work for the F.B.I., but this didn't seem the appropriate place to mention that.
+"So far you've all done a pretty good job at messing up your lives," said Mr. Pendanski. "I know you think you're cool." He looked at Stanley. "So you're Caveman, now, huh? You like digging holes, Caveman?"
+Stanley didn't know what to say.
+"Well, let me tell you something, Caveman. You are here on account of one person. If it wasn't for that person, you wouldn't be here digging holes in the hot sun. You know who that person is?"
+"My no-good-dirty-rotten-pig-stealing-great-great-grand-father."
+The other boys howled with laughter.
+Even Zero smiled.
+It was the first time Stanley had ever seen Zero smile. He usually had such an angry expression on his face. Now he had such a huge smile it almost seemed too big for his face, like the smile on a jack-o'-lantern.
+"No," said Mr. Pendanski. "That person is you, Stanley. You're the reason you are here. You're responsible for yourself. You messed up your life, and it's up to you to fix it. No one else is going to do it for you—for any of you."
+Mr. Pendanski looked from one boy to another. "You're all special in your own way," he said. "You've all got something to offer. You have to think about what you want to do, then do it. Even you, Zero. You're not completely worthless."
+The smile was now gone from Zero's face.
+"What do you want to do with your life?" Mr. Pendanski asked him.
+Zero's mouth was shut tight. As he glared at Mr. Pendanski, his dark eyes seemed to expand.
+"What about it, Zero?" asked Mr. Pendanski. "What do you like to do?"
+"I like to dig holes."
+
+13
+All too soon Stanley was back out on the lake, sticking his shovel into the dirt. X-Ray was right: the third hole was the hardest. So was the fourth hole. And the fifth hole. And the sixth, and the . . .
+He dug his shovel into the dirt.
+After a while he'd lost track of the day of the week, and how many holes he'd dug. It all seemed like one big hole, and it would take a year and a half to dig it. He guessed he'd lost at least five pounds. He figured that in a year and a half he'd be either in great physical condition, or else dead.
+He dug his shovel into the dirt.
+It couldn't always be this hot, he thought. Surely it got cooler in December. Maybe then they froze.
+He dug his shovel into the dirt.
+His skin had gotten tougher. It didn't hurt so much to hold the shovel.
+As he drank from his canteen he looked up at the sky. A cloud had appeared earlier in the day. It was the first cloud he could remember seeing since coming to Camp Green Lake.
+He and the other boys had been watching it all day, hoping it would move in front of the sun. Occasionally it got close, but it was just teasing them.
+His hole was waist deep. He dug his shovel into the dirt. As he dumped it out, he thought he saw something glisten as it fell onto the dirt pile. Whatever it was, it was quickly buried.
+Stanley stared at the pile a moment, unsure if he'd even seen it. Even if it was something, what good would it do him? He'd promised to give anything he found to X-Ray. It didn't seem worth the effort to climb out of his hole to check it out.
+He glanced up at the cloud, which was close enough to the sun that he had to squint to look at it.
+He dug his shovel back into the earth, scooped out some dirt, and lifted it over his dirt pile. But instead of dumping it there, he tossed it off to the side. His curiosity had gotten the better of him.
+He climbed up out of his hole and sifted his fingers through the pile. He felt something hard and metallic.
+He pulled it out. It was a gold tube, about as long and as wide as the second finger on his right hand. The tube was open at one end and closed at the other.
+He used a few drops of his precious water to clean it.
+There seemed to be some kind of design on the flat, closed end. He poured a few more drops of water on it and rubbed it on the inside of his pants pocket.
+He looked again at the design engraved into the flat bottom of the tube. He could see an outline of a heart, with the letters K B etched inside it.
+He tried to figure some way that he wouldn't have to give it to X-Ray. He could just keep it, but that wouldn't do him any good. He wanted a day off.
+He looked at the large piles of dirt near where X-Ray was digging. X-Ray was probably almost finished for the day. Getting the rest of the day off would hardly do him much good. X-Ray would first have to show the tube to Mr. Sir or Mr. Pendanski, who would then have to show it to the Warden. By then X-Ray might be done anyway.
+Stanley wondered about trying to secretly take the tube directly to the Warden. He could explain the situation to the Warden, and the Warden might make up an excuse for giving him the day off, so X-Ray wouldn't suspect.
+He looked across the lake toward the cabin under the two oak trees. The place scared him. He'd been at Camp Green Lake almost two weeks, and he still hadn't seen the Warden. That was just as well. If he could go his entire year and a half without seeing the Warden, that would be fine with him.
+Besides, he didn't know if the Warden would find the tube "interesting." He looked at it again. It looked familiar. He thought he'd seen something like it, somewhere before, but couldn't quite place it.
+"What you got there, Caveman?" asked Zigzag.
+Stanley's large hand closed around the tube. "Nothin', just, uh . . ." It was useless. "I think I might have found something."
+"Another fossil?"
+"No, I'm not sure what it is."
+"Let me see," said Zigzag.
+Instead of showing it to Zigzag, Stanley brought it to X-Ray. Zigzag followed.
+X-Ray looked at the tube, then rubbed his dirty glasses on his dirty shirt and looked at the tube again. One by one, the other boys dropped their shovels and came to look.
+"It looks like an old shotgun shell," said Squid.
+"Yeah, that's probably what it is," said Stanley. He decided not to mention the engraved design. Maybe nobody would notice it. He doubted X-Ray could see it.
+"No, it's too long and thin to be a shotgun shell," said Magnet.
+"It's prob'ly just a piece of junk," said Stanley.
+"Well, I'll show it to Mom," said X-Ray. "See what he thinks. Who knows? Maybe I'll get the day off."
+"Your hole's almost finished," said Stanley.
+"Yeah, so?"
+Stanley raised and lowered one shoulder. "So, why don't you wait until tomorrow to show it to Mom?" he suggested. "You can pretend you found it first thing in the morning. Then you can get the whole day off, instead of just an hour or so this afternoon."
+X-Ray smiled. "Good thinking, Caveman." He dropped the tube into his large pocket on the right leg of his dirty orange pants.
+Stanley returned to his hole.
+When the water truck came, Stanley started to take his place at the end of the line, but X-Ray told him to get behind Magnet, in front of Zero.
+Stanley moved up one place in line.
+
+14
+That night, as Stanley lay on his scratchy and smelly cot, he tried to figure out what he could have done differently, but there was nothing he could do. For once in his unlucky life, he was in the right place at the right time, and it still didn't help him.
+"You got it?" he asked X-Ray the next morning at breakfast.
+X-Ray looked at him with half-opened eyes behind his dirty glasses. "I don't know what you're talking about," he grumbled.
+"You know . . ." said Stanley.
+"No, I don't know!" X-Ray snapped. "So just leave me alone, okay? I don't want to talk to you."
+Stanley didn't say another word.
+Mr. Sir marched the boys out to the lake, chewing sunflower seeds along the way and spitting out the shells. He scraped the ground with his boot heel, to mark where each boy was supposed to dig.
+Stanley stamped down on the back of the blade of the shovel, piercing the hard, dry earth. He couldn't figure out why X-Ray snapped at him. If he wasn't going to produce the tube, why did he make Stanley give it to him? Was he just going to keep it? The tube was gold in color, but Stanley didn't think it was real gold.
+The water truck came a little after sunrise. Stanley finished his last drop of water and stepped up out of his hole. At this time of day, Stanley sometimes could see some distant hills or mountains on the other side of the lake. They were only visible for a short while and would soon disappear behind the haze of heat and dirt.
+The truck stopped, and the dust cloud drifted past it. X-Ray took his place at the front of the line. Mr. Pendanski filled his canteen. "Thanks, Mom," X-Ray said. He didn't mention the tube.
+Mr. Pendanski filled all the canteens, then climbed back into the cab of the pickup. He still had to bring water to Group E. Stanley could see them digging about two hundred yards away.
+"Mr. Pendanski!" X-Ray shouted from his hole. "Wait! Mr. Pendanski! I think I might have found something!"
+The boys all followed Mr. Pendanski as he walked over to X-Ray's hole. Stanley could see the gold tube sticking out of some dirt on the end of X-Ray's shovel.
+Mr. Pendanski examined it and took a long look at its flat bottom. "I think the Warden is going to like this."
+"Does X-Ray get the day off?" asked Squid.
+"Just keep digging until someone says otherwise," Mr. Pendanski said. Then he smiled. "But if I were you, Rex, I wouldn't dig too hard."
+Stanley watched the cloud of dust move across the lake to the cabin beneath the trees.
+The boys in Group E were just going to have to wait.
+It didn't take long for the pickup to return. Mr. Pendanski stepped out of the cab. A tall woman with red hair stepped out of the passenger side. She looked even taller than she was, since Stanley was down in his hole. She wore a black cowboy hat and black cowboy boots which were studded with turquoise stones. The sleeves on her shirt were rolled up, and her arms were covered with freckles, as was her face. She walked right up to X-Ray.
+"This where you found it?"
+"Yes, ma'am."
+"Your good work will be rewarded." She turned to Mr. Pendanski. "Drive X-Ray back to camp. Let him take a double shower, and give him some clean clothes. But first I want you to fill everyone's canteen."
+"I just filled them a little while ago," said Mr. Pendanski.
+The Warden stared hard at him. "Excuse me," she said. Her voice was soft.
+"I had just filled them when Rex—"
+"Excuse me," the Warden said again. "Did I ask you when you last filled them?"
+"No, but it's just—"
+"Excuse me."
+Mr. Pendanski stopped talking. The Warden wiggled her finger for him to come to her. "It's hot and it's only going to get hotter," she said. "Now, these fine boys have been working hard. Don't you think it might be possible that they might have taken a drink since you last filled their canteens?"
+Mr. Pendanski said nothing.
+The Warden turned to Stanley. "Caveman, will you come here, please?"
+Stanley was surprised she knew his name. He had never seen her. Until she stepped out of the truck, he didn't even know the Warden was a woman.
+He nervously went toward her.
+"Mr. Pendanski and I have been having a discussion. Have you taken a drink since Mr. Pendanski last filled your canteen?"
+Stanley didn't want to cause any trouble for Mr. Pendanski. "I still got plenty left," he said.
+"Excuse me."
+He stopped. "Yeah, I drank some."
+"Thank you. May I see your canteen please."
+Stanley handed it to her. Her fingernails were painted dark red.
+She gently shook the canteen, letting the water swish inside the plastic container. "Do you hear the empty spaces?" she asked.
+"Yes," said Mr. Pendanski.
+"Then fill it," she said. "And the next time I tell you to do something, I expect you to do it without questioning my authority. If it's too much trouble for you to fill a canteen, I'll give you a shovel. You can dig the hole, and the Caveman can fill your canteen." She turned back to Stanley. "I don't think that would be too much trouble for you, would it?"
+"No," said Stanley.
+"So what will it be?" she asked Mr. Pendanski. "Do you want to fill the canteens or do you want to dig?"
+"I'll fill the canteens," said Mr. Pendanski.
+"Thank you."
+
+15
+Mr. Pendanski filled the canteens.
+The Warden got a pitchfork out of the back of the pickup. She poked it through X-Ray's dirt pile, to see if anything else might have been buried in there as well.
+"After you drop off X-Ray, I want you to bring back three wheelbarrows," she said.
+X-Ray got in the pickup. As the truck pulled away, he leaned out the wide window and waved.
+"Zero," said the Warden. "I want you to take over X-Ray's hole." She seemed to know that Zero was the fastest digger.
+"Armpit and Squid, you will keep digging where you have been," she said. "But you're each going to have a helper. Zigzag, you help Armpit. Magnet will help Squid. And Caveman, you'll work with Zero. We're going to dig the dirt twice. Zero will dig it out of the hole, and Caveman will carefully shovel it into a wheelbarrow. Zigzag will do the same for Armpit, and the same with Magnet and Squid. We don't want to miss anything. If either of you find something, you'll both get the rest of the day off, and a double shower.
+"When the wheelbarrows are full, you are to dump them away from this area. We don't want any dirt piles to get in the way."
+The Warden remained at the site for the remainder of the day, along with Mr. Pendanski and Mr. Sir, who showed up after a while. Occasionally Mr. Sir would leave to take water to the other groups of campers, but otherwise he and the water truck stayed parked there. The Warden saw to it that nobody in Group D was ever thirsty.
+Stanley did as he was told. He carefully looked through all the dirt dug up by Zero, as he shoveled it into a wheelbarrow, though he knew he wouldn't find anything.
+It was easier than digging his own hole. When the wheelbarrow was full, he took it a good distance away before dumping it.
+The Warden couldn't keep still. She kept walking around, looking over the boys' shoulders, and sticking her pitchfork through the dirt piles. "You're doing fine, just fine," she told Stanley.
+After a while, she told the boys to switch places, so that Stanley, Zigzag, and Magnet dug in the holes, and Zero, Armpit, and Squid shoveled the excavated dirt into the wheelbarrows.
+After lunch, Zero took over the digging again, and Stanley returned to the wheelbarrow. "There's no hurry," the Warden said several times. "The main thing is not to miss anything."
+The boys dug until each hole was well over six feet deep and wide. Still, it was easier for two boys to dig a six-foot hole than it was for one boy to dig a five-foot hole.
+"All right, that's enough for today," the Warden said. "I've waited this long, I can wait another day."
+Mr. Sir drove her back to her cabin.
+"I wonder how she knew all our names," Stanley said as he walked back to the compound.
+"She watches us all the time," said Zigzag. "She's got hidden microphones and cameras all over the place. In the tents, the Wreck Room, the shower."
+"The shower?" asked Stanley. He wondered if Zigzag was just being paranoid.
+"The cameras are tiny," said Armpit. "No bigger than the toenail on your little toe."
+Stanley had his doubts about that. He didn't think they could make cameras that small. Microphones, maybe.
+He realized that was why X-Ray didn't want to talk to him about the gold tube at breakfast. X-Ray was afraid the Warden might have been listening.
+One thing was certain: They weren't just digging to "build character." They were definitely looking for something.
+And whatever they were looking for, they were looking in the wrong place.
+Stanley gazed out across the lake, toward the spot where he had been digging yesterday when he found the gold tube. He dug the hole into his memory.
+</div>
+
+<script>
+/* === CONFIGURABLE === */
+const TEXT_EL   = document.getElementById('text');
+const PLAY_BTN  = document.getElementById('playBtn');
+const PAUSE_BTN = document.getElementById('pauseBtn');
+const STOP_BTN  = document.getElementById('stopBtn');
+const NEXT_BTN  = document.getElementById('nextBtn');
+const PREV_BTN  = document.getElementById('prevBtn');
+const VOICE_SEL = document.getElementById('voiceSel');
+const RATE_IN   = document.getElementById('rate');
+const RATE_LBL  = document.getElementById('rateLbl');
+
+/* === STATE === */
+let sentences = [];
+let current   = -1;
+let paused    = false;
+let utter     = null;
+
+/* === SPLIT INTO SENTENCES === */
+function splitSentences(raw){
+  const re = /[.!?]+(?:\s+|$)/g;
+  let match, lastIdx=0, arr=[];
+  while((match=re.exec(raw))!==null){
+    arr.push(raw.slice(lastIdx, match.index+match[0].length).trim());
+    lastIdx = match.index + match[0].length;
+  }
+  const tail = raw.slice(lastIdx).trim();
+  if(tail) arr.push(tail);
+  return arr.filter(s=>s.length);
+}
+
+/* === UI POPULATION === */
+function populateVoices(){
+  const voices = speechSynthesis.getVoices();
+  VOICE_SEL.innerHTML = '';
+  voices.forEach((v,i)=>{
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${v.name} (${v.lang})`;
+    VOICE_SEL.appendChild(opt);
+  });
+  if(voices.length && !VOICE_SEL.value) VOICE_SEL.value=0;
+}
+speechSynthesis.onvoiceschanged = populateVoices;
+populateVoices();
+
+/* === HIGHLIGHT === */
+function highlight(idx){
+  TEXT_EL.innerHTML = sentences.map((s,i)=>
+    `<span class="${i===idx?'current':''}">${s}</span>`
+  ).join('');
+}
+
+/* === SPEAK WRAPPER === */
+function speakSentence(idx){
+  if(idx<0||idx>=sentences.length) return;
+  current = idx;
+  highlight(idx);
+  utter = new SpeechSynthesisUtterance(sentences[idx]);
+  const voice = speechSynthesis.getVoices()[VOICE_SEL.value];
+  if(voice) utter.voice = voice;
+  utter.rate = parseFloat(RATE_IN.value);
+  utter.onend = ()=>{ if(!paused) speakSentence(current+1); };
+  utter.onerror = ()=>{ stopReading(); };
+  speechSynthesis.speak(utter);
+}
+
+/* === CONTROL FUNCTIONS === */
+function startReading(){
+  if(sentences.length===0){
+    sentences = splitSentences(TEXT_EL.textContent);
+    TEXT_EL.textContent = '';
+    highlight(0);
+  }
+  paused = false;
+  PLAY_BTN.disabled  = true;
+  PAUSE_BTN.disabled = false;
+  STOP_BTN.disabled  = false;
+  if(current<0) current=0;
+  speakSentence(current);
+}
+function pauseReading(){
+  paused = true;
+  speechSynthesis.pause();
+  PLAY_BTN.disabled = false;
+  PAUSE_BTN.disabled = true;
+}
+function resumeReading(){
+  paused = false;
+  speechSynthesis.resume();
+  PLAY_BTN.disabled = true;
+  PAUSE_BTN.disabled = false;
+}
+function stopReading(){
+  speechSynthesis.cancel();
+  current = -1; paused = false;
+  PLAY_BTN.disabled  = false;
+  PAUSE_BTN.disabled = true;
+  STOP_BTN.disabled  = true;
+  highlight(-1);
+}
+function nextSentence(){
+  stopReading(); current++; highlight(current);
+}
+function prevSentence(){
+  stopReading(); current=Math.max(0,current-1); highlight(current);
+}
+
+/* === EVENT HOOKS === */
+PLAY_BTN.addEventListener('click', ()=>{
+  if(paused) resumeReading(); else startReading();
+});
+PAUSE_BTN.addEventListener('click', pauseReading);
+STOP_BTN.addEventListener('click', stopReading);
+NEXT_BTN.addEventListener('click', nextSentence);
+PREV_BTN.addEventListener('click', prevSentence);
+RATE_IN.addEventListener('input', e=>{
+  RATE_LBL.textContent = e.target.value;
+});
+
+</script>
+</body>
+</html>
