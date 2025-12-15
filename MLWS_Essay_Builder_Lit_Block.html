@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>MLWS Essay Builder for Lit Block | 论文构建工具 - 文学课</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1b5e3f 0%, #2d7a4f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1b5e3f 0%, #2d7a4f 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1b5e3f, #c41e3a);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .main {
+            padding: 30px;
+        }
+
+        /* PROMPT SELECTION */
+        .prompt-section {
+            background: #fff3cd;
+            border: 3px solid #d4a574;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .prompt-section h2 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .prompt-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .prompt-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .prompt-card:hover {
+            border-color: #1b5e3f;
+            background: #f0fff4;
+        }
+
+        .prompt-card.selected {
+            border-color: #1b5e3f;
+            background: #d4edda;
+            box-shadow: 0 0 0 3px rgba(27, 94, 63, 0.3);
+        }
+
+        .prompt-card h3 {
+            color: #1b5e3f;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .prompt-card p {
+            font-size: 0.95em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .prompt-card .chinese {
+            color: #666;
+            font-style: italic;
+        }
+
+        .day-label {
+            display: inline-block;
+            background: #c41e3a;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-bottom: 8px;
+        }
+
+        /* STEP NAVIGATION */
+        .step-nav {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .step-btn {
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .step-btn:hover {
+            border-color: #1b5e3f;
+        }
+
+        .step-btn.active {
+            background: #1b5e3f;
+            color: white;
+            border-color: #1b5e3f;
+        }
+
+        .step-btn.completed {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        /* CONTENT SECTIONS */
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        h2.section-title {
+            color: #1b5e3f;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #c41e3a;
+        }
+
+        /* INSTRUCTION BOXES */
+        .help-box {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 2px solid #1b5e3f;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .help-box h3 {
+            color: #1b5e3f;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        .help-box p {
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .warning-box {
+            background: #f8d7da;
+            border: 2px solid #c41e3a;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .warning-box strong {
+            color: #c41e3a;
+        }
+
+        /* SENTENCE STARTERS */
+        .starter-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .starter-section h4 {
+            color: #1b5e3f;
+            margin-bottom: 12px;
+        }
+
+        .starter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .starter-btn {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            padding: 12px 15px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.2s;
+            line-height: 1.4;
+        }
+
+        .starter-btn:hover {
+            background: #d4edda;
+            border-color: #1b5e3f;
+        }
+
+        .starter-btn .eng {
+            display: block;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .starter-btn .chi {
+            display: block;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 3px;
+        }
+
+        /* TEXTAREAS */
+        .write-section {
+            margin: 20px 0;
+        }
+
+        .write-section label {
+            display: block;
+            font-weight: 600;
+            color: #1b5e3f;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .write-section .hint {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 3px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-family: inherit;
+            line-height: 1.7;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #1b5e3f;
+            box-shadow: 0 0 0 3px rgba(27, 94, 63, 0.2);
+        }
+
+        textarea::placeholder {
+            color: #999;
+        }
+
+        /* EXAMPLE BOX */
+        .example-box {
+            background: #fff3cd;
+            border-left: 5px solid #d4a574;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .example-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .example-box .good {
+            background: #d4edda;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .example-box .bad {
+            background: #f8d7da;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #dc3545;
+            text-decoration: line-through;
+            opacity: 0.8;
+        }
+
+        /* BUTTONS */
+        .button-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #1b5e3f;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: #144832;
+        }
+
+        .btn-secondary {
+            background: #c41e3a;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: #a01830;
+        }
+
+        .btn-outline {
+            background: white;
+            color: #1b5e3f;
+            border: 2px solid #1b5e3f;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            background: #1b5e3f;
+            color: white;
+        }
+
+        /* PREVIEW */
+        .preview-box {
+            background: #f8f9fa;
+            border: 3px solid #dee2e6;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            min-height: 150px;
+        }
+
+        .preview-box h4 {
+            color: #1b5e3f;
+            margin-bottom: 15px;
+        }
+
+        .preview-text {
+            line-height: 2;
+            font-size: 1.1em;
+            white-space: pre-wrap;
+        }
+
+        /* CHECKLIST */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.05em;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        /* WORD COUNT */
+        .word-count {
+            text-align: right;
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .word-count.good {
+            color: #28a745;
+        }
+
+        .word-count.warning {
+            color: #ffc107;
+        }
+
+        .word-count.bad {
+            color: #dc3545;
+        }
+
+        /* CHINESE HELPER */
+        .chinese {
+            color: #666;
+            font-style: italic;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .main {
+                padding: 20px;
+            }
+            .starter-grid {
+                grid-template-columns: 1fr;
+            }
+            .button-row {
+                flex-direction: column;
+            }
+            .btn-primary, .btn-secondary, .btn-outline {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 MLWS Essay Builder for Lit Block</h1>
+            <p>论文构建工具 - 文学课 | Build Your Essay Step by Step!</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="main">
+            <!-- PROMPT SELECTION -->
+            <div class="prompt-section">
+                <h2>📋 Choose Your Prompt | 选择你的题目</h2>
+                
+                <div class="prompt-grid">
+                    <div class="prompt-card" onclick="selectPrompt(1)">
+                        <span class="day-label">Monday | 周一</span>
+                        <h3>Prompt 1: The Power of Friendship | 友谊的力量</h3>
+                        <p><strong>Write about how friends help us in difficult times.</strong></p>
+                        <p class="chinese">写一篇关于朋友如何在困难时期帮助我们的文章。</p>
+                    </div>
+
+                    <div class="prompt-card" onclick="selectPrompt(2)">
+                        <span class="day-label">Tuesday | 周二</span>
+                        <h3>Prompt 2: Technology in Our Lives | 科技在我们生活中</h3>
+                        <p><strong>Discuss how technology has changed the way we learn.</strong></p>
+                        <p class="chinese">讨论科技如何改变了我们的学习方式。</p>
+                    </div>
+
+                    <div class="prompt-card" onclick="selectPrompt(3)">
+                        <span class="day-label">Wednesday | 周三</span>
+                        <h3>Prompt 3: Overcoming Challenges | 克服挑战</h3>
+                        <p><strong>Explain how facing challenges helps us grow stronger.</strong></p>
+                        <p class="chinese">解释面对挑战如何帮助我们变得更强大。</p>
+                    </div>
+
+                    <div class="prompt-card" onclick="selectPrompt(4)">
+                        <span class="day-label">Thursday | 周四</span>
+                        <h3>Prompt 4: The Importance of Education | 教育的重要性</h3>
+                        <p><strong>Discuss why education is important for our future.</strong></p>
+                        <p class="chinese">讨论为什么教育对我们的未来很重要。</p>
+                    </div>
+
+                    <div class="prompt-card" onclick="selectPrompt(5)">
+                        <span class="day-label">Friday | 周五</span>
+                        <h3>Prompt 5: Protecting Our Environment | 保护我们的环境</h3>
+                        <p><strong>Explain what we can do to help protect the environment.</strong></p>
+                        <p class="chinese">解释我们可以做什么来帮助保护环境。</p>
+                    </div>
+                </div>
+
+                <div id="selectedPromptDisplay" style="margin-top: 20px; padding: 15px; background: #d4edda; border-radius: 10px; display: none;">
+                    <strong>Your prompt | 你的题目:</strong>
+                    <p id="selectedPromptText" style="margin-top: 8px; font-size: 1.1em;"></p>
+                </div>
+            </div>
+
+            <!-- STEP NAVIGATION -->
+            <div class="step-nav">
+                <button class="step-btn active" onclick="showStep(1)">1. Intro | 介绍</button>
+                <button class="step-btn" onclick="showStep(2)">2. Body 1 | 正文1</button>
+                <button class="step-btn" onclick="showStep(3)">3. Body 2 | 正文2</button>
+                <button class="step-btn" onclick="showStep(4)">4. Body 3 | 正文3</button>
+                <button class="step-btn" onclick="showStep(5)">5. Conclusion | 结论</button>
+                <button class="step-btn" onclick="showStep(6)">6. Check | 检查</button>
+            </div>
+
+            <!-- STEP 1: INTRODUCTION -->
+            <div id="step1" class="step-content active">
+                <h2 class="section-title">Step 1: Write Your Introduction | 写你的介绍</h2>
+
+                <div class="help-box">
+                    <h3>🎯 Your introduction needs 3 parts | 你的介绍需要3个部分:</h3>
+                    <p><strong>1. HOOK</strong> = One sentence to get attention <span class="chinese">| 钩子 = 一句话吸引注意力</span></p>
+                    <p><strong>2. LEAD-IN</strong> = 1-2 sentences about your topic <span class="chinese">| 引入 = 1-2句关于你的话题</span></p>
+                    <p><strong>3. THESIS</strong> = Your main idea + 3 reasons <span class="chinese">| 论点 = 你的主要观点 + 3个原因</span></p>
+                </div>
+
+                <!-- HOOK -->
+                <div class="write-section">
+                    <label>Part 1: HOOK | 第一部分：钩子</label>
+                    <p class="hint">Choose a sentence starter, then finish the sentence. <span class="chinese">选择一个句子开头，然后完成句子。</span></p>
+                    
+                    <div class="starter-section">
+                        <h4>Click a starter to use it | 点击开头句使用它:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('introHook', 'Have you ever thought about ')">
+                                <span class="eng">Have you ever thought about...</span>
+                                <span class="chi">你有没有想过...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('introHook', 'Imagine a world where ')">
+                                <span class="eng">Imagine a world where...</span>
+                                <span class="chi">想象一个世界，在那里...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('introHook', 'Many people believe that ')">
+                                <span class="eng">Many people believe that...</span>
+                                <span class="chi">很多人相信...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('introHook', 'In today\'s world, ')">
+                                <span class="eng">In today's world,...</span>
+                                <span class="chi">在当今世界，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="introHook" placeholder="Write your hook here... | 在这里写你的钩子..." onkeyup="updateWordCount('introHook')"></textarea>
+                    <div class="word-count" id="introHookCount">0 words</div>
+                </div>
+
+                <!-- LEAD-IN -->
+                <div class="write-section">
+                    <label>Part 2: LEAD-IN | 第二部分：引入</label>
+                    <p class="hint">Give background information about your topic. <span class="chinese">提供关于你话题的背景信息。</span></p>
+                    
+                    <div class="starter-section">
+                        <h4>Click a starter to use it | 点击开头句使用它:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('introLeadIn', 'This topic is important because ')">
+                                <span class="eng">This topic is important because...</span>
+                                <span class="chi">这个话题很重要，因为...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('introLeadIn', 'Every day, people around the world ')">
+                                <span class="eng">Every day, people around the world...</span>
+                                <span class="chi">每天，世界各地的人们...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('introLeadIn', 'Throughout history, ')">
+                                <span class="eng">Throughout history,...</span>
+                                <span class="chi">纵观历史，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="introLeadIn" placeholder="Write your lead-in here... | 在这里写你的引入..." onkeyup="updateWordCount('introLeadIn')"></textarea>
+                    <div class="word-count" id="introLeadInCount">0 words</div>
+                </div>
+
+                <!-- THESIS -->
+                <div class="write-section">
+                    <label>Part 3: THESIS | 第三部分：论点</label>
+                    <p class="hint">State your main idea and 3 reasons. <span class="chinese">陈述你的主要观点和3个原因。</span></p>
+                    
+                    <div class="warning-box">
+                        <strong>⚠️ IMPORTANT | 重要:</strong> Your thesis MUST have 3 points! Each point becomes one body paragraph.
+                        <br><span class="chinese">你的论点必须有3个要点！每个要点成为一个正文段落。</span>
+                    </div>
+
+                    <div class="starter-section">
+                        <h4>Click a starter to use it | 点击开头句使用它:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('introThesis', '[Topic] is important because [reason 1], [reason 2], and [reason 3].')">
+                                <span class="eng">[Topic] is important because [reason 1], [reason 2], and [reason 3].</span>
+                                <span class="chi">[话题]很重要，因为[原因1]、[原因2]和[原因3]。</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('introThesis', 'There are three main reasons why [topic]: first, [reason 1]; second, [reason 2]; and third, [reason 3].')">
+                                <span class="eng">There are three main reasons why [topic]...</span>
+                                <span class="chi">[话题]有三个主要原因...</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Example Thesis | 论点例子:</h4>
+                        <div class="good">
+                            ✓ GOOD: "Friendship is important because friends give us emotional support, help us learn new things, and make our lives more fun."
+                            <br><span class="chinese">好的："友谊很重要，因为朋友给我们情感支持，帮助我们学习新事物，让我们的生活更有趣。"</span>
+                        </div>
+                        <div class="bad">
+                            ✗ BAD: "Friendship is good." (No 3 reasons! | 没有3个原因！)
+                        </div>
+                    </div>
+                    
+                    <textarea id="introThesis" placeholder="Write your thesis with 3 points here... | 在这里写你的论点（要有3个要点）..." onkeyup="updateWordCount('introThesis')"></textarea>
+                    <div class="word-count" id="introThesisCount">0 words</div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-outline" onclick="previewIntro()">👁️ Preview | 预览</button>
+                    <button class="btn-primary" onclick="showStep(2)">Next: Body 1 → | 下一步：正文1 →</button>
+                </div>
+
+                <div class="preview-box" id="introPreview" style="display:none;">
+                    <h4>Your Introduction | 你的介绍:</h4>
+                    <div class="preview-text" id="introPreviewText"></div>
+                </div>
+            </div>
+
+            <!-- STEP 2: BODY PARAGRAPH 1 -->
+            <div id="step2" class="step-content">
+                <h2 class="section-title">Step 2: Body Paragraph 1 | 正文段落1</h2>
+
+                <div class="help-box">
+                    <h3>📝 MLPP Body Paragraph Structure | MLPP正文段落结构:</h3>
+                    <p><strong>T</strong> = Transition + Topic Sentence <span class="chinese">| 转换词 + 主题句</span></p>
+                    <p><strong>E</strong> = Evidence (quote from text) <span class="chinese">| 证据（引用文本）</span></p>
+                    <p><strong>E</strong> = Explanation (explain the quote) <span class="chinese">| 解释（解释引用）</span></p>
+                    <p><strong>C</strong> = Concluding Sentence <span class="chinese">| 结论句</span></p>
+                </div>
+
+                <!-- TOPIC SENTENCE -->
+                <div class="write-section">
+                    <label>Part 1: Transition + Topic Sentence | 转换词 + 主题句</label>
+                    <p class="hint">This sentence introduces your FIRST reason from your thesis. <span class="chinese">这句话介绍你论点中的第一个原因。</span></p>
+                    
+                    <div class="starter-section">
+                        <h4>TRANSITIONS for Body 1 | 正文1的转换词:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body1Topic', 'First, ')">
+                                <span class="eng">First,...</span>
+                                <span class="chi">首先，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Topic', 'To begin with, ')">
+                                <span class="eng">To begin with,...</span>
+                                <span class="chi">首先，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Topic', 'The first reason is that ')">
+                                <span class="eng">The first reason is that...</span>
+                                <span class="chi">第一个原因是...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Topic', 'One important point is that ')">
+                                <span class="eng">One important point is that...</span>
+                                <span class="chi">一个重要的观点是...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body1Topic" placeholder="Write your topic sentence... | 写你的主题句..." onkeyup="updateWordCount('body1Topic')"></textarea>
+                    <div class="word-count" id="body1TopicCount">0 words</div>
+                </div>
+
+                <!-- EVIDENCE -->
+                <div class="write-section">
+                    <label>Part 2: Evidence (Quote + Citation) | 证据（引用 + 出处）</label>
+                    <p class="hint">Use a reporting phrase, then add your quote with (Author page#). <span class="chinese">使用引述短语，然后添加你的引用和（作者 页码）。</span></p>
+                    
+                    <div class="starter-section">
+                        <h4>REPORTING PHRASES | 引述短语:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body1Evidence', 'According to the text, \"')">
+                                <span class="eng">According to the text, "..."</span>
+                                <span class="chi">根据文本，"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Evidence', 'The author states, \"')">
+                                <span class="eng">The author states, "..."</span>
+                                <span class="chi">作者指出，"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Evidence', 'As mentioned in the passage, \"')">
+                                <span class="eng">As mentioned in the passage, "..."</span>
+                                <span class="chi">如文中所述，"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Evidence', 'For example, the text explains that \"')">
+                                <span class="eng">For example, the text explains that "..."</span>
+                                <span class="chi">例如，文本解释说"..."</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>Example Evidence | 证据例子:</h4>
+                        <div class="good">
+                            ✓ GOOD: According to the text, "True friends always support each other during hard times" (Smith 12).
+                        </div>
+                        <div class="bad">
+                            ✗ BAD: Friends support each other. (No quote! No citation! | 没有引用！没有出处！)
+                        </div>
+                    </div>
+                    
+                    <textarea id="body1Evidence" placeholder='Write your evidence: "quote" (Author page#)... | 写你的证据："引用"（作者 页码）...' onkeyup="updateWordCount('body1Evidence')"></textarea>
+                    <div class="word-count" id="body1EvidenceCount">0 words</div>
+                </div>
+
+                <!-- EXPLANATION -->
+                <div class="write-section">
+                    <label>Part 3: Explanation | 解释</label>
+                    <p class="hint">Explain WHY this quote supports your point. Do NOT repeat the quote! <span class="chinese">解释为什么这个引用支持你的观点。不要重复引用！</span></p>
+                    
+                    <div class="starter-section">
+                        <h4>EXPLANATION STARTERS | 解释开头句:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body1Explain', 'This shows that ')">
+                                <span class="eng">This shows that...</span>
+                                <span class="chi">这表明...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Explain', 'This is important because ')">
+                                <span class="eng">This is important because...</span>
+                                <span class="chi">这很重要，因为...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Explain', 'This proves that ')">
+                                <span class="eng">This proves that...</span>
+                                <span class="chi">这证明...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Explain', 'In other words, ')">
+                                <span class="eng">In other words,...</span>
+                                <span class="chi">换句话说，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Explain', 'The reader can understand that ')">
+                                <span class="eng">The reader can understand that...</span>
+                                <span class="chi">读者可以理解...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body1Explain" placeholder="Explain your evidence here... | 在这里解释你的证据..." onkeyup="updateWordCount('body1Explain')"></textarea>
+                    <div class="word-count" id="body1ExplainCount">0 words</div>
+                </div>
+
+                <!-- CONCLUDING SENTENCE -->
+                <div class="write-section">
+                    <label>Part 4: Concluding Sentence | 结论句</label>
+                    <p class="hint">Wrap up this paragraph. Connect back to your thesis. <span class="chinese">总结这个段落。连接回你的论点。</span></p>
+                    
+                    <div class="starter-section">
+                        <h4>CONCLUDING STARTERS | 结论开头句:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body1Conclude', 'Therefore, ')">
+                                <span class="eng">Therefore,...</span>
+                                <span class="chi">因此，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Conclude', 'This clearly shows that ')">
+                                <span class="eng">This clearly shows that...</span>
+                                <span class="chi">这清楚地表明...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body1Conclude', 'As a result, ')">
+                                <span class="eng">As a result,...</span>
+                                <span class="chi">结果，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body1Conclude" placeholder="Write your concluding sentence... | 写你的结论句..." onkeyup="updateWordCount('body1Conclude')"></textarea>
+                    <div class="word-count" id="body1ConcludeCount">0 words</div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-outline" onclick="previewBody(1)">👁️ Preview | 预览</button>
+                    <button class="btn-secondary" onclick="showStep(1)">← Back | 返回</button>
+                    <button class="btn-primary" onclick="showStep(3)">Next: Body 2 → | 下一步：正文2 →</button>
+                </div>
+
+                <div class="preview-box" id="body1Preview" style="display:none;">
+                    <h4>Your Body Paragraph 1 | 你的正文段落1:</h4>
+                    <div class="preview-text" id="body1PreviewText"></div>
+                </div>
+            </div>
+
+            <!-- STEP 3: BODY PARAGRAPH 2 -->
+            <div id="step3" class="step-content">
+                <h2 class="section-title">Step 3: Body Paragraph 2 | 正文段落2</h2>
+
+                <div class="warning-box">
+                    <strong>⚠️ REMEMBER | 记住:</strong> Use a DIFFERENT source for this paragraph!
+                    <br><span class="chinese">这个段落要使用不同的来源！</span>
+                </div>
+
+                <div class="help-box">
+                    <h3>📝 This paragraph is about your SECOND reason from your thesis.</h3>
+                    <p class="chinese">这个段落是关于你论点中的第二个原因。</p>
+                </div>
+
+                <!-- TOPIC SENTENCE -->
+                <div class="write-section">
+                    <label>Part 1: Transition + Topic Sentence | 转换词 + 主题句</label>
+                    
+                    <div class="starter-section">
+                        <h4>TRANSITIONS for Body 2 | 正文2的转换词:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body2Topic', 'Additionally, ')">
+                                <span class="eng">Additionally,...</span>
+                                <span class="chi">此外，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Topic', 'Furthermore, ')">
+                                <span class="eng">Furthermore,...</span>
+                                <span class="chi">而且，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Topic', 'Another reason is that ')">
+                                <span class="eng">Another reason is that...</span>
+                                <span class="chi">另一个原因是...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Topic', 'In addition to this, ')">
+                                <span class="eng">In addition to this,...</span>
+                                <span class="chi">除此之外，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Topic', 'Equally important, ')">
+                                <span class="eng">Equally important,...</span>
+                                <span class="chi">同样重要的是，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body2Topic" placeholder="Write your topic sentence... | 写你的主题句..." onkeyup="updateWordCount('body2Topic')"></textarea>
+                    <div class="word-count" id="body2TopicCount">0 words</div>
+                </div>
+
+                <!-- EVIDENCE -->
+                <div class="write-section">
+                    <label>Part 2: Evidence (Quote + Citation) | 证据（引用 + 出处）</label>
+                    
+                    <div class="starter-section">
+                        <h4>REPORTING PHRASES | 引述短语:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body2Evidence', 'The text explains that \"')">
+                                <span class="eng">The text explains that "..."</span>
+                                <span class="chi">文本解释说"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Evidence', 'Evidence shows that \"')">
+                                <span class="eng">Evidence shows that "..."</span>
+                                <span class="chi">证据表明"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Evidence', 'Research indicates that \"')">
+                                <span class="eng">Research indicates that "..."</span>
+                                <span class="chi">研究表明"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Evidence', 'Studies have found that \"')">
+                                <span class="eng">Studies have found that "..."</span>
+                                <span class="chi">研究发现"..."</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body2Evidence" placeholder='Write your evidence: "quote" (Author page#)... | 写你的证据："引用"（作者 页码）...' onkeyup="updateWordCount('body2Evidence')"></textarea>
+                    <div class="word-count" id="body2EvidenceCount">0 words</div>
+                </div>
+
+                <!-- EXPLANATION -->
+                <div class="write-section">
+                    <label>Part 3: Explanation | 解释</label>
+                    
+                    <div class="starter-section">
+                        <h4>EXPLANATION STARTERS | 解释开头句:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body2Explain', 'This demonstrates that ')">
+                                <span class="eng">This demonstrates that...</span>
+                                <span class="chi">这说明...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Explain', 'This evidence supports the idea that ')">
+                                <span class="eng">This evidence supports the idea that...</span>
+                                <span class="chi">这个证据支持了...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Explain', 'Based on this, we can see that ')">
+                                <span class="eng">Based on this, we can see that...</span>
+                                <span class="chi">基于此，我们可以看到...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body2Explain" placeholder="Explain your evidence here... | 在这里解释你的证据..." onkeyup="updateWordCount('body2Explain')"></textarea>
+                    <div class="word-count" id="body2ExplainCount">0 words</div>
+                </div>
+
+                <!-- CONCLUDING SENTENCE -->
+                <div class="write-section">
+                    <label>Part 4: Concluding Sentence | 结论句</label>
+                    
+                    <div class="starter-section">
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body2Conclude', 'Thus, ')">
+                                <span class="eng">Thus,...</span>
+                                <span class="chi">因此，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Conclude', 'This further proves that ')">
+                                <span class="eng">This further proves that...</span>
+                                <span class="chi">这进一步证明了...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body2Conclude', 'Clearly, ')">
+                                <span class="eng">Clearly,...</span>
+                                <span class="chi">很明显，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body2Conclude" placeholder="Write your concluding sentence... | 写你的结论句..." onkeyup="updateWordCount('body2Conclude')"></textarea>
+                    <div class="word-count" id="body2ConcludeCount">0 words</div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-outline" onclick="previewBody(2)">👁️ Preview | 预览</button>
+                    <button class="btn-secondary" onclick="showStep(2)">← Back | 返回</button>
+                    <button class="btn-primary" onclick="showStep(4)">Next: Body 3 → | 下一步：正文3 →</button>
+                </div>
+
+                <div class="preview-box" id="body2Preview" style="display:none;">
+                    <h4>Your Body Paragraph 2 | 你的正文段落2:</h4>
+                    <div class="preview-text" id="body2PreviewText"></div>
+                </div>
+            </div>
+
+            <!-- STEP 4: BODY PARAGRAPH 3 -->
+            <div id="step4" class="step-content">
+                <h2 class="section-title">Step 4: Body Paragraph 3 | 正文段落3</h2>
+
+                <div class="warning-box">
+                    <strong>⚠️ LAST BODY PARAGRAPH | 最后一个正文段落!</strong> Use your THIRD source here!
+                    <br><span class="chinese">在这里使用你的第三个来源！</span>
+                </div>
+
+                <div class="help-box">
+                    <h3>📝 This paragraph is about your THIRD reason from your thesis.</h3>
+                    <p class="chinese">这个段落是关于你论点中的第三个原因。</p>
+                </div>
+
+                <!-- TOPIC SENTENCE -->
+                <div class="write-section">
+                    <label>Part 1: Transition + Topic Sentence | 转换词 + 主题句</label>
+                    
+                    <div class="starter-section">
+                        <h4>TRANSITIONS for Body 3 | 正文3的转换词:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body3Topic', 'Finally, ')">
+                                <span class="eng">Finally,...</span>
+                                <span class="chi">最后，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Topic', 'Most importantly, ')">
+                                <span class="eng">Most importantly,...</span>
+                                <span class="chi">最重要的是，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Topic', 'Lastly, ')">
+                                <span class="eng">Lastly,...</span>
+                                <span class="chi">最后，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Topic', 'The most significant reason is that ')">
+                                <span class="eng">The most significant reason is that...</span>
+                                <span class="chi">最重要的原因是...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Topic', 'Perhaps most importantly, ')">
+                                <span class="eng">Perhaps most importantly,...</span>
+                                <span class="chi">也许最重要的是，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body3Topic" placeholder="Write your topic sentence... | 写你的主题句..." onkeyup="updateWordCount('body3Topic')"></textarea>
+                    <div class="word-count" id="body3TopicCount">0 words</div>
+                </div>
+
+                <!-- EVIDENCE -->
+                <div class="write-section">
+                    <label>Part 2: Evidence (Quote + Citation) | 证据（引用 + 出处）</label>
+                    
+                    <div class="starter-section">
+                        <h4>REPORTING PHRASES | 引述短语:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body3Evidence', 'The source reveals that \"')">
+                                <span class="eng">The source reveals that "..."</span>
+                                <span class="chi">来源显示"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Evidence', 'It is clear from the text that \"')">
+                                <span class="eng">It is clear from the text that "..."</span>
+                                <span class="chi">从文本中很明显"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Evidence', 'The passage demonstrates that \"')">
+                                <span class="eng">The passage demonstrates that "..."</span>
+                                <span class="chi">这段话证明"..."</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Evidence', 'As the author points out, \"')">
+                                <span class="eng">As the author points out, "..."</span>
+                                <span class="chi">正如作者指出的，"..."</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body3Evidence" placeholder='Write your evidence: "quote" (Author page#)... | 写你的证据："引用"（作者 页码）...' onkeyup="updateWordCount('body3Evidence')"></textarea>
+                    <div class="word-count" id="body3EvidenceCount">0 words</div>
+                </div>
+
+                <!-- EXPLANATION -->
+                <div class="write-section">
+                    <label>Part 3: Explanation | 解释</label>
+                    
+                    <div class="starter-section">
+                        <h4>EXPLANATION STARTERS | 解释开头句:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body3Explain', 'This clearly illustrates that ')">
+                                <span class="eng">This clearly illustrates that...</span>
+                                <span class="chi">这清楚地说明了...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Explain', 'This final piece of evidence confirms that ')">
+                                <span class="eng">This final piece of evidence confirms that...</span>
+                                <span class="chi">这最后的证据确认了...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Explain', 'From this, it is evident that ')">
+                                <span class="eng">From this, it is evident that...</span>
+                                <span class="chi">由此可见，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body3Explain" placeholder="Explain your evidence here... | 在这里解释你的证据..." onkeyup="updateWordCount('body3Explain')"></textarea>
+                    <div class="word-count" id="body3ExplainCount">0 words</div>
+                </div>
+
+                <!-- CONCLUDING SENTENCE -->
+                <div class="write-section">
+                    <label>Part 4: Concluding Sentence | 结论句</label>
+                    
+                    <div class="starter-section">
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('body3Conclude', 'Ultimately, ')">
+                                <span class="eng">Ultimately,...</span>
+                                <span class="chi">最终，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Conclude', 'This strongly supports the argument that ')">
+                                <span class="eng">This strongly supports the argument that...</span>
+                                <span class="chi">这有力地支持了...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('body3Conclude', 'Without a doubt, ')">
+                                <span class="eng">Without a doubt,...</span>
+                                <span class="chi">毫无疑问，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="body3Conclude" placeholder="Write your concluding sentence... | 写你的结论句..." onkeyup="updateWordCount('body3Conclude')"></textarea>
+                    <div class="word-count" id="body3ConcludeCount">0 words</div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-outline" onclick="previewBody(3)">👁️ Preview | 预览</button>
+                    <button class="btn-secondary" onclick="showStep(3)">← Back | 返回</button>
+                    <button class="btn-primary" onclick="showStep(5)">Next: Conclusion → | 下一步：结论 →</button>
+                </div>
+
+                <div class="preview-box" id="body3Preview" style="display:none;">
+                    <h4>Your Body Paragraph 3 | 你的正文段落3:</h4>
+                    <div class="preview-text" id="body3PreviewText"></div>
+                </div>
+            </div>
+
+            <!-- STEP 5: CONCLUSION -->
+            <div id="step5" class="step-content">
+                <h2 class="section-title">Step 5: Conclusion | 结论</h2>
+
+                <div class="help-box">
+                    <h3>🎯 Your conclusion needs 3 parts | 你的结论需要3个部分:</h3>
+                    <p><strong>1. TRANSITION</strong> = A word to signal the end <span class="chinese">| 转换词 = 一个信号结束的词</span></p>
+                    <p><strong>2. RESTATE THESIS</strong> = Say your main idea again (DIFFERENT words!) <span class="chinese">| 重述论点 = 再次说你的主要观点（用不同的话！）</span></p>
+                    <p><strong>3. FINAL THOUGHT</strong> = End with something memorable <span class="chinese">| 最后的想法 = 以令人难忘的东西结束</span></p>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ DO NOT | 不要:</strong>
+                    <br>• Copy your thesis exactly <span class="chinese">| 完全复制你的论点</span>
+                    <br>• Add new information <span class="chinese">| 添加新信息</span>
+                    <br>• Say "In this essay I talked about..." <span class="chinese">| 说"在这篇文章中我谈到了..."</span>
+                </div>
+
+                <!-- TRANSITION -->
+                <div class="write-section">
+                    <label>Part 1: Transition | 转换词</label>
+                    
+                    <div class="starter-section">
+                        <h4>CONCLUSION TRANSITIONS | 结论转换词:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('conclusionTrans', 'In conclusion, ')">
+                                <span class="eng">In conclusion,...</span>
+                                <span class="chi">总之，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('conclusionTrans', 'To summarize, ')">
+                                <span class="eng">To summarize,...</span>
+                                <span class="chi">总结一下，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('conclusionTrans', 'Overall, ')">
+                                <span class="eng">Overall,...</span>
+                                <span class="chi">总的来说，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('conclusionTrans', 'All things considered, ')">
+                                <span class="eng">All things considered,...</span>
+                                <span class="chi">综合考虑，...</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="conclusionTrans" placeholder="Start your conclusion... | 开始你的结论..." onkeyup="updateWordCount('conclusionTrans')"></textarea>
+                    <div class="word-count" id="conclusionTransCount">0 words</div>
+                </div>
+
+                <!-- RESTATE THESIS -->
+                <div class="write-section">
+                    <label>Part 2: Restate Your Thesis | 重述你的论点</label>
+                    <p class="hint">Say your main idea again, but use DIFFERENT words. <span class="chinese">再次说你的主要观点，但使用不同的词。</span></p>
+                    
+                    <div class="example-box">
+                        <h4>Example | 例子:</h4>
+                        <p><strong>Original Thesis:</strong> "Friendship is important because friends give us emotional support, help us learn new things, and make our lives more fun."</p>
+                        <div class="good">
+                            ✓ RESTATED: "Having good friends in our lives provides comfort during difficult times, opportunities for growth, and enjoyment in everyday moments."
+                        </div>
+                        <div class="bad">
+                            ✗ WRONG: "Friendship is important because friends give us emotional support, help us learn new things, and make our lives more fun." (Same words!)
+                        </div>
+                    </div>
+                    
+                    <textarea id="conclusionRestate" placeholder="Restate your thesis in different words... | 用不同的话重述你的论点..." onkeyup="updateWordCount('conclusionRestate')"></textarea>
+                    <div class="word-count" id="conclusionRestateCount">0 words</div>
+                </div>
+
+                <!-- FINAL THOUGHT -->
+                <div class="write-section">
+                    <label>Part 3: Final Thought | 最后的想法</label>
+                    <p class="hint">End with something memorable: a question, call to action, or big idea. <span class="chinese">以令人难忘的东西结束：一个问题、行动呼吁或重大想法。</span></p>
+                    
+                    <div class="starter-section">
+                        <h4>FINAL THOUGHT IDEAS | 最后想法的开头:</h4>
+                        <div class="starter-grid">
+                            <button class="starter-btn" onclick="insertStarter('conclusionFinal', 'As we move forward, we should remember that ')">
+                                <span class="eng">As we move forward, we should remember that...</span>
+                                <span class="chi">当我们向前迈进时，我们应该记住...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('conclusionFinal', 'The question we must ask ourselves is: ')">
+                                <span class="eng">The question we must ask ourselves is:...</span>
+                                <span class="chi">我们必须问自己的问题是：...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('conclusionFinal', 'In the end, ')">
+                                <span class="eng">In the end,...</span>
+                                <span class="chi">最终，...</span>
+                            </button>
+                            <button class="starter-btn" onclick="insertStarter('conclusionFinal', 'Now is the time to ')">
+                                <span class="eng">Now is the time to...</span>
+                                <span class="chi">现在是...的时候了</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <textarea id="conclusionFinal" placeholder="Write your final thought... | 写你最后的想法..." onkeyup="updateWordCount('conclusionFinal')"></textarea>
+                    <div class="word-count" id="conclusionFinalCount">0 words</div>
+                </div>
+
+                <div class="button-row">
+                    <button class="btn-outline" onclick="previewConclusion()">👁️ Preview | 预览</button>
+                    <button class="btn-secondary" onclick="showStep(4)">← Back | 返回</button>
+                    <button class="btn-primary" onclick="showStep(6)">Next: Final Check → | 下一步：最终检查 →</button>
+                </div>
+
+                <div class="preview-box" id="conclusionPreview" style="display:none;">
+                    <h4>Your Conclusion | 你的结论:</h4>
+                    <div class="preview-text" id="conclusionPreviewText"></div>
+                </div>
+            </div>
+
+            <!-- STEP 6: FINAL CHECK -->
+            <div id="step6" class="step-content">
+                <h2 class="section-title">Step 6: Final Check | 最终检查</h2>
+
+                <div class="help-box">
+                    <h3>✅ Check your essay before submitting! | 提交前检查你的论文！</h3>
+                    <p>Go through each checklist. Check the box when you verify each item.</p>
+                    <p class="chinese">检查每个清单。当你确认每个项目时勾选方框。</p>
+                </div>
+
+                <h3 style="color: #1b5e3f; margin: 25px 0 15px 0;">📋 Structure Checklist | 结构清单:</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox" id="c1"><span>My introduction has a hook, lead-in, and thesis <span class="chinese">| 我的介绍有钩子、引入和论点</span></span></li>
+                    <li><input type="checkbox" id="c2"><span>My thesis has exactly 3 points <span class="chinese">| 我的论点正好有3个要点</span></span></li>
+                    <li><input type="checkbox" id="c3"><span>I have 3 body paragraphs <span class="chinese">| 我有3个正文段落</span></span></li>
+                    <li><input type="checkbox" id="c4"><span>Each body paragraph has: transition, topic sentence, evidence, explanation, concluding sentence <span class="chinese">| 每个正文段落有：转换词、主题句、证据、解释、结论句</span></span></li>
+                    <li><input type="checkbox" id="c5"><span>My conclusion restates my thesis in DIFFERENT words <span class="chinese">| 我的结论用不同的话重述了我的论点</span></span></li>
+                </ul>
+
+                <h3 style="color: #1b5e3f; margin: 25px 0 15px 0;">📚 Evidence Checklist | 证据清单:</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox" id="c6"><span>I used evidence from 3 DIFFERENT sources <span class="chinese">| 我使用了3个不同来源的证据</span></span></li>
+                    <li><input type="checkbox" id="c7"><span>Each quote has a citation: (Author page#) <span class="chinese">| 每个引用都有出处：（作者 页码）</span></span></li>
+                    <li><input type="checkbox" id="c8"><span>I explained WHY each quote is important <span class="chinese">| 我解释了为什么每个引用很重要</span></span></li>
+                    <li><input type="checkbox" id="c9"><span>I did NOT just repeat the quotes <span class="chinese">| 我没有只是重复引用</span></span></li>
+                </ul>
+
+                <h3 style="color: #1b5e3f; margin: 25px 0 15px 0;">✏️ Grammar Checklist | 语法清单:</h3>
+                <ul class="checklist">
+                    <li><input type="checkbox" id="c10"><span>Capital letters at the start of sentences <span class="chinese">| 句子开头用大写字母</span></span></li>
+                    <li><input type="checkbox" id="c11"><span>Periods at the end of sentences <span class="chinese">| 句子末尾用句号</span></span></li>
+                    <li><input type="checkbox" id="c12"><span>Quotation marks around quotes: "like this" <span class="chinese">| 引用周围有引号："像这样"</span></span></li>
+                    <li><input type="checkbox" id="c13"><span>I checked my spelling <span class="chinese">| 我检查了我的拼写</span></span></li>
+                </ul>
+
+                <div class="button-row">
+                    <button class="btn-primary" onclick="generateFullEssay()" style="font-size: 1.2em; padding: 18px 35px;">
+                        📄 View Complete Essay | 查看完整论文
+                    </button>
+                    <button class="btn-secondary" onclick="downloadEssay()" style="font-size: 1.2em; padding: 18px 35px;">
+                        ⬇️ Download Essay | 下载论文
+                    </button>
+                </div>
+
+                <div class="preview-box" id="fullEssayPreview" style="margin-top: 30px;">
+                    <h4>📝 Your Complete Essay | 你的完整论文:</h4>
+                    <div class="preview-text" id="fullEssayText" style="font-size: 1.1em;">
+                        <p style="color: #999; text-align: center;">Click "View Complete Essay" to see your full essay here.<br><span class="chinese">点击"查看完整论文"在这里查看你的完整论文。</span></p>
+                    </div>
+                </div>
+
+                <div id="wordCountSummary" style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; display: none;">
+                    <strong>Total Word Count | 总字数:</strong> <span id="totalWords">0</span> words
+                    <br><span class="chinese">目标：至少250-300字</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedPrompt = null;
+
+        function selectPrompt(num) {
+            // Remove selected from all
+            document.querySelectorAll('.prompt-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Add selected to clicked
+            document.querySelectorAll('.prompt-card')[num - 1].classList.add('selected');
+            selectedPrompt = num;
+            
+            // Show selected prompt
+            const prompts = [
+                'Write about how friends help us in difficult times. | 写一篇关于朋友如何在困难时期帮助我们的文章。',
+                'Discuss how technology has changed the way we learn. | 讨论科技如何改变了我们的学习方式。',
+                'Explain how facing challenges helps us grow stronger. | 解释面对挑战如何帮助我们变得更强大。',
+                'Discuss why education is important for our future. | 讨论为什么教育对我们的未来很重要。',
+                'Explain what we can do to help protect the environment. | 解释我们可以做什么来帮助保护环境。'
+            ];
+            
+            document.getElementById('selectedPromptDisplay').style.display = 'block';
+            document.getElementById('selectedPromptText').textContent = prompts[num - 1];
+        }
+
+        function showStep(stepNum) {
+            // Hide all steps
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById('step' + i).classList.remove('active');
+            }
+            
+            // Show selected step
+            document.getElementById('step' + stepNum).classList.add('active');
+            
+            // Update buttons
+            document.querySelectorAll('.step-btn').forEach((btn, index) => {
+                btn.classList.remove('active');
+                if (index < stepNum - 1) {
+                    btn.classList.add('completed');
+                }
+            });
+            document.querySelectorAll('.step-btn')[stepNum - 1].classList.add('active');
+            
+            // Update progress bar
+            const progress = (stepNum / 6) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function insertStarter(textareaId, text) {
+            const textarea = document.getElementById(textareaId);
+            if (textarea.value === '' || textarea.value.endsWith(' ')) {
+                textarea.value += text;
+            } else {
+                textarea.value += ' ' + text;
+            }
+            textarea.focus();
+            updateWordCount(textareaId);
+        }
+
+        function updateWordCount(textareaId) {
+            const text = document.getElementById(textareaId).value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            const countDiv = document.getElementById(textareaId + 'Count');
+            countDiv.textContent = words + ' words';
+            
+            if (words >= 2) {
+                countDiv.className = 'word-count good';
+            } else if (words >= 1) {
+                countDiv.className = 'word-count warning';
+            } else {
+                countDiv.className = 'word-count';
+            }
+        }
+
+        function previewIntro() {
+            const hook = document.getElementById('introHook').value;
+            const leadIn = document.getElementById('introLeadIn').value;
+            const thesis = document.getElementById('introThesis').value;
+            
+            const preview = `${hook} ${leadIn} ${thesis}`.trim();
+            document.getElementById('introPreviewText').textContent = preview || 'No content yet. | 还没有内容。';
+            document.getElementById('introPreview').style.display = 'block';
+        }
+
+        function previewBody(num) {
+            const topic = document.getElementById('body' + num + 'Topic').value;
+            const evidence = document.getElementById('body' + num + 'Evidence').value;
+            const explain = document.getElementById('body' + num + 'Explain').value;
+            const conclude = document.getElementById('body' + num + 'Conclude').value;
+            
+            const preview = `${topic} ${evidence} ${explain} ${conclude}`.trim();
+            document.getElementById('body' + num + 'PreviewText').textContent = preview || 'No content yet. | 还没有内容。';
+            document.getElementById('body' + num + 'Preview').style.display = 'block';
+        }
+
+        function previewConclusion() {
+            const trans = document.getElementById('conclusionTrans').value;
+            const restate = document.getElementById('conclusionRestate').value;
+            const final = document.getElementById('conclusionFinal').value;
+            
+            const preview = `${trans} ${restate} ${final}`.trim();
+            document.getElementById('conclusionPreviewText').textContent = preview || 'No content yet. | 还没有内容。';
+            document.getElementById('conclusionPreview').style.display = 'block';
+        }
+
+        function generateFullEssay() {
+            let essay = '';
+            
+            // Introduction
+            const hook = document.getElementById('introHook').value;
+            const leadIn = document.getElementById('introLeadIn').value;
+            const thesis = document.getElementById('introThesis').value;
+            essay += `${hook} ${leadIn} ${thesis}\n\n`;
+            
+            // Body paragraphs
+            for (let i = 1; i <= 3; i++) {
+                const topic = document.getElementById('body' + i + 'Topic').value;
+                const evidence = document.getElementById('body' + i + 'Evidence').value;
+                const explain = document.getElementById('body' + i + 'Explain').value;
+                const conclude = document.getElementById('body' + i + 'Conclude').value;
+                essay += `${topic} ${evidence} ${explain} ${conclude}\n\n`;
+            }
+            
+            // Conclusion
+            const trans = document.getElementById('conclusionTrans').value;
+            const restate = document.getElementById('conclusionRestate').value;
+            const final = document.getElementById('conclusionFinal').value;
+            essay += `${trans} ${restate} ${final}`;
+            
+            essay = essay.trim();
+            
+            document.getElementById('fullEssayText').textContent = essay || 'Your essay will appear here. Complete all sections first! | 你的论文将在这里显示。请先完成所有部分！';
+            
+            // Word count
+            const words = essay ? essay.split(/\s+/).length : 0;
+            document.getElementById('totalWords').textContent = words;
+            document.getElementById('wordCountSummary').style.display = 'block';
+        }
+
+        function downloadEssay() {
+            generateFullEssay();
+            const essay = document.getElementById('fullEssayText').textContent;
+            
+            // Add prompt at top
+            let fullText = '';
+            if (selectedPrompt) {
+                const prompts = [
+                    'Prompt 1: The Power of Friendship',
+                    'Prompt 2: Technology in Our Lives',
+                    'Prompt 3: Overcoming Challenges',
+                    'Prompt 4: The Importance of Education',
+                    'Prompt 5: Protecting Our Environment'
+                ];
+                fullText = prompts[selectedPrompt - 1] + '\n\n';
+            }
+            fullText += essay;
+            
+            const blob = new Blob([fullText], {type: 'text/plain;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            
+            const date = new Date();
+            const dateStr = date.toISOString().split('T')[0];
+            a.download = 'My_Essay_' + dateStr + '.txt';
+            
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize
+        showStep(1);
+    </script>
+</body>
+</html>
