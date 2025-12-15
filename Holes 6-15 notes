@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holes Chapters 6-15 Interactive Learning Module</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .question {
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .multiple-choice {
+            margin: 10px 0;
+        }
+        .multiple-choice label {
+            display: block;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .results {
+            display: none;
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .print-area {
+            display: none;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-area {
+                display: block !important;
+            }
+            body {
+                background-color: white;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+        }
+        .student-info {
+            background-color: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .hint-button {
+            background-color: #95a5a6;
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        .hint-button:hover {
+            background-color: #7f8c8d;
+        }
+        .hint {
+            display: none;
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 3px;
+            font-size: 14px;
+            color: #856404;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="container">
+        <h1>Holes Chapters 6-15 Interactive Learning Module</h1>
+        
+        <div class="student-info">
+            <h3>Student Information</h3>
+            <label>Name: <input type="text" id="studentName" placeholder="Enter your full name"></label><br><br>
+            <label>Date: <input type="text" id="studentDate" placeholder="MM/DD/YYYY"></label>
+        </div>
+
+        <form id="learningModule">
+            <!-- Section 1: Character Matching -->
+            <div class="section">
+                <h2>一、人物匹配（Fill in the Blanks）</h2>
+                <div class="question">
+                    <label>1. Stanley's nickname in Camp Green Lake is ________.</label>
+                    <input type="text" name="q1" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint1')">Show Hint</button>
+                    <div id="hint1" class="hint">Think about what the other boys call Stanley</div>
+                </div>
+                <div class="question">
+                    <label>2. The boy who asks Stanley to give him any interesting findings is ________.</label>
+                    <input type="text" name="q2" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint2')">Show Hint</button>
+                    <div id="hint2" class="hint">This boy wears glasses and is the leader of Group D</div>
+                </div>
+                <div class="question">
+                    <label>3. The counselor who is called "Mom" by the boys is ________.</label>
+                    <input type="text" name="q3" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint3')">Show Hint</button>
+                    <div id="hint3" class="hint">This counselor works with Group D</div>
+                </div>
+                <div class="question">
+                    <label>4. The fastest digger in Group D is ________.</label>
+                    <input type="text" name="q4" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint4')">Show Hint</button>
+                    <div id="hint4" class="hint">This boy doesn't talk much and is very small</div>
+                </div>
+                <div class="question">
+                    <label>5. The mysterious leader of Camp Green Lake is ________.</label>
+                    <input type="text" name="q5" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint5')">Show Hint</button>
+                    <div id="hint5" class="hint">This person has their own cabin and appears in Chapter 11</div>
+                </div>
+                <div class="question">
+                    <label>6. The boy who gets angry when Stanley calls him "Theodore" is ________.</label>
+                    <input type="text" name="q6" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint6')">Show Hint</button>
+                    <div id="hint6" class="hint">This boy has an unusual nickname related to body odor</div>
+                </div>
+                <div class="question">
+                    <label>7. X-Ray's real name is ________.</label>
+                    <input type="text" name="q7" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint7')">Show Hint</button>
+                    <div id="hint7" class="hint">It's a short name that sounds like "king"</div>
+                </div>
+            </div>
+
+            <!-- Section 2: Key Plot Completion -->
+            <div class="section">
+                <h2>二、关键情节填空（Key Plot Completion）</h2>
+                <div class="question">
+                    <label>1. Stanley was arrested because he was accused of stealing ________. In fact, the sneakers fell from an overpass and hit him on the head.</label>
+                    <input type="text" name="q8" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint8')">Show Hint</button>
+                    <div id="hint8" class="hint">These belonged to a famous baseball player</div>
+                </div>
+                <div class="question">
+                    <label>2. Stanley's great-great-grandfather ________ broke his promise to Madame Zeroni, leading to a family curse.</label>
+                    <input type="text" name="q9" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint9')">Show Hint</button>
+                    <div id="hint9" class="hint">His name starts with 'E' and sounds like "Elijah"</div>
+                </div>
+                <div class="question">
+                    <label>3. The most dangerous creature in Camp Green Lake is the ________, which has 11 yellow spots and red eyes.</label>
+                    <input type="text" name="q10" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint10')">Show Hint</button>
+                    <div id="hint10" class="hint">It's a reptile with spots</div>
+                </div>
+                <div class="question">
+                    <label>4. Stanley found a ________ but couldn't get a day off because the Warden wasn't interested in it.</label>
+                    <input type="text" name="q11" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint11')">Show Hint</button>
+                    <div id="hint11" class="hint">This is something ancient preserved in rock</div>
+                </div>
+                <div class="question">
+                    <label>5. When Stanley found the gold tube with "________" engraved on it, he gave it to X-Ray as promised.</label>
+                    <input type="text" name="q12" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint12')">Show Hint</button>
+                    <div id="hint12" class="hint">Two capital letters that stand for "Kissing Kate Barlow"</div>
+                </div>
+                <div class="question">
+                    <label>6. The Warden rewarded X-Ray with a ________ after he reported the gold tube.</label>
+                    <input type="text" name="q13" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint13')">Show Hint</button>
+                    <div id="hint13" class="hint">This reward involved getting clean</div>
+                </div>
+                <div class="question">
+                    <label>7. The rule for digging holes in Camp Green Lake is: each hole must be ________.</label>
+                    <input type="text" name="q14" placeholder="Your answer">
+                    <button type="button" class="hint-button" onclick="toggleHint('hint14')">Show Hint</button>
+                    <div id="hint14" class="hint">Think about the dimensions - how deep and wide?</div>
+                </div>
+            </div>
+
+            <!-- Section 3: Multiple Choice -->
+            <div class="section">
+                <h2>三、细节选择题（Multiple Choice）</h2>
+                <div class="question">
+                    <label>1. Why did some campers want to be bitten by scorpions or small rattlesnakes?</label>
+                    <div class="multiple-choice">
+                        <label><input type="radio" name="q15" value="A"> A. To test their courage</label>
+                        <label><input type="radio" name="q15" value="B"> B. To get a day or two off from digging</label>
+                        <label><input type="radio" name="q15" value="C"> C. To show off to other campers</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <label>2. What is the real purpose of digging holes at Camp Green Lake?</label>
+                    <div class="multiple-choice">
+                        <label><input type="radio" name="q16" value="A"> A. To build character</label>
+                        <label><input type="radio" name="q16" value="B"> B. To help campers lose weight</label>
+                        <label><input type="radio" name="q16" value="C"> C. To find something for the Warden</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <label>3. Why did X-Ray want Stanley to give him any interesting findings?</label>
+                    <div class="multiple-choice">
+                        <label><input type="radio" name="q17" value="A"> A. He had been at camp longer and never found anything</label>
+                        <label><input type="radio" name="q17" value="B"> B. He was the smallest boy and needed help</label>
+                        <label><input type="radio" name="q17" value="C"> C. He wanted to sell the findings for money</label>
+                    </div>
+                </div>
+                <div class="question">
+                    <label>4. How did the Warden show her authority when she first appeared?</label>
+                    <div class="multiple-choice">
+                        <label><input type="radio" name="q18" value="A"> A. She gave the boys extra food</label>
+                        <label><input type="radio" name="q18" value="B"> B. She forced Mr. Pendanski to refill the canteens and threatened him</label>
+                        <label><input type="radio" name="q18" value="C"> C. She praised X-Ray for his discovery</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Short Answer -->
+            <div class="section">
+                <h2>四、简答题（Short Answer）</h2>
+                <div class="question">
+                    <label>1. Why did Stanley agree to give all interesting findings to X-Ray?</label>
+                    <textarea name="q19" placeholder="Your answer - explain your thinking"></textarea>
+                </div>
+                <div class="question">
+                    <label>2. What did Mr. Pendanski's discussion about "life goals" reveal about his character?</label>
+                    <textarea name="q20" placeholder="Your answer - explain your thinking"></textarea>
+                </div>
+                <div class="question">
+                    <label>3. Why wasn't the Warden interested in Stanley's fossil?</label>
+                    <textarea name="q21" placeholder="Your answer - explain your thinking"></textarea>
+                </div>
+                <div class="question">
+                    <label>4. How did Stanley feel when he dug his first hole? What challenges did he face?</label>
+                    <textarea name="q22" placeholder="Your answer - explain your thinking"></textarea>
+                </div>
+            </div>
+
+            <!-- Section 5: Theme Reflection -->
+            <div class="section">
+                <h2>五、主题思考（Theme Reflection）</h2>
+                <div class="question">
+                    <label>1. The "curse" on Stanley's family runs through the story. How does it affect Stanley's life in these chapters?</label>
+                    <textarea name="q23" placeholder="Your answer - explain your thinking"></textarea>
+                </div>
+                <div class="question">
+                    <label>2. What does the gold tube with "KB" imply? Why is the Warden so interested in it?</label>
+                    <textarea name="q24" placeholder="Your answer - explain your thinking"></textarea>
+                </div>
+                <div class="question">
+                    <label>3. How does Stanley's relationship with the other boys in Group D change from Chapter 6 to 15?</label>
+                    <textarea name="q25" placeholder="Your answer - explain your thinking"></textarea>
+                </div>
+            </div>
+
+            <div class="no-print" style="text-align: center; margin-top: 30px;">
+                <button type="button" onclick="submitAnswers()">Submit Answers</button>
+                <button type="button" onclick="printResults()">Print Results</button>
+                <button type="reset">Clear Form</button>
+            </div>
+        </form>
+
+        <div id="results" class="results">
+            <h2>Your Completed Assignment</h2>
+            <div id="resultsContent"></div>
+        </div>
+
+        <div id="printArea" class="print-area"></div>
+    </div>
+
+    <script>
+        function toggleHint(hintId) {
+            const hint = document.getElementById(hintId);
+            hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function submitAnswers() {
+            const form = document.getElementById('learningModule');
+            const formData = new FormData(form);
+            const studentName = document.getElementById('studentName').value || 'Student Name';
+            const studentDate = document.getElementById('studentDate').value || 'Date';
+            
+            let resultsHTML = `
+                <div style="border: 2px solid #333; padding: 20px; margin: 20px 0;">
+                    <h3 style="text-align: center; color: #2c3e50;">Holes Chapters 6-15 Guided Notes</h3>
+                    <p><strong>Name:</strong> ${studentName}</p>
+                    <p><strong>Date:</strong> ${studentDate}</p>
+                    <hr>
+            `;
+
+            // Section 1
+            resultsHTML += '<h4>一、人物匹配（Fill in the Blanks）</h4>';
+            for (let i = 1; i <= 7; i++) {
+                const answer = formData.get(`q${i}`) || '[Not answered]';
+                resultsHTML += `<p>${i}. ${getQuestionText(i)}<br><strong>Answer:</strong> ${answer}</p>`;
+            }
+
+            // Section 2
+            resultsHTML += '<h4>二、关键情节填空（Key Plot Completion）</h4>';
+            for (let i = 8; i <= 14; i++) {
+                const answer = formData.get(`q${i}`) || '[Not answered]';
+                resultsHTML += `<p>${i-7}. ${getQuestionText(i)}<br><strong>Answer:</strong> ${answer}</p>`;
+            }
+
+            // Section 3
+            resultsHTML += '<h4>三、细节选择题（Multiple Choice）</h4>';
+            for (let i = 15; i <= 18; i++) {
+                const answer = formData.get(`q${i}`) || '[Not answered]';
+                resultsHTML += `<p>${i-14}. ${getQuestionText(i)}<br><strong>Answer:</strong> ${answer}</p>`;
+            }
+
+            // Section 4
+            resultsHTML += '<h4>四、简答题（Short Answer）</h4>';
+            for (let i = 19; i <= 22; i++) {
+                const answer = formData.get(`q${i}`) || '[Not answered]';
+                resultsHTML += `<p>${i-18}. ${getQuestionText(i)}<br><strong>Answer:</strong> ${answer}</p>`;
+            }
+
+            // Section 5
+            resultsHTML += '<h4>五、主题思考（Theme Reflection）</h4>';
+            for (let i = 23; i <= 25; i++) {
+                const answer = formData.get(`q${i}`) || '[Not answered]';
+                resultsHTML += `<p>${i-22}. ${getQuestionText(i)}<br><strong>Answer:</strong> ${answer}</p>`;
+            }
+
+            resultsHTML += '</div>';
+            
+            document.getElementById('resultsContent').innerHTML = resultsHTML;
+            document.getElementById('results').style.display = 'block';
+            document.getElementById('printArea').innerHTML = resultsHTML;
+            
+            window.scrollTo(0, document.getElementById('results').offsetTop);
+        }
+
+        function getQuestionText(questionNumber) {
+            const questions = {
+                1: "Stanley's nickname in Camp Green Lake is ________.",
+                2: "The boy who asks Stanley to give him any interesting findings is ________.",
+                3: "The counselor who is called \"Mom\" by the boys is ________.",
+                4: "The fastest digger in Group D is ________.",
+                5: "The mysterious leader of Camp Green Lake is ________.",
+                6: "The boy who gets angry when Stanley calls him \"Theodore\" is ________.",
+                7: "X-Ray's real name is ________.",
+                8: "Stanley was arrested because he was accused of stealing ________. In fact, the sneakers fell from an overpass and hit him on the head.",
+                9: "Stanley's great-great-grandfather ________ broke his promise to Madame Zeroni, leading to a family curse.",
+                10: "The most dangerous creature in Camp Green Lake is the ________, which has 11 yellow spots and red eyes.",
+                11: "Stanley found a ________ but couldn't get a day off because the Warden wasn't interested in it.",
+                12: "When Stanley found the gold tube with \"________\" engraved on it, he gave it to X-Ray as promised.",
+                13: "The Warden rewarded X-Ray with a ________ after he reported the gold tube.",
+                14: "The rule for digging holes in Camp Green Lake is: each hole must be ________.",
+                15: "Why did some campers want to be bitten by scorpions or small rattlesnakes?",
+                16: "What is the real purpose of digging holes at Camp Green Lake?",
+                17: "Why did X-Ray want Stanley to give him any interesting findings?",
+                18: "How did the Warden show her authority when she first appeared?",
+                19: "Why did Stanley agree to give all interesting findings to X-Ray?",
+                20: "What did Mr. Pendanski's discussion about \"life goals\" reveal about his character?",
+                21: "Why wasn't the Warden interested in Stanley's fossil?",
+                22: "How did Stanley feel when he dug his first hole? What challenges did he face?",
+                23: "The \"curse\" on Stanley's family runs through the story. How does it affect Stanley's life in these chapters?",
+                24: "What does the gold tube with \"KB\" imply? Why is the Warden so interested in it?",
+                25: "How does Stanley's relationship with the other boys in Group D change from Chapter 6 to 15?"
+            };
+            return questions[questionNumber] || "";
+        }
+
+        function printResults() {
+            window.print();
+        }
+
+        // Set current date as default
+        document.getElementById('studentDate').value = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>
