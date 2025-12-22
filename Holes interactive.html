@@ -1,0 +1,924 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #181a1f; -webkit-text-stroke: #181a1f; background-color: #ffffff; min-height: 18.0px}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 16.0px 'Helvetica Neue'; color: #181a1f; -webkit-text-stroke: #181a1f; background-color: #ffffff}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p2"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p2"><span class="s1">&lt;head&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;Interactive Learning Module: Holes by Louis Sachar&lt;/title&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>:root {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>--primary: #e67e22;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>--secondary: #2c3e50;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>--light: #f8f9fa;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>--accent: #f39c12;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>--danger: #e74c3c;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>--success: #27ae60;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>* {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-family: 'Arial Rounded MT Bold', 'Helvetica Neue', sans-serif;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>body {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background-color: #f5f5f0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--secondary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>line-height: 1.6;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>header {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 30px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background-color: var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 8px rgba(0,0,0,0.1);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>h1 {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 2.2rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>h2 {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.8rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 25px 0 15px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 2px solid var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding-bottom: 5px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.container {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>max-width: 1200px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 auto;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 30px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 12px rgba(0,0,0,0.1);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.print-btn {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 10px 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--secondary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cursor: pointer;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>float: right;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.print-btn:hover {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: #1a2530;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.tabs {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 25px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 2px solid var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>clear: both;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.tab-btn {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 12px 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--light);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-top-left-radius: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-top-right-radius: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cursor: pointer;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--secondary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-right: 5px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.tab-btn.active {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.tab-content {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>display: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.tab-content.active {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>display: block;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>animation: fadeIn 0.5s ease;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>@keyframes fadeIn {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>from { opacity: 0; }</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>to { opacity: 1; }</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.collapsible {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--light);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--secondary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cursor: pointer;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 15px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>width: 100%;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #ddd;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>text-align: left;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.1rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.collapsible:after {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>content: '+';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>float: right;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.collapsible.active:after {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>content: '-';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.content {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 0 15px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>max-height: 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>overflow: hidden;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>transition: max-height 0.3s ease;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-left: 3px solid var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.quiz-container {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--light);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 25px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 20px 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.question {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1.1rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.quiz-select {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>width: 100%;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.mini-feedback {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.correct {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--success);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.incorrect {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: var(--danger);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.drag-container, .cloze-container {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--light);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 25px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 20px 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.drag-items {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>display: flex;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>flex-wrap: wrap;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>gap: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 20px 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.drag-item {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 10px 15px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cursor: grab;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.drop-zones {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>display: grid;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>gap: 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 20px 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.drop-zone {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border: 2px dashed var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>min-height: 150px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.drop-zone h4 {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-bottom: 15px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.cloze-blank {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>width: 150px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>height: 30px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 0 5px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-bottom: 2px solid var(--primary);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-top: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-left: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-right: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>outline: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.cloze-feedback {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin: 20px 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 15px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>display: none;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-weight: bold;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.cloze-feedback.correct {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--success);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.cloze-feedback.incorrect {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>background: var(--danger);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: white;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>.discussion-response {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>width: 100%;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 10px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border: 1px solid #ccc;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>border-radius: 6px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-top: 8px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 1rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>footer {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>text-align: center;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>margin-top: 40px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>padding: 20px;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>color: #7f8c8d;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>font-size: 0.9rem;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>@media print {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>body, .container, .quiz-container, .drag-container, .cloze-container {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>background: white !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>color: black !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>box-shadow: none !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>padding: 10px !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>.tab-content {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>display: block !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>.content {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>max-height: none !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>overflow: visible !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>padding: 15px !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>.tab-btn, .collapsible:after, .print-btn, .quiz-btn, .drag-item, .drop-zone, .discussion-response {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>display: none !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>header {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>background: #e67e22 !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>color: white !important;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
+<p class="p2"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p2"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;header&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;h1&gt;Interactive Learning Module: Holes&lt;/h1&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;Explore the story, characters, and themes of Louis Sachar's beloved novel&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div class="container"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;button class="print-btn" id="print-btn"&gt;Print This Module&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tabs"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="tab-btn active" data-tab="overview"&gt;Book Overview&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="tab-btn" data-tab="characters"&gt;Characters&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="tab-btn" data-tab="plot"&gt;Plot &amp; Timeline&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="tab-btn" data-tab="themes"&gt;Themes &amp; Symbols&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="tab-btn" data-tab="rhetorical"&gt;Rhetorical Devices&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="tab-btn" data-tab="vocabulary"&gt;Vocabulary (Frayer Model)&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="tab-btn" data-tab="activities"&gt;Interactive Activities&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Tab 1: Book Overview --&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tab-content active" id="overview"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;About the Book&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;em&gt;Holes&lt;/em&gt; (1998) is a Newbery Medal-winning novel by Louis Sachar, blending adventure, mystery, and family curses across three interwoven timelines. The story follows Stanley Yelnats, a boy wrongfully sent to Camp Green Lake—a brutal juvenile facility where boys dig 5-foot holes daily under the Texas sun. What seems like punishment hides a dark secret tied to Stanley’s family, a legendary outlaw, and a century-old curse.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Key Facts&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;li&gt;Author: Louis Sachar (also known for &lt;em&gt;Sideways Stories from Wayside School&lt;/em&gt;)&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;li&gt;Published: 1998&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;li&gt;Awards: Newbery Medal (1999), National Book Award for Young People’s Literature (1998)&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;li&gt;Genre: Adventure, Mystery, Realistic Fiction (with supernatural elements)&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;li&gt;Target Audience: Middle School (Grades 6–8)&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Why It Matters&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;&lt;em&gt;Holes&lt;/em&gt; explores timeless themes like friendship, justice, and resilience while addressing real-world issues (prejudice, wrongful conviction). Its non-linear structure and memorable characters make it a favorite for teaching literary analysis—especially how past actions shape the present.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Tab 2: Characters --&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tab-content" id="characters"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Main Characters&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="character-grid"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="character-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="character-name"&gt;Stanley Yelnats IV&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="character-role"&gt;Protagonist&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;A kind-hearted, overweight teen wrongfully convicted of stealing Clyde Livingston’s sneakers. Sent to Camp Green Lake, he evolves from a bullied outcast to a brave leader, forming a life-changing friendship with Zero.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Key Traits:&lt;/strong&gt; Loyal, resilient, selfless&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Family Curse:&lt;/strong&gt; Descended from Elya Yelnats, who broke a promise to Madame Zeroni.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="character-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="character-name"&gt;Zero (Hector Zeroni)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;A quiet, misunderstood boy at Camp Green Lake. Initially labeled “stupid” (hence “Zero”), he’s secretly a math prodigy and Madame Zeroni’s descendant. He stole Clyde Livingston’s sneakers, leading to Stanley’s wrongful arrest.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Key Traits:&lt;/strong&gt; Intelligent, loyal, resilient&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Secret:&lt;/strong&gt; His real name is Hector Zeroni—he’s been homeless since his mother abandoned him.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="character-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="character-name"&gt;The Warden (Ms. Walker)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="character-role"&gt;Antagonist&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;The cruel, greedy owner of Camp Green Lake. She forces boys to dig holes to find Kissin’ Kate Barlow’s hidden treasure—her family’s lost fortune.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Key Traits:&lt;/strong&gt; Cruel, manipulative, obsessed&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Weapon:&lt;/strong&gt; Rattlesnake venom nail polish (toxic when wet).&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="character-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="character-name"&gt;Kissin’ Kate Barlow&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;A legendary outlaw with a tragic past. Once a beloved schoolteacher (Katherine Barlow), she turned to crime after her lover (Sam, the onion man) was murdered by racists. She kissed the men she killed—hence her nickname.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Key Traits:&lt;/strong&gt; Vengeful, tragic, loyal&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;&lt;strong&gt;Legacy:&lt;/strong&gt; Buried a treasure that the Warden’s family has searched for generations.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="character-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="character-name"&gt;Supporting Cast&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;strong&gt;Mr. Sir:&lt;/strong&gt; A bitter counselor who torments Stanley (quits smoking, eats sunflower seeds).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;strong&gt;Mr. Pendanski (“Mom”):&lt;/strong&gt; A hypocritical counselor who claims to care for boys but mocks Zero.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;strong&gt;X-Ray:&lt;/strong&gt; Leader of Group D—shrewd and manipulative, he convinces Stanley to give him any “finds.”&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;strong&gt;Elya Yelnats:&lt;/strong&gt; Stanley’s great-great-grandfather, whose broken promise caused the family curse.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;li&gt;&lt;strong&gt;Madame Zeroni:&lt;/strong&gt; An old Egyptian woman who cursed Elya Yelnats—Zero’s great-great-grandmother.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Character Relationships&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Stanley &amp; Zero&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Stanley and Zero’s friendship is the heart of the novel. They form a “trade”: Zero digs part of Stanley’s hole in exchange for reading lessons. Their bond transcends race, class, and social labels—Stanley carries Zero up “God’s Thumb” to break the curse, fulfilling Elya Yelnats’ promise to Madame Zeroni.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Elya Yelnats &amp; Madame Zeroni&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Elya Yelnats fell in love with Myra Menke but couldn’t compete with Igor Barkov’s fat pig. Madame Zeroni gave him a piglet and taught him to carry it up a mountain to make it grow—on the condition that Elya carry her up the mountain afterward. Elya forgot his promise, leading to a curse: “You and your descendants will be doomed for all eternity.”&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Character Comparison Chart&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;table class="comparison-table"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;thead&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;th&gt;Character&lt;/th&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;th&gt;Core Motivation&lt;/th&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;th&gt;Key Strength&lt;/th&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;th&gt;Key Flaw/Struggle&lt;/th&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;th&gt;Character Arc&lt;/th&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/thead&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;tbody&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Stanley Yelnats IV&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;To prove his innocence &amp; break the family curse&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Loyalty &amp; willingness to sacrifice for others&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Low self-esteem (bullied for weight/ “bad luck”)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;From passive victim to brave leader&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Zero (Hector Zeroni)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;To find identity &amp; belonging (reconnect with mother)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Mathematical genius &amp; emotional resilience&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Illiteracy &amp; fear of vulnerability (hides his past)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;From silent outcast to confident, articulate individual&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;The Warden (Ms. Walker)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;To find Kate Barlow’s treasure (avenge family poverty)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Manipulation &amp; authority over others&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Greedy &amp; cruel (willing to exploit children)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;From powerful authority to desperate criminal (camp shut down)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Kissin’ Kate Barlow&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;To avenge Sam’s murder &amp; defy injustice&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Love for Sam &amp; moral courage (stood up to racism)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Vengefulness (turned to crime after loss)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;From kind schoolteacher to ruthless outlaw&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Elya Yelnats&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;To win Myra’s hand in marriage&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Determination (carried the piglet up the mountain)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;Impulsiveness (forgot his promise to Madame Zeroni)&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;td&gt;From naive lover to regretful curse-bearer&lt;/td&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/tbody&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Tab 3: Plot &amp; Timeline --&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tab-content" id="plot"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Three Interwoven Timelines&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;The novel’s plot unfolds across three timelines, all connected by Camp Green Lake and the Yelnats family curse:&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3&gt;1. Stanley’s Time at Camp Green Lake (1990s)&lt;/h3&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="timeline"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="timeline-item"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="timeline-date"&gt;Day 1&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Stanley arrives at Camp Green Lake, learns he must dig 5-foot holes daily. Meets Group D (X-Ray, Zero, Armpit, etc.).&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="timeline-item"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="timeline-date"&gt;Weeks Later&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Stanley finds a gold tube with “KB” (Kissin’ Kate Barlow) but gives it to X-Ray to stay in the group’s good graces.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="timeline-item"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="timeline-date"&gt;Months Later&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Stanley teaches Zero to read; Zero digs Stanley’s hole. The Warden bans the trade, and Zero runs away after hitting Mr. Pendanski.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="timeline-item"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="timeline-date"&gt;Escape &amp; Rescue&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Stanley steals a truck to find Zero, crashes it, and tracks Zero to the “Mary Lou” boat. They climb “God’s Thumb” (a mountain), find water and onions, and break the curse.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="timeline-item"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="timeline-date"&gt;Climax&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Stanley and Zero return to Camp Green Lake, dig up Kate Barlow’s treasure, and are trapped by yellow-spotted lizards. They survive (onion blood repels lizards) and are rescued by Stanley’s lawyer.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="timeline-item"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="timeline-date"&gt;Resolution&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;p&gt;Camp Green Lake is shut down. Stanley’s family uses the treasure to buy a new home; Zero finds his mother with the help of private investigators.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3&gt;2. Elya Yelnats’ Promise (1800s)&lt;/h3&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Elya’s Story&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Elya Yelnats, a Latvian teen, falls in love with Myra Menke but couldn’t compete with Igor Barkov’s fat pig. Madame Zeroni gave him a piglet and taught him to carry it up a mountain to make it grow—on the condition that Elya carry her up the mountain afterward. Elya forgets his promise, sails to America, and the curse begins. His descendants (including Stanley) suffer “bad luck” for generations.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3&gt;3. Kissin’ Kate Barlow’s Revenge (1900s)&lt;/h3&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Kate’s Story&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Katherine Barlow is a kind schoolteacher in Green Lake (then a thriving town). She falls in love with Sam, the Black onion man, but their kiss sparks a racist mob. Sam is murdered, the town’s lake dries up (a “divine punishment”), and Katherine becomes the outlaw “Kissin’ Kate Barlow.” She robs Stanley’s great-grandfather (Stanley Yelnats I) and buries her treasure—what the Warden is desperate to find.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Plot Mountain (Story Arc)&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="plot-mountain"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;svg viewBox="0 0 1000 400" xmlns="http://www.w3.org/2000/svg"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;line x1="50" y1="300" x2="950" y2="300" stroke="#2c3e50" stroke-width="3"/&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;path d="M50 300 L200 200 L500 50 L750 200 L950 300" stroke="#e67e22" stroke-width="4" fill="none" stroke-linecap="round"/&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;line x1="50" y1="300" x2="50" y2="350" stroke="#7f8c8d" stroke-width="1" stroke-dasharray="5,5"/&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;line x1="200" y1="200" x2="200" y2="350" stroke="#7f8c8d" stroke-width="1" stroke-dasharray="5,5"/&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;line x1="500" y1="50" x2="500" y2="350" stroke="#7f8c8d" stroke-width="1" stroke-dasharray="5,5"/&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;line x1="750" y1="200" x2="750" y2="350" stroke="#7f8c8d" stroke-width="1" stroke-dasharray="5,5"/&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;line x1="950" y1="300" x2="950" y2="350" stroke="#7f8c8d" stroke-width="1" stroke-dasharray="5,5"/&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/svg&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="plot-label label-exposition"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;strong&gt;Exposition:&lt;/strong&gt;&lt;br&gt;Stanley is convicted &amp; sent to Camp Green Lake; we learn of the Yelnats curse.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="plot-label label-rising"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;strong&gt;Rising Action:&lt;/strong&gt;&lt;br&gt;Stanley finds the KB tube; befriends Zero; Zero runs away; Stanley chases him to God’s Thumb.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="plot-label label-climax"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;strong&gt;Climax:&lt;/strong&gt;&lt;br&gt;Stanley &amp; Zero find the treasure, are trapped by lizards, &amp; are rescued (proving innocence).</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="plot-label label-falling"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;strong&gt;Falling Action:&lt;/strong&gt;&lt;br&gt;The curse is lifted; the Warden is exposed; Camp Green Lake is shut down.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="plot-label label-resolution"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;strong&gt;Resolution:&lt;/strong&gt;&lt;br&gt;Stanley’s family prospers; Zero reunites with his mother.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Tab 4: Themes &amp; Symbols --&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tab-content" id="themes"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Major Themes&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Friendship &amp; Loyalty&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Stanley and Zero’s friendship is the novel’s emotional core. They sacrifice for each other (Stanley carries Zero up the mountain; Zero digs Stanley’s hole) and prove that loyalty can overcome even the worst circumstances. Their bond transcends race, class, and social labels.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Justice &amp; Injustice&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;The novel critiques systemic injustice: Stanley’s wrongful conviction, Sam’s murder (due to racism), and the Warden’s exploitation of vulnerable boys. It asks: Who gets to define “justice” and who is left behind?&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Fate vs. Free Will&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;The Yelnats family curse suggests fate—but Stanley’s choice to help Zero proves free will can break cycles. Elya’s mistake (fate) is corrected by Stanley’s selflessness (free will), showing that we control our own redemption.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Resilience &amp; Growth&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Camp Green Lake’s brutal conditions force Stanley to grow physically (he loses weight, gains strength) and emotionally (he stands up for himself and others). Zero, too, finds his voice and identity—proving resilience isn’t about being strong, but about keeping going.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Key Symbols&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Holes&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Literal: Punishment at Camp Green Lake. Metaphorical: “Holes” in the truth (secrets), “holes” in justice (wrongful conviction), and “holes” in the past (unresolved trauma). Digging holes forces boys to confront the past—both the camp’s and their own.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Onions&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Symbolize life, healing, and protection. Sam’s onions cure illness, repel yellow-spotted lizards, and sustain Stanley and Zero on God’s Thumb. They represent the power of nature and the “good” that persists despite injustice.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;Yellow-Spotted Lizards&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Represent death and the consequences of greed. They live in holes (hiding from the sun) and are immune to most threats—except onion blood. Their presence reminds characters (and readers) that greed and cruelty lead to destruction.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;God’s Thumb&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;A mountain peak resembling a thumb—Stanley’s great-grandfather’s refuge after Kate Barlow robbed him. It symbolizes hope, redemption, and the fulfillment of promises. Climbing it breaks the curse, as Stanley carries Zero (Madame Zeroni’s descendant) to safety.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Tab 5: Rhetorical Devices --&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tab-content" id="rhetorical"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Rhetorical Devices in &lt;em&gt;Holes&lt;/em&gt;&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;Louis Sachar uses a variety of rhetorical and literary devices to enhance the novel’s meaning, tone, and engagement. Below are the key devices with examples from the text:&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="device-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="device-name"&gt;1. Irony (Situational, Verbal, Dramatic)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; A contrast between expectation and reality.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Examples:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;strong&gt;Situational:&lt;/strong&gt; Camp Green Lake has no lake (it’s a desert); the “character-building” holes are actually a treasure hunt; the yellow-spotted lizards (deadly) don’t bite Stanley and Zero (onion blood repels them).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;strong&gt;Verbal:&lt;/strong&gt; Mr. Pendanski calls himself “Mom” but is cruel and dismissive of the boys.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;strong&gt;Dramatic:&lt;/strong&gt; Readers learn Zero is Madame Zeroni’s descendant before Stanley does (we know he’s the key to breaking the curse).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="device-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="device-name"&gt;2. Foreshadowing&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; Hints or clues about future events in the story.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Examples:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;Stanley’s father’s work on a foot odor cure foreshadows the final “Sploosh” cure (made from Kate Barlow’s spiced peaches).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;References to “God’s Thumb” early in the novel foreshadow Stanley and Zero’s refuge there.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;Sam’s onions being called “healing onions” foreshadows they repel yellow-spotted lizards.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="device-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="device-name"&gt;3. Symbolism&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; Objects or actions that represent abstract ideas (beyond their literal meaning).&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Examples:&lt;/strong&gt; (See the &lt;em&gt;Themes &amp; Symbols&lt;/em&gt; tab for full details)&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;Holes = punishment, secrets, and unresolved trauma.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;Onions = life, healing, and Sam’s legacy.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;Sneakers = fate and injustice (Zero’s theft leads to Stanley’s arrest).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="device-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="device-name"&gt;4. Juxtaposition&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; Placing two ideas, characters, or settings side by side to highlight contrast.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Examples:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;1900s Green Lake (thriving, lush town) vs. 1990s Camp Green Lake (barren desert) – highlights the cost of racism and injustice.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;Stanley (overweight, passive) vs. Zero (small, quiet but strong-willed) – their differences complement each other and strengthen their friendship.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;The Warden’s polished appearance (nail polish, fancy cabin) vs. her cruel actions (exploiting children, using venom) – highlights her moral decay.&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="device-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="device-name"&gt;5. Repetition&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; Repeating words, phrases, or ideas to emphasize a point.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Examples:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;The phrase “I’m not a thief” (Stanley repeats this to himself, emphasizing his innocence).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;The lullaby “If only, if only” (sung by Stanley’s father, Elya Yelnats, and Zero’s mother – links generations and emphasizes longing).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;li&gt;The word “holes” (repeated throughout the novel, reinforcing its symbolic importance).&lt;/li&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="device-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="device-name"&gt;6. Palindrome (Stanley Yelnats)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; A word/phrase that reads the same backward and forward.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Example:&lt;/strong&gt; “Stanley Yelnats” is a palindrome (spelled backward it’s “stanleY stanleY” – the last name Yelnats is Stanley reversed). This symbolizes the cyclical nature of fate and redemption (the curse is broken by a Yelnats helping a Zeroni, completing the cycle started by Elya).&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="device-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="device-name"&gt;7. Flashback&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Definition:&lt;/strong&gt; Shifts to a past event to provide context or depth.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Examples:&lt;/strong&gt; The flashbacks to Elya Yelnats’ promise (1800s) and Kate Barlow’s story (1900s) explain the curse and the camp’s purpose, connecting the past to the present.&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Tab 6: Vocabulary (Frayer Model) --&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tab-content" id="vocabulary"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Key Vocabulary &amp; Rhetorical Devices (Frayer Model)&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;p&gt;The Frayer Model is a tool to explore vocabulary by defining terms, listing characteristics, examples, and non-examples. Below are key terms from &lt;em&gt;Holes&lt;/em&gt; (including rhetorical devices):&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="frayer-grid"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="frayer-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="frayer-term"&gt;Resilience&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;table class="frayer-table"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Definition&lt;/th&gt;&lt;th&gt;Characteristics&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;The ability to recover from difficult situations or adversity.&lt;/td&gt;&lt;td&gt;• Persistence&lt;br&gt;• Courage&lt;br&gt;• Adaptability&lt;br&gt;• Positive mindset&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Examples (from Holes)&lt;/th&gt;&lt;th&gt;Non-Examples&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;• Stanley surviving Camp Green Lake&lt;br&gt;• Zero running away and finding strength&lt;br&gt;• Stanley carrying Zero up God’s Thumb&lt;/td&gt;&lt;td&gt;• Giving up when faced with hardship&lt;br&gt;• Letting fear control actions&lt;br&gt;• Blaming others for misfortune&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="frayer-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="frayer-term"&gt;Irony (Rhetorical Device)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;table class="frayer-table"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Definition&lt;/th&gt;&lt;th&gt;Characteristics&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;A contrast between what is expected and what actually happens (or is said).&lt;/td&gt;&lt;td&gt;• Contrast between expectation and reality&lt;br&gt;• Three types: situational, verbal, dramatic&lt;br&gt;• Often used to highlight themes or humor&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Examples (from Holes)&lt;/th&gt;&lt;th&gt;Non-Examples&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;• Camp Green Lake has no lake (situational)&lt;br&gt;• Mr. Pendanski (Mom) is cruel (verbal)&lt;br&gt;• Readers know Zero is Zeroni’s descendant (dramatic)&lt;/td&gt;&lt;td&gt;• Stating a fact directly (e.g., “Camp Green Lake is hot”)&lt;br&gt;• Predictable outcomes (e.g., a rainstorm in a lake town)&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="frayer-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="frayer-term"&gt;Symbolism (Rhetorical Device)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;table class="frayer-table"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Definition&lt;/th&gt;&lt;th&gt;Characteristics&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;An object, action, or person that represents an abstract idea or concept beyond its literal meaning.&lt;/td&gt;&lt;td&gt;• Links concrete things to abstract ideas&lt;br&gt;• Repeats throughout a text&lt;br&gt;• Enhances theme development&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Examples (from Holes)&lt;/th&gt;&lt;th&gt;Non-Examples&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;• Holes = punishment/secrets&lt;br&gt;• Onions = healing/protection&lt;br&gt;• God’s Thumb = hope/redemption&lt;/td&gt;&lt;td&gt;• Describing an object literally (e.g., “The hole is 5 feet deep”)&lt;br&gt;• Random objects with no recurring meaning&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="frayer-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="frayer-term"&gt;Foreshadowing (Rhetorical Device)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;table class="frayer-table"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Definition&lt;/th&gt;&lt;th&gt;Characteristics&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;Hints or clues in a text that suggest future events or outcomes.&lt;/td&gt;&lt;td&gt;• Subtle (not obvious)&lt;br&gt;• Builds suspense&lt;br&gt;• Connects past and present events&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Examples (from Holes)&lt;/th&gt;&lt;th&gt;Non-Examples&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;• Sam’s onions are called “healing” (foreshadows lizard repellent)&lt;br&gt;• References to God’s Thumb (foreshadows refuge)&lt;br&gt;• Stanley’s dad’s foot odor cure (foreshadows Sploosh)&lt;/td&gt;&lt;td&gt;• Spoiling future events directly (e.g., “Stanley will find treasure”)&lt;br&gt;• Unrelated details with no future connection&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="frayer-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="frayer-term"&gt;Injustice&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;table class="frayer-table"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Definition&lt;/th&gt;&lt;th&gt;Characteristics&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;Unfair treatment or a violation of what is right or just.&lt;/td&gt;&lt;td&gt;• Inequality&lt;br&gt;• Prejudice&lt;br&gt;• Abuse of power&lt;br&gt;• Lack of accountability&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Examples (from Holes)&lt;/th&gt;&lt;th&gt;Non-Examples&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;• Stanley’s wrongful conviction&lt;br&gt;• Sam’s murder due to racism&lt;br&gt;• The Warden exploiting juvenile boys&lt;/td&gt;&lt;td&gt;• Fair punishment for a crime&lt;br&gt;• Equal treatment regardless of race/class&lt;br&gt;• Accountability for unethical actions&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="frayer-card"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="frayer-term"&gt;Juxtaposition (Rhetorical Device)&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;table class="frayer-table"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Definition&lt;/th&gt;&lt;th&gt;Characteristics&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;Placing two or more ideas, characters, or settings side by side to highlight their contrast or similarity.&lt;/td&gt;&lt;td&gt;• Direct comparison/contrast&lt;br&gt;• Emphasizes differences/similarities&lt;br&gt;• Reinforces themes (e.g., justice vs. injustice)&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;th&gt;Examples (from Holes)&lt;/th&gt;&lt;th&gt;Non-Examples&lt;/th&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td&gt;• 1900s Green Lake (lush) vs. 1990s Camp Green Lake (barren)&lt;br&gt;• Stanley (passive) vs. Zero (strong-willed)&lt;br&gt;• Warden’s appearance (polished) vs. actions (cruel)&lt;/td&gt;&lt;td&gt;• Describing one idea/character in isolation&lt;br&gt;• Random pairing of unrelated elements&lt;/td&gt;&lt;/tr&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/table&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;!-- Tab 7: Interactive Activities --&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="tab-content" id="activities"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Quiz: Test Your Knowledge&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="quiz-container"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="question"&gt;1. Why is Stanley sent to Camp Green Lake?&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;select class="quiz-select" data-correct="B. He was wrongfully convicted of stealing Clyde Livingston’s sneakers"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option value="" selected disabled&gt;-- choose --&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;A. He stole a car&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;B. He was wrongfully convicted of stealing Clyde Livingston’s sneakers&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;C. He vandalized a school&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;D. He ran away from home&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="mini-feedback" id="fb1"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="question"&gt;2. What is Zero’s real name?&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;select class="quiz-select" data-correct="C. Hector Zeroni"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option value="" selected disabled&gt;-- choose --&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;A. Rex&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;B. Alan&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;C. Hector Zeroni&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;D. Theodore&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="mini-feedback" id="fb2"&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="question"&gt;3. Why do yellow-spotted lizards not bite Stanley and Zero?&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;select class="quiz-select" data-correct="B. They hate onion blood (Stanley and Zero ate onions)"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option value="" selected disabled&gt;-- choose --&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;A. They are not hungry&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;B. They hate onion blood (Stanley and Zero ate onions)&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;C. The Warden protects them&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;option&gt;D. They are afraid of the treasure&lt;/option&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/select&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="mini-feedback" id="fb3"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Drag-and-Drop: Match Characters to Their Roles&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="drag-container"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Drag each character to the correct role (click and hold to drag):&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="drag-items"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drag-item" draggable="true" data-target="protagonist"&gt;Stanley Yelnats&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drag-item" draggable="true" data-target="antagonist"&gt;The Warden&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drag-item" draggable="true" data-target="sidekick"&gt;Zero&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drag-item" draggable="true" data-target="legend"&gt;Kissin’ Kate Barlow&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drag-item" draggable="true" data-target="counselor"&gt;Mr. Pendanski&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="drop-zones"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drop-zone" id="protagonist"&gt;&lt;h4&gt;Protagonist (Main Character)&lt;/h4&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drop-zone" id="antagonist"&gt;&lt;h4&gt;Antagonist (Villain)&lt;/h4&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drop-zone" id="sidekick"&gt;&lt;h4&gt;Sidekick (Close Friend)&lt;/h4&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drop-zone" id="legend"&gt;&lt;h4&gt;Legendary Figure&lt;/h4&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div class="drop-zone" id="counselor"&gt;&lt;h4&gt;Camp Counselor&lt;/h4&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p id="drag-feedback" style="margin-top: 20px; color: var(--success); display: none;"&gt;Great job! All matches are correct!&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button class="quiz-btn" id="reset-drag"&gt;Reset Drag-and-Drop&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Cloze Test: Vocabulary Assessment&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="cloze-container"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;Fill in the blanks with the correct vocabulary words (type your answer and click "Check Answers"):&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="cloze-text"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>1. Stanley’s __________ (resilience/injustice) allowed him to survive the harsh conditions of Camp Green Lake and stand up for Zero.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="text" class="cloze-blank" id="cloze1" placeholder="Type answer here"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;br&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>2. The fact that Camp Green Lake has no lake is an example of __________ (irony/symbolism), a rhetorical device where expectation differs from reality.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="text" class="cloze-blank" id="cloze2" placeholder="Type answer here"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;br&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>3. In &lt;em&gt;Holes&lt;/em&gt;, onions are a symbol of healing, which is an example of __________ (symbolism/foreshadowing).</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="text" class="cloze-blank" id="cloze3" placeholder="Type answer here"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;br&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>4. Sam’s murder due to racism is a clear example of __________ (injustice/resilience) in the novel.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="text" class="cloze-blank" id="cloze4" placeholder="Type answer here"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;br&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>5. When the author compares 1900s Green Lake to 1990s Camp Green Lake, he uses __________ (juxtaposition/palindrome) to highlight the cost of racism.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="text" class="cloze-blank" id="cloze5" placeholder="Type answer here"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;br&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>6. References to “God’s Thumb” early in the novel are a form of __________ (foreshadowing/repetition) that hints at Stanley and Zero’s future refuge.</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;input type="text" class="cloze-blank" id="cloze6" placeholder="Type answer here"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button class="quiz-btn" id="check-cloze"&gt;Check Answers&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button class="quiz-btn" id="reset-cloze"&gt;Reset Test&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div class="cloze-feedback" id="cloze-feedback"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h2&gt;Discussion Questions&lt;/h2&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;1. How does Stanley’s friendship with Zero change both characters?&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Think about:&lt;/strong&gt; Stanley’s growth from a bullied outcast to a leader, and Zero’s journey from silence to confidence. How do their skills (Stanley’s reading, Zero’s digging/math) complement each other?&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Your response:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;textarea class="discussion-response" rows="4" placeholder="Type your answer here..."&gt;&lt;/textarea&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;2. Why does the author use three timelines? How do they connect?&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Think about:&lt;/strong&gt; How Elya’s promise, Kate’s revenge, and Stanley’s ordeal all tie to the curse and the treasure. How does the non-linear structure build suspense?&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Your response:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;textarea class="discussion-response" rows="4" placeholder="Type your answer here..."&gt;&lt;/textarea&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;3. What does the novel teach about justice? Give examples from the story.&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Think about:&lt;/strong&gt; Stanley’s wrongful conviction, Sam’s murder, and the Warden’s abuse of power. Do you think the ending delivers “justice” for all characters?&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Your response:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;textarea class="discussion-response" rows="4" placeholder="Type your answer here..."&gt;&lt;/textarea&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;button class="collapsible"&gt;4. How does Sachar use irony to make a point about injustice in the novel?&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="content"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Think about:&lt;/strong&gt; The situational irony of Camp Green Lake (no lake, not about character-building) or the dramatic irony of Zero’s heritage. How does this irony highlight systemic flaws?&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;p&gt;&lt;strong&gt;Your response:&lt;/strong&gt;&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>&lt;textarea class="discussion-response" rows="4" placeholder="Type your answer here..."&gt;&lt;/textarea&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;footer&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;Interactive Learning Module: &lt;em&gt;Holes&lt;/em&gt; by Louis Sachar | Designed for Maple Leaf World School&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>&lt;p&gt;Adapted from the novel (1998) by Louis Sachar | Last Updated: 12-22-25&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>// Tab Navigation</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const tabBtns = document.querySelectorAll('.tab-btn');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const tabContents = document.querySelectorAll('.tab-content');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>tabBtns.forEach(btn =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>btn.addEventListener('click', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>tabBtns.forEach(b =&gt; b.classList.remove('active'));</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>tabContents.forEach(c =&gt; c.classList.remove('active'));</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>btn.classList.add('active');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const tabId = btn.getAttribute('data-tab');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>document.getElementById(tabId).classList.add('active');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>// Collapsible Sections</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const collapsibles = document.querySelectorAll('.collapsible');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>collapsibles.forEach(collap =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>collap.addEventListener('click', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>collap.classList.toggle('active');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const content = collap.nextElementSibling;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>content.style.maxHeight = collap.classList.contains('active') ? content.scrollHeight + 'px' : '0';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>// Quiz Drop-Down Instant Feedback</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const rationales = {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>1: "Stanley was innocent—he was at the wrong place at the wrong time when Zero dropped the sneakers on his head. This shows how injustice can happen even to good people.",</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>2: "Zero’s real name is Hector Zeroni, linking him directly to Madame Zeroni and the family curse—making his friendship with Stanley the key to breaking it.",</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>3: "Sam the onion man taught that onions have healing power. Eating them gave Stanley and Zero ‘onion blood,’ which repels the lizards—a symbol of how goodness protects them."</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>document.querySelectorAll('.quiz-select').forEach((sel, idx) =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>sel.addEventListener('change', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const correct = sel.getAttribute('data-correct');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const chosen = sel.value;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const fb = document.getElementById('fb' + (idx + 1));</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>if (chosen === correct) {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>fb.innerHTML = `&lt;span class="correct"&gt;Correct!&lt;/span&gt; ${rationales[idx + 1]}`;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>fb.innerHTML = `&lt;span class="incorrect"&gt;Incorrect.&lt;/span&gt; ${rationales[idx + 1]}`;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>// Drag-and-Drop Activity</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const dragItems = document.querySelectorAll('.drag-item');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const dropZones = document.querySelectorAll('.drop-zone');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const dragFeedback = document.getElementById('drag-feedback');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const dragItemsContainer = document.querySelector('.drag-items');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const resetDragBtn = document.getElementById('reset-drag');</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>dragItems.forEach(item =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>item.addEventListener('dragstart', (e) =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>e.dataTransfer.setData('text/plain', item.getAttribute('data-target'));</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>item.classList.add('dragging');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>item.addEventListener('dragend', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>item.classList.remove('dragging');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>dropZones.forEach(zone =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>zone.addEventListener('dragover', (e) =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>e.preventDefault();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>zone.classList.add('active');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>zone.addEventListener('dragleave', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>zone.classList.remove('active');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>zone.addEventListener('drop', (e) =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>e.preventDefault();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>zone.classList.remove('active');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const targetId = e.dataTransfer.getData('text/plain');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>if (zone.id === targetId) {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>const draggedItem = document.querySelector(`.drag-item[data-target="${targetId}"]`);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>if (draggedItem) {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>zone.appendChild(draggedItem);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>draggedItem.draggable = false;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>const allPlaced = document.querySelectorAll('.drag-item[draggable="true"]').length === 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>if (allPlaced) {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                        </span>dragFeedback.style.display = 'block';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>resetDragBtn.addEventListener('click', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.drag-item').forEach(item =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>item.draggable = true;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>dragItemsContainer.appendChild(item);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>dragFeedback.style.display = 'none';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>// Print Button</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>document.getElementById('print-btn').addEventListener('click', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>window.print();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>// Cloze Test</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const checkClozeBtn = document.getElementById('check-cloze');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const resetClozeBtn = document.getElementById('reset-cloze');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const clozeInputs = document.querySelectorAll('.cloze-blank');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const clozeFeedback = document.getElementById('cloze-feedback');</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>const correctAnswers = {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cloze1: 'resilience',</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cloze2: 'irony',</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cloze3: 'symbolism',</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cloze4: 'injustice',</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cloze5: 'juxtaposition',</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>cloze6: 'foreshadowing'</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>checkClozeBtn.addEventListener('click', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>let correctCount = 0;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>const total = clozeInputs.length;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>clozeInputs.forEach(input =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const userAnswer = input.value.trim().toLowerCase();</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>const correctAnswer = correctAnswers[input.id];</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>if (userAnswer === correctAnswer) {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>correctCount++;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>input.style.borderBottomColor = 'var(--success)';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>input.style.color = 'var(--success)';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>input.style.borderBottomColor = 'var(--danger)';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                    </span>input.style.color = 'var(--danger)';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>clozeFeedback.style.display = 'block';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>if (correctCount === total) {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>clozeFeedback.textContent = `Perfect! You got all ${correctCount}/${total} answers correct!`;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>clozeFeedback.className = 'cloze-feedback correct';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>clozeFeedback.textContent = `You got ${correctCount}/${total} answers correct. Try again!`;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>clozeFeedback.className = 'cloze-feedback incorrect';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p1"><span class="s1"></span><br></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>resetClozeBtn.addEventListener('click', () =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>clozeInputs.forEach(input =&gt; {</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>input.value = '';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>input.style.borderBottomColor = 'var(--primary)';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span>input.style.color = 'var(--secondary)';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>clozeFeedback.style.display = 'none';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span>clozeFeedback.className = 'cloze-feedback';</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p2"><span class="s1">&lt;/html&gt;</span></p>
+<p class="p2"><span class="s1">```</span></p>
+</body>
+</html>
