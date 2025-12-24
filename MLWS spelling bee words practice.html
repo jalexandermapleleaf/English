@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ESL Vocabulary Flashcards with Audio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      padding: 10px;
+      margin: 0;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin: 10px 0 15px;
+      font-size: 1.6rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .flashcard {
+      background: white;
+      width: 100%;
+      height: 340px;
+      margin: 12px auto;
+      perspective: 1000px;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.5s;
+      transform-style: preserve-3d;
+    }
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    .front, .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-radius: 12px;
+    }
+    .front {
+      background: #3498db;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .front .word {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .front .pron {
+      font-size: 15px;
+      opacity: 0.95;
+      font-family: monospace;
+      margin-bottom: 8px;
+    }
+    .speaker-btn {
+      background: #2980b9;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 4px;
+      display: inline-block;
+    }
+    .speaker-btn:hover {
+      background: #1c5a85;
+    }
+    .back {
+      background: #ecf0f1;
+      color: #2c3e50;
+      font-size: 14px;
+      transform: rotateY(180deg);
+      overflow-y: auto;
+    }
+    .back h3 {
+      margin: 8px 0 4px;
+      color: #2980b9;
+      font-size: 15px;
+    }
+    .back p {
+      margin: 3px 0;
+      line-height: 1.4;
+    }
+    .instructions {
+      text-align: center;
+      color: #7f8c8d;
+      margin-top: 12px;
+      font-style: italic;
+      font-size: 14px;
+    }
+    @media (max-width: 600px) {
+      .flashcard { height: 370px; }
+      .front { font-size: 22px; }
+      .front .word { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ESL Vocabulary Flashcards with Audio</h1>
+    <div id="flashcards"></div>
+    <div class="instructions">🔊 Click speaker to hear word • Click card to flip</div>
+  </div>
+
+  <script>
+    let voices = [];
+    const loadVoices = () => {
+      voices = speechSynthesis.getVoices();
+    };
+    loadVoices();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    const speakWord = (word) => {
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      const englishVoice = voices.find(v => v.lang.startsWith('en'));
+      if (englishVoice) {
+        utterance.voice = englishVoice;
+      }
+      utterance.rate = 0.9;
+      utterance.pitch = 1.0;
+      speechSynthesis.speak(utterance);
+    };
+
+    const cards = [
+["Abrahamic [adj.]", "/ab-ruh-HAM-ik/", "Religions that believe Abraham was an important prophet", "Believe in one God; share stories from the Bible/Quran", "Judaism, Christianity, Islam", "Buddhism, Hinduism, Atheism"],
+["acceleration [n.]", "/uk-sel-uh-RAY-shun/", "When something speeds up or goes faster", "Happens when velocity changes; measured in m/s²", "A car speeding up; a ball rolling downhill", "A car driving at steady speed; a parked car"],
+["achievement [n.]", "/uh-CHEEV-ment/", "Something great you do through hard work", "Makes you proud; takes effort", "Winning a medal; graduating; writing a book", "Winning the lottery (luck); breathing (automatic)"],
+["acknowledge [v.]", "/ak-NOL-ij/", "To recognize or give credit to someone or something", "Shows honesty and respect; required in academic work", "Citing a source in an essay; thanking a helper", "Copying without credit; ignoring help you received"],
+["adaptation [n.]", "/ad-ap-TAY-shun/", "A change that helps a plant or animal live better in its environment", "Happens over time; helps survival", "Camels storing water; polar bears with thick fur", "Wearing a coat (that’s not a body change); cutting hair"],
+["adhesion [n.]", "/ad-HEE-zhun/", "When a liquid sticks to something else", "Water property; opposite of cohesion (sticking to itself)", "Water sticking to a window; dew on grass", "Oil rolling off a leaf; water forming a bead"],
+["administrative [adj.]", "/ad-MIN-uh-struh-tiv/", "Related to managing a school, company, or organization", "Involves paperwork, rules, and daily operations", "School office work; business management", "Teaching a class; playing soccer"],
+["adventitious [adj.]", "/ad-ven-TISH-us/", "A structure that grows in an unusual place", "Not in the normal position; often in plants", "Roots growing from a tree branch (like banyan trees)", "Roots growing from the bottom of a plant"],
+["aesthetics [n.]", "/es-THET-iks/", "How something looks—beauty or style", "About art, design, or feeling pleasant", "Pretty garden; nice classroom posters", "Ugly trash pile; broken chair"],
+["afterlife [n.]", "/AF-ter-lyf/", "Life after death (in religion)", "Belief in continuing existence", "Heaven in Christianity; reincarnation in Hinduism", "Nothingness; scientific materialism"],
+["agreement [n.]", "/uh-GREE-ment/", "When people accept the same thing", "Can be spoken or written", "Signing a contract; saying “OK”", "Arguing; refusing"],
+["agriculture [n.]", "/AG-ri-kul-chur/", "Farming—growing crops and raising animals for food", "Started in Neolithic Revolution; feeds people", "Rice fields in China; wheat farms in Canada", "Hunting wild animals; buying food at a store"],
+["algebra [n.]", "/AL-juh-bruh/", "Math with letters representing numbers", "Used to solve unknown values", "Solving for x in equations", "Counting apples; measuring length"],
+["algebraically [adv.]", "/al-juh-BRAY-ik-lee/", "Using letters and math rules (not pictures or guessing)", "Uses x, y, equations; exact answers", "Solving 2x + 3 = 7", "Drawing a graph; counting on fingers"],
+["alkali [n.]", "/al-KAL-eye/", "A base substance (opposite of acid)", "Feels slippery; pH above 7", "Soap, baking soda", "Vinegar, lemon juice"],
+["alliance [n.]", "/uh-LY-uhns/", "An agreement between countries or groups to help each other", "Often for protection or war", "NATO; China and Russia working together", "Two friends chatting (not a formal agreement)"],
+["alliteration [n.]", "/uh-lit-er-AY-shun/", "Repeating the same starting sound in words", "Used in poetry and slogans", "“Silly snakes slither silently”", "“The cat sat” (no repeated sound)"],
+["amount [n.]", "/uh-MOWNT/", "How much of something (for uncountable nouns)", "Used with water, sand, time", "Amount of sugar; amount of homework", "Number of books (countable)"],
+["ampere [n.]", "/AM-peer/", "Unit for measuring electric current", "Symbol: A; part of the metric system", "A phone charger uses about 1 ampere", "Volt (voltage); watt (power)"],
+["amplitude [n.]", "/AM-pluh-tood/", "Height of a wave from middle to top", "Measures wave energy", "Loud sound = high amplitude", "Frequency (how often waves occur)"],
+["analysis [n.]", "/uh-NAL-uh-sis/", "Careful study of something by breaking it into parts", "Used in science, literature, and data", "Analyzing a poem; lab data analysis", "Guessing; summarizing quickly"],
+["anion [n.]", "/AN-eye-un/", "An atom or molecule with negative charge", "Gains electrons; attracted to anode", "Chloride (Cl⁻); oxide (O²⁻)", "Sodium ion (Na⁺ — that’s a cation)"],
+["annotation [n.]", "/an-uh-TAY-shun/", "A note added to explain text", "Used in reading and research", "Margin notes in a book; subtitles", "Blank page; highlighted text without note"],
+["antagonist [n.]", "/an-TAG-uh-nist/", "The main opponent of the hero in a story", "Creates conflict", "Voldemort in Harry Potter; Joker in Batman", "Best friend; sidekick"],
+["apparatus [n.]", "/ap-uh-RAY-tus/", "A set of tools or equipment for a specific purpose", "Used in science or complex tasks", "Lab apparatus for distillation", "Single pencil; random box"],
+["appreciation [n.]", "/uh-pree-see-AY-shun/", "Being thankful or understanding the value of something", "Shows respect; not taking things for granted", "Thanking a teacher; enjoying art", "Ignoring a gift; complaining about food"],
+["approximate [adj.]", "/uh-PROK-suh-mit/", "Nearly correct—but not exact", "A smart guess; close but not perfect", "Approximate time is 3:05; cost is ¥50", "Exact measurement; precise calculation"],
+["aqueduct [n.]", "/AK-wuh-dukt/", "A structure that carries water long distances", "Built by Romans; uses gravity", "Roman aqueducts in Spain", "Modern plastic pipe alone"],
+["arable [adj.]", "/AR-uh-bul/", "Land that can be used for farming", "Fertile and flat", "Wheat fields in Ukraine", "Desert; mountain peak"],
+["archaeology [n.]", "/ar-kee-OL-uh-jee/", "The study of ancient human life through objects", "Uses fossils, ruins, and artifacts", "Studying Egyptian tombs; digging old pottery", "Watching modern TV; reading today’s news"],
+["architecture [n.]", "/AR-ki-tek-chur/", "The style or method of building structures", "Includes design, materials, and purpose", "Roman architecture; Chinese temple design", "Natural cave; pile of rocks"],
+["arid [adj.]", "/AIR-id/", "Very dry (with little rain)", "Desert climate", "Sahara Desert; Nevada", "Rainforest; wetlands"],
+["Aristotle [n.]", "/AR-is-tot-ul/", "Ancient Greek philosopher and scientist", "Student of Plato; teacher of Alexander", "Wrote about logic, ethics, and biology", "Galileo; Confucius"],
+["arm [n.]", "/arm/", "Part of the body from shoulder to hand", "Used for holding, lifting, and touching", "Human arm; robot arm", "Leg; foot"],
+["assumption [n.]", "/uh-SUMP-shun/", "Believing something is true without proof", "Based on guess, not facts", "Assuming it will rain because clouds are dark", "Checking the weather app; measuring rainfall"],
+["assonance [n.]", "/AS-uh-nuhns/", "Repetition of vowel sounds in nearby words", "Creates rhythm in poetry", "“Hear the mellow wedding bells”", "“The big dog” (consonance, not assonance)"],
+["athletic [adj.]", "/ath-LET-ik/", "Related to sports or physical strength", "Strong, fast, coordinated", "Olympic athletes; track runners", "Chess player; reader"],
+["atmosphere [n.]", "/AT-muh-sfeer/", "The layer of gases around a planet", "Protects life; includes oxygen", "Earth’s atmosphere; Martian atmosphere", "Ocean; outer space"],
+["atomic [adj.]", "/uh-TOM-ik/", "Related to atoms", "Very small scale", "Atomic structure; atomic bomb", "Galaxy; mountain"],
+["autotroph [n.]", "/AW-toh-trof/", "An organism that makes its own food (like plants)", "Uses sunlight (photosynthesis); base of food chain", "Trees, algae, grass", "Lions, humans, fungi (they eat others)"],
+["Avogadro [n.]", "/av-uh-GAH-droh/", "Italian scientist known for work on atoms", "Avogadro’s number = 6.02 × 10²³", "Used in chemistry to count atoms", "Newton (physics); Darwin (biology)"],
+["Aztecs [n.]", "/AZ-teks/", "Ancient civilization in Mexico", "Built Tenochtitlan; practiced human sacrifice", "Pyramids in Teotihuacan", "Egyptians; Incas"],
+["balance [n.]", "/BAL-uhns/", "Equal weight or importance on both sides", "Creates stability", "Balanced diet; balanced argument", "Extreme opinion; uneven scale"],
+["ball [n.]", "/bawl/", "Round object used in sports", "Bounces or rolls", "Soccer ball; basketball", "Square box; flat paper"],
+["bar [n.]", "/bar/", "Straight piece of solid material", "Can be metal, wood, or chocolate", "Metal bar; chocolate bar", "Liquid; gas"],
+["base [n.]", "/bays/", "Bottom support of an object", "Foundation or starting point", "Base of a triangle; military base", "Top of a mountain; peak"],
+["basketball [n.]", "/BASK-it-bawl/", "Team sport where players throw a ball into a hoop", "Played indoors; 5 players per team", "NBA game; school PE", "Soccer; volleyball"],
+["binary [adj.]", "/BY-nuh-ree/", "Using two parts (often 0 and 1)", "Base-2 number system", "Computer code; binary star system", "Decimal numbers (0–9)"],
+["biology [n.]", "/by-OL-uh-jee/", "The study of living things", "Includes plants, animals, cells", "High school biology class", "Geology; physics"],
+["biomagnification [n.]", "/buy-oh-mag-nuh-fuh-KAY-shun/", "Toxins get stronger as they move up the food chain", "Small animals → big animals → humans; dangerous", "Mercury in fish; plastic in seabirds", "Clean water; healthy vegetables"],
+["biome [n.]", "/BY-ohm/", "A large area with a certain kind of weather, plants, and animals", "Includes deserts, rainforests, tundras", "Amazon rainforest; Sahara Desert", "A single tree; a city park"],
+["biosphere [n.]", "/BY-oh-sfeer/", "The part of Earth where life exists", "Includes air, land, and water near the surface", "Oceans with fish; forests with birds", "Deep inside Earth’s core; outer space"],
+["biota [n.]", "/by-OH-tuh/", "All living things in an area", "Part of an ecosystem", "Coral reef biota = fish + coral + algae", "Rocks, rivers, or buildings (not alive)"],
+["Bohr [n.]", "/bore/", "Danish physicist who studied atomic structure", "Bohr model of the atom", "Electrons orbit in shells", "Einstein (relativity); Newton (gravity)"],
+["book [n.]", "/book/", "Collection of printed pages", "Used for reading, learning, or stories", "Textbook; novel", "Video; audio file"],
+["boundary [n.]", "/BOWN-duh-ree/", "A line that marks the edge of something", "Between countries, fields, or ideas", "Country borders; property line", "Center of a room; middle of ocean"],
+["brain [n.]", "/brayn/", "Organ that controls thought and movement", "Part of the nervous system", "Human brain; animal brain", "Heart; liver"],
+["brainstorm [v.]", "/BRAYN-storm/", "To generate many ideas quickly", "Used in groups or alone", "Class brainstorming for essay topics", "Memorizing facts; taking a test"],
+["branch [n.]", "/branch/", "Part of a tree or organization", "Splits from a main line", "Tree branch; bank branch", "Root; trunk (main part)"],
+["bullying [n.]", "/BOOL-ing/", "Hurting someone weaker on purpose", "Can be physical, verbal, or online", "Name-calling; spreading rumors", "Friendly teasing; accidental bump"],
+["bystander [n.]", "/BY-stan-der/", "A person who sees something happen but doesn’t act", "Often in emergencies or conflicts", "Watching a fight without helping", "Police officer; active helper"],
+["caching [n.]", "/KASH-ing/", "Saving data for quick future use", "Used in computers and animals", "Browser cache; squirrel hiding nuts", "Deleting files; throwing away food"],
+["calculate [v.]", "/KAL-kyuh-layt/", "To find a number using math", "Uses formulas or logic", "Calculate area; calculate cost", "Guessing; estimating roughly"],
+["caliphate [n.]", "/KAL-uh-fayt/", "Historical Islamic government led by a caliph", "Religious and political leadership", "Umayyad Caliphate", "Modern democracy; republic"],
+["cambium [n.]", "/KAM-bee-um/", "Layer inside a plant stem that makes new wood", "Helps trees grow thicker", "In tree trunks; responsible for growth rings", "Leaves, roots, or flowers"],
+["candela [n.]", "/kan-DEL-uh/", "Unit of light brightness", "Measures luminous intensity", "One candle ≈ 1 candela", "Lumen (total light); watt (power)"],
+["canopy [n.]", "/KAN-uh-pee/", "Top layer of trees in a forest", "Blocks sunlight to forest floor", "Rainforest canopy", "Desert; grassland"],
+["capacity [n.]", "/kuh-PAS-uh-tee/", "The maximum amount something can hold", "Volume or ability", "Stadium capacity; memory capacity", "Current amount (not max)"],
+["capsule [n.]", "/KAP-syool/", "Sticky outer layer around some bacteria", "Helps bacteria stick and avoid immune systems", "Harmful bacteria in your throat", "Human cells (they don’t have capsules)"],
+["carbon [n.]", "/KAR-buhn/", "Chemical element found in all living things", "Symbol: C; forms many compounds", "Diamond, graphite, CO₂", "Oxygen; gold"],
+["carbohydrate [n.]", "/kar-boh-HY-drayt/", "A type of food that gives energy (sugars and starches)", "Found in rice, bread, fruit; body turns it into fuel", "Pasta, bananas, potatoes", "Meat, oil, water"],
+["cardiovascular [adj.]", "/kar-dee-oh-VAS-kyuh-ler/", "Relating to the heart and blood vessels", "Involves blood flow, oxygen, and health", "Cardiovascular exercise like running", "Digestion; brain thinking"],
+["carrying [v.]", "/KAR-ee-ing/", "Moving something from one place to another", "In cells, molecules “carry” energy or materials", "ATP carries energy; blood carries oxygen", "A rock sitting still (not carrying anything)"],
+["caste [n.]", "/kast/", "Fixed social class people are born into", "Based on family, not personal choice", "Priests, warriors, laborers in India", "Jobs like teacher or doctor (you choose these)"],
+["cation [n.]", "/KAT-eye-un/", "An atom or molecular with positive charge", "Lost electrons; forms ionic bonds", "Sodium ion (Na⁺); calcium ion (Ca²⁺)", "Chloride ion (Cl⁻ — that’s an anion)"],
+["cell [n.]", "/sel/", "Basic unit of life", "Has membrane, cytoplasm, and DNA", "Plant cell; animal cell", "Atom; molecule"],
+["centripetal [adj.]", "/sen-TRIP-uh-tl/", "Force that pulls something toward the center (like a circle)", "Keeps things moving in a curve", "Moon orbiting Earth; car turning a curve", "A ball flying straight; rocket going up"],
+["character [n.]", "/KAR-ik-ter/", "A person in a story or someone’s personality", "Has traits and role", "Harry Potter; honest friend", "Object; setting"],
+["characteristic [n.]", "/kar-ik-tuh-RIS-tik/", "A special feature or quality", "Helps you identify or tell things apart", "Green eyes, kindness, sharp teeth", "Random actions like tripping or sneezing"],
+["chemistry [n.]", "/KEM-is-tree/", "The study of matter and its changes", "Involves elements, reactions, bonds", "Mixing vinegar and baking soda", "Astronomy; literature"],
+["chess [n.]", "/ches/", "Strategy board game for two players", "Uses kings, queens, pawns", "Playing chess in club", "Soccer; card games"],
+["chloroplast [n.]", "/KLOR-uh-plast/", "Part of a plant cell that uses sunlight to make food", "Green; does photosynthesis", "Found in leaves; turns sunlight into sugar", "Found in animal cells (they don’t have chloroplasts)"],
+["choir [n.]", "/kwire/", "A group of singers", "Sings together in harmony", "School choir; church choir", "Solo singer; noisy crowd"],
+["choral [adj.]", "/KOR-ul/", "Relating to a choir or group singing", "Musical and harmonic", "Choral music; choral performance", "Instrumental solo; rock band"],
+["chord [n.]", "/kord/", "Three or more musical notes played together", "Makes harmony", "Piano chord; guitar chord", "Single note; drum beat"],
+["Christianity [n.]", "/kris-chuh-AN-uh-tee/", "Religion based on Jesus Christ", "Abrahamic faith; holy book = Bible", "Catholicism, Protestantism", "Islam; Buddhism"],
+["chronological [adj.]", "/kron-uh-LOJ-ih-kul/", "In time order (from oldest to newest)", "Used in history and writing", "Timeline of events; diary entries", "Random order; thematic grouping"],
+["chronology [n.]", "/kron-OL-uh-jee/", "The order of events in time", "Study of time sequences", "History timeline; sequence of kings", "List of names without dates"],
+["cilium [n.]", "/SIL-ee-um/", "Tiny hair on cell surface that moves fluids", "Found in lungs and nose", "Moves mucus out of airways", "Flagellum (longer and for movement)"],
+["circle [n.]", "/SUR-kuhl/", "Round shape with all points equal distance from center", "No corners", "Coin; wheel", "Square; triangle"],
+["circular [adj.]", "/SUR-kyuh-ler/", "Shaped like a circle", "No corners; round", "Clock face; pizza", "Square; triangle"],
+["circumference [n.]", "/ser-KUM-fur-uhns/", "Distance around a circle", "Calculated as π × diameter", "Circumference of a wheel", "Area inside the circle"],
+["citizenship [n.]", "/SIT-uh-zuhn-ship/", "Being a legal member of a country and acting responsibly", "Involves rights and duties", "Voting, recycling, helping neighbors", "Tourists visiting a country"],
+["civilization [n.]", "/siv-uh-luh-ZAY-shun/", "An advanced human society with cities, government, and culture", "Has writing, laws, art", "Ancient Egypt, Rome, China", "Small village with no writing"],
+["cladistics [n.]", "/kluh-DIS-tiks/", "Study of how species are related through evolution", "Groups organisms by shared ancestors", "Birds and crocodiles are closely related", "Classifying by color; random grouping"],
+["clarification [n.]", "/klar-uh-fuh-KAY-shun/", "Making something clearer or easier to understand", "Answers questions or confusion", "Teacher gives clarification on homework", "Adding more confusion; repeating the same words"],
+["clarify [v.]", "/KLAR-uh-fy/", "To make something clearer", "Explains or simplifies", "Clarify instructions; clarify a sentence", "Confuse more; use jargon"],
+["clause [n.]", "/klawz/", "Part of a sentence with a subject and verb", "Can be main or dependent", "“When it rains” (dependent clause)", "Single word; phrase without verb"],
+["climograph [n.]", "/KLY-muh-graf/", "Graph showing temperature and rainfall over a year", "Has two lines: temp and rain", "Used to compare Sahara vs. Amazon", "Map showing rivers; photo of forest"],
+["coefficient [n.]", "/ko-uh-FISH-uhnt/", "Number in front of a letter in math", "Multiplies the variable", "In “7y”, 7 is the coefficient", "The “y” in 4x (that’s the variable)"],
+["coevolution [n.]", "/ko-ev-uh-LOO-shun/", "When two species change together over time", "One adapts → the other adapts", "Flowers and bees", "Sharks and trees (they don’t affect each other)"],
+["collaboration [n.]", "/kuh-lab-uh-RAY-shun/", "People working together to create or solve something", "Shares ideas and responsibility", "Group science project; band making music", "Doing homework alone; copying someone’s work"],
+["collective [adj.]", "/kuh-LEK-tiv/", "A group acting as one unit", "Decisions made together", "School choir; United Nations", "One person walking alone; random crowd"],
+["collision [n.]", "/kuh-LIZH-un/", "When two objects hit each other", "Can be strong or gentle", "Car crash; billiard balls hitting", "Two cars driving side by side (no hit)"],
+["colonize [v.]", "/KOL-uh-nyz/", "To send settlers to live in and control a new land", "Often harms native people", "Europeans colonized America", "Tourism; trade"],
+["color [n.]", "/KUL-er/", "Visual property like red, blue, or green", "How light reflects off objects", "Rainbow colors; traffic light", "Sound; smell"],
+["column [n.]", "/KOL-um/", "Vertical arrangement of data or a tall structure", "In tables or architecture", "Spreadsheet column; Roman column", "Row (horizontal); flat surface"],
+["combination [n.]", "/kom-buh-NAY-shun/", "A mix of two or more things joined together", "Creates something new", "Water = hydrogen + oxygen", "Pile of random toys (not truly combined)"],
+["combustion [n.]", "/kum-BUS-chun/", "Burning something with fire (needs oxygen)", "Produces heat, light, and smoke", "Wood burning; gasoline in engine", "Melting ice (no fire); rusting metal"],
+["comedy [n.]", "/KOM-uh-dee/", "A funny story or performance", "Makes people laugh; happy ending", "Shakespeare’s comedies; sitcom", "Tragedy; horror movie"],
+["command [n.]", "/kuh-MAND/", "An order to do something", "Strong and direct", "Military command; computer command", "Suggestion; request"],
+["comment [n.]", "/KOM-ent/", "A spoken or written remark", "Gives opinion or explanation", "Comment on a post; teacher’s comment", "Silence; blank page"],
+["commission [n.]", "/kuh-MISH-un/", "Group appointed for a task or fee for sales", "Official or payment-based", "Art commission; sales commission", "Free gift; volunteer work"],
+["common [adj.]", "/KOM-un/", "Seen or found often", "Not rare or special", "Common cold; common name", "Rare animal; unique artifact"],
+["communication [n.]", "/kuh-myoo-nih-KAY-shun/", "Sharing or exchanging information", "Can be speaking, writing, gestures", "Talking, texting, waving", "Thinking silently; sleeping quietly"],
+["community [n.]", "/kuh-MYOO-nih-tee/", "Group of people living in the same place or sharing interests", "Works together", "School community; online community", "One person; isolated individual"],
+["compare [v.]", "/kuh-PAIR/", "To look at similarities and differences", "Uses “like” or “than”", "Compare two phones; compare poems", "Describe one thing alone"],
+["compass [n.]", "/KUM-pus/", "Tool that shows directions (N, S, E, W)", "Has a magnetic needle", "Hiking compass; drawing compass", "Ruler; thermometer"],
+["competency [n.]", "/KOM-puh-tuhn-see/", "Ability to do something well", "Skill or knowledge", "Language competency; job competency", "Guessing; incompetence"],
+["competition [n.]", "/kom-puh-TISH-un/", "Event where people try to win", "Creates challenge", "Sports competition; spelling bee", "Cooperation; teamwork (non-competitive)"],
+["complex [adj.]", "/KOM-pleks/", "Having many parts; not simple", "Hard to understand", "Complex machine; complex sentence", "Simple tool; basic idea"],
+["component [n.]", "/kum-POH-nent/", "A part of a larger system or object", "Needed for the whole to work", "Wheels on a bike; CPU in a computer", "Dirt on a shoe (not a real part)"],
+["compose [v.]", "/kuh-POHZ/", "To create music, writing, or art", "Puts parts together", "Compose a song; compose an email", "Destroy; delete"],
+["composer [n.]", "/kuh-POH-zur/", "Person who writes music", "Creates songs or symphonies", "Beethoven; modern film composer", "Singer; listener"],
+["composition [n.]", "/kom-puh-ZISH-un/", "A piece of writing, music, or art", "Made of arranged parts", "Essay composition; musical composition", "Random scribble; unfinished draft"],
+["compound [n.]", "/KOM-pownd/", "Substance made of two or more elements chemically joined", "Has new properties", "Salt (NaCl), water (H₂O)", "Trail mix (nuts + raisins — just mixed)"],
+["concentration [n.]", "/kon-sen-TRAY-shun/", "How much of one substance is in a mixture", "High = lots of solute", "Strong coffee; weak tea", "Dry spoon (no liquid)"],
+["concept [n.]", "/KON-sept/", "An abstract idea or general notion", "Not physical", "Concept of justice; scientific concept", "Rock; apple (physical object)"],
+["conclude [v.]", "/kun-KLOOD/", "To end or finish", "Final part", "Conclude a speech; conclude an experiment", "Begin; start"],
+["conclusion [n.]", "/kun-KLOO-zhun/", "The end or final decision", "Summarizes main points", "Essay conclusion; scientific conclusion", "Introduction; middle section"],
+["concrete [adj.]", "/KON-kreet/", "Real and physical (not abstract)", "Can be touched", "Concrete wall; concrete example", "Love; freedom (abstract)"],
+["conduct [v.]", "/kun-DUKT/", "To organize or carry out", "Leads an activity", "Conduct an experiment; conduct a meeting", "Watch passively; ignore"],
+["conduction [n.]", "/kun-DUK-shun/", "Transfer of heat or electricity through a material", "Requires direct contact", "Metal spoon gets hot in soup", "Sun warming your face (radiation)"],
+["conductor [n.]", "/kun-DUK-tur/", "Material that lets heat or electricity flow easily", "Usually metal", "Copper, iron, aluminum", "Wood, plastic, rubber (insulators)"],
+["conjunction [n.]", "/kun-JUNK-shun/", "Word that joins words or sentences (and, but, or)", "Connects ideas", "“Bread and butter”; “Run but don’t stop”", "Noun; verb"],
+["conquer [v.]", "/KON-ker/", "To take control of a place by force", "Military victory", "Spain conquered the Aztecs", "Trade; diplomacy"],
+["conquistador [n.]", "/kon-KEE-stuh-dor/", "Spanish soldier/explorer who conquered lands in the 1500s", "Sought gold and power; often violent", "Cortés (Mexico), Pizarro (Peru)", "Modern tourists; peaceful traders"],
+["conscious [adj.]", "/KON-shus/", "Aware of what is happening", "Not asleep or unconscious", "Conscious decision; conscious thought", "Dreaming; reflex action"],
+["consent [n.]", "/kuhn-SENT/", "Permission to do something", "Agreement", "Parental consent; informed consent", "Force; coercion"],
+["consequence [n.]", "/KON-suh-kwens/", "Result of an action", "Can be good or bad", "Consequence of studying = good grades", "Coincidence; unrelated event"],
+["conservation [n.]", "/kon-ser-VAY-shun/", "Protecting resources by using them carefully", "Also a physics rule", "Recycling paper; Law of Conservation of Energy", "Wasting water; throwing away reusable items"],
+["consider [v.]", "/kuhn-SID-er/", "To think carefully about something", "Weighs options", "Consider a job offer; consider the evidence", "Ignore; dismiss"],
+["constant [adj.]", "/KON-stuhnt/", "Something that does not change", "Stays the same", "Speed of light; π (pi ≈ 3.14)", "Weather, mood, or stock prices"],
+["construct [v.]", "/kun-STRUKT/", "To build or create something", "Requires planning", "Build a model; construct a sentence", "Breaking something; guessing randomly"],
+["consult [v.]", "/kuh-SULT/", "To get advice from an expert", "Seeks help", "Consult a doctor; consult a dictionary", "Guess alone; ignore advice"],
+["consumer [n.]", "/kuh-SOO-mer/", "Organism that eats other things for energy", "Cannot make its own food", "Humans, lions, fungi", "Plants, algae (producers)"],
+["context [n.]", "/KON-tekst/", "The situation around a word or event", "Gives background", "Knowing “bat” means animal or sports tool", "Word alone with no sentence"],
+["contextualize [v.]", "/kon-TEK-stchoo-uh-lyz/", "To understand a word or event by looking at what’s around it", "Uses history, culture, or nearby words", "Knowing “cold” means unfriendly in “cold stare”", "Memorizing a word without using it"],
+["continent [n.]", "/KON-tih-nuhnt/", "One of Earth’s large landmasses", "Seven total", "Asia, Africa, North America", "Island; country"],
+["continue [v.]", "/kuh-TIN-yoo/", "To keep doing something", "Does not stop", "Continue reading; continue walking", "Stop; quit"],
+["contract [n.]", "/KON-trakt/", "Legal agreement between people or groups", "Binding and signed", "Work contract; lease contract", "Verbal promise; informal deal"],
+["contradict [v.]", "/kon-truh-DIKT/", "To say the opposite of something", "Disagrees directly", "“I was home” vs. “You were out”", "Agree; support"],
+["contradiction [n.]", "/kon-truh-DIK-shun/", "When two things cannot both be true", "Opposite ideas", "“It’s raining” and “It’s dry”", "Agreement; harmony"],
+["convection [n.]", "/kun-VEK-shun/", "Heat transfer by movement of liquids or gases", "Warm rises, cool sinks", "Boiling water; weather systems", "Touching a hot pan (conduction)"],
+["conversion [n.]", "/kun-VUR-zhun/", "Changing from one form to another", "Transformation", "Metric conversion; religious conversion", "Same form; no change"],
+["convert [v.]", "/kun-VURT/", "To change from one form to another", "Transforms", "Convert meters to feet; convert to Buddhism", "Keep the same; refuse to change"],
+["coordinate [v.]", "/koh-OR-dih-nayt/", "To organize different parts to work together", "Synchronizes", "Coordinate a school event; coordinate colors", "Work alone; create chaos"],
+["coordinate [n.]", "/KOH-or-dih-nit/", "A pair of numbers (x, y) that shows a point’s location", "Used in graphs and maps", "(3, 5) means 3 right, 5 up", "Single number like “7”"],
+["Copernicus [n.]", "/koh-PUR-ni-kus/", "Polish astronomer who said Earth moves around the Sun", "Started the Scientific Revolution", "Heliocentric model", "Ptolemy (Earth-centered model)"],
+["core [n.]", "/kor/", "The center or most important part", "Central and essential", "Earth’s core; core values", "Edge; surface"],
+["correlate [v.]", "/KOR-uh-layt/", "To have a mutual relationship", "When one changes, the other changes", "Study time and grades correlate", "Unrelated things like shoes and weather"],
+["correlation [n.]", "/kor-uh-LAY-shun/", "A mutual relationship between two things", "Not necessarily cause-and-effect", "Ice cream sales and drowning both rise in summer", "Coincidence; random events"],
+["corrode [v.]", "/kuh-ROHD/", "To eat away metal by chemical action", "Rusting", "Iron corrodes in rain", "Plastic; wood (don’t corrode)"],
+["cosmos [n.]", "/KOS-mos/", "The universe seen as a well-ordered system", "Includes all space, matter, and energy", "Stars, galaxies, planets", "Single atom; small room"],
+["count [v.]", "/kownt/", "To say numbers in order", "Tallies items", "Count to 10; count students", "Guess; estimate"],
+["counter [n.]", "/KOWN-ter/", "Flat surface for work or service", "In kitchen or store", "Kitchen counter; bank counter", "Chair; wall"],
+["country [n.]", "/KUN-tree/", "A nation with its own government", "Defined borders", "China, France, Brazil", "City; continent"],
+["couplet [n.]", "/KUP-lit/", "Two lines of poetry that rhyme", "Often at the end of a sonnet", "Shakespearean couplet", "Single line; paragraph"],
+["court [n.]", "/kort/", "Place where legal cases are decided", "Judge and lawyers", "Supreme Court; local court", "School; office"],
+["courage [n.]", "/KUR-ij/", "Bravery in facing danger or fear", "Moral or physical strength", "Standing up to a bully; firefighter courage", "Cowardice; fear"],
+["course [n.]", "/kors/", "Series of lessons or path of movement", "Educational or directional", "Math course; river course", "Single lesson; random direction"],
+["cover [v.]", "/KUV-er/", "To place something over or across", "Protects or hides", "Cover a book; cover with a blanket", "Expose; uncover"],
+["crater [n.]", "/KRAY-ter/", "Bowl-shaped hole in ground from explosion or meteor", "Volcanic or impact", "Moon craters; volcanic crater", "Flat plain; hill"],
+["create [v.]", "/kree-AYT/", "To make something new", "Uses imagination or skill", "Create art; create a plan", "Destroy; copy"],
+["creative [adj.]", "/kree-AY-tiv/", "Using imagination to make new things", "Inventive", "Creative writing; creative solution", "Boring; repetitive"],
+["creature [n.]", "/KREE-cher/", "A living being, especially an animal", "Can be real or imaginary", "Dog, dragon, dolphin", "Rock; car"],
+["credit [n.]", "/KRED-it/", "Belief that something is true or money borrowed", "Trust or finance", "Give credit to a source; credit card", "Cash payment; denial"],
+["crisis [n.]", "/KRY-sis/", "A time of great danger or difficulty", "Emergency", "Economic crisis; health crisis", "Normal day; success"],
+["critic [n.]", "/KRIT-ik/", "A person who judges art, books, or movies", "Gives reviews", "Film critic; literary critic", "Fan; casual viewer"],
+["critical [adj.]", "/KRIT-ih-kul/", "Very important or involving judgment", "Essential or analytical", "Critical thinking; critical moment", "Unimportant; casual"],
+["criticism [n.]", "/KRIT-uh-siz-um/", "Expression of disapproval or analysis", "Can be helpful or harsh", "Constructive criticism; literary criticism", "Praise; silence"],
+["crop [n.]", "/krop/", "Plant grown for food", "Agricultural product", "Rice, wheat, corn", "Wild plant; weed"],
+["crucifixion [n.]", "/kroo-suh-FIK-shun/", "Historical method of execution by nailing to a cross", "Used in ancient Rome", "Depicted in religious art", "Modern legal execution; natural death"],
+["crust [n.]", "/krust/", "Hard outer layer", "Of bread, Earth, or pie", "Bread crust; Earth’s crust", "Soft center; liquid"],
+["crystal [n.]", "/KRIS-tl/", "Solid material with flat surfaces and symmetrical shape", "Ordered atomic structure", "Salt crystal; quartz", "Powder; liquid"],
+["cube [n.]", "/kyoob/", "3D shape with 6 square faces", "All sides equal", "Ice cube; Rubik’s cube", "Sphere; pyramid"],
+["cultural [adj.]", "/KUL-cher-ul/", "Related to the arts, beliefs, and customs of a group", "Learned behavior", "Cultural festival; cultural differences", "Biological; genetic"],
+["culture [n.]", "/KUL-cher/", "Customs, arts, and social behavior of a group", "Shared and learned", "Chinese culture; youth culture", "Nature; instinct"],
+["cumulative [adj.]", "/KYOO-myuh-luh-tiv/", "Increasing by successive additions", "Adds up over time", "Cumulative grade; cumulative effect", "One-time; isolated"],
+["cuneiform [n.]", "/KOO-nee-uh-form/", "Ancient writing system using wedge-shaped marks", "Written on clay tablets", "Sumerian records", "Alphabet; hieroglyphs"],
+["current [n.]", "/KUR-uhnt/", "Flow of water, air, or electricity", "Movement in one direction", "Ocean current; electric current", "Still water; static air"],
+["curriculum [n.]", "/kuh-RIK-yuh-lum/", "Subjects taught in a school or course", "Planned learning", "Math curriculum; national curriculum", "Single textbook; random topics"],
+["curve [n.]", "/kurv/", "Line that bends smoothly", "Not straight", "Parabola; road curve", "Straight line; angle"],
+["cylinder [n.]", "/SIL-in-der/", "3D shape with circular top and bottom", "Like a can", "Soup can; engine cylinder", "Cube; pyramid"],
+["cynical [adj.]", "/SIN-ih-kul/", "Believing people are selfish and dishonest", "Distrustful", "Cynical about politicians", "Trusting; optimistic"],
+["cytoplasm [n.]", "/SY-toh-plaz-um/", "Jelly-like stuff inside a cell (not the nucleus)", "Holds organelles", "Inside plant and animal cells", "Cell wall; air outside"],
+["cytoskeleton [n.]", "/sy-toh-SKEL-uh-ton/", "Network of fibers that gives a cell its shape", "Helps cell move", "In human and plant cells", "Cell membrane alone"],
+["cytosol [n.]", "/SY-toh-sol/", "The liquid part of cytoplasm", "Organelles float in it", "Where many cell reactions happen", "Nucleus; solid structure"],
+["damage [v.]", "/DAM-ij/", "To harm or break something", "Causes harm", "Damage a car; damage reputation", "Repair; improve"],
+["data [n.]", "/DAY-tuh/", "Facts or information used for analysis", "Plural of datum", "Survey data; test data", "Opinion; guess"],
+["debate [n.]", "/dih-BAYT/", "Formal discussion of opposing views", "Structured argument", "Class debate; presidential debate", "Argument; fight"],
+["decade [n.]", "/DEK-ayd/", "Period of 10 years", "Time measurement", "The 1990s; next decade", "Year; century"],
+["deciduous [adj.]", "/dih-SIJ-oo-us/", "Tree that loses leaves in fall", "Seasonal", "Maple, oak trees", "Pine, spruce (evergreen)"],
+["decipher [v.]", "/dih-SY-fer/", "To figure out the meaning of something hard to read", "Like solving a code", "Decipher ancient writing", "Read clear print; guess randomly"],
+["decision [n.]", "/dih-SIZH-un/", "Choice between options", "Requires judgment", "Decision to study; business decision", "Guess; accident"],
+["decline [v.]", "/dih-KLYN/", "To decrease or say no", "Go down or refuse", "Population decline; decline an offer", "Increase; accept"],
+["decorate [v.]", "/DEK-uh-rayt/", "To add ornaments to make attractive", "Beautifies", "Decorate a room; decorate a cake", "Strip; destroy"],
+["decrease [v.]", "/dee-KREES/", "To become smaller in amount", "Go down", "Temperature decreases at night", "Increase; grow"],
+["dedicate [v.]", "/DED-ih-kayt/", "To give time or effort to a purpose", "Commits", "Dedicate time to study; dedicate a book", "Ignore; waste time"],
+["deduce [v.]", "/dih-DYOOs/", "To reach a conclusion by reasoning", "Logical inference", "Deduce the answer from clues", "Guess; assume without evidence"],
+["deep [adj.]", "/deep/", "Extending far down or in", "Opposite of shallow", "Deep ocean; deep thought", "Shallow pond; surface-level"],
+["defend [v.]", "/dih-FEND/", "To protect from attack", "Guards", "Defend a country; defend an idea", "Attack; surrender"],
+["defendant [n.]", "/dih-FEN-dunt/", "Person accused in a court case", "On trial", "Criminal defendant; civil defendant", "Judge; lawyer"],
+["definite [adj.]", "/DEF-uh-nit/", "Clearly stated or certain", "Not vague", "Definite answer; definite plan", "Uncertain; possible"],
+["definition [n.]", "/def-uh-NISH-un/", "Explanation of a word’s meaning", "Clarifies", "Dictionary definition; scientific definition", "Example alone; synonym alone"],
+["deforestation [n.]", "/dee-for-uh-STAY-shun/", "Cutting down forests", "Causes habitat loss", "Amazon deforestation", "Reforestation; planting trees"],
+["degradation [n.]", "/deg-ruh-DAY-shun/", "The process of something declining in quality", "Worsening", "Soil degradation; moral degradation", "Improvement; restoration"],
+["degree [n.]", "/dih-GREE/", "Unit of measurement (angle, temperature, or education)", "Level or amount", "90-degree angle; bachelor’s degree", "Random number; unmeasured amount"],
+["delete [v.]", "/dih-LEET/", "To remove or erase", "Gets rid of", "Delete a file; delete a word", "Add; keep"],
+["deliberate [adj.]", "/dih-LIB-er-it/", "Done on purpose; not accidental", "Intentional", "Deliberate lie; deliberate choice", "Accidental; spontaneous"],
+["democracy [n.]", "/dih-MOK-ruh-see/", "A system where people vote to choose their leaders", "Citizens have power; “rule by the people”", "USA, India, modern Greece", "Dictatorship; monarchy (king rules alone)"],
+["demonstrate [v.]", "/DEM-un-strayt/", "To show how something works or prove a point", "Uses examples or experiments", "Demonstrate a science experiment", "Describe without showing; guess"],
+["denominator [n.]", "/dih-NOM-uh-nay-tur/", "The bottom number in a fraction", "Shows the total parts", "In 3/4, 4 is the denominator", "Numerator (top number)"],
+["density [n.]", "/DEN-suh-tee/", "How heavy something is for its size (mass ÷ volume)", "Dense things sink; less dense float", "Iron is dense; styrofoam is not dense", "Color, smell, or shape (not about weight or size)"],
+["dependent [adj.]", "/dih-PEN-dent/", "Relying on someone or something else", "Needs support", "Baby is dependent on parents", "Independent; self-sufficient"],
+["derive [v.]", "/dih-RYV/", "To get something from a source", "Comes from", "Derive energy from food", "Create from nothing; invent"],
+["designer [n.]", "/dih-ZY-ner/", "Person who creates plans for products, clothes, or graphics", "Uses creativity and skill", "Fashion designer; web designer", "Manufacturer; seller"],
+["detect [v.]", "/dih-TEKT/", "To discover or notice something", "Finds hidden things", "Detect a gas leak; detect a lie", "Ignore; miss completely"],
+["determine [v.]", "/dih-TUR-min/", "To decide or find out exactly", "Shows certainty", "Determine the answer; determine your future", "Guess; wonder"],
+["detritus [n.]", "/dih-TRY-tus/", "Dead plant or animal material that is partly broken down", "Found on forest floors or ocean bottoms", "Fallen leaves; dead insects", "Living grass; clean water"],
+["detritivore [n.]", "/DET-rih-vor/", "An animal that eats dead or decaying matter", "Helps cleaning and recycling in ecosystems", "Earthworms, woodlice", "Eagles (eat live animals); cows (eat live plants)"],
+["devout [adj.]", "/dih-VOWT/", "Deeply religious or sincere", "Shows strong faith", "Devout Buddhist; devout Christian", "Atheist; casual believer"],
+["diagram [n.]", "/DY-uh-gram/", "Simple drawing that explains something", "Shows parts or steps", "Cell diagram; flowchart", "Photograph; abstract art"],
+["dialogue [n.]", "/DY-uh-log/", "Conversation between two or more people", "Used in stories and plays", "Movie dialogue; classroom discussion", "Monologue; lecture"],
+["diameter [n.]", "/dy-AM-ih-tur/", "Distance across a circle through the center", "Twice the radius", "Diameter of a pizza", "Radius; circumference"],
+["diffuse [v.]", "/dih-FYOOZ/", "To spread out widely", "Not concentrated", "Light diffuses through a lampshade", "Focus; concentrate"],
+["diffusion [n.]", "/dih-FYOO-zhun/", "When particles spread from a crowded area to a less crowded area", "Happens naturally; no energy needed", "Perfume smell spreading in a room", "A fan blowing air (that’s forced)"],
+["dimension [n.]", "/dih-MEN-shun/", "A measurement like length, width, or height", "1D = line; 2D = flat; 3D = solid", "A cube has 3 dimensions", "Color; taste"],
+["diplomacy [n.]", "/dih-PLOH-muh-see/", "The skill of managing international relations", "Uses negotiation, not force", "Peaceful diplomacy between countries", "War; aggression"],
+["discrimination [n.]", "/dih-skrim-uh-NAY-shun/", "Unfair treatment based on race, gender, etc.", "Violates human rights", "Job discrimination; housing discrimination", "Fair treatment; equality"],
+["displacement [n.]", "/dis-PLAYS-muhnt/", "How far something moves from start to end (with direction)", "Different from distance", "Walking 10 meters east from your desk", "Total steps walked (that’s distance)"],
+["distinct [adj.]", "/dih-STINKT/", "Clearly different or separate", "Easy to notice", "Distinct smell; distinct voice", "Same; identical"],
+["distinguish [v.]", "/dih-STING-gwish/", "To recognize the difference between things", "Tells apart", "Distinguish fact from opinion", "Confuse; mix up"],
+["divine [adj.]", "/dih-VYN/", "Related to God or a god", "Holy or heavenly", "Divine power; divine message", "Human; ordinary"],
+["division [n.]", "/dih-VIZH-un/", "Splitting into parts or a math operation", "Opposite of multiplication", "Cell division; 12 ÷ 4 = 3", "Addition; combination"],
+["domain [n.]", "/doh-MAYN/", "Area of knowledge or control", "Field of expertise", "Scientific domain; internet domain", "Random topic; unrelated area"],
+["dribbling [n.]", "/DRIB-ling/", "Bouncing a ball while moving in sports", "Used in basketball or soccer", "Basketball dribbling", "Passing; shooting"],
+["dynamic [adj.]", "/dy-NAM-ik/", "Full of energy or change", "Active and powerful", "Dynamic speaker; dynamic economy", "Static; unchanging"],
+["dynamics [n.]", "/dy-NAM-iks/", "Forces that cause movement or change", "In physics or relationships", "Group dynamics; music dynamics", "Stillness; silence"],
+["ecological [adj.]", "/ee-kuh-LOJ-ih-kul/", "Related to how living things interact with nature", "Includes food, shelter, climate", "A bear’s ecological role", "Plastic toy; video game"],
+["ecosystem [n.]", "/EE-ko-sis-tum/", "A community of living things and their environment", "Includes plants, animals, soil, water", "A pond with frogs and fish", "Plastic toy; single rock"],
+["effectiveness [n.]", "/ih-FEK-tiv-nis/", "How well something works", "Achieves the goal", "Effectiveness of a medicine", "Failure; waste"],
+["efficiency [n.]", "/ih-FISH-uhn-see/", "Doing something with little waste of time or energy", "Gets the job done well", "Energy efficiency; study efficiency", "Wastefulness; slowness"],
+["elastic [adj.]", "/ih-LAS-tik/", "Able to return to original shape after being stretched", "Rubber bands and springs are elastic", "Bouncy ball; trampoline", "Clay; glass"],
+["electron [n.]", "/ih-LEK-tron/", "Tiny particle with negative charge that moves around an atom’s center", "Involved in electricity", "Flows in wires to power lights", "Proton (positive); neutron (no charge)"],
+["elevation [n.]", "/el-uh-VAY-shun/", "Height above sea level", "Used in maps and mountains", "Mount Everest has high elevation", "Depth underwater; room temperature"],
+["emphasis [n.]", "/EM-fuh-sis/", "Special importance or stress on something", "Highlights key points", "Emphasis on health; emphasis in speech", "Ignoring; downplaying"],
+["emphasize [v.]", "/EM-fuh-syz/", "To give special importance to something", "Stresses or highlights", "Emphasize the main idea", "Ignore; skip over"],
+["empire [n.]", "/EM-pyer/", "A large group of lands ruled by one powerful nation", "Grows by conquering others", "Roman Empire; British Empire", "Single city; peaceful organization"],
+["empirical [adj.]", "/em-PIR-ih-kul/", "Based on real experiments or observations", "Comes from data you collect", "Lab results; survey answers", "Guesses; dreams"],
+["endoplasmic [adj.]", "/en-doh-PLAZ-mik/", "Cell part that makes and moves proteins and fats", "Looks like folded tunnels", "Rough ER has ribosomes", "Mitochondria; lysosome"],
+["endurance [n.]", "/en-DUR-uhns/", "Ability to keep going during hard activity", "Built by practice", "Running a marathon; studying for hours", "Lying on the couch; 1-minute break"],
+["ensemble [n.]", "/ahn-SOM-buhl/", "Group of musicians or actors who perform together", "Works as a team", "School music ensemble", "Solo performer; audience"],
+["entropy [n.]", "/EN-truh-pee/", "A measure of disorder in a system", "Things tend to become more disordered", "Ice melting into water", "Building a Lego castle (more order)"],
+["epic [adj.]", "/EP-ik/", "Grand and impressive in scale or style", "Used for stories or events", "Epic poem; epic journey", "Small; ordinary"],
+["epidermis [n.]", "/ep-ih-DUR-mis/", "Outer layer of skin", "Protects the body", "Human epidermis", "Dermis (inner layer); muscle"],
+["equality [n.]", "/ih-KWOL-ih-tee/", "Everyone has the same rights and chances", "Fair treatment", "Same school access for boys and girls", "Only rich people vote; unequal pay"],
+["equation [n.]", "/ih-KWAY-zhun/", "A math sentence that shows two things are equal", "Has numbers, variables, and an equal sign", "2x + 3 = 7", "“2x + 3” alone (not an equation)"],
+["equestrian [adj.]", "/ih-KWES-tree-un/", "Related to horse riding", "Involves skill and balance", "Equestrian sports; equestrian statue", "Swimming; running"],
+["equilateral [adj.]", "/ee-kwi-LAT-er-ul/", "A triangle with all sides equal", "All angles are 60°", "Equilateral triangle", "Isosceles or scalene triangle"],
+["equilibrium [n.]", "/ee-kwuh-LIB-ree-um/", "A balanced state where things stay steady", "Forces or processes are equal", "Seesaw with equal weight; body temperature", "Car crashing; volcano erupting"],
+["equivalent [adj.]", "/ih-KWIV-uh-luhnt/", "Having the same value or meaning", "May look different but means the same", "1/2 = 2/4; “Hello” = “你好”", "Cat ≠ dog; 3 ≠ 5"],
+["esteem [n.]", "/ih-STEEM/", "Respect and admiration", "High opinion of someone", "Self-esteem; hold in high esteem", "Disrespect; contempt"],
+["estimate [v.]", "/ES-tuh-mit/", "To make a smart guess about size or amount", "Not exact, but close", "Estimate how many candies in a jar", "Measuring with a ruler; counting every item"],
+["etiquette [n.]", "/ET-ih-ket/", "Polite behavior in social situations", "Shows respect; different in each culture", "Saying “please”; waiting your turn", "Interrupting; shouting in class"],
+["euphemism [n.]", "/YOO-fuh-miz-um/", "A polite word used instead of a harsh one", "Softens bad news", "“Passed away” instead of “died”", "“You’re fired!”; “He’s dead”"],
+["evaluation [n.]", "/ih-val-yoo-AY-shun/", "Judging how good or effective something is", "Uses standards or criteria", "Teacher grading an essay", "Saying “I don’t like it” without reason"],
+["evolution [n.]", "/ev-uh-LOO-shun/", "Gradual change in species over many generations", "Happens through natural selection", "Dinosaurs → birds; land mammals → whales", "A person growing taller; caterpillar to butterfly"],
+["exchange [v.]", "/iks-CHAYNJ/", "To give one thing and receive another", "Trade or swap", "Exchange ideas; exchange gifts", "Keep; hoard"],
+["executive [n.]", "/ig-ZEK-yuh-tiv/", "The branch of government that carries out laws", "Enforces rules; manages daily operations", "President Xi Jinping; the White House", "Judges (judicial); lawmakers (legislative)"],
+["expansion [n.]", "/ik-SPAN-shun/", "Growing bigger in size or power", "Can be physical or abstract", "Roman Empire adding new countries", "Losing land; shrinking population"],
+["exploration [n.]", "/ek-sploh-RAY-shun/", "Traveling to unknown places to learn", "Often risky; leads to discovery", "Zheng He’s voyages; Columbus sailing", "Walking to school; watching a movie"],
+["exponent [n.]", "/ik-SPOH-nuhnt/", "A small number that tells how many times to multiply", "Written above and to the right", "5² = 25; 10³ = 1,000", "5 × 3 (no exponent)"],
+["exposition [n.]", "/ek-spuh-ZISH-un/", "Explanation or description in writing", "Gives background information", "Exposition in the first chapter of a novel", "Action scene; climax"],
+["expression [n.]", "/ik-SPRESH-un/", "Words or actions that show feelings or ideas", "In math: group without “=”", "“Her smile is sunshine”; “2x + 3”", "“2x + 3 = 7” (that’s an equation)"],
+["exterior [n.]", "/ik-STEER-ee-ur/", "The outside part of something", "Opposite of interior", "Exterior walls of a house", "Heart, stomach, or brain"],
+["external [adj.]", "/ik-STUR-nul/", "Coming from outside something", "Not from within", "External force (like wind)", "Hunger (internal feeling); DNA"],
+["extracellular [adj.]", "/ek-struh-SEL-yuh-ler/", "Outside the cell", "Describes fluid or space", "Extracellular fluid", "Cytoplasm; nucleus"],
+["fable [n.]", "/FAY-bul/", "Short story with animals that teach a lesson", "Moral at the end", "The Tortoise and the Hare", "Novel; news report"],
+["facilitate [v.]", "/fuh-SIL-ih-tayt/", "To make something easier or help it happen", "Removes obstacles", "Teachers facilitate learning", "Blocking someone; making a task harder"],
+["factor [n.]", "/FAK-tur/", "Something that helps cause a result", "Can be a reason, number, or condition", "Rain is a factor in plant growth", "Random object with no effect"],
+["fauna [n.]", "/FAW-nuh/", "All the animals in a place or time", "Used with “flora” (plants)", "Amazon rainforest fauna", "Trees, grass, or rocks"],
+["feature [n.]", "/FEE-chur/", "An important or noticeable part", "A key detail", "A feature of democracy = voting", "Small, unimportant details like dust"],
+["fertile [adj.]", "/FUR-tl/", "Land that can grow healthy plants", "Rich in nutrients", "Fertile soil in river valleys", "Desert sand; rocky mountain top"],
+["fibrous [adj.]", "/FY-brus/", "Made of thin, thread-like parts", "Strong and flexible", "Fibrous roots in grass", "Smooth jelly; liquid water"],
+["fiction [n.]", "/FIK-shun/", "Stories made from imagination (not real)", "Includes novels, fantasy, sci-fi", "Harry Potter; Journey to the West", "Science textbook; news report"],
+["figurative [adj.]", "/FIG-yuh-ruh-tiv/", "Language that is not literal—uses images", "Includes metaphors, similes", "“Her smile is sunshine”", "“She smiled” (literal)"],
+["figure [n.]", "/FIG-yur/", "Shape like a circle or cube, OR a number/chart", "In math: 2D or 3D shape", "Triangle; bar graph", "Person walking by"],
+["finite [adj.]", "/FY-nyt/", "Having a limit or end—not endless", "Opposite of infinite", "A 10-question test; 5 minutes", "The universe; counting forever"],
+["fitness [n.]", "/FIT-nis/", "Being physically healthy and strong", "From exercise, good food, and rest", "Running fast; playing sports", "Being sick in bed; eating junk food"],
+["flexibility [n.]", "/flek-suh-BIL-ih-tee/", "Ability to bend or move easily", "Helps prevent injury", "Touching your toes; changing your mind", "Stiff wooden board; refusing to listen"],
+["fluid [n.]", "/FLOO-id/", "A substance that flows—like liquid or gas", "Takes the shape of its container", "Water, air, oil", "Ice cube; rock"],
+["foil [n.]", "/foyl/", "A character who is the opposite of another", "Used in stories to show contrast", "Joker is a foil to Batman", "Two best friends who are very similar"],
+["force [n.]", "/fors/", "A push or pull that can move or stop something", "Measured in newtons", "Kicking a ball; gravity pulls things down", "Thinking about moving (no actual push/pull)"],
+["foreshadow [v.]", "/for-SHAD-oh/", "To give a hint about what will happen later", "Builds suspense; clues for the reader", "Dark clouds before a storm", "Telling the ending right away"],
+["formal [adj.]", "/FOR-mul/", "Following rules, serious, and respectful", "Used in school, business, official situations", "Formal essay; wearing a suit", "Texting slang; wearing pajamas to class"],
+["format [n.]", "/FOR-mat/", "The way something is arranged or organized", "Rules for structure", "Essay format; spreadsheet format", "Messy handwriting with no structure"],
+["formula [n.]", "/FOR-myuh-luh/", "A rule or equation using symbols and numbers", "Gives a quick way to solve a problem", "Area = length × width", "A guess; a story with no math"],
+["formulate [v.]", "/FOR-myuh-layt/", "To create or put together an idea clearly", "Often used in science or writing", "Formulate a hypothesis", "Copying someone else’s idea without thinking"],
+["frequency [n.]", "/FREE-kwen-see/", "How often something happens", "Can be measured per minute or year", "Heartbeat frequency; bus frequency", "A one-time event (like a birthday)"],
+["friction [n.]", "/FRIK-shun/", "A force that slows down moving objects when surfaces rub", "Creates heat; can be helpful or harmful", "Rubbing hands together; car brakes", "Ice skating (low friction); floating in space"],
+["function [n.]", "/FUNK-shun/", "A job or purpose, OR in math: a rule with one output", "In cells: mitochondria’s function = make energy", "Heart’s function = pump blood; f(x) = 2x", "Random noise; broken machine"],
+["fundamental [adj.]", "/fun-duh-MEN-tul/", "Basic and very important—forms the foundation", "Needed before you can understand more", "Reading is fundamental; oxygen is fundamental", "Extra decoration; optional feature"],
+["furthermore [adv.]", "/FUR-ther-mor/", "A word that adds more information", "Used in writing to connect ideas", "“He is smart. Furthermore, he works hard.”", "“But,” “however” (show contrast)"],
+["fusion [n.]", "/FYOO-zhun/", "Joining two or more things into one", "In science: atomic nuclei join and release energy", "Nuclear fusion in the sun; fusion cuisine", "Cutting something apart; separating mixtures"],
+["gain [v.]", "/gayn/", "To get or increase something", "Positive change or addition", "Gain new skills; gain 2 kg", "Lose; drop; forget"],
+["Galileo [n.]", "/gal-ih-LAY-oh/", "Famous scientist who studied stars and motion", "Called “father of modern science”", "Used telescope to see moons of Jupiter", "Van Gogh (painter); modern programmer"],
+["gather [v.]", "/GATH-ur/", "To collect or bring things together", "Assembles items or people", "Gather information; gather friends", "Scatter; lose"],
+["generalist [n.]", "/JEN-er-uh-list/", "A person or animal with broad skills or diet", "Not specialized", "Raccoon (eats many foods); general doctor", "Panda (only eats bamboo); brain surgeon"],
+["genocide [n.]", "/JEN-uh-syd/", "Trying to destroy a whole group of people", "A crime against humanity; planned and violent", "Holocaust; Rwandan genocide", "School argument; natural disaster"],
+["genre [n.]", "/ZHAHN-ruh/", "A category of art, music, or literature", "Shares style or form", "Science fiction genre; jazz genre", "Single book; random song"],
+["geographical [adj.]", "/jee-uh-GRAF-ih-kul/", "Related to the natural features of Earth", "Includes mountains, rivers, climate", "Geographical map; geographical region", "Historical event; algebra problem"],
+["geothermal [adj.]", "/jee-oh-THER-mul/", "Heat energy from inside the Earth", "Used for power or heating", "Geothermal power plant; hot springs", "Solar energy; wind energy"],
+["globalization [n.]", "/gloh-buh-luh-ZAY-shun/", "The world becoming more connected", "Through trade, travel, and communication", "Watching Korean dramas; buying Nike shoes", "Living in a remote village with no internet"],
+["goalie [n.]", "/GOH-lee/", "Player who guards the goal in sports", "Stops the ball or puck", "Soccer goalie; hockey goalie", "Forward; midfielder"],
+["Golgi [n.]", "/GOL-jee/", "Cell part that sorts and packages proteins", "Looks like stacked pancakes", "Sends enzymes to where they’re needed", "Nucleus; mitochondria"],
+["gradient [n.]", "/GRAY-dee-uhnt/", "How quickly something changes over distance", "High gradient = big change", "Hot soup next to cold air", "Room with even temperature"],
+["graph [n.]", "/graf/", "A drawing that shows how two things are related", "Has x-axis and y-axis", "Line graph of temperature", "Photo of a mountain; paragraph of text"],
+["gravity [n.]", "/GRAV-ih-tee/", "The force that pulls objects toward each other", "Stronger with more mass", "Apple falling from a tree", "Magnet sticking to a fridge (magnetism)"],
+["greenhouse [n.]", "/GREEN-hows/", "Glass building for plants OR warming of Earth", "Greenhouse gases trap sun’s heat", "School garden greenhouse; climate change", "Open field; ice cap melting (result, not cause)"],
+["guilty [adj.]", "/GIL-tee/", "Responsible for a crime or wrongdoing", "Did something wrong", "Guilty of stealing; feel guilty", "Innocent; not involved"],
+["haiku [n.]", "/HY-koo/", "Short Japanese poem with 3 lines (5-7-5 syllables)", "Often about nature", "“An old silent pond / A frog jumps into the pond— / Splash! Silence again.”", "Long novel; rap song"],
+["halogen [n.]", "/HAL-uh-jen/", "Group of reactive nonmetal elements", "Form salts with metals", "Chlorine in pools; iodine in medicine", "Gold, iron, or oxygen"],
+["handball [n.]", "/HAND-bawl/", "Team sport where players throw a ball into the goal", "7 players per team; fast-paced", "Olympic handball", "Tennis (uses racket); soccer (uses feet)"],
+["hardware [n.]", "/HARD-wair/", "Physical parts of a computer or machine", "You can touch it", "Laptop, mouse, printer", "Word document; TikTok app (software)"],
+["harmonic [adj.]", "/har-MON-ik/", "Pleasing to the ear; musically balanced", "Notes sound good together", "Harmonic chords; harmonic voice", "Noise; dissonance"],
+["harmony [n.]", "/HAR-muh-nee/", "Pleasing music with notes played together OR peaceful agreement", "Sounds or people work well together", "Choir singing in harmony; family in harmony", "Loud noise; two friends fighting"],
+["heir [n.]", "/air/", "Person who will receive money or property after someone dies", "Often a child or close relative", "Prince Charles was heir to Queen Elizabeth", "Stranger; friend who borrows your book"],
+["hemisphere [n.]", "/HEM-ee-sfeer/", "Half of the Earth (North/South or East/West)", "Divided by equator or prime meridian", "China is in the Northern Hemisphere", "Full globe; a city"],
+["herbivore [n.]", "/UR-buh-vor/", "An animal that eats only plants", "Flat teeth for grinding leaves/grass", "Cows, deer, rabbits", "Lions, eagles, sharks (carnivores)"],
+["hereditary [adj.]", "/huh-RED-ih-ter-ee/", "Passed from parents to children through genes", "Includes eye color, height", "Having your mom’s nose", "Speaking English; knowing how to ride a bike"],
+["Hertz [n.]", "/hurtz/", "Unit that measures how many times something happens per second", "Used for sound, radio, light waves", "Human hearing: 20–20,000 Hz", "Meters (distance); kilograms (weight)"],
+["heterogeneous [adj.]", "/het-er-oh-JEE-nee-us/", "Made of different kinds of parts", "You can see the separate pieces", "Salad, soil, granite rock", "Salt water, air, sugar cube (homogeneous)"],
+["heterotroph [n.]", "/HET-er-uh-trof/", "An organism that must eat other things for energy", "Includes all animals, fungi", "Humans, mushrooms, dogs", "Plants, algae (autotrophs)"],
+["historical [adj.]", "/huh-STOR-ih-kul/", "Related to real past events", "Based on facts, dates, and real people", "World War II; invention of paper", "Harry Potter; fairy tales"],
+["homo sapiens [n.]", "/HOH-moh SAY-pee-uhnz/", "The scientific name for modern human beings", "Evolved in Africa; walk upright", "You, your teacher, everyone alive today", "Neanderthals; chimpanzees"],
+["homogeneous [adj.]", "/hoh-MAH-juh-nus/", "Made of the same kind of parts", "Looks the same everywhere", "Clean water, air, brass metal", "Chocolate chip cookie; sand in water"],
+["horizontal [adj.]", "/hor-uh-ZON-tul/", "Flat, side-to-side direction (like the horizon)", "Opposite of vertical (up-down)", "Tabletop; x-axis on a graph", "Tree trunk; flagpole"],
+["humility [n.]", "/hyoo-MIL-ih-tee/", "Being modest and not proud, even when you succeed", "Respects others; doesn’t brag", "A champion thanking their team", "Bragging on social media"],
+["hydrate [v.]", "/HY-drayt/", "To add or absorb water", "Important for health", "Drinking water after exercise", "Pouring oil on a pan; breathing air"],
+["hyperbole [n.]", "/hy-PUR-buh-lee/", "An exaggeration used for effect (not meant to be true)", "Makes writing more dramatic", "“I’m so hungry I could eat a horse!”", "“I ate an apple” (literal)"],
+["hypertonic [adj.]", "/hy-per-TON-ik/", "A solution with more salt/sugar than inside a cell", "Causes water to leave the cell → cell shrinks", "Seawater is hypertonic to fish cells", "Pure water (that’s hypotonic)"],
+["identify [v.]", "/eye-DEN-tuh-fy/", "To recognize or name something correctly", "Uses clues, knowledge, or evidence", "Identify the main idea of a text", "Guessing randomly; copying someone’s answer"],
+["identity [n.]", "/eye-DEN-tih-tee/", "The qualities that make you who you are", "Includes beliefs, culture, personality", "“I am Chinese, bilingual, and care about the environment”", "Your shoe size; your lunchbox"],
+["idolatry [n.]", "/eye-DOL-uh-tree/", "Worshiping statues or false gods", "Forbidden in some religions", "Praying to a golden statue", "Praying to God without images"],
+["illness [n.]", "/IL-nis/", "When your body or mind is not healthy", "Can be short (cold) or long (diabetes)", "Flu, fever, depression", "Feeling tired after exercise; being hungry"],
+["illustrate [v.]", "/IL-uh-strayt/", "To explain something clearly with pictures or examples", "Helps readers understand better", "A diagram that illustrates how a plant grows", "Just repeating the same words; giving no examples"],
+["imagery [n.]", "/IM-ih-jer-ee/", "Words that help you see, hear, smell, taste, or feel", "Makes writing more vivid", "“The warm bread smelled like cinnamon”", "“The bread was hot” (simple fact)"],
+["imaginary [adj.]", "/ih-MAJ-uh-ner-ee/", "Not real—only in your mind or imagination", "Made up; can’t be touched", "Dragons, unicorns, imaginary friends", "A real dog; your math textbook"],
+["imperial [adj.]", "/im-PEER-ee-ul/", "Relating to an empire or emperor", "Often used for rulers with great power", "Imperial China; imperial units (inches, pounds)", "Democratic government; metric system"],
+["importance [n.]", "/im-POR-tuhns/", "How much something matters or is valued", "Important things affect lives or decisions", "Education, health, family", "The color of your pencil; what you ate for breakfast"],
+["impulse [n.]", "/IM-puls/", "A sudden desire to do something without thinking", "Quick, emotional, not planned", "Shouting when angry; buying candy", "Saving money for a bike; studying for a test"],
+["Incas [n.]", "/ING-kahs/", "A powerful ancient civilization in South America", "Built Machu Picchu; used roads and messengers", "Inca Empire in Peru", "Ancient Egyptians; modern Peru"],
+["incorrect [adj.]", "/in-kur-EKT/", "Wrong; not true or accurate", "Opposite of correct", "2 + 2 = 5; spelling “cat” as “ktc”", "2 + 2 = 4; properly solved math problem"],
+["indefinite [adj.]", "/in-DEF-uh-nit/", "Not clearly known or decided; without a set end", "Could last a short or long time", "“The trip is on indefinite hold”", "“The test is on Friday”; “a 10-minute break”"],
+["independent [adj.]", "/in-duh-PEN-dent/", "Not controlled by others; able to think or act for oneself", "Self-reliant; makes own choices", "An independent country; an independent thinker", "A puppet ruler; copying homework"],
+["indigenous [adj.]", "/in-DIJ-uh-nus/", "Native to a place—originally from there", "Lived there before outsiders came", "Indigenous people of Canada (First Nations)", "Tourists; recent immigrants"],
+["inelastic [adj.]", "/in-ih-LAS-tik/", "Not able to return to original shape after being hit", "In physics: kinetic energy is not conserved", "Clay hitting the floor and staying flat", "Bouncing basketball (elastic); rubber band"],
+["inequality [n.]", "/in-ih-KWOL-ih-tee/", "Unfair differences in treatment or opportunities", "Can be based on wealth, gender, race", "Girls not allowed to go to school", "Two students getting different scores because one studied more"],
+["inert [adj.]", "/ih-NURT/", "Not active; doesn’t react or change", "Chemically stable; lazy or unmoving", "Noble gases like helium; a rock sitting still", "Fire (very active); a running dog"],
+["inertia [n.]", "/ih-NUR-shuh/", "An object’s tendency to keep doing what it’s already doing", "Greater mass = more inertia", "A parked truck is hard to push", "A feather falling slowly (air resistance changes motion)"]
+    ];
+
+    const flashcardsContainer = document.getElementById('flashcards');
+    cards.forEach(([word, pron, def, char, ex, nonEx]) => {
+      const cleanWord = word.split(' ')[0];
+      const flashcard = document.createElement('div');
+      flashcard.className = 'flashcard';
+      flashcard.innerHTML = `
+        <div class="flashcard-inner">
+          <div class="front">
+            <div class="word">${word}</div>
+            <div class="pron">${pron}</div>
+            <button class="speaker-btn" onclick="event.stopPropagation(); speakWord('${cleanWord}');">🔊</button>
+          </div>
+          <div class="back">
+            <h3>Definition</h3>
+            <p>${def}</p>
+            <h3>Characteristics</h3>
+            <p>${char}</p>
+            <h3>Examples</h3>
+            <p>${ex}</p>
+            <h3>Non-examples</h3>
+            <p>${nonEx}</p>
+          </div>
+        </div>
+      `;
+      flashcard.addEventListener('click', () => {
+        flashcard.classList.toggle('flipped');
+      });
+      flashcardsContainer.appendChild(flashcard);
+    });
+
+    window.speakWord = speakWord;
+  </script>
+</body>
+</html>
