@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Traps: Chinese Food & Culture Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(245, 87, 108, 0.3);
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+        .chinese-char {
+            font-size: 1.2em;
+            color: #f5576c;
+        }
+        .correct-answer {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+        }
+        .wrong-answer {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+        }
+        .hidden-section {
+            display: none;
+        }
+        .visible-section {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .food-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-2 bg-gray-800 z-50">
+        <div id="progressBar" class="h-full bg-gradient-to-r from-pink-500 to-red-500 progress-bar" style="width: 0%"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-2 left-0 w-full p-4 z-40 flex justify-between items-center bg-opacity-90 bg-gray-900 backdrop-blur-sm">
+        <div class="text-xl font-bold gradient-text serif">Translation Mastery</div>
+        <div class="flex gap-4 text-sm">
+            <span id="sectionIndicator" class="px-3 py-1 bg-gray-800 rounded-full">Section 1/6</span>
+            <span id="timer" class="px-3 py-1 bg-gray-800 rounded-full">⏱️ 15:00</span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 pt-24 pb-12 max-w-4xl">
+
+        <!-- Section 1: Introduction -->
+        <div id="section1" class="visible-section">
+            <div class="text-center mb-12">
+                <div class="text-6xl mb-4">🥢🌏</div>
+                <h1 class="text-5xl font-bold mb-4 serif gradient-text">Lost in Translation</h1>
+                <h2 class="text-2xl text-gray-400 mb-6">Chinese Food & Culture Edition</h2>
+                <p class="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                    Welcome to the dangerous world of culinary translation! From "Husband-and-Wife Lung Slices" to "Fish-Fragrant Eggplant," Chinese food translation is notoriously tricky. 
+                    <br><br>
+                    Master the <strong>4 Common Translation Traps</strong> and learn to avoid embarrassing (and hilarious) mistakes.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 card-hover">
+                    <div class="text-3xl mb-2">📝</div>
+                    <h3 class="text-xl font-bold mb-2 text-pink-400">Grammar Traps</h3>
+                    <p class="text-gray-400">Word order disasters and missing helper words</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 card-hover">
+                    <div class="text-3xl mb-2">❌</div>
+                    <h3 class="text-xl font-bold mb-2 text-red-400">Missing Words</h3>
+                    <p class="text-gray-400">Articles and tenses that Chinese omits but English demands</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 card-hover">
+                    <div class="text-3xl mb-2">👯</div>
+                    <h3 class="text-xl font-bold mb-2 text-yellow-400">False Friends</h3>
+                    <p class="text-gray-400">Words that look familiar but betray you</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 card-hover">
+                    <div class="text-3xl mb-2">🏮</div>
+                    <h3 class="text-xl font-bold mb-2 text-green-400">Culture Traps</h3>
+                    <p class="text-gray-400">When cultural context is lost in translation</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button onclick="nextSection()" class="px-8 py-4 bg-gradient-to-r from-pink-500 to-red-500 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-pink-500/30">
+                    Start Learning Adventure →
+                </button>
+                <p class="mt-4 text-sm text-gray-500">Estimated time: 15 minutes • 6 sections • Interactive quizzes</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Grammar Traps -->
+        <div id="section2" class="hidden-section">
+            <div class="mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-4xl">📝</span>
+                    <h2 class="text-3xl font-bold serif text-pink-400">Trap 1: Grammar Chaos</h2>
+                </div>
+                <p class="text-gray-300 text-lg mb-6">
+                    Chinese grammar ≠ English grammar. Chinese relies on context and particles, while English demands strict word order and helper words (be verbs, prepositions).
+                </p>
+            </div>
+
+            <div class="space-y-6 mb-8">
+                <!-- Example 1 -->
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-6 rounded-r-xl">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">❌ WRONG</span>
+                        <span class="chinese-char">昨天我去吃麻婆豆腐很辣</span>
+                    </div>
+                    <p class="text-xl text-red-300 mb-2 font-mono">"Yesterday I go eat Mapo tofu very spicy"</p>
+                    <p class="text-red-200 text-sm">Missing: subject-verb agreement, articles, proper connectors</p>
+                </div>
+
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-xl">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">✅ CORRECT</span>
+                    </div>
+                    <p class="text-xl text-green-300 mb-2 font-mono">"Yesterday, I went to eat Mapo tofu. It was very spicy."</p>
+                    <p class="text-green-200 text-sm">Added: past tense, articles, sentence break, subject for second clause</p>
+                </div>
+
+                <!-- Example 2 -->
+                <div class="bg-red-900/20 border-l-4 border-red-500 p-6 rounded-r-xl mt-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">❌ WRONG</span>
+                        <span class="chinese-char">她正在吃火锅在餐厅</span>
+                    </div>
+                    <p class="text-xl text-red-300 mb-2 font-mono">"She eating hot pot at restaurant"</p>
+                </div>
+
+                <div class="bg-green-900/20 border-l-4 border-green-500 p-6 rounded-r-xl">
+                    <div class="flex justify-between items-start mb-3">
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold">✅ CORRECT</span>
+                    </div>
+                    <p class="text-xl text-green-300 mb-2 font-mono">"She is eating hot pot at the restaurant"</p>
+                    <p class="text-green-200 text-sm">Added: "is" (be verb), "the" (article)</p>
+                </div>
+            </div>
+
+            <!-- Interactive Exercise -->
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-8">
+                <h3 class="text-xl font-bold mb-4 text-yellow-400">🎯 Fix the Grammar Trap</h3>
+                <p class="mb-4 text-gray-300">Correct this sentence about eating dim sum:</p>
+                <div class="bg-gray-900 p-4 rounded-lg mb-4 font-mono text-lg text-red-300">
+                    "We go restaurant eat dim sum yesterday very delicious"
+                </div>
+                
+                <div class="space-y-3" id="grammarQuiz">
+                    <button onclick="checkGrammar(0)" class="w-full p-4 bg-gray-700 hover:bg-gray-600 rounded-lg text-left transition-colors border border-gray-600">
+                        A) "We go restaurant eat dim sum yesterday very delicious"
+                    </button>
+                    <button onclick="checkGrammar(1)" class="w-full p-4 bg-gray-700 hover:bg-gray-600 rounded-lg text-left transition-colors border border-gray-600">
+                        B) "We went to a restaurant to eat dim sum yesterday. It was very delicious."
+                    </button>
+                    <button onclick="checkGrammar(2)" class="w-full p-4 bg-gray-700 hover:bg-gray-600 rounded-lg text-left transition-colors border border-gray-600">
+                        C) "We going restaurant eating dim sum yesterday very delicious"
+                    </button>
+                </div>
+                <div id="grammarFeedback" class="mt-4 hidden"></div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevSection()" class="px-6 py-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors">← Back</button>
+                <button onclick="nextSection()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full font-bold hover:scale-105 transition-transform">Continue →</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Missing Words -->
+        <div id="section3" class="hidden-section">
+            <div class="mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-4xl">❌</span>
+                    <h2 class="text-3xl font-bold serif text-red-400">Trap 2: The Invisible Words</h2>
+                </div>
+                <p class="text-gray-300 text-lg mb-6">
+                    Chinese often omits articles (a, the) and doesn't conjugate verbs for tense. English requires these "small words" for clarity—without them, sentences feel broken and childlike.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                    <h3 class="text-lg font-bold mb-3 text-red-400">Missing Articles</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="bg-red-900/30 p-3 rounded">❌ "I ate <span class="text-red-400">____</span> mooncake"</div>
+                        <div class="bg-green-900/30 p-3 rounded">✅ "I ate <span class="text-green-400">a</span> mooncake" / "I ate <span class="text-green-400">the</span> mooncake"</div>
+                    </div>
+                    <p class="mt-3 text-gray-400 text-xs">Chinese: 我吃了月饼 (no "a" or "the")</p>
+                </div>
+
+                <div class="bg-gray-800 p-6 rounded-xl border border-gray-700">
+                    <h3 class="text-lg font-bold mb-3 text-red-400">Missing Tense</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="bg-red-900/30 p-3 rounded">❌ "Yesterday I <span class="text-red-400">eat</span> noodles"</div>
+                        <div class="bg-green-900/30 p-3 rounded">✅ "Yesterday I <span class="text-green-400">ate</span> noodles"</div>
+                    </div>
+                    <p class="mt-3 text-gray-400 text-xs">Chinese: 昨天我吃面条 (吃 doesn't change)</p>
+                </div>
+            </div>
+
+            <!-- Drag and Drop Exercise -->
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-8">
+                <h3 class="text-xl font-bold mb-4 text-yellow-400">🎯 Fill in the Missing Words</h3>
+                <p class="mb-4 text-gray-300">Add the missing words to make this sentence proper English:</p>
+                
+                <div class="bg-gray-900 p-6 rounded-lg mb-6 text-center">
+                    <p class="text-xl mb-4 font-mono">
+                        "_____ morning I went to _____ restaurant and ordered _____ bowl of noodles. 
+                        _____ noodles were spicy but _____ delicious."
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap gap-3 justify-center mb-6" id="wordBank">
+                    <button onclick="addWord('This')" class="word-btn px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors">This</button>
+                    <button onclick="addWord('a')" class="word-btn px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors">a</button>
+                    <button onclick="addWord('the')" class="word-btn px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors">the</button>
+                    <button onclick="addWord('very')" class="word-btn px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors">very</button>
+                </div>
+
+                <div id="missingWordsResult" class="hidden bg-gray-900 p-4 rounded-lg text-center">
+                    <p class="text-lg mb-2">Your sentence:</p>
+                    <p id="userSentence" class="text-xl font-mono text-yellow-300"></p>
+                </div>
+
+                <button onclick="checkMissingWords()" class="w-full mt-4 p-3 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg font-bold">Check Answer</button>
+                <div id="missingFeedback" class="mt-4 hidden"></div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevSection()" class="px-6 py-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors">← Back</button>
+                <button onclick="nextSection()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full font-bold hover:scale-105 transition-transform">Continue →</button>
+            </div>
+        </div>
+
+        <!-- Section 4: False Friends -->
+        <div id="section4" class="hidden-section">
+            <div class="mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-4xl">👯</span>
+                    <h2 class="text-3xl font-bold serif text-yellow-400">Trap 3: False Friends</h2>
+                </div>
+                <p class="text-gray-300 text-lg mb-6">
+                    "False friends" are words that look like they should translate directly but have completely different meanings. In food contexts, these can lead to embarrassing or nonsensical translations.
+                </p>
+            </div>
+
+            <div class="space-y-6 mb-8">
+                <!-- False Friend 1 -->
+                <div class="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 p-6 rounded-xl border border-yellow-600/30">
+                    <div class="flex items-start gap-4">
+                        <div class="text-4xl">🔥</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-yellow-400 mb-2">"Hot" vs "Spicy" vs "Popular"</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
+                                <div>
+                                    <p class="text-sm text-gray-400 mb-1">Chinese: 辣 (là)</p>
+                                    <p class="text-red-300">❌ "This dish is very hot" (temperature?)</p>
+                                    <p class="text-green-300">✅ "This dish is very spicy"</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400 mb-1">Chinese: 火热 (huǒrè)</p>
+                                    <p class="text-red-300">❌ "My friend is hot" (attractive?)</p>
+                                    <p class="text-green-300">✅ "My friend is passionate/popular"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- False Friend 2 -->
+                <div class="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 p-6 rounded-xl border border-yellow-600/30">
+                    <div class="flex items-start gap-4">
+                        <div class="text-4xl">🍵</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-yellow-400 mb-2">"Red Tea" Disaster</h3>
+                            <p class="text-gray-300 mb-2">One of the most famous false friends in food translation:</p>
+                            <div class="bg-red-900/40 p-3 rounded mb-2">
+                                <span class="chinese-char">红茶</span> (hóngchá) = literally "red tea"
+                                <p class="text-red-300 mt-1">❌ "I want red tea"</p>
+                            </div>
+                            <div class="bg-green-900/40 p-3 rounded">
+                                <p class="text-green-300">✅ "I want black tea"</p>
+                                <p class="text-xs text-gray-400 mt-1">In English, oxidized tea is called "black" not "red"!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- False Friend 3 -->
+                <div class="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 p-6 rounded-xl border border-yellow-600/30">
+                    <div class="flex items-start gap-4">
+                        <div class="text-4xl">🥧</div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-yellow-400 mb-2">"Pie" vs "Bun"</h3>
+                            <p class="text-gray-300 mb-2">Chinese mooncakes and pineapple buns are not what English speakers expect:</p>
+                            <div class="space-y-2">
+                                <div class="bg-red-900/40 p-3 rounded">
+                                    <span class="chinese-char">月饼</span> (yuèbǐng) = "moon pie"? 
+                                    <span class="text-red-300 ml-2">❌ Sounds like a dessert for Americans</span>
+                                </div>
+                                <div class="bg-green-900/40 p-3 rounded">
+                                    <span class="text-green-300">✅ "mooncake" (keep the Chinese concept)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matching Game -->
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-8">
+                <h3 class="text-xl font-bold mb-4 text-yellow-400">🎯 False Friend Detective</h3>
+                <p class="mb-4 text-gray-300">Which translation is correct?</p>
+                
+                <div class="space-y-4" id="falseFriendQuiz">
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <p class="mb-3 font-bold">Sentence: "这家餐厅很火" (Zhè jiā cāntīng hěn huǒ)</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            <button onclick="checkFalseFriend(0, 0)" class="ff-btn p-3 bg-gray-700 hover:bg-gray-600 rounded text-left border border-gray-600">
+                                A) "This restaurant is on fire" 🔥
+                            </button>
+                            <button onclick="checkFalseFriend(0, 1)" class="ff-btn p-3 bg-gray-700 hover:bg-gray-600 rounded text-left border border-gray-600">
+                                B) "This restaurant is very popular/trending"
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 p-4 rounded-lg">
+                        <p class="mb-3 font-bold">Sentence: "我喜欢吃苦瓜" (Wǒ xǐhuan chī kǔguā)</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            <button onclick="checkFalseFriend(1, 0)" class="ff-btn p-3 bg-gray-700 hover:bg-gray-600 rounded text-left border border-gray-600">
+                                A) "I like to eat suffering melon"
+                            </button>
+                            <button onclick="checkFalseFriend(1, 1)" class="ff-btn p-3 bg-gray-700 hover:bg-gray-600 rounded text-left border border-gray-600">
+                                B) "I like to eat bitter melon"
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="ffFeedback" class="mt-4 hidden"></div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevSection()" class="px-6 py-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors">← Back</button>
+                <button onclick="nextSection()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full font-bold hover:scale-105 transition-transform">Continue →</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Culture Traps -->
+        <div id="section5" class="hidden-section">
+            <div class="mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="text-4xl">🏮</span>
+                    <h2 class="text-3xl font-bold serif text-green-400">Trap 4: Culture Black Holes</h2>
+                </div>
+                <p class="text-gray-300 text-lg mb-6">
+                    The most dangerous trap! Chinese culinary culture is thousands of years deep. When you translate literally without context, English readers are left confused—or horrified.
+                </p>
+            </div>
+
+            <div class="space-y-6 mb-8">
+                <!-- Famous Example 1 -->
+                <div class="bg-gradient-to-r from-green-900/30 to-teal-900/30 p-6 rounded-xl border border-green-600/30">
+                    <div class="flex items-start gap-4">
+                        <div class="text-5xl">🦁</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-green-400 mb-2 serif">"Lion's Head" Meatballs</h3>
+                            <p class="text-sm text-gray-400 mb-3">Chinese: <span class="chinese-char">狮子头</span> (shīzi tóu)</p>
+                            
+                            <div class="bg-red-900/40 p-4 rounded-lg mb-3 border-l-4 border-red-500">
+                                <p class="text-red-300 font-bold mb-1">❌ Literal Translation Disaster:</p>
+                                <p class="text-red-200">"Braised Lion's Head"</p>
+                                <p class="text-sm text-red-300/70 mt-1">English speakers imagine: actual lion meat 🦁⚠️</p>
+                            </div>
+
+                            <div class="bg-green-900/40 p-4 rounded-lg border-l-4 border-green-500">
+                                <p class="text-green-300 font-bold mb-1">✅ Cultural Solution:</p>
+                                <p class="text-green-200">"Braised Pork Meatballs (Lion's Head Style)"</p>
+                                <p class="text-sm text-green-300/70 mt-1">Keep the poetic name, but explain it's pork!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Famous Example 2 -->
+                <div class="bg-gradient-to-r from-green-900/30 to-teal-900/30 p-6 rounded-xl border border-green-600/30">
+                    <div class="flex items-start gap-4">
+                        <div class="text-5xl">💑</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-green-400 mb-2 serif">"Husband-and-Wife Lung Slices"</h3>
+                            <p class="text-sm text-gray-400 mb-3">Chinese: <span class="chinese-char">夫妻肺片</span> (fūqī fèi piàn)</p>
+                            
+                            <div class="bg-red-900/40 p-4 rounded-lg mb-3 border-l-4 border-red-500">
+                                <p class="text-red-300 font-bold mb-1">❌ Literal Translation Horror:</p>
+                                <p class="text-red-200">"Husband and Wife Lung Slices"</p>
+                                <p class="text-sm text-red-300/70 mt-1">English speakers imagine: human organs! 😱</p>
+                            </div>
+
+                            <div class="bg-green-900/40 p-4 rounded-lg border-l-4 border-green-500">
+                                <p class="text-green-300 font-bold mb-1">✅ Cultural Solution:</p>
+                                <p class="text-green-200">"Sliced Beef Offal in Chili Oil (Fuqi Feipian)"</p>
+                                <p class="text-sm text-green-300/70 mt-1">Explain it's beef, keep the Chinese name for flavor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Famous Example 3 -->
+                <div class="bg-gradient-to-r from-green-900/30 to-teal-900/30 p-6 rounded-xl border border-green-600/30">
+                    <div class="flex items-start gap-4">
+                        <div class="text-5xl">🐟</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-green-400 mb-2 serif">"Fish-Fragrant Eggplant"</h3>
+                            <p class="text-sm text-gray-400 mb-3">Chinese: <span class="chinese-char">鱼香茄子</span> (yúxiāng qiézi)</p>
+                            
+                            <div class="bg-red-900/40 p-4 rounded-lg mb-3 border-l-4 border-red-500">
+                                <p class="text-red-300 font-bold mb-1">❌ The Confusion:</p>
+                                <p class="text-red-200">"Fish-fragrant eggplant" (contains no fish!)</p>
+                                <p class="text-sm text-red-300/70 mt-1">Named after seasoning used in traditional fish dishes</p>
+                            </div>
+
+                            <div class="bg-green-900/40 p-4 rounded-lg border-l-4 border-green-500">
+                                <p class="text-green-300 font-bold mb-1">✅ Cultural Solution:</p>
+                                <p class="text-green-200">"Yu Xiang Eggplant (Fish-fragrant style, no fish)"</p>
+                                <p class="text-sm text-green-300/70 mt-1">Keep the poetic name, add disclaimer!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Culture Context Exercise -->
+            <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 mb-8">
+                <h3 class="text-xl font-bold mb-4 text-green-400">🎯 Add the Missing Context</h3>
+                <p class="mb-4 text-gray-300">The following description is too culturally bare. Select what context needs to be added:</p>
+                
+                <div class="bg-gray-900 p-4 rounded-lg mb-4">
+                    <p class="text-lg text-yellow-300">"We ate hot pot."</p>
+                    <p class="text-sm text-gray-400 mt-2">Problem: Westerners might think it's just soup!</p>
+                </div>
+
+                <div class="space-y-3" id="cultureQuiz">
+                    <label class="flex items-start gap-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+                        <input type="checkbox" class="mt-1 w-5 h-5 accent-green-500" value="communal">
+                        <div>
+                            <span class="font-bold text-green-300">It's communal cooking</span>
+                            <p class="text-sm text-gray-400">Everyone cooks raw ingredients together in shared boiling broth</p>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+                        <input type="checkbox" class="mt-1 w-5 h-5 accent-green-500" value="social">
+                        <div>
+                            <span class="font-bold text-green-300">It's a social event</span>
+                            <p class="text-sm text-gray-400">Hot pot is about spending time together, not just eating</p>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 bg-gray-700 rounded-lg cursor-pointer hover:bg-gray-600 transition-colors">
+                        <input type="checkbox" class="mt-1 w-5 h-5 accent-green-500" value="raw">
+                        <div>
+                            <span class="font-bold text-green-300">Raw ingredients</span>
+                            <p class="text-sm text-gray-400">You receive raw meat and vegetables to cook yourself</p>
+                        </div>
+                    </label>
+                </div>
+
+                <button onclick="checkCulture()" class="w-full mt-4 p-3 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg font-bold">Check Context</button>
+                <div id="cultureFeedback" class="mt-4 hidden"></div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevSection()" class="px-6 py-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors">← Back</button>
+                <button onclick="nextSection()" class="px-6 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full font-bold hover:scale-105 transition-transform">Final Challenge →</button>
+            </div>
+        </div>
+
+        <!-- Section 6: Final Challenge -->
+        <div id="section6" class="hidden-section">
+            <div class="mb-8 text-center">
+                <div class="text-6xl mb-4">🏆</div>
+                <h2 class="text-4xl font-bold mb-4 serif gradient-text">The Translation Master Challenge</h2>
+                <p class="text-gray-300 text-lg">Apply all 4 traps to fix these real restaurant menu disasters!</p>
+            </div>
+
+            <div class="space-y-8 mb-8" id="finalChallenge">
+                <!-- Challenge 1 -->
+                <div class="bg-gray-800 p-6 rounded-xl border-2 border-red-500/50 challenge-card" data-challenge="1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm">DISASTER #1</span>
+                        <span class="chinese-char text-2xl">佛跳墙</span>
+                    </div>
+                    <p class="text-xl text-red-300 mb-4 font-mono">"Buddha Jump Over Wall"</p>
+                    <p class="text-gray-400 mb-4 text-sm">A famous Fujian soup with premium ingredients (abalone, sea cucumber, shark fin)</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <p class="text-sm text-gray-300">What's wrong?</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="toggleTrap(this, 'grammar')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Grammar</button>
+                            <button onclick="toggleTrap(this, 'missing')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Missing Words</button>
+                            <button onclick="toggleTrap(this, 'false')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">False Friend</button>
+                            <button onclick="toggleTrap(this, 'culture')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Culture Trap</button>
+                        </div>
+                    </div>
+
+                    <textarea class="w-full p-3 bg-gray-900 rounded-lg text-white border border-gray-700 focus:border-green-500 focus:outline-none" rows="2" placeholder="Write your improved translation here..."></textarea>
+                    
+                    <button onclick="checkChallenge(1)" class="mt-3 w-full p-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-bold">Check Answer</button>
+                    <div class="challenge-feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Challenge 2 -->
+                <div class="bg-gray-800 p-6 rounded-xl border-2 border-red-500/50 challenge-card" data-challenge="2">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm">DISASTER #2</span>
+                        <span class="chinese-char text-2xl">昨天我们吃麻婆豆腐很辣好吃</span>
+                    </div>
+                    <p class="text-xl text-red-300 mb-4 font-mono">"Yesterday we eat Mapo tofu very spicy delicious"</p>
+                    <p class="text-gray-400 mb-4 text-sm">Mapo tofu = Sichuan tofu dish with minced pork and chili oil</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <p class="text-sm text-gray-300">What's wrong?</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="toggleTrap(this, 'grammar')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Grammar</button>
+                            <button onclick="toggleTrap(this, 'missing')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Missing Words</button>
+                            <button onclick="toggleTrap(this, 'false')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">False Friend</button>
+                            <button onclick="toggleTrap(this, 'culture')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Culture Trap</button>
+                        </div>
+                    </div>
+
+                    <textarea class="w-full p-3 bg-gray-900 rounded-lg text-white border border-gray-700 focus:border-green-500 focus:outline-none" rows="2" placeholder="Write your improved translation here..."></textarea>
+                    
+                    <button onclick="checkChallenge(2)" class="mt-3 w-full p-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-bold">Check Answer</button>
+                    <div class="challenge-feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+
+                <!-- Challenge 3 -->
+                <div class="bg-gray-800 p-6 rounded-xl border-2 border-red-500/50 challenge-card" data-challenge="3">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm">DISASTER #3</span>
+                        <span class="chinese-char text-2xl">菠萝包</span>
+                    </div>
+                    <p class="text-xl text-red-300 mb-4 font-mono">"Pineapple Bun"</p>
+                    <p class="text-gray-400 mb-4 text-sm">Hong Kong bakery item - sweet bread with crumbly sweet crust</p>
+                    
+                    <div class="space-y-2 mb-4">
+                        <p class="text-sm text-gray-300">What's wrong?</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button onclick="toggleTrap(this, 'grammar')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Grammar</button>
+                            <button onclick="toggleTrap(this, 'missing')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Missing Words</button>
+                            <button onclick="toggleTrap(this, 'false')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">False Friend</button>
+                            <button onclick="toggleTrap(this, 'culture')" class="trap-btn px-3 py-1 bg-gray-700 rounded-full text-sm border border-gray-600">Culture Trap</button>
+                        </div>
+                    </div>
+
+                    <textarea class="w-full p-3 bg-gray-900 rounded-lg text-white border border-gray-700 focus:border-green-500 focus:outline-none" rows="2" placeholder="Write your improved translation here..."></textarea>
+                    
+                    <button onclick="checkChallenge(3)" class="mt-3 w-full p-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-bold">Check Answer</button>
+                    <div class="challenge-feedback hidden mt-3 p-3 rounded-lg"></div>
+                </div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="prevSection()" class="px-6 py-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors">← Review</button>
+                <button onclick="nextSection()" class="px-6 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-yellow-500/30">
+                    Mastery Test 🎯
+                </button>
+            </div>
+        </div>
+
+        <!-- ===================== SECTION 7: MASTERY QUIZ ===================== -->
+        <div id="section7" class="hidden-section">
+
+            <!-- Integrity Warning -->
+            <div class="bg-red-950 border-2 border-red-500 rounded-xl p-5 mb-8 text-center">
+                <div class="text-3xl mb-2">🚫🤖 &nbsp; 🚫📱</div>
+                <h3 class="text-xl font-bold text-red-300 mb-1">GRADED MASTERY TEST</h3>
+                <p class="text-gray-300 text-sm leading-relaxed">
+                    This is your <strong>official assessment</strong>. Work completely independently.<br>
+                    <span class="text-red-400 font-bold">No AI (ChatGPT, DeepSeek, etc.) &nbsp;|&nbsp; No translation apps (Google Translate, WeChat, etc.)</span><br>
+                    Your score card will be submitted as a screenshot. Academic dishonesty = zero.
+                </p>
+            </div>
+
+            <div class="text-center mb-8">
+                <div class="text-5xl mb-3">🎯</div>
+                <h2 class="text-3xl font-bold serif gradient-text">Mastery Quiz</h2>
+                <p class="text-gray-400 mt-2">10 questions · Select your answer · Self-checking score at the end</p>
+            </div>
+
+            <!-- Questions -->
+            <div id="masteryQuestions" class="space-y-6 mb-8">
+
+                <!-- Q1 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="1" data-correct="1">
+                    <p class="text-xs font-bold text-pink-400 mb-1 uppercase tracking-wider">Question 1 · Grammar Trap</p>
+                    <p class="text-lg font-bold mb-4">Which sentence is correct English?</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="0" onclick="mSelect(this,1,0)">A) "Yesterday I go eat dumplings very delicious"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="1" onclick="mSelect(this,1,1)">B) "Yesterday, I went to eat dumplings. They were very delicious."</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="2" onclick="mSelect(this,1,2)">C) "Yesterday I going eat dumplings very delicious"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="3" onclick="mSelect(this,1,3)">D) "Yesterday I go to eat dumplings very was delicious"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="2" data-correct="2">
+                    <p class="text-xs font-bold text-red-400 mb-1 uppercase tracking-wider">Question 2 · Missing Words</p>
+                    <p class="text-lg font-bold mb-2">Choose the correctly completed sentence:</p>
+                    <p class="text-gray-400 text-sm mb-4">我吃了月饼很甜 → "_____ mooncake was very sweet"</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="0" onclick="mSelect(this,2,0)">A) "Mooncake was very sweet"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="1" onclick="mSelect(this,2,1)">B) "A mooncake is very sweet"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="2" onclick="mSelect(this,2,2)">C) "The mooncake was very sweet"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="3" onclick="mSelect(this,2,3)">D) "One mooncake were very sweet"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="3" data-correct="1">
+                    <p class="text-xs font-bold text-yellow-400 mb-1 uppercase tracking-wider">Question 3 · False Friend</p>
+                    <p class="text-lg font-bold mb-4">How should <span class="chinese-char">红茶</span> (hóngchá) be translated into English?</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="0" onclick="mSelect(this,3,0)">A) "Red tea"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="1" onclick="mSelect(this,3,1)">B) "Black tea"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="2" onclick="mSelect(this,3,2)">C) "Dark tea"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="3" onclick="mSelect(this,3,3)">D) "Hot tea"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="4" data-correct="3">
+                    <p class="text-xs font-bold text-green-400 mb-1 uppercase tracking-wider">Question 4 · Culture Trap</p>
+                    <p class="text-lg font-bold mb-4">Best English menu translation for <span class="chinese-char">夫妻肺片</span>?</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="0" onclick="mSelect(this,4,0)">A) "Husband and Wife Lung Slices"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="1" onclick="mSelect(this,4,1)">B) "Married Couple Meat Dish"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="2" onclick="mSelect(this,4,2)">C) "Spicy Sliced Vegetables"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="3" onclick="mSelect(this,4,3)">D) "Sliced Beef Offal in Chili Oil (Fuqi Feipian)"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="5" data-correct="2">
+                    <p class="text-xs font-bold text-pink-400 mb-1 uppercase tracking-wider">Question 5 · Grammar Trap</p>
+                    <p class="text-lg font-bold mb-4">Which is the ONLY correct sentence?</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="0" onclick="mSelect(this,5,0)">A) "She cooking noodles at kitchen"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="1" onclick="mSelect(this,5,1)">B) "She is cook noodles at the kitchen"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="2" onclick="mSelect(this,5,2)">C) "She is cooking noodles in the kitchen"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="3" onclick="mSelect(this,5,3)">D) "She cooking noodles in kitchen"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="6" data-correct="0">
+                    <p class="text-xs font-bold text-yellow-400 mb-1 uppercase tracking-wider">Question 6 · False Friend</p>
+                    <p class="text-lg font-bold mb-4">"这家餐厅很火" — What does this mean?</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="0" onclick="mSelect(this,6,0)">A) "This restaurant is very popular / trending"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="1" onclick="mSelect(this,6,1)">B) "This restaurant is on fire"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="2" onclick="mSelect(this,6,2)">C) "This restaurant serves spicy food"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="3" onclick="mSelect(this,6,3)">D) "This restaurant is very hot inside"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q7 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="7" data-correct="1">
+                    <p class="text-xs font-bold text-red-400 mb-1 uppercase tracking-wider">Question 7 · Missing Words</p>
+                    <p class="text-lg font-bold mb-4">Which article fits best? "I ordered _____ bowl of soup."</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="0" onclick="mSelect(this,7,0)">A) "the" — only correct option</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="1" onclick="mSelect(this,7,1)">B) "a" — correct for ordering one bowl (first mention)</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="2" onclick="mSelect(this,7,2)">C) No article needed</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-red-400" data-opt="3" onclick="mSelect(this,7,3)">D) "some"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q8 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="8" data-correct="2">
+                    <p class="text-xs font-bold text-green-400 mb-1 uppercase tracking-wider">Question 8 · Culture Trap</p>
+                    <p class="text-lg font-bold mb-4">Why is "Fish-Fragrant Eggplant" confusing to English speakers?</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="0" onclick="mSelect(this,8,0)">A) "Eggplant" is not a common English word</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="1" onclick="mSelect(this,8,1)">B) The word "fragrant" sounds too poetic</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="2" onclick="mSelect(this,8,2)">C) The dish contains no fish, but the name implies it does</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-green-400" data-opt="3" onclick="mSelect(this,8,3)">D) It is a grammar mistake to use "fragrant" with food</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q9 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="9" data-correct="3">
+                    <p class="text-xs font-bold text-pink-400 mb-1 uppercase tracking-wider">Question 9 · Grammar Trap</p>
+                    <p class="text-lg font-bold mb-4">Fix this sentence: "We eat hot pot last night very fun"</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="0" onclick="mSelect(this,9,0)">A) "We eat hot pot last night and very fun"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="1" onclick="mSelect(this,9,1)">B) "We eaten hot pot last night very funny"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="2" onclick="mSelect(this,9,2)">C) "We ate hot pot last night and very fun"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-pink-400" data-opt="3" onclick="mSelect(this,9,3)">D) "We ate hot pot last night. It was very fun."</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- Q10 -->
+                <div class="mastery-q bg-gray-800 p-6 rounded-xl border border-gray-700" data-q="10" data-correct="0">
+                    <p class="text-xs font-bold text-yellow-400 mb-1 uppercase tracking-wider">Question 10 · All Traps</p>
+                    <p class="text-lg font-bold mb-2">Best translation for a Western audience?</p>
+                    <p class="text-gray-400 text-sm mb-4"><span class="chinese-char">狮子头</span> — a large braised pork meatball dish</p>
+                    <div class="space-y-2">
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="0" onclick="mSelect(this,10,0)">A) "Braised Pork Meatballs (Lion's Head Style)"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="1" onclick="mSelect(this,10,1)">B) "Braised Lion's Head"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="2" onclick="mSelect(this,10,2)">C) "Lion Meat with Sauce"</div>
+                        <div class="mopt p-3 rounded-lg border border-gray-600 bg-gray-700 cursor-pointer hover:border-yellow-400" data-opt="3" onclick="mSelect(this,10,3)">D) "Lion Head Braised"</div>
+                    </div>
+                    <div class="mfb hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+            </div><!-- end masteryQuestions -->
+
+            <div class="text-center mb-10">
+                <button onclick="submitMastery()" class="px-10 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-yellow-500/30">
+                    ✅ Submit &amp; See My Score
+                </button>
+                <p class="text-xs text-gray-500 mt-3">Answer all 10 questions first.</p>
+            </div>
+
+            <!-- ======= RESULTS CARD (screenshot target) ======= -->
+            <div id="resultsCard" class="hidden fade-in">
+
+                <!-- Name input -->
+                <div class="bg-gray-800 border border-gray-600 rounded-xl p-5 max-w-xl mx-auto mb-5">
+                    <label class="block text-sm font-bold text-gray-300 mb-2">Enter your name (shows on results card):</label>
+                    <input type="text" id="studentName" placeholder="Your English name" 
+                        class="w-full p-3 bg-gray-900 rounded-lg text-white border border-gray-600 focus:border-pink-500 focus:outline-none"
+                        oninput="document.getElementById('cardName').textContent = this.value ? 'Student: ' + this.value : ''">
+                </div>
+
+                <!-- The actual card students screenshot -->
+                <div id="screenshotCard" class="max-w-xl mx-auto rounded-2xl p-8 mb-5" style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border:2px solid #f5576c66;">
+                    <div class="text-center mb-5">
+                        <div class="text-4xl mb-2">🥢🌏</div>
+                        <h2 class="text-2xl font-bold serif gradient-text">Translation Traps: Mastery Results</h2>
+                        <p class="text-gray-400 text-xs mt-1">Chinese Food &amp; Culture Edition</p>
+                    </div>
+
+                    <!-- Score -->
+                    <div class="text-center mb-6">
+                        <div id="scoreCircle" class="w-28 h-28 rounded-full flex items-center justify-center mx-auto mb-3 text-3xl font-bold text-white" style="border:5px solid #f5576c;background:#1f2937;">—</div>
+                        <div id="scoreFrac" class="text-gray-300 font-bold text-lg"></div>
+                        <div id="scoreLabel" class="text-xl font-bold mt-1"></div>
+                        <div id="scoreMsg" class="text-gray-400 text-sm mt-1"></div>
+                    </div>
+
+                    <!-- Category breakdown -->
+                    <div class="grid grid-cols-2 gap-3 mb-5">
+                        <div class="bg-gray-800 rounded-lg p-3 text-center">
+                            <div class="text-lg">📝</div>
+                            <div class="text-xs text-gray-400">Grammar</div>
+                            <div id="catGrammar" class="font-bold text-pink-400">—</div>
+                        </div>
+                        <div class="bg-gray-800 rounded-lg p-3 text-center">
+                            <div class="text-lg">❌</div>
+                            <div class="text-xs text-gray-400">Missing Words</div>
+                            <div id="catMissing" class="font-bold text-red-400">—</div>
+                        </div>
+                        <div class="bg-gray-800 rounded-lg p-3 text-center">
+                            <div class="text-lg">👯</div>
+                            <div class="text-xs text-gray-400">False Friends</div>
+                            <div id="catFalse" class="font-bold text-yellow-400">—</div>
+                        </div>
+                        <div class="bg-gray-800 rounded-lg p-3 text-center">
+                            <div class="text-lg">🏮</div>
+                            <div class="text-xs text-gray-400">Culture</div>
+                            <div id="catCulture" class="font-bold text-green-400">—</div>
+                        </div>
+                    </div>
+
+                    <!-- Q dots -->
+                    <div class="text-center mb-5">
+                        <p class="text-xs text-gray-500 uppercase tracking-widest mb-2">Question Results</p>
+                        <div id="qdots" class="flex flex-wrap gap-2 justify-center"></div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="border-t border-gray-700 pt-4 text-center text-xs text-gray-500 space-y-1">
+                        <div id="cardName" class="font-bold text-gray-300 text-sm"></div>
+                        <div>Completed: <span id="cardDate"></span></div>
+                        <div>Time elapsed: <span id="cardTime"></span></div>
+                        <div class="text-purple-400 font-bold mt-2">⚠️ Completed independently — no AI or translation tools used.</div>
+                    </div>
+                </div>
+
+                <!-- Screenshot tip -->
+                <div class="bg-blue-950 border border-blue-500/50 rounded-xl p-4 text-center max-w-xl mx-auto mb-8">
+                    <div class="text-xl mb-1">📸</div>
+                    <p class="text-blue-300 font-bold text-sm mb-1">Take a screenshot to submit</p>
+                    <p class="text-gray-400 text-xs">
+                        <span class="text-yellow-300">Windows:</span> Win + Shift + S &nbsp;|&nbsp;
+                        <span class="text-yellow-300">Mac:</span> ⌘ + Shift + 4
+                    </p>
+                </div>
+
+                <div class="text-center">
+                    <button onclick="location.reload()" class="px-8 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full font-bold hover:scale-105 transition-transform">
+                        Restart Module ↺
+                    </button>
+                </div>
+            </div><!-- end resultsCard -->
+
+            <div class="flex justify-between mt-6">
+                <button onclick="prevSection()" class="px-6 py-3 bg-gray-700 rounded-full hover:bg-gray-600 transition-colors">← Back</button>
+            </div>
+        </div>
+        <!-- ===================== END SECTION 7 ===================== -->
+
+        <!-- Certificate Section (original, kept intact) -->
+        <div id="certificate" class="hidden-section text-center">
+            <div class="bg-gradient-to-br from-yellow-900/30 to-orange-900/30 p-12 rounded-2xl border-2 border-yellow-500/50 max-w-2xl mx-auto">
+                <div class="text-6xl mb-4">📜</div>
+                <h2 class="text-4xl font-bold mb-4 serif text-yellow-400">Certificate of Mastery</h2>
+                <p class="text-xl text-gray-300 mb-6">Translation Traps Specialist</p>
+                <p class="text-gray-400 mb-8">This certifies that you have successfully navigated the 4 Common Translation Traps in Chinese Food & Cultural Contexts.</p>
+                
+                <div class="grid grid-cols-2 gap-4 mb-8 text-left">
+                    <div class="bg-gray-800/50 p-4 rounded-lg">
+                        <div class="text-2xl mb-1">📝</div>
+                        <div class="text-sm text-gray-400">Grammar Traps</div>
+                        <div class="text-green-400 font-bold">Mastered</div>
+                    </div>
+                    <div class="bg-gray-800/50 p-4 rounded-lg">
+                        <div class="text-2xl mb-1">❌</div>
+                        <div class="text-sm text-gray-400">Missing Words</div>
+                        <div class="text-green-400 font-bold">Mastered</div>
+                    </div>
+                    <div class="bg-gray-800/50 p-4 rounded-lg">
+                        <div class="text-2xl mb-1">👯</div>
+                        <div class="text-sm text-gray-400">False Friends</div>
+                        <div class="text-green-400 font-bold">Mastered</div>
+                    </div>
+                    <div class="bg-gray-800/50 p-4 rounded-lg">
+                        <div class="text-2xl mb-1">🏮</div>
+                        <div class="text-sm text-gray-400">Culture Traps</div>
+                        <div class="text-green-400 font-bold">Mastered</div>
+                    </div>
+                </div>
+
+                <div class="text-sm text-gray-500 mb-6">
+                    Completed on <span id="completionDate"></span><br>
+                    Time taken: <span id="timeTaken"></span>
+                </div>
+
+                <button onclick="location.reload()" class="px-8 py-3 bg-gradient-to-r from-pink-500 to-red-500 rounded-full font-bold hover:scale-105 transition-transform">
+                    Restart Module ↺
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 7;
+        let startTime = Date.now();
+        let timerInterval;
+        let selectedWords = [];
+        let selectedTraps = {};
+
+        // Mastery quiz state
+        const mAnswers = {};
+        const mCorrect = {1:1,2:2,3:1,4:3,5:2,6:0,7:1,8:2,9:3,10:0};
+        const mCat    = {1:'grammar',2:'missing',3:'false',4:'culture',5:'grammar',6:'false',7:'missing',8:'culture',9:'grammar',10:'culture'};
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startTimer();
+            updateProgress();
+        });
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                const remaining = Math.max(0, 900 - elapsed);
+                const mins = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                document.getElementById('timer').textContent = `⏱️ ${mins}:${secs.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function updateProgress() {
+            const progress = (currentSection / totalSections) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('sectionIndicator').textContent = `Section ${currentSection}/${totalSections}`;
+        }
+
+        function nextSection() {
+            document.getElementById(`section${currentSection}`).classList.remove('visible-section');
+            document.getElementById(`section${currentSection}`).classList.add('hidden-section');
+            currentSection++;
+            document.getElementById(`section${currentSection}`).classList.remove('hidden-section');
+            document.getElementById(`section${currentSection}`).classList.add('visible-section');
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+
+        function prevSection() {
+            document.getElementById(`section${currentSection}`).classList.remove('visible-section');
+            document.getElementById(`section${currentSection}`).classList.add('hidden-section');
+            currentSection--;
+            document.getElementById(`section${currentSection}`).classList.remove('hidden-section');
+            document.getElementById(`section${currentSection}`).classList.add('visible-section');
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+
+        // ---- Original quiz functions (unchanged) ----
+        function checkGrammar(option) {
+            const feedback = document.getElementById('grammarFeedback');
+            const buttons = document.querySelectorAll('#grammarQuiz button');
+            buttons.forEach((btn, idx) => {
+                btn.disabled = true;
+                if (idx === 1) btn.classList.add('correct-answer');
+                else if (idx === option) btn.classList.add('wrong-answer');
+            });
+            if (option === 1) {
+                feedback.innerHTML = '<div class="p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-300">✅ Correct! Added past tense "went", articles "to a", and proper sentence structure.</div>';
+            } else {
+                feedback.innerHTML = '<div class="p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-300">❌ Not quite. Remember: past tense, articles, and proper connectors!</div>';
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        function addWord(word) {
+            if (!selectedWords.includes(word)) {
+                selectedWords.push(word);
+                updateSentence();
+            }
+        }
+
+        function updateSentence() {
+            const sentence = `"${selectedWords[0] || '_____'} morning I went to ${selectedWords[1] || '_____'} restaurant and ordered ${selectedWords[2] || '_____'} bowl of noodles. ${selectedWords[3] || '_____'} noodles were spicy but ${selectedWords[4] || '_____'} delicious."`;
+            document.getElementById('userSentence').textContent = sentence;
+            document.getElementById('missingWordsResult').classList.remove('hidden');
+        }
+
+        function checkMissingWords() {
+            const correct = ['This', 'a', 'a', 'The', 'very'];
+            const feedback = document.getElementById('missingFeedback');
+            if (JSON.stringify(selectedWords) === JSON.stringify(correct)) {
+                feedback.innerHTML = '<div class="p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-300">✅ Perfect! You added all the necessary articles and helper words.</div>';
+            } else {
+                feedback.innerHTML = '<div class="p-4 bg-yellow-900/50 border border-yellow-500 rounded-lg text-yellow-300">⚠️ Close! The correct order is: This, a, a, The, very</div>';
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        function checkFalseFriend(question, answer) {
+            const feedback = document.getElementById('ffFeedback');
+            const isCorrect = (question === 0 && answer === 1) || (question === 1 && answer === 1);
+            if (isCorrect) {
+                feedback.innerHTML = '<div class="p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-300">✅ Correct! You avoided the false friend trap.</div>';
+            } else {
+                feedback.innerHTML = '<div class="p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-300">❌ Oops! That\'s the literal (wrong) translation.</div>';
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        function checkCulture() {
+            const checkboxes = document.querySelectorAll('#cultureQuiz input:checked');
+            const feedback = document.getElementById('cultureFeedback');
+            if (checkboxes.length >= 2) {
+                feedback.innerHTML = '<div class="p-4 bg-green-900/50 border border-green-500 rounded-lg text-green-300">✅ Excellent! You recognized that hot pot needs cultural context about communal cooking and the social aspect.</div>';
+            } else {
+                feedback.innerHTML = '<div class="p-4 bg-yellow-900/50 border border-yellow-500 rounded-lg text-yellow-300">⚠️ Good start, but hot pot requires more cultural explanation. Think about what makes it different from regular soup!</div>';
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        function toggleTrap(btn, trap) {
+            const card = btn.closest('.challenge-card');
+            const challengeId = card.dataset.challenge;
+            if (!selectedTraps[challengeId]) selectedTraps[challengeId] = [];
+            if (btn.classList.contains('bg-blue-600')) {
+                btn.classList.remove('bg-blue-600');
+                btn.classList.add('bg-gray-700');
+                selectedTraps[challengeId] = selectedTraps[challengeId].filter(t => t !== trap);
+            } else {
+                btn.classList.remove('bg-gray-700');
+                btn.classList.add('bg-blue-600');
+                selectedTraps[challengeId].push(trap);
+            }
+        }
+
+        function checkChallenge(id) {
+            const card = document.querySelector(`[data-challenge="${id}"]`);
+            const textarea = card.querySelector('textarea');
+            const feedback = card.querySelector('.challenge-feedback');
+            const answer = textarea.value.toLowerCase().trim();
+            let correct = false;
+            let message = '';
+            if (id === 1) {
+                if (answer.includes('buddha') && (answer.includes('ingredient') || answer.includes('soup') || answer.includes('abalone'))) {
+                    correct = true;
+                    message = '✅ Great! You kept the poetic name while adding cultural context about it being a soup with premium ingredients.';
+                } else {
+                    message = '💡 Hint: Keep "Buddha Jump Over Wall" but explain it\'s a soup with lavish ingredients like abalone.';
+                }
+            } else if (id === 2) {
+                if (answer.includes('ate') && answer.includes('was') && (answer.includes('.') || answer.includes('and'))) {
+                    correct = true;
+                    message = '✅ Excellent! Fixed grammar, added past tense, and proper sentence structure.';
+                } else {
+                    message = '💡 Hint: Use past tense "ate" and "was", break into two sentences or use proper connectors.';
+                }
+            } else if (id === 3) {
+                if (answer.includes('no pineapple') || answer.includes('contains no pineapple') || answer.includes('sweet bread')) {
+                    correct = true;
+                    message = '✅ Perfect! You warned that despite the name, there is no pineapple in this sweet bread bun.';
+                } else {
+                    message = '💡 Hint: Warn customers that "Pineapple Bun" contains no actual pineapple—it\'s named for its appearance!';
+                }
+            }
+            feedback.innerHTML = `<div class="${correct ? 'bg-green-900/50 border-green-500 text-green-300' : 'bg-yellow-900/50 border-yellow-500 text-yellow-300'} p-3 border rounded-lg">${message}</div>`;
+            feedback.classList.remove('hidden');
+        }
+
+        function showCertificate() {
+            document.getElementById(`section${currentSection}`).classList.remove('visible-section');
+            document.getElementById(`section${currentSection}`).classList.add('hidden-section');
+            document.getElementById('certificate').classList.remove('hidden-section');
+            document.getElementById('certificate').classList.add('visible-section');
+            document.getElementById('progressBar').style.width = '100%';
+            const now = new Date();
+            document.getElementById('completionDate').textContent = now.toLocaleDateString();
+            const elapsed = Math.floor((Date.now() - startTime) / 60000);
+            document.getElementById('timeTaken').textContent = elapsed + ' minutes';
+            clearInterval(timerInterval);
+        }
+
+        // ---- Mastery Quiz functions ----
+        function mSelect(el, qNum, optIdx) {
+            const qBlock = el.closest('.mastery-q');
+            if (qBlock.dataset.answered) return;
+            qBlock.querySelectorAll('.mopt').forEach(o => {
+                o.style.borderColor = '';
+                o.style.background = '';
+            });
+            el.style.borderColor = '#60a5fa';
+            el.style.background = '#1e3a5f';
+            mAnswers[qNum] = optIdx;
+        }
+
+        function submitMastery() {
+            // Check all answered
+            const missing = [];
+            for (let q = 1; q <= 10; q++) {
+                if (mAnswers[q] === undefined) missing.push(q);
+            }
+            if (missing.length > 0) {
+                alert('Please answer all questions first. Missing: Q' + missing.join(', Q'));
+                return;
+            }
+
+            let total = 0;
+            const cats = {grammar:[0,0], missing:[0,0], false:[0,0], culture:[0,0]};
+
+            for (let q = 1; q <= 10; q++) {
+                const correct = mAnswers[q] === mCorrect[q];
+                const cat = mCat[q];
+                cats[cat][1]++;
+                if (correct) { total++; cats[cat][0]++; }
+
+                const qBlock = document.querySelector(`.mastery-q[data-q="${q}"]`);
+                qBlock.dataset.answered = '1';
+                qBlock.querySelectorAll('.mopt').forEach(opt => {
+                    const oi = parseInt(opt.dataset.opt);
+                    opt.style.cursor = 'not-allowed';
+                    if (oi === mCorrect[q]) {
+                        opt.style.background = '#14532d';
+                        opt.style.borderColor = '#4ade80';
+                    } else if (oi === mAnswers[q] && !correct) {
+                        opt.style.background = '#7f1d1d';
+                        opt.style.borderColor = '#f87171';
+                    }
+                });
+
+                const fb = qBlock.querySelector('.mfb');
+                fb.innerHTML = correct
+                    ? '<span style="color:#4ade80;font-weight:bold;">✅ Correct!</span>'
+                    : '<span style="color:#f87171;font-weight:bold;">❌ Incorrect.</span> <span style="color:#d1d5db;">The correct answer is highlighted in green above.</span>';
+                fb.classList.remove('hidden');
+            }
+
+            showResults(total, cats);
+        }
+
+        function showResults(total, cats) {
+            const pct = Math.round((total / 10) * 100);
+            const card = document.getElementById('resultsCard');
+            card.classList.remove('hidden');
+            card.scrollIntoView({behavior:'smooth'});
+
+            const color = pct >= 80 ? '#4ade80' : pct >= 60 ? '#60a5fa' : '#f87171';
+            const circle = document.getElementById('scoreCircle');
+            circle.textContent = pct + '%';
+            circle.style.borderColor = color;
+            circle.style.background = `conic-gradient(${color} ${pct}%, #1f2937 ${pct}%)`;
+
+            document.getElementById('scoreFrac').textContent = `${total} / 10 correct`;
+
+            let label, msg;
+            if (pct >= 90)      { label = '🏆 Master Translator!';     msg = 'Outstanding! You have mastered all 4 translation traps.'; }
+            else if (pct >= 80) { label = '🌟 Translation Expert';      msg = 'Excellent work! Strong command of all four traps.'; }
+            else if (pct >= 70) { label = '✅ Competent Translator';    msg = 'Good job! Review the traps you missed.'; }
+            else if (pct >= 60) { label = '📚 Keep Practicing';         msg = 'You understand some traps. Review and try again.'; }
+            else                { label = '🔄 Needs Review';            msg = 'Go back through the sections and retake the quiz.'; }
+
+            const lbl = document.getElementById('scoreLabel');
+            lbl.textContent = label;
+            lbl.style.color = color;
+            document.getElementById('scoreMsg').textContent = msg;
+
+            document.getElementById('catGrammar').textContent = cats.grammar[0] + '/' + cats.grammar[1];
+            document.getElementById('catMissing').textContent  = cats.missing[0]  + '/' + cats.missing[1];
+            document.getElementById('catFalse').textContent   = cats.false[0]   + '/' + cats.false[1];
+            document.getElementById('catCulture').textContent = cats.culture[0] + '/' + cats.culture[1];
+
+            const dots = document.getElementById('qdots');
+            dots.innerHTML = '';
+            for (let q = 1; q <= 10; q++) {
+                const d = document.createElement('div');
+                const ok = mAnswers[q] === mCorrect[q];
+                d.textContent = q;
+                d.style.cssText = `width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:bold;color:white;background:${ok?'#16a34a':'#dc2626'}`;
+                dots.appendChild(d);
+            }
+
+            const elapsed = Math.floor((Date.now() - startTime) / 60000);
+            document.getElementById('cardDate').textContent = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+            document.getElementById('cardTime').textContent = elapsed + ' minutes';
+        }
+    </script>
+</body>
+</html>
