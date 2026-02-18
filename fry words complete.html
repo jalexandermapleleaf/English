@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Pop! - ESL Quick Fire</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+        }
+        .header {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .score-board { display: flex; gap: 30px; color: white; font-size: 18px; font-weight: bold; }
+        .stat { display: flex; align-items: center; gap: 8px; }
+        .stat-icon { font-size: 24px; }
+        .controls { display: flex; gap: 10px; }
+        .btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn:hover { background: rgba(255,255,255,0.3); transform: scale(1.05); }
+        .game-area {
+            flex: 1;
+            width: 100%;
+            max-width: 1000px;
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .target-section {
+            text-align: center;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px 50px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .target-word {
+            font-size: 64px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+        .pronunciation {
+            font-size: 24px;
+            color: #fbbf24;
+            font-weight: 600;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 20px;
+            background: rgba(251,191,36,0.2);
+            border-radius: 30px;
+            transition: all 0.3s;
+            border: 2px solid rgba(251,191,36,0.5);
+        }
+        .pronunciation:hover { background: rgba(251,191,36,0.4); transform: scale(1.05); }
+        .pronunciation.playing { animation: soundWave 0.5s ease infinite; }
+        @keyframes soundWave { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .definition {
+            font-size: 20px;
+            color: rgba(255,255,255,0.9);
+            font-style: italic;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+        .word-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+        .word-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .word-card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 30px rgba(0,0,0,0.25); }
+        .word-card:active { transform: translateY(-2px) scale(0.98); }
+        .word-card.correct { background: #4ade80; color: white; animation: correctPop 0.5s ease; }
+        .word-card.wrong   { background: #f87171; color: white; animation: shake 0.5s ease; }
+        @keyframes correctPop { 0%{transform:scale(1)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
+        .combo-display {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            font-size: 80px; font-weight: 900;
+            color: #fbbf24;
+            text-shadow: 0 0 30px rgba(251,191,36,0.8);
+            pointer-events: none; opacity: 0; z-index: 100;
+        }
+        .combo-display.show { animation: comboAnim 1s ease-out forwards; }
+        @keyframes comboAnim {
+            0%  { opacity:0; transform:translate(-50%,-50%) scale(0.5); }
+            50% { opacity:1; transform:translate(-50%,-50%) scale(1.2); }
+            100%{ opacity:0; transform:translate(-50%,-50%) scale(1) translateY(-50px); }
+        }
+        .floating-score {
+            position: absolute; color: #4ade80;
+            font-size: 24px; font-weight: bold;
+            pointer-events: none;
+            animation: floatUp 1s ease-out forwards;
+        }
+        @keyframes floatUp { to { transform: translateY(-50px); opacity: 0; } }
+        .difficulty-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .diff-btn { padding: 10px 20px; border-radius: 25px; border: none; cursor: pointer; font-weight: bold; transition: all 0.3s; opacity: 0.6; }
+        .diff-btn.active { opacity: 1; transform: scale(1.1); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .diff-btn.easy   { background: #4ade80; color: white; }
+        .diff-btn.medium { background: #fbbf24; color: white; }
+        .diff-btn.hard   { background: #f87171; color: white; }
+        .start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 1000; color: white;
+        }
+        .start-overlay.hidden { display: none; }
+        .start-title {
+            font-size: 64px; font-weight: 900; margin-bottom: 20px;
+            background: linear-gradient(45deg, #fbbf24, #f87171, #667eea);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .start-btn {
+            padding: 20px 60px; font-size: 28px;
+            background: white; color: #667eea;
+            border: none; border-radius: 50px;
+            cursor: pointer; font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .start-btn:hover { transform: scale(1.1); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+        .instructions { margin-top: 30px; text-align: center; opacity: 0.8; font-size: 18px; line-height: 1.6; max-width: 600px; }
+        .key-guide { margin-top: 15px; font-size: 14px; opacity: 0.7; background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 10px; }
+        .audio-hint { position: fixed; bottom: 20px; right: 20px; background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 20px; font-size: 14px; backdrop-filter: blur(10px); }
+        .phonetic { font-family: 'Segoe UI', sans-serif; color: #fbbf24; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+    <div class="start-overlay" id="startOverlay">
+        <div class="start-title">WORD POP!</div>
+        <div class="difficulty-selector">
+            <button class="diff-btn easy active" onclick="setDifficulty('easy')">Easy (1–300)</button>
+            <button class="diff-btn medium" onclick="setDifficulty('medium')">Medium (301–600)</button>
+            <button class="diff-btn hard" onclick="setDifficulty('hard')">Hard (601–1000)</button>
+        </div>
+        <button class="start-btn" onclick="startGame()">START PLAYING</button>
+        <div class="instructions">
+            🔊 <strong>Listen</strong> to the pronunciation<br>
+            📖 <strong>Read</strong> the definition<br>
+            ✨ <strong>Find</strong> the matching word!<br><br>
+            Click the pronunciation guide to hear the word again.<br>
+            <strong>CAPITAL LETTERS</strong> show the stressed syllable.<br>
+            Build streaks for bonus points!
+        </div>
+        <div class="key-guide">⌨️ Press SPACE to replay audio · Keys 1–8 to select a word</div>
+    </div>
+
+    <div class="header">
+        <div class="score-board">
+            <div class="stat"><span class="stat-icon">⭐</span><span id="score">0</span></div>
+            <div class="stat"><span class="stat-icon">🔥</span><span id="streak">0</span></div>
+            <div class="stat"><span class="stat-icon">⚡</span><span id="bestStreak">0</span></div>
+        </div>
+        <div class="controls">
+            <button class="btn" onclick="changeDifficulty()">Change Level</button>
+            <button class="btn" onclick="pauseGame()">Pause</button>
+        </div>
+    </div>
+
+    <div class="game-area">
+        <div class="target-section">
+            <div class="target-word" id="targetWord">READY?</div>
+            <div class="pronunciation" id="pronunciation" onclick="speakCurrentWord()">
+                <span>🔊</span>
+                <span class="phonetic" id="phoneticText">REH-dee</span>
+            </div>
+            <div class="definition" id="definition">Click START to begin!</div>
+        </div>
+        <div class="word-grid" id="wordGrid"></div>
+    </div>
+
+    <div class="combo-display" id="comboDisplay"></div>
+    <div class="audio-hint">Press SPACE to replay audio</div>
+
+<script>
+// ── Respelled pronunciation key ───────────────────────────────────────────────
+// CAPITALS = stressed syllable
+// "uh" = schwa (unstressed)   "ay" = long A    "ee" = long E
+// "eye" = long I              "oh" = long O    "oo" = long OO
+// "ow" = as in "cow"          "oy" = as in "boy"
+// "th" = voiced (the, this)   "TH" = voiceless (think, three)
+// ─────────────────────────────────────────────────────────────────────────────
+const wordData = {
+    // ── Articles, pronouns, prepositions, conjunctions ────────────────────
+    "a":            { phonetic: "uh",               def: "One; any (article before consonant sounds)" },
+    "an":           { phonetic: "un",               def: "One; any (used before vowel sounds)" },
+    "the":          { phonetic: "thuh",             def: "Used before specific nouns" },
+    "I":            { phonetic: "eye",              def: "Yourself, as the speaker" },
+    "he":           { phonetic: "hee",              def: "A male person" },
+    "she":          { phonetic: "shee",             def: "A female person" },
+    "we":           { phonetic: "wee",              def: "You and I; our group" },
+    "they":         { phonetic: "thay",             def: "Those people or things" },
+    "you":          { phonetic: "yoo",              def: "The person being spoken to" },
+    "it":           { phonetic: "it",               def: "A thing already mentioned" },
+    "him":          { phonetic: "him",              def: "That male person (object form)" },
+    "her":          { phonetic: "her",              def: "Belonging to her; that female (object)" },
+    "them":         { phonetic: "them",             def: "Those people or things (object form)" },
+    "us":           { phonetic: "us",               def: "We (object form)" },
+    "his":          { phonetic: "hiz",              def: "Belonging to him" },
+    "my":           { phonetic: "my",               def: "Belonging to me" },
+    "your":         { phonetic: "yor",              def: "Belonging to you" },
+    "our":          { phonetic: "OW-er",            def: "Belonging to us" },
+    "their":        { phonetic: "thair",            def: "Belonging to them" },
+    "its":          { phonetic: "its",              def: "Belonging to it" },
+    "this":         { phonetic: "this",             def: "The one near you; right here" },
+    "that":         { phonetic: "that",             def: "Used to point something out" },
+    "these":        { phonetic: "theez",            def: "The ones here (plural of 'this')" },
+    "those":        { phonetic: "thohz",            def: "The ones over there (plural of 'that')" },
+    "which":        { phonetic: "wich",             def: "What specific one out of a group" },
+    "who":          { phonetic: "hoo",              def: "What person or people" },
+    "whose":        { phonetic: "hooz",             def: "Belonging to whom" },
+    "what":         { phonetic: "wut",              def: "Asking for information about something" },
+    "of":           { phonetic: "uhv",              def: "Belonging to; about" },
+    "in":           { phonetic: "in",               def: "Inside; within" },
+    "to":           { phonetic: "tuh",              def: "Toward; in the direction of" },
+    "for":          { phonetic: "fer",              def: "Intended to belong to; because of" },
+    "on":           { phonetic: "on",               def: "Positioned on top of or touching" },
+    "at":           { phonetic: "at",               def: "In a specific place or time" },
+    "by":           { phonetic: "by",               def: "Near; through the means of" },
+    "as":           { phonetic: "az",               def: "In the role of; to the same degree" },
+    "with":         { phonetic: "with",             def: "Accompanied by; using" },
+    "from":         { phonetic: "frum",             def: "Starting point; origin" },
+    "or":           { phonetic: "or",               def: "Used to show a choice" },
+    "but":          { phonetic: "but",              def: "Except; however; yet" },
+    "and":          { phonetic: "und",              def: "Used to connect words or ideas" },
+    "if":           { phonetic: "if",               def: "On the condition that; whether" },
+    "so":           { phonetic: "soh",              def: "To such an extent; therefore" },
+    "than":         { phonetic: "than",             def: "Used to compare two things" },
+    "up":           { phonetic: "up",               def: "Toward a higher position" },
+    "out":          { phonetic: "owt",              def: "Away from the inside" },
+    "off":          { phonetic: "awf",              def: "Away from; not on or attached" },
+    "down":         { phonetic: "down",             def: "Toward a lower place or level" },
+    "back":         { phonetic: "bak",              def: "To the rear; returning" },
+    "into":         { phonetic: "IN-too",           def: "To the inside of; becoming" },
+    "over":         { phonetic: "OH-ver",           def: "Above; across; more than" },
+    "under":        { phonetic: "UN-der",           def: "Below; beneath; less than" },
+    "upon":         { phonetic: "uh-PON",           def: "On; immediately after" },
+    "about":        { phonetic: "uh-BOWT",          def: "Concerning; approximately" },
+    "after":        { phonetic: "AF-ter",           def: "Following in time or place" },
+    "before":       { phonetic: "bee-FOR",          def: "Earlier than; in front of" },
+    "between":      { phonetic: "bee-TWEEN",        def: "In the middle of two things" },
+    "through":      { phonetic: "throo",            def: "From one side to the other" },
+    "toward":       { phonetic: "TOH-werd",         def: "In the direction of" },
+    "around":       { phonetic: "uh-ROWND",         def: "On all sides of; approximately" },
+    "along":        { phonetic: "uh-LONG",          def: "Moving forward; beside" },
+    "below":        { phonetic: "bee-LOH",          def: "Lower than; under" },
+    "since":        { phonetic: "sints",            def: "From a time in the past until now" },
+    "while":        { phonetic: "wyl",              def: "During the time that; although" },
+    "though":       { phonetic: "thoh",             def: "Even if; although" },
+    "whether":      { phonetic: "WETH-er",          def: "If; expressing a doubt or choice" },
+    "thus":         { phonetic: "thus",             def: "As a result; therefore" },
+
+    // ── Verbs: be / have / do ─────────────────────────────────────────────
+    "be":           { phonetic: "bee",              def: "To exist; to become" },
+    "is":           { phonetic: "iz",               def: "Exists; equals (present tense)" },
+    "are":          { phonetic: "ar",               def: "Plural present tense of 'be'" },
+    "was":          { phonetic: "wuz",              def: "Past tense of 'is'" },
+    "were":         { phonetic: "wer",              def: "Past tense of 'are' (plural)" },
+    "been":         { phonetic: "bin",              def: "Past participle of 'be'" },
+    "have":         { phonetic: "hav",              def: "To possess; to own" },
+    "has":          { phonetic: "haz",              def: "Present tense of 'have' (third person)" },
+    "had":          { phonetic: "had",              def: "Past tense of 'have'" },
+    "do":           { phonetic: "doo",              def: "To perform an action; to accomplish" },
+    "does":         { phonetic: "duz",              def: "Third-person present tense of 'do'" },
+    "did":          { phonetic: "did",              def: "Past tense of 'do'" },
+    "done":         { phonetic: "dun",              def: "Past participle of 'do'; finished" },
+    "don't":        { phonetic: "dohnt",            def: "Contraction of 'do not'" },
+
+    // ── Modal / auxiliary verbs ───────────────────────────────────────────
+    "will":         { phonetic: "wil",              def: "Used for future tense" },
+    "would":        { phonetic: "wood",             def: "Past tense of 'will'; hypothetical" },
+    "can":          { phonetic: "kan",              def: "To be able to" },
+    "could":        { phonetic: "kood",             def: "Past tense of 'can'; possibility" },
+    "may":          { phonetic: "may",              def: "Expressing possibility or permission" },
+    "might":        { phonetic: "myt",              def: "A weaker possibility than 'may'" },
+    "must":         { phonetic: "must",             def: "Required to; certainly" },
+    "should":       { phonetic: "shood",            def: "Ought to; it would be advisable" },
+    "shall":        { phonetic: "shal",             def: "Will (formal future)" },
+
+    // ── Common action verbs ───────────────────────────────────────────────
+    "go":           { phonetic: "goh",              def: "To move; to travel" },
+    "went":         { phonetic: "went",             def: "Past tense of 'go'" },
+    "come":         { phonetic: "kum",              def: "To move toward; to arrive" },
+    "came":         { phonetic: "kaym",             def: "Past tense of 'come'" },
+    "get":          { phonetic: "get",              def: "To obtain; to receive; to become" },
+    "got":          { phonetic: "got",              def: "Past tense of 'get'" },
+    "make":         { phonetic: "mayk",             def: "To create; to produce" },
+    "made":         { phonetic: "mayd",             def: "Past tense of 'make'" },
+    "take":         { phonetic: "tayk",             def: "To get; to carry; to need" },
+    "took":         { phonetic: "took",             def: "Past tense of 'take'" },
+    "know":         { phonetic: "noh",              def: "To understand; to be aware of" },
+    "knew":         { phonetic: "nyoo",             def: "Past tense of 'know'" },
+    "think":        { phonetic: "THink",            def: "To use your mind; to believe" },
+    "thought":      { phonetic: "thawt",            def: "Past tense of 'think'; an idea" },
+    "see":          { phonetic: "see",              def: "To perceive with the eyes" },
+    "saw":          { phonetic: "saw",              def: "Past tense of 'see'" },
+    "say":          { phonetic: "say",              def: "To speak; to express in words" },
+    "said":         { phonetic: "sed",              def: "Past tense of 'say'" },
+    "tell":         { phonetic: "tel",              def: "To inform; to say something to someone" },
+    "told":         { phonetic: "tohld",            def: "Past tense of 'tell'" },
+    "find":         { phonetic: "fynd",             def: "To discover; to locate" },
+    "found":        { phonetic: "fownd",            def: "Past tense of 'find'" },
+    "give":         { phonetic: "giv",              def: "To hand over; to provide" },
+    "gave":         { phonetic: "gayv",             def: "Past tense of 'give'" },
+    "use":          { phonetic: "yooz",             def: "To employ something for a purpose" },
+    "look":         { phonetic: "look",             def: "To direct your eyes; to appear" },
+    "want":         { phonetic: "wont",             def: "To desire; to wish for" },
+    "seem":         { phonetic: "seem",             def: "To appear to be; to give the impression" },
+    "feel":         { phonetic: "feel",             def: "To sense; to touch; to experience emotion" },
+    "try":          { phonetic: "try",              def: "To attempt; to make an effort" },
+    "ask":          { phonetic: "ask",              def: "To request; to pose a question" },
+    "need":         { phonetic: "need",             def: "To require; to lack something important" },
+    "become":       { phonetic: "bee-KUM",          def: "To grow to be; to start to be" },
+    "leave":        { phonetic: "leev",             def: "To go away from; to allow to remain" },
+    "put":          { phonetic: "poot",             def: "To set or lay something in a spot" },
+    "mean":         { phonetic: "meen",             def: "To intend; the definition of" },
+    "keep":         { phonetic: "keep",             def: "To hold onto; to continue" },
+    "kept":         { phonetic: "kept",             def: "Past tense of 'keep'" },
+    "let":          { phonetic: "let",              def: "To allow; to permit" },
+    "begin":        { phonetic: "bee-GIN",          def: "To start" },
+    "show":         { phonetic: "shoh",             def: "To display; to let someone see" },
+    "hear":         { phonetic: "heer",             def: "To perceive sound with the ears" },
+    "play":         { phonetic: "play",             def: "To engage in fun activity; to perform" },
+    "run":          { phonetic: "run",              def: "To move quickly on foot" },
+    "ran":          { phonetic: "ran",              def: "Past tense of 'run'" },
+    "move":         { phonetic: "moov",             def: "To change position; to go somewhere new" },
+    "live":         { phonetic: "liv",              def: "To be alive; to reside" },
+    "hold":         { phonetic: "hohld",            def: "To grip; to carry; to contain" },
+    "bring":        { phonetic: "bring",            def: "To carry here; to cause to come" },
+    "write":        { phonetic: "ryt",              def: "To mark letters or symbols" },
+    "wrote":        { phonetic: "roht",             def: "Past tense of 'write'" },
+    "written":      { phonetic: "RIT-en",           def: "Past participle of 'write'" },
+    "read":         { phonetic: "reed",             def: "To look at and understand writing" },
+    "spell":        { phonetic: "spel",             def: "To name the letters of a word" },
+    "study":        { phonetic: "STUH-dee",         def: "To learn about a subject" },
+    "learn":        { phonetic: "lern",             def: "To gain knowledge or skill" },
+    "work":         { phonetic: "werk",             def: "To do labor; a job or task" },
+    "talk":         { phonetic: "tawk",             def: "To speak; to have a conversation" },
+    "walk":         { phonetic: "wawk",             def: "To move on foot at a steady pace" },
+    "turn":         { phonetic: "tern",             def: "To rotate; to change direction" },
+    "start":        { phonetic: "start",            def: "To begin; the first part" },
+    "stop":         { phonetic: "stop",             def: "To cease movement or action" },
+    "open":         { phonetic: "OH-pen",           def: "Not closed; to make accessible" },
+    "close":        { phonetic: "klohz",            def: "To shut; near; almost" },
+    "stand":        { phonetic: "stand",            def: "To be upright on your feet" },
+    "fall":         { phonetic: "fawl",             def: "To drop down; the season of autumn" },
+    "carry":        { phonetic: "KAIR-ee",          def: "To hold and transport" },
+    "buy":          { phonetic: "by",               def: "To purchase with money" },
+    "pay":          { phonetic: "pay",              def: "To give money for something" },
+    "cut":          { phonetic: "kut",              def: "To divide with a sharp tool" },
+    "drop":         { phonetic: "drop",             def: "To let fall; to go lower" },
+    "draw":         { phonetic: "draw",             def: "To make a picture; to pull" },
+    "drink":        { phonetic: "drink",            def: "To swallow liquid" },
+    "drive":        { phonetic: "dryv",             def: "To operate a vehicle" },
+    "eat":          { phonetic: "eet",              def: "To chew and swallow food" },
+    "fly":          { phonetic: "fly",              def: "To move through the air" },
+    "follow":       { phonetic: "FOL-oh",           def: "To go after; to obey" },
+    "grow":         { phonetic: "groh",             def: "To increase in size; to develop" },
+    "hit":          { phonetic: "hit",              def: "To strike; to reach" },
+    "hurry":        { phonetic: "HER-ee",           def: "To move or act quickly" },
+    "hurt":         { phonetic: "hert",             def: "To cause pain; to feel pain" },
+    "jump":         { phonetic: "jump",             def: "To spring off the ground" },
+    "laugh":        { phonetic: "laf",              def: "To make sounds showing amusement" },
+    "lay":          { phonetic: "lay",              def: "To place down flat" },
+    "lay":          { phonetic: "lay",              def: "To place something flat; past tense of 'lie'" },
+    "listen":       { phonetic: "LIS-en",           def: "To pay attention to sound" },
+    "miss":         { phonetic: "mis",              def: "To fail to hit or catch; to feel sad about absence" },
+    "pass":         { phonetic: "pas",              def: "To go by; to hand to someone" },
+    "prepare":      { phonetic: "pree-PAIR",        def: "To get ready; to make ready" },
+    "provide":      { phonetic: "proh-VYD",         def: "To supply; to give what is needed" },
+    "pull":         { phonetic: "pool",             def: "To drag toward you" },
+    "push":         { phonetic: "poosh",            def: "To press away from you" },
+    "raise":        { phonetic: "rayz",             def: "To lift up; to increase" },
+    "reach":        { phonetic: "reech",            def: "To stretch out to touch; to arrive at" },
+    "receive":      { phonetic: "ree-SEEV",         def: "To get something given or sent" },
+    "remember":     { phonetic: "ree-MEM-ber",      def: "To recall from memory" },
+    "repeat":       { phonetic: "ree-PEET",         def: "To say or do again" },
+    "reply":        { phonetic: "ree-PLY",          def: "To answer; a response" },
+    "report":       { phonetic: "ree-PORT",         def: "To give an account; a news story" },
+    "represent":    { phonetic: "rep-ree-ZENT",     def: "To stand for; to speak for" },
+    "rest":         { phonetic: "rest",             def: "To relax; what is left over" },
+    "return":       { phonetic: "ree-TERN",         def: "To go or come back; to give back" },
+    "ride":         { phonetic: "ryd",              def: "To sit on and travel" },
+    "rise":         { phonetic: "ryz",              def: "To go up; to get up" },
+    "roll":         { phonetic: "rohl",             def: "To turn over and over; a bread roll" },
+    "save":         { phonetic: "sayv",             def: "To rescue; to keep for later" },
+    "sing":         { phonetic: "sing",             def: "To make music with your voice" },
+    "sit":          { phonetic: "sit",              def: "To rest your weight on a seat" },
+    "sleep":        { phonetic: "sleep",            def: "To rest with eyes closed" },
+    "solve":        { phonetic: "solv",             def: "To find the answer to a problem" },
+    "speak":        { phonetic: "speek",            def: "To talk; to say words aloud" },
+    "spend":        { phonetic: "spend",            def: "To use money or time" },
+    "spread":       { phonetic: "spred",            def: "To stretch out; to scatter widely" },
+    "stand":        { phonetic: "stand",            def: "To be on your feet; to endure" },
+    "suggest":      { phonetic: "sug-JEST",         def: "To propose an idea; to recommend" },
+    "supply":       { phonetic: "suh-PLY",          def: "To provide; a stock of something" },
+    "support":      { phonetic: "suh-PORT",         def: "To hold up; to help; to agree with" },
+    "surprise":     { phonetic: "ser-PRYZ",         def: "An unexpected event; to astonish" },
+    "swim":         { phonetic: "swim",             def: "To move through water using your body" },
+    "throw":        { phonetic: "throh",            def: "To launch through the air" },
+    "tie":          { phonetic: "ty",               def: "To fasten with a knot; an equal score" },
+    "tire":         { phonetic: "tyr",              def: "To become weary; a rubber wheel covering" },
+    "touch":        { phonetic: "tuch",             def: "To make contact with; a light contact" },
+    "travel":       { phonetic: "TRAV-el",          def: "To go on a journey" },
+    "visit":        { phonetic: "VIZ-it",           def: "To go to see someone or somewhere" },
+    "wait":         { phonetic: "wayt",             def: "To stay until something happens" },
+    "wash":         { phonetic: "wosh",             def: "To clean with water" },
+    "watch":        { phonetic: "woch",             def: "To look at carefully; a wrist clock" },
+    "wear":         { phonetic: "wair",             def: "To have clothing on your body" },
+    "win":          { phonetic: "win",              def: "To come first; to succeed" },
+    "wish":         { phonetic: "wish",             def: "To want something; a desire" },
+    "wonder":       { phonetic: "WUN-der",          def: "To be curious; something amazing" },
+    "worry":        { phonetic: "WER-ee",           def: "To feel anxious; a concern" },
+    "add":          { phonetic: "ad",               def: "To put together; to calculate a sum" },
+    "answer":       { phonetic: "AN-ser",           def: "A response; to respond" },
+    "call":         { phonetic: "kawl",             def: "To speak loudly to; to telephone; to name" },
+    "care":         { phonetic: "kair",             def: "To feel concern; watchful attention" },
+    "clean":        { phonetic: "kleen",            def: "Free from dirt; to make clean" },
+    "dry":          { phonetic: "dry",              def: "Not wet; to remove moisture" },
+    "end":          { phonetic: "end",              def: "The final point; to finish" },
+    "help":         { phonetic: "help",             def: "To assist; to make easier" },
+    "mark":         { phonetic: "mark",             def: "A sign or spot; to make a mark" },
+    "meet":         { phonetic: "meet",             def: "To come together; to be introduced to" },
+    "met":          { phonetic: "met",              def: "Past tense of 'meet'" },
+    "order":        { phonetic: "OR-der",           def: "A command; arrangement; to request" },
+    "produce":      { phonetic: "proh-DYOOS",       def: "To make; to create; fresh fruits/vegetables" },
+    "record":       { phonetic: "ree-KORD",         def: "To save sound/video; a best achievement" },
+    "show":         { phonetic: "shoh",             def: "To display; a performance" },
+    "sign":         { phonetic: "syn",              def: "A symbol; to write your name" },
+    "step":         { phonetic: "step",             def: "One movement of the foot; a stair" },
+    "test":         { phonetic: "test",             def: "An exam; to try out" },
+    "thank":        { phonetic: "THank",            def: "To express gratitude" },
+    "track":        { phonetic: "trak",             def: "A path; to follow or monitor" },
+    "train":        { phonetic: "trayn",            def: "A railway vehicle; to teach skills" },
+    "try":          { phonetic: "try",              def: "To attempt; to make an effort" },
+    "win":          { phonetic: "win",              def: "To come in first place; to succeed" },
+
+    // ── Nouns: people ─────────────────────────────────────────────────────
+    "boy":          { phonetic: "boy",              def: "A young male" },
+    "girl":         { phonetic: "gerl",             def: "A young female" },
+    "man":          { phonetic: "man",              def: "An adult male" },
+    "men":          { phonetic: "men",              def: "Plural of man; adult males" },
+    "woman":        { phonetic: "WOO-mun",          def: "An adult female" },
+    "mother":       { phonetic: "MUH-ther",         def: "A female parent" },
+    "father":       { phonetic: "FAH-ther",         def: "A male parent" },
+    "sister":       { phonetic: "SIS-ter",          def: "A girl or woman with the same parents as you" },
+    "wife":         { phonetic: "wyf",              def: "A married woman" },
+    "king":         { phonetic: "king",             def: "A male ruler of a country" },
+    "queen":        { phonetic: "kween",            def: "A female ruler; the wife of a king" },
+    "sir":          { phonetic: "ser",              def: "A polite title for a man" },
+    "son":          { phonetic: "sun",              def: "A male child" },
+    "people":       { phonetic: "PEE-pul",          def: "Human beings; persons" },
+    "person":       { phonetic: "PER-sun",          def: "A human being" },
+    "student":      { phonetic: "STOO-dent",        def: "A person who is studying" },
+    "teacher":      { phonetic: "TEE-cher",         def: "A person who teaches" },
+    "soldier":      { phonetic: "SOHL-jer",         def: "A member of an army" },
+    "team":         { phonetic: "teem",             def: "A group working together" },
+    "family":       { phonetic: "FAM-ih-lee",       def: "Parents and children; related people" },
+
+    // ── Nouns: places ─────────────────────────────────────────────────────
+    "home":         { phonetic: "hohm",             def: "Where one lives" },
+    "house":        { phonetic: "howss",            def: "A building where people live" },
+    "school":       { phonetic: "skool",            def: "A place for learning and education" },
+    "place":        { phonetic: "playss",           def: "A particular position or location" },
+    "country":      { phonetic: "KUN-tree",         def: "A nation with its own government" },
+    "America":      { phonetic: "uh-MAIR-ih-kuh",   def: "The United States; North or South America" },
+    "city":         { phonetic: "SIT-ee",           def: "A large town" },
+    "town":         { phonetic: "town",             def: "A settlement smaller than a city" },
+    "village":      { phonetic: "VIL-ij",           def: "A small community in the countryside" },
+    "world":        { phonetic: "werld",            def: "The Earth; all people; a realm" },
+    "field":        { phonetic: "feeld",            def: "An open area of land; a subject area" },
+    "garden":       { phonetic: "GAR-den",          def: "A place where plants are grown" },
+    "ground":       { phonetic: "grownd",           def: "The surface of the earth; a reason" },
+    "hill":         { phonetic: "hil",              def: "A raised area of land, smaller than a mountain" },
+    "mountain":     { phonetic: "MOWN-ten",         def: "A very high area of land" },
+    "river":        { phonetic: "RIV-er",           def: "A large natural stream of water" },
+    "road":         { phonetic: "rohd",             def: "A path for vehicles to travel on" },
+    "sea":          { phonetic: "see",              def: "A large body of salt water" },
+    "space":        { phonetic: "spayss",           def: "The universe beyond Earth; empty area" },
+    "street":       { phonetic: "street",           def: "A road in a town with buildings" },
+    "store":        { phonetic: "stor",             def: "A shop; to keep for later use" },
+
+    // ── Nouns: body ───────────────────────────────────────────────────────
+    "eye":          { phonetic: "eye",              def: "The organ used for seeing" },
+    "face":         { phonetic: "fayss",            def: "The front of the head" },
+    "foot":         { phonetic: "foot",             def: "The body part at the end of the leg" },
+    "feet":         { phonetic: "feet",             def: "Plural of foot" },
+    "hair":         { phonetic: "hair",             def: "The strands growing from the head" },
+    "hand":         { phonetic: "hand",             def: "The body part at the end of the arm" },
+    "head":         { phonetic: "hed",              def: "The top part of the body" },
+    "leg":          { phonetic: "leg",              def: "The limb used for walking" },
+    "mouth":        { phonetic: "mowth",            def: "The opening used for eating and speaking" },
+    "skin":         { phonetic: "skin",             def: "The outer covering of the body" },
+    "teeth":        { phonetic: "teeth",            def: "Plural of tooth; hard biting structures" },
+
+    // ── Nouns: nature & environment ───────────────────────────────────────
+    "air":          { phonetic: "air",              def: "The mixture of gases we breathe" },
+    "animal":       { phonetic: "AN-ih-mul",        def: "A living creature that is not a plant" },
+    "bird":         { phonetic: "berd",             def: "A feathered creature with wings" },
+    "fire":         { phonetic: "fyr",              def: "Flames produced by burning" },
+    "fish":         { phonetic: "fish",             def: "A water animal with fins and scales" },
+    "flower":       { phonetic: "FLOW-er",          def: "The colorful part of a plant" },
+    "food":         { phonetic: "food",             def: "What living things eat for energy" },
+    "grass":        { phonetic: "gras",             def: "Green plants covering the ground" },
+    "horse":        { phonetic: "horss",            def: "A large animal used for riding" },
+    "ice":          { phonetic: "yss",              def: "Frozen water" },
+    "moon":         { phonetic: "moon",             def: "Earth's natural satellite" },
+    "oil":          { phonetic: "oyl",              def: "A thick liquid fuel; used in cooking" },
+    "plant":        { phonetic: "plant",            def: "A living organism that grows in soil" },
+    "rain":         { phonetic: "rayn",             def: "Water falling from clouds" },
+    "rock":         { phonetic: "rok",              def: "A hard mineral material; to sway" },
+    "root":         { phonetic: "root",             def: "The underground part of a plant" },
+    "sand":         { phonetic: "sand",             def: "Tiny grains of rock found at beaches" },
+    "sky":          { phonetic: "sky",              def: "The space above the earth" },
+    "snow":         { phonetic: "snoh",             def: "Frozen water falling as white flakes" },
+    "soil":         { phonetic: "soyl",             def: "The top layer of earth; dirt" },
+    "star":         { phonetic: "star",             def: "A ball of burning gas in the sky" },
+    "stone":        { phonetic: "stohn",            def: "A small rock; to pelt with rocks" },
+    "sun":          { phonetic: "sun",              def: "The star at the center of our solar system" },
+    "tree":         { phonetic: "tree",             def: "A tall plant with a trunk and branches" },
+    "water":        { phonetic: "WAW-ter",          def: "The clear liquid essential for life" },
+    "weather":      { phonetic: "WETH-er",          def: "The outdoor conditions of sun, rain, wind, etc." },
+    "wind":         { phonetic: "wind",             def: "Moving air; to coil or turn" },
+    "wood":         { phonetic: "wood",             def: "The hard material from trees" },
+
+    // ── Nouns: objects & things ───────────────────────────────────────────
+    "boat":         { phonetic: "boht",             def: "A small watercraft" },
+    "book":         { phonetic: "book",             def: "A set of written pages bound together" },
+    "car":          { phonetic: "kar",              def: "A motor vehicle for travel" },
+    "door":         { phonetic: "dor",              def: "A movable barrier at an entrance" },
+    "egg":          { phonetic: "eg",               def: "An oval shell containing a developing animal" },
+    "game":         { phonetic: "gaym",             def: "An activity done for fun or competition" },
+    "glass":        { phonetic: "glas",             def: "A transparent material; a drinking vessel" },
+    "gold":         { phonetic: "gohld",            def: "A precious yellow metal" },
+    "hat":          { phonetic: "hat",              def: "A head covering" },
+    "letter":       { phonetic: "LET-er",           def: "A written message; a character of the alphabet" },
+    "light":        { phonetic: "lyt",              def: "Energy that lets us see; not heavy" },
+    "map":          { phonetic: "map",              def: "A drawing showing an area of land" },
+    "milk":         { phonetic: "milk",             def: "A white liquid from cows used as food" },
+    "money":        { phonetic: "MUN-ee",           def: "Coins and bills used to buy things" },
+    "page":         { phonetic: "payj",             def: "One side of a sheet of paper" },
+    "paper":        { phonetic: "PAY-per",          def: "A thin material used for writing or printing" },
+    "picture":      { phonetic: "PIK-cher",         def: "A drawing, painting, or photograph" },
+    "piece":        { phonetic: "peess",            def: "A part of something; a portion" },
+    "plane":        { phonetic: "playn",            def: "An aircraft; a flat surface; a tool" },
+    "radio":        { phonetic: "RAY-dee-oh",       def: "A device for receiving broadcast audio" },
+    "ring":         { phonetic: "ring",             def: "A circular band; to make a bell sound" },
+    "rope":         { phonetic: "rohp",             def: "A thick cord made of twisted strands" },
+    "ship":         { phonetic: "ship",             def: "A large watercraft" },
+    "shirt":        { phonetic: "shert",            def: "A garment worn on the upper body" },
+    "shoe":         { phonetic: "shoo",             def: "A covering for the foot" },
+    "table":        { phonetic: "TAY-bul",          def: "A piece of furniture with a flat top" },
+    "tool":         { phonetic: "tool",             def: "An instrument used to do work" },
+    "tube":         { phonetic: "tyoob",            def: "A hollow cylinder; an underground train" },
+    "wheel":        { phonetic: "weel",             def: "A circular object that rotates on an axle" },
+    "window":       { phonetic: "WIN-doh",          def: "A glass opening in a wall" },
+
+    // ── Nouns: concepts & abstracts ───────────────────────────────────────
+    "fact":         { phonetic: "fakt",             def: "Something known to be true" },
+    "idea":         { phonetic: "eye-DEE-uh",       def: "A thought; a plan; a concept" },
+    "language":     { phonetic: "LANG-gwij",        def: "A system of communication" },
+    "law":          { phonetic: "law",              def: "A rule made by a government" },
+    "length":       { phonetic: "lenkth",           def: "The measurement from end to end" },
+    "life":         { phonetic: "lyf",              def: "The state of being alive" },
+    "love":         { phonetic: "luv",              def: "A strong feeling of affection" },
+    "mind":         { phonetic: "mynd",             def: "The thinking part of a person; to object to" },
+    "music":        { phonetic: "MYOO-zik",         def: "Organized sound that is pleasing" },
+    "name":         { phonetic: "naym",             def: "What someone or something is called" },
+    "noun":         { phonetic: "nown",             def: "A word naming a person, place, or thing" },
+    "numeral":      { phonetic: "NYOOM-er-ul",      def: "A symbol representing a number" },
+    "pattern":      { phonetic: "PAT-ern",          def: "A repeated design or arrangement" },
+    "plan":         { phonetic: "plan",             def: "A method worked out in advance" },
+    "point":        { phonetic: "poynt",            def: "A sharp tip; an idea; a score unit" },
+    "position":     { phonetic: "puh-ZI-shun",      def: "A place or location; a job" },
+    "possible":     { phonetic: "POS-ih-bul",       def: "Able to happen or be done" },
+    "power":        { phonetic: "POW-er",           def: "Strength; the ability to control" },
+    "problem":      { phonetic: "PROB-lem",         def: "A difficult situation to be solved" },
+    "product":      { phonetic: "PROD-ukt",         def: "Something that is made; a result of multiplication" },
+    "property":     { phonetic: "PROP-er-tee",      def: "Something owned; a characteristic" },
+    "question":     { phonetic: "KWES-chun",        def: "Something asked; a matter in doubt" },
+    "race":         { phonetic: "rayss",            def: "A competition of speed; a group of people" },
+    "reason":       { phonetic: "REE-zun",          def: "A cause or explanation" },
+    "result":       { phonetic: "ree-ZULT",         def: "An outcome; what happens because of something" },
+    "rule":         { phonetic: "rool",             def: "A statement of what must be done" },
+    "science":      { phonetic: "SY-unss",          def: "Study of the natural world through observation" },
+    "self":         { phonetic: "self",             def: "A person's own nature or identity" },
+    "sentence":     { phonetic: "SEN-tunss",        def: "A group of words expressing a complete thought" },
+    "shape":        { phonetic: "shayp",            def: "The outline or form of something" },
+    "size":         { phonetic: "syz",              def: "How big or small something is" },
+    "song":         { phonetic: "sawng",            def: "A piece of music with words" },
+    "sound":        { phonetic: "sownd",            def: "What you hear; to seem; healthy" },
+    "spirit":       { phonetic: "SPIR-it",          def: "The soul; enthusiasm; a ghost" },
+    "spot":         { phonetic: "spot",             def: "A small mark; a location; to notice" },
+    "spring":       { phonetic: "spring",           def: "The season after winter; a coil; to leap" },
+    "square":       { phonetic: "skwair",           def: "A shape with four equal sides and angles" },
+    "state":        { phonetic: "stayt",            def: "A condition; a region of a country; to declare" },
+    "story":        { phonetic: "STOR-ee",          def: "An account of events; a floor of a building" },
+    "sum":          { phonetic: "sum",              def: "The result of addition; an amount of money" },
+    "surface":      { phonetic: "SER-fiss",         def: "The outside layer or top of something" },
+    "system":       { phonetic: "SIS-tem",          def: "A set of things working together" },
+    "term":         { phonetic: "term",             def: "A word; a period of time; a condition" },
+    "thing":        { phonetic: "THing",            def: "An object, matter, or idea" },
+    "thought":      { phonetic: "thawt",            def: "An idea; past tense of 'think'" },
+    "time":         { phonetic: "tym",              def: "Duration; a specific moment" },
+    "trade":        { phonetic: "trayd",            def: "Buying and selling; to exchange" },
+    "trip":         { phonetic: "trip",             def: "A journey; to stumble" },
+    "trouble":      { phonetic: "TRUB-ul",          def: "A problem; difficulty; to bother" },
+    "type":         { phonetic: "typ",              def: "A kind or sort; to keyboard" },
+    "unit":         { phonetic: "YOO-nit",          def: "A single item; a standard measure" },
+    "value":        { phonetic: "VAL-yoo",          def: "Worth; how important something is" },
+    "view":         { phonetic: "vyoo",             def: "What you can see; an opinion" },
+    "voice":        { phonetic: "voyss",            def: "The sound made when speaking or singing" },
+    "vowel":        { phonetic: "VOW-ul",           def: "The letters A, E, I, O, U" },
+    "war":          { phonetic: "wor",              def: "Armed conflict between groups or nations" },
+    "way":          { phonetic: "way",              def: "A method; a path or road" },
+    "weight":       { phonetic: "wayt",             def: "How heavy something is" },
+    "word":         { phonetic: "werd",             def: "A unit of language with meaning" },
+    "words":        { phonetic: "werdz",            def: "Units of language with meaning" },
+    "worth":        { phonetic: "werth",            def: "The value of something" },
+
+    // ── Nouns: numbers & quantity ─────────────────────────────────────────
+    "one":          { phonetic: "wun",              def: "Single; the number 1" },
+    "two":          { phonetic: "too",              def: "The number 2" },
+    "three":        { phonetic: "THree",            def: "The number 3" },
+    "four":         { phonetic: "for",              def: "The number 4" },
+    "five":         { phonetic: "fyv",              def: "The number 5" },
+    "six":          { phonetic: "siks",             def: "The number 6" },
+    "seven":        { phonetic: "SEV-en",           def: "The number 7" },
+    "eight":        { phonetic: "ayt",              def: "The number 8" },
+    "nine":         { phonetic: "nyn",              def: "The number 9" },
+    "ten":          { phonetic: "ten",              def: "The number 10" },
+    "hundred":      { phonetic: "HUN-dred",         def: "The number 100" },
+    "thousand":     { phonetic: "THOW-zund",        def: "The number 1,000" },
+    "million":      { phonetic: "MIL-yun",          def: "The number 1,000,000" },
+    "half":         { phonetic: "haf",              def: "One of two equal parts" },
+    "number":       { phonetic: "NUM-ber",          def: "A mathematical value or symbol" },
+
+    // ── Nouns: time ───────────────────────────────────────────────────────
+    "day":          { phonetic: "day",              def: "A 24-hour period; daylight hours" },
+    "week":         { phonetic: "week",             def: "A period of seven days" },
+    "month":        { phonetic: "munth",            def: "One of the twelve parts of a year" },
+    "year":         { phonetic: "yeer",             def: "A period of 365 days" },
+    "years":        { phonetic: "yeerz",            def: "Plural of year" },
+    "morning":      { phonetic: "MOR-ning",         def: "The early part of the day" },
+    "night":        { phonetic: "nyt",              def: "The dark period after sunset" },
+    "summer":       { phonetic: "SUM-er",           def: "The warmest season of the year" },
+    "past":         { phonetic: "past",             def: "Time gone by; beyond; already done" },
+    "second":       { phonetic: "SEK-und",          def: "A unit of time; coming after first" },
+
+    // ── Adjectives ────────────────────────────────────────────────────────
+    "all":          { phonetic: "awl",              def: "The whole amount; every one" },
+    "almost":       { phonetic: "AWL-mohst",        def: "Very nearly; not quite" },
+    "also":         { phonetic: "AWL-soh",          def: "Too; in addition; as well" },
+    "always":       { phonetic: "AWL-wayz",         def: "At all times; every time" },
+    "another":      { phonetic: "uh-NUTH-er",       def: "One more; a different one" },
+    "any":          { phonetic: "EN-ee",            def: "One or some; no matter which" },
+    "beautiful":    { phonetic: "BYOO-tih-ful",     def: "Very pleasing to look at or hear" },
+    "big":          { phonetic: "big",              def: "Large in size" },
+    "black":        { phonetic: "blak",             def: "The darkest color; without light" },
+    "blue":         { phonetic: "bloo",             def: "The color of a clear sky" },
+    "both":         { phonetic: "bohth",            def: "The two together; each of the two" },
+    "brown":        { phonetic: "brown",            def: "A dark reddish-yellow color" },
+    "called":       { phonetic: "kawld",            def: "Named; past tense of 'call'" },
+    "carefully":    { phonetic: "KAIR-ful-ee",      def: "In a cautious, attentive way" },
+    "clean":        { phonetic: "kleen",            def: "Free from dirt; to make clean" },
+    "cold":         { phonetic: "kohld",            def: "Low in temperature; unfriendly" },
+    "color":        { phonetic: "KUL-er",           def: "A quality of light such as red or blue" },
+    "common":       { phonetic: "KOM-un",           def: "Found everywhere; ordinary; shared" },
+    "complete":     { phonetic: "kum-PLEET",        def: "Having all parts; to finish" },
+    "correct":      { phonetic: "kuh-REKT",         def: "True; accurate; to fix an error" },
+    "different":    { phonetic: "DIF-er-ent",       def: "Not the same; unlike others" },
+    "early":        { phonetic: "ER-lee",           def: "Before the expected time" },
+    "easy":         { phonetic: "EE-zee",           def: "Not difficult; simple" },
+    "enough":       { phonetic: "ih-NUF",           def: "As much as needed; sufficient" },
+    "even":         { phonetic: "EE-ven",           def: "Flat and smooth; equal; also; not odd" },
+    "every":        { phonetic: "EV-ree",           def: "Each one; all without exception" },
+    "far":          { phonetic: "far",              def: "A great distance away" },
+    "fast":         { phonetic: "fast",             def: "Quick; moving with speed" },
+    "few":          { phonetic: "fyoo",             def: "A small number" },
+    "free":         { phonetic: "free",             def: "Not restricted; at no cost" },
+    "full":         { phonetic: "fool",             def: "Containing as much as possible" },
+    "fun":          { phonetic: "fun",              def: "Enjoyment; amusement" },
+    "gone":         { phonetic: "gon",              def: "Past participle of 'go'; away; no longer here" },
+    "good":         { phonetic: "good",             def: "Of high quality; pleasant" },
+    "government":   { phonetic: "GUV-ern-ment",     def: "The group that rules a country" },
+    "great":        { phonetic: "grayt",            def: "Very large; excellent; important" },
+    "green":        { phonetic: "green",            def: "The color of grass and leaves" },
+    "hard":         { phonetic: "hard",             def: "Not soft; difficult; with effort" },
+    "high":         { phonetic: "hy",               def: "Far above the ground; a great level" },
+    "hot":          { phonetic: "hot",              def: "Having a high temperature" },
+    "important":    { phonetic: "im-POR-tunt",      def: "Having great value or significance" },
+    "kind":         { phonetic: "kynd",             def: "Friendly and generous; a type or sort" },
+    "large":        { phonetic: "larj",             def: "Big in size" },
+    "last":         { phonetic: "last",             def: "Final; coming at the end; to continue" },
+    "late":         { phonetic: "layt",             def: "After the expected time; near the end" },
+    "left":         { phonetic: "left",             def: "The opposite direction of right; past tense of 'leave'" },
+    "less":         { phonetic: "less",             def: "A smaller amount" },
+    "little":       { phonetic: "LIT-ul",           def: "Small in size or amount" },
+    "long":         { phonetic: "lawng",            def: "Extended in length or time" },
+    "lost":         { phonetic: "lawst",            def: "Unable to find the way; past tense of 'lose'" },
+    "low":          { phonetic: "loh",              def: "Not high; close to the ground" },
+    "many":         { phonetic: "MEN-ee",           def: "A large number of" },
+    "more":         { phonetic: "mor",              def: "Greater in amount or degree" },
+    "most":         { phonetic: "mohst",            def: "The greatest amount; nearly all" },
+    "much":         { phonetic: "much",             def: "A great amount or degree" },
+    "near":         { phonetic: "neer",             def: "Close to; not far away" },
+    "never":        { phonetic: "NEV-er",           def: "At no time; not ever" },
+    "new":          { phonetic: "nyoo",             def: "Recently made; not used before" },
+    "next":         { phonetic: "nekst",            def: "Coming immediately after; nearest" },
+    "no":           { phonetic: "noh",              def: "Not any; a refusal" },
+    "often":        { phonetic: "AW-fen",           def: "Many times; frequently" },
+    "old":          { phonetic: "ohld",             def: "Having lived or existed a long time" },
+    "only":         { phonetic: "OHN-lee",          def: "Solely; exclusively" },
+    "other":        { phonetic: "UH-ther",          def: "Different from; additional" },
+    "perhaps":      { phonetic: "per-HAPSS",        def: "Maybe; it is possible that" },
+    "plain":        { phonetic: "playn",            def: "Simple; flat open land; clear" },
+    "poor":         { phonetic: "por",              def: "Having little money; of low quality" },
+    "pretty":       { phonetic: "PRIT-ee",          def: "Pleasant to look at; quite" },
+    "proper":       { phonetic: "PROP-er",          def: "Right; suitable; truly so called" },
+    "public":       { phonetic: "PUB-lik",          def: "Open to everyone; of the community" },
+    "quick":        { phonetic: "kwik",             def: "Fast; done in a short time" },
+    "quiet":        { phonetic: "KWY-et",           def: "Making little noise; calm" },
+    "quite":        { phonetic: "kwyt",             def: "Completely; fairly; rather" },
+    "ready":        { phonetic: "REH-dee",          def: "Prepared; fully set to begin" },
+    "real":         { phonetic: "reel",             def: "Actually existing; not imagined" },
+    "red":          { phonetic: "red",              def: "The color of blood or fire" },
+    "rich":         { phonetic: "rich",             def: "Having great wealth; full of flavor" },
+    "right":        { phonetic: "ryt",              def: "Correct; the opposite of left" },
+    "round":        { phonetic: "rownd",            def: "Circular in shape; a period of play" },
+    "safe":         { phonetic: "sayf",             def: "Free from danger; a secure box" },
+    "same":         { phonetic: "saym",             def: "Identical; not different" },
+    "several":      { phonetic: "SEV-er-ul",        def: "More than two but not very many" },
+    "sharp":        { phonetic: "sharp",            def: "Having a thin cutting edge; quick-witted" },
+    "short":        { phonetic: "short",            def: "Not tall; not long; brief" },
+    "simple":       { phonetic: "SIM-pul",          def: "Easy to understand; not complicated" },
+    "slow":         { phonetic: "sloh",             def: "Not fast; moving with little speed" },
+    "small":        { phonetic: "smawl",            def: "Little in size or amount" },
+    "soft":         { phonetic: "sawft",            def: "Not hard; gentle; quiet" },
+    "some":         { phonetic: "sum",              def: "An unspecified amount or number" },
+    "soon":         { phonetic: "soon",             def: "In a short time from now" },
+    "south":        { phonetic: "sowth",            def: "The direction opposite of north" },
+    "special":      { phonetic: "SPESH-ul",         def: "Different from the ordinary; important" },
+    "still":        { phonetic: "stil",             def: "Not moving; even now; quiet" },
+    "straight":     { phonetic: "strayt",           def: "Without a bend or curve; honest" },
+    "strange":      { phonetic: "strainj",          def: "Unusual; not familiar" },
+    "strong":       { phonetic: "strawng",          def: "Having great power or force" },
+    "sure":         { phonetic: "shoor",            def: "Certain; confident; of course" },
+    "tall":         { phonetic: "tawl",             def: "Having great height" },
+    "thick":        { phonetic: "THik",             def: "Not thin; measuring a large distance" },
+    "thin":         { phonetic: "THin",             def: "Not thick; slim; not dense" },
+    "third":        { phonetic: "THerd",            def: "Coming after second; one of three equal parts" },
+    "tiny":         { phonetic: "TY-nee",           def: "Very small" },
+    "together":     { phonetic: "tuh-GETH-er",      def: "With each other; at the same time" },
+    "top":          { phonetic: "top",              def: "The highest point; the best" },
+    "total":        { phonetic: "TOH-tul",          def: "The whole amount; complete" },
+    "true":         { phonetic: "troo",             def: "In agreement with fact; genuine" },
+    "usual":        { phonetic: "YOO-zhoo-ul",      def: "Happening most of the time; normal" },
+    "warm":         { phonetic: "worm",             def: "Slightly hot; friendly" },
+    "west":         { phonetic: "west",             def: "The direction where the sun sets" },
+    "white":        { phonetic: "wyt",              def: "The color of snow or milk" },
+    "whole":        { phonetic: "hohl",             def: "Complete; all of something" },
+    "wide":         { phonetic: "wyd",              def: "Extending a great distance from side to side" },
+    "wild":         { phonetic: "wyld",             def: "Living in nature; not tame; out of control" },
+    "wrong":        { phonetic: "rawng",            def: "Not correct; unjust" },
+    "yellow":       { phonetic: "YEL-oh",           def: "The color of the sun or a lemon" },
+    "young":        { phonetic: "yung",             def: "Not old; in early life" },
+
+    // ── Adverbs ───────────────────────────────────────────────────────────
+    "again":        { phonetic: "uh-GEN",           def: "One more time; as before" },
+    "ago":          { phonetic: "uh-GOH",           def: "In the past; before now" },
+    "also":         { phonetic: "AWL-soh",          def: "Too; in addition; as well" },
+    "away":         { phonetic: "uh-WAY",           def: "To or at a distance; absent" },
+    "here":         { phonetic: "heer",             def: "In this place; at this spot" },
+    "how":          { phonetic: "how",              def: "In what way; to what degree" },
+    "just":         { phonetic: "just",             def: "Exactly; only; a moment ago" },
+    "never":        { phonetic: "NEV-er",           def: "At no time; not ever" },
+    "not":          { phonetic: "not",              def: "Used to make a statement negative" },
+    "now":          { phonetic: "now",              def: "At this present moment" },
+    "once":         { phonetic: "wunss",            def: "One time; formerly; as soon as" },
+    "only":         { phonetic: "OHN-lee",          def: "Solely; exclusively" },
+    "out":          { phonetic: "owt",              def: "Away from the inside" },
+    "still":        { phonetic: "stil",             def: "Continuing; not moving; even now" },
+    "then":         { phonetic: "then",             def: "At that time; after that" },
+    "there":        { phonetic: "thair",            def: "In that place; at that point" },
+    "today":        { phonetic: "tuh-DAY",          def: "This present day" },
+    "too":          { phonetic: "too",              def: "Also; in addition; more than enough" },
+    "very":         { phonetic: "VEH-ree",          def: "Extremely; to a high degree" },
+    "well":         { phonetic: "wel",              def: "In a good manner; healthy" },
+    "when":         { phonetic: "wen",              def: "At what time; after which" },
+    "where":        { phonetic: "wair",             def: "In or at what place" },
+    "why":          { phonetic: "wy",               def: "For what reason or purpose" },
+    "yes":          { phonetic: "yes",              def: "An affirmative answer; agreed" },
+    "yet":          { phonetic: "yet",              def: "Up to now; but; still" },
+
+    // ── Misc. high-frequency words ────────────────────────────────────────
+    "above":        { phonetic: "uh-BUV",           def: "Higher than; more than" },
+    "across":       { phonetic: "uh-KROSS",         def: "From one side to the other" },
+    "be":           { phonetic: "bee",              def: "To exist; to become" },
+    "because":      { phonetic: "bee-KUZ",          def: "For the reason that" },
+    "been":         { phonetic: "bin",              def: "Past participle of 'be'" },
+    "came":         { phonetic: "kaym",             def: "Past tense of 'come'" },
+    "could":        { phonetic: "kood",             def: "Past tense of 'can'; expressing possibility" },
+    "didn't":       { phonetic: "DID-unt",          def: "Contraction of 'did not'" },
+    "during":       { phonetic: "DYOOR-ing",        def: "Throughout the course of" },
+    "each":         { phonetic: "eech",             def: "Every single one considered separately" },
+    "example":      { phonetic: "ig-ZAM-pul",       def: "A thing that shows what something is like" },
+    "except":       { phonetic: "ik-SEPT",          def: "Not including; other than" },
+    "first":        { phonetic: "ferst",            def: "Coming before all others" },
+    "five":         { phonetic: "fyv",              def: "The number 5" },
+    "get":          { phonetic: "get",              def: "To obtain; to receive; to become" },
+    "give":         { phonetic: "giv",              def: "To hand over; to provide" },
+    "going":        { phonetic: "GOH-ing",          def: "Moving; traveling; planning to" },
+    "good":         { phonetic: "good",             def: "Of high quality; pleasant" },
+    "inch":         { phonetic: "inch",             def: "A unit of length equal to 2.54 centimeters" },
+    "job":          { phonetic: "job",              def: "Work done for pay; a task" },
+    "kept":         { phonetic: "kept",             def: "Past tense of 'keep'" },
+    "like":         { phonetic: "lyk",              def: "Similar to; to enjoy or prefer" },
+    "lot":          { phonetic: "lot",              def: "A large amount; a piece of land" },
+    "mile":         { phonetic: "myl",              def: "A unit of distance equal to 1.6 kilometers" },
+    "miss":         { phonetic: "miss",             def: "To fail to hit; to feel sad about absence" },
+    "needed":       { phonetic: "NEE-did",          def: "Past tense of 'need'" },
+    "often":        { phonetic: "AW-fen",           def: "Many times; frequently" },
+    "outside":      { phonetic: "OWT-syd",          def: "Not inside; the exterior" },
+    "own":          { phonetic: "ohn",              def: "Belonging to oneself; to possess" },
+    "part":         { phonetic: "part",             def: "A piece or section of a whole" },
+    "people":       { phonetic: "PEE-pul",          def: "Human beings; persons" },
+    "place":        { phonetic: "playss",           def: "A particular position or location" },
+    "pound":        { phonetic: "pownd",            def: "A unit of weight; British currency; to hit hard" },
+    "practice":     { phonetic: "PRAK-tiss",        def: "Repeated exercise; to do regularly" },
+    "pretty":       { phonetic: "PRIT-ee",          def: "Pleasant to look at; quite; fairly" },
+    "ran":          { phonetic: "ran",              def: "Past tense of 'run'" },
+    "ready":        { phonetic: "REH-dee",          def: "Prepared; fully set to begin" },
+    "said":         { phonetic: "sed",              def: "Past tense of 'say'" },
+    "seem":         { phonetic: "seem",             def: "To appear to be" },
+    "set":          { phonetic: "set",              def: "A group of things; to put in place; to harden" },
+    "side":         { phonetic: "syd",              def: "An edge or surface; a faction" },
+    "something":    { phonetic: "SUM-THing",        def: "An unspecified thing or amount" },
+    "sometimes":    { phonetic: "SUM-tymz",         def: "On some occasions; not always" },
+    "stand":        { phonetic: "stand",            def: "To be upright on your feet" },
+    "study":        { phonetic: "STUH-dee",         def: "To learn about a subject" },
+    "such":         { phonetic: "such",             def: "Of this type or degree" },
+    "sugar":        { phonetic: "SHOO-ger",         def: "A sweet substance used in food" },
+    "sure":         { phonetic: "shoor",            def: "Certain; confident" },
+    "take":         { phonetic: "tayk",             def: "To get; to carry; to need" },
+    "thank":        { phonetic: "THank",            def: "To express gratitude" },
+    "until":        { phonetic: "un-TIL",           def: "Up to the time that" },
+    "upon":         { phonetic: "uh-PON",           def: "On; immediately after" },
+    "usually":      { phonetic: "YOO-zhoo-uh-lee",  def: "In the way that most often happens" },
+    "yard":         { phonetic: "yard",             def: "A unit of length (3 feet); an enclosed outdoor area" },
+    "yourself":     { phonetic: "yor-SELF",         def: "You, used for emphasis or reflection" },
+};
+
+// Master word list — all unique words from wordData
+const fryWords = [...new Set(Object.keys(wordData))];
+
+let currentDifficulty = 'easy';
+let score = 0;
+let streak = 0;
+let bestStreak = 0;
+let targetWord = '';
+let gameActive = false;
+let wordRange = { start: 0, end: Math.ceil(fryWords.length / 3) };
+
+function setDifficulty(level) {
+    currentDifficulty = level;
+    document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    const third = Math.ceil(fryWords.length / 3);
+    switch(level) {
+        case 'easy':   wordRange = { start: 0,         end: third         }; break;
+        case 'medium': wordRange = { start: third,     end: third * 2     }; break;
+        case 'hard':   wordRange = { start: third * 2, end: fryWords.length }; break;
+    }
+}
+
+function getRandomWord() {
+    const range = wordRange.end - wordRange.start;
+    return fryWords[wordRange.start + Math.floor(Math.random() * range)];
+}
+
+function getSimilarWords(target, count) {
+    const words = [target];
+    while (words.length < count) {
+        const word = getRandomWord();
+        if (!words.includes(word)) words.push(word);
+    }
+    return words.sort(() => Math.random() - 0.5);
+}
+
+function getWordInfo(word) {
+    return wordData[word] || { phonetic: word, def: "Common English word" };
+}
+
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.8;
+        utterance.pitch = 1;
+        const pronEl = document.getElementById('pronunciation');
+        pronEl.classList.add('playing');
+        utterance.onend = () => pronEl.classList.remove('playing');
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
+function speakCurrentWord() {
+    if (targetWord && targetWord !== 'READY?') speak(targetWord);
+}
+
+function startGame() {
+    document.getElementById('startOverlay').classList.add('hidden');
+    gameActive = true;
+    nextRound();
+}
+
+function changeDifficulty() {
+    document.getElementById('startOverlay').classList.remove('hidden');
+    gameActive = false;
+}
+
+function pauseGame() {
+    alert('Game Paused! Click OK to continue.');
+}
+
+function nextRound() {
+    if (!gameActive) return;
+    targetWord = getRandomWord();
+    const info = getWordInfo(targetWord);
+    document.getElementById('targetWord').textContent = targetWord;
+    document.getElementById('phoneticText').textContent = info.phonetic;
+    document.getElementById('definition').textContent = info.def;
+    setTimeout(() => speak(targetWord), 300);
+
+    const options = getSimilarWords(targetWord, 8);
+    const grid = document.getElementById('wordGrid');
+    grid.innerHTML = '';
+    options.forEach((word, i) => {
+        const card = document.createElement('div');
+        card.className = 'word-card';
+        card.textContent = word;
+        card.dataset.index = i + 1;
+        card.onclick = () => checkAnswer(word, card);
+        grid.appendChild(card);
+    });
+}
+
+function checkAnswer(selectedWord, cardElement) {
+    if (cardElement.classList.contains('correct') || cardElement.classList.contains('wrong')) return;
+    if (selectedWord === targetWord) {
+        cardElement.classList.add('correct');
+        streak++;
+        if (streak > bestStreak) bestStreak = streak;
+        const points = 10 + Math.min(streak * 2, 20);
+        score += points;
+        updateStats();
+        showFloatingScore(points, cardElement);
+        if (streak % 5 === 0) showCombo();
+        setTimeout(nextRound, 600);
+    } else {
+        cardElement.classList.add('wrong');
+        streak = 0;
+        updateStats();
+        setTimeout(() => cardElement.classList.remove('wrong'), 500);
+    }
+}
+
+function updateStats() {
+    document.getElementById('score').textContent = score;
+    document.getElementById('streak').textContent = streak;
+    document.getElementById('bestStreak').textContent = bestStreak;
+}
+
+function showFloatingScore(points, element) {
+    const rect = element.getBoundingClientRect();
+    const float = document.createElement('div');
+    float.className = 'floating-score';
+    float.textContent = '+' + points;
+    float.style.left = rect.left + rect.width / 2 + 'px';
+    float.style.top = rect.top + 'px';
+    document.body.appendChild(float);
+    setTimeout(() => float.remove(), 1000);
+}
+
+function showCombo() {
+    const combo = document.getElementById('comboDisplay');
+    combo.textContent = streak + ' STREAK! 🔥';
+    combo.classList.add('show');
+    setTimeout(() => combo.classList.remove('show'), 1000);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (!gameActive) return;
+    if (e.code === 'Space') {
+        e.preventDefault();
+        speakCurrentWord();
+        return;
+    }
+    const key = parseInt(e.key);
+    if (key >= 1 && key <= 8) {
+        document.querySelectorAll('.word-card')[key - 1]?.click();
+    }
+});
+</script>
+</body>
+</html>
