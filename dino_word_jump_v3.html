@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dino Word Jump - ESL Runner</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+        }
+        .header {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid #4ade80;
+            z-index: 10;
+        }
+        .score-board { display: flex; gap: 30px; color: #333; font-size: 18px; font-weight: bold; }
+        .stat { display: flex; align-items: center; gap: 8px; }
+        .stat-icon { font-size: 24px; }
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 400px;
+            margin-top: 20px;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 50%, #f0e68c 50%, #deb887 100%);
+            border: 4px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #gameCanvas { display: block; width: 100%; height: 100%; }
+        .target-display {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 5;
+            white-space: nowrap;
+        }
+        .target-word { font-size: 32px; font-weight: 800; color: #333; margin-bottom: 5px; }
+        .target-phonetic {
+            font-size: 18px; color: #667eea; font-weight: 600; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 5px 15px; background: rgba(102,126,234,0.1);
+            border-radius: 20px; transition: all 0.3s;
+        }
+        .target-phonetic:hover { background: rgba(102,126,234,0.2); transform: scale(1.05); }
+        .target-phonetic.playing { animation: pulse 0.5s infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+        .controls-hint {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); color: white; padding: 10px 20px;
+            border-radius: 20px; font-size: 14px; z-index: 5;
+        }
+        .start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 1000; color: white;
+        }
+        .start-overlay.hidden { display: none; }
+        .start-title {
+            font-size: 64px; font-weight: 900; margin-bottom: 10px;
+            background: linear-gradient(45deg, #4ade80, #fbbf24, #667eea);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .dino-icon { font-size: 80px; margin-bottom: 20px; animation: bounce 1s infinite; }
+        .difficulty-selector { display: flex; gap: 10px; margin-bottom: 20px; }
+        .diff-btn {
+            padding: 12px 24px; border-radius: 25px; border: none; cursor: pointer;
+            font-weight: bold; font-size: 16px; transition: all 0.3s; opacity: 0.6;
+        }
+        .diff-btn.active { opacity: 1; transform: scale(1.1); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .diff-btn.easy { background: #4ade80; color: white; }
+        .diff-btn.medium { background: #fbbf24; color: white; }
+        .diff-btn.hard { background: #f87171; color: white; }
+        .start-btn {
+            padding: 20px 60px; font-size: 28px;
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            color: white; border: none; border-radius: 50px; cursor: pointer;
+            font-weight: bold; transition: all 0.3s; box-shadow: 0 10px 30px rgba(74,222,128,0.4);
+        }
+        .start-btn:hover { transform: scale(1.1); box-shadow: 0 15px 40px rgba(74,222,128,0.6); }
+        .instructions { margin-top: 30px; text-align: center; opacity: 0.9; font-size: 18px; line-height: 1.6; max-width: 600px; }
+        .game-over-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 100; color: white;
+        }
+        .game-over-overlay.show { display: flex; }
+        .game-over-title { font-size: 48px; font-weight: 900; margin-bottom: 20px; color: #f87171; }
+        .final-score { font-size: 32px; margin-bottom: 30px; }
+        .restart-btn {
+            padding: 15px 40px; font-size: 24px; background: #4ade80; color: white;
+            border: none; border-radius: 30px; cursor: pointer; font-weight: bold; transition: all 0.3s;
+        }
+        .restart-btn:hover { transform: scale(1.1); background: #22c55e; }
+    </style>
+</head>
+<body>
+    <div class="start-overlay" id="startOverlay">
+        <div class="dino-icon">🦕</div>
+        <div class="start-title">DINO WORD JUMP!</div>
+        <div class="difficulty-selector">
+            <button class="diff-btn easy active" onclick="setDifficulty('easy', this)">Easy (1–300)</button>
+            <button class="diff-btn medium" onclick="setDifficulty('medium', this)">Medium (301–600)</button>
+            <button class="diff-btn hard" onclick="setDifficulty('hard', this)">Hard (601–1000)</button>
+        </div>
+        <button class="start-btn" onclick="startGame()">START RUNNING</button>
+        <div class="instructions">
+            🎮 <strong>Jump</strong> over cacti with SPACE or UP arrow<br>
+            📚 <strong>Collect</strong> the CORRECT word for points<br>
+            ❌ <strong>WRONG WORD = GAME OVER!</strong><br>
+            🔊 Click the phonetic guide to hear the target word
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="score-board">
+            <div class="stat"><span class="stat-icon">⭐</span><span id="score">0</span></div>
+            <div class="stat"><span class="stat-icon">🔥</span><span id="streak">0</span></div>
+            <div class="stat"><span class="stat-icon">⚡</span><span id="speed">Speed: 1x</span></div>
+        </div>
+        <div class="controls">
+            <button onclick="changeDifficulty()" style="background:rgba(102,126,234,0.2);border:2px solid rgba(102,126,234,0.3);color:#333;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:14px;">Change Level</button>
+        </div>
+    </div>
+
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div class="target-display">
+            <div class="target-word" id="targetWord">READY?</div>
+            <div class="target-phonetic" id="targetPhonetic" onclick="speakCurrentWord()">
+                <span>🔊</span>
+                <span id="phoneticText">REH-dee</span>
+            </div>
+        </div>
+        <div class="controls-hint">SPACE or ↑ to Jump</div>
+        <div class="game-over-overlay" id="gameOverOverlay">
+            <div class="game-over-title">GAME OVER!</div>
+            <div class="final-score">Score: <span id="finalScore">0</span></div>
+            <button class="restart-btn" onclick="restartGame()">Try Again</button>
+        </div>
+    </div>
+
+<script>
+const wordData = {
+    "the": { phonetic: "thuh", def: "Used before specific nouns" },
+    "be": { phonetic: "bee", def: "To exist; to become" },
+    "to": { phonetic: "tuh", def: "Toward; in the direction of" },
+    "of": { phonetic: "uhv", def: "Belonging to; about" },
+    "and": { phonetic: "und", def: "Used to connect words or ideas" },
+    "a": { phonetic: "uh", def: "One; any (article)" },
+    "in": { phonetic: "in", def: "Inside; within" },
+    "that": { phonetic: "that", def: "Used to point something out" },
+    "have": { phonetic: "hav", def: "To possess; to own" },
+    "I": { phonetic: "eye", def: "Yourself, as the speaker" },
+    "it": { phonetic: "it", def: "A thing already mentioned" },
+    "for": { phonetic: "fer", def: "Intended to belong to" },
+    "not": { phonetic: "not", def: "Used to make a statement negative" },
+    "on": { phonetic: "on", def: "Positioned on top of" },
+    "with": { phonetic: "with", def: "Accompanied by; using" },
+    "he": { phonetic: "hee", def: "A male person" },
+    "as": { phonetic: "az", def: "In the role of" },
+    "you": { phonetic: "yoo", def: "The person being spoken to" },
+    "do": { phonetic: "doo", def: "To perform an action" },
+    "at": { phonetic: "at", def: "In a specific place" },
+    "this": { phonetic: "this", def: "The one near you" },
+    "but": { phonetic: "but", def: "Except; however" },
+    "his": { phonetic: "hiz", def: "Belonging to him" },
+    "by": { phonetic: "by", def: "Near; through the means of" },
+    "from": { phonetic: "frum", def: "Starting point; origin" },
+    "they": { phonetic: "thay", def: "Those people or things" },
+    "we": { phonetic: "wee", def: "You and I; our group" },
+    "say": { phonetic: "say", def: "To speak; to express" },
+    "her": { phonetic: "her", def: "That female (object)" },
+    "she": { phonetic: "shee", def: "A female person" },
+    "or": { phonetic: "or", def: "Used to show a choice" },
+    "an": { phonetic: "un", def: "One; any (before vowels)" },
+    "will": { phonetic: "wil", def: "Used for future tense" },
+    "my": { phonetic: "my", def: "Belonging to me" },
+    "one": { phonetic: "wun", def: "Single; the number 1" },
+    "all": { phonetic: "awl", def: "The whole amount" },
+    "would": { phonetic: "wood", def: "Past tense of 'will'" },
+    "there": { phonetic: "thair", def: "In that place" },
+    "their": { phonetic: "thair", def: "Belonging to them" },
+    "what": { phonetic: "wut", def: "Asking for information" },
+    "so": { phonetic: "soh", def: "To such an extent" },
+    "up": { phonetic: "up", def: "Toward a higher position" },
+    "out": { phonetic: "owt", def: "Away from the inside" },
+    "if": { phonetic: "if", def: "On the condition that" },
+    "about": { phonetic: "uh-BOWT", def: "Concerning; approximately" },
+    "who": { phonetic: "hoo", def: "What person" },
+    "get": { phonetic: "get", def: "To obtain; to receive" },
+    "which": { phonetic: "wich", def: "What specific one" },
+    "go": { phonetic: "goh", def: "To move; to travel" },
+    "me": { phonetic: "mee", def: "Myself (object form)" },
+    "when": { phonetic: "wen", def: "At what time" },
+    "make": { phonetic: "mayk", def: "To create; to produce" },
+    "can": { phonetic: "kan", def: "To be able to" },
+    "like": { phonetic: "lyk", def: "Similar to; to enjoy" },
+    "time": { phonetic: "tym", def: "Duration; a moment" },
+    "no": { phonetic: "noh", def: "Not any; a refusal" },
+    "just": { phonetic: "just", def: "Exactly; only" },
+    "him": { phonetic: "him", def: "That male person" },
+    "know": { phonetic: "noh", def: "To understand" },
+    "take": { phonetic: "tayk", def: "To get; to carry" },
+    "people": { phonetic: "PEE-pul", def: "Human beings" },
+    "into": { phonetic: "IN-too", def: "To the inside of" },
+    "year": { phonetic: "yeer", def: "A period of 365 days" },
+    "your": { phonetic: "yor", def: "Belonging to you" },
+    "good": { phonetic: "good", def: "Of high quality" },
+    "some": { phonetic: "sum", def: "An unspecified amount" },
+    "could": { phonetic: "kood", def: "Past tense of 'can'" },
+    "them": { phonetic: "them", def: "Those people (object)" },
+    "see": { phonetic: "see", def: "To perceive with eyes" },
+    "other": { phonetic: "UH-ther", def: "Different from" },
+    "than": { phonetic: "than", def: "Used to compare" },
+    "then": { phonetic: "then", def: "At that time" },
+    "now": { phonetic: "now", def: "At this moment" },
+    "look": { phonetic: "look", def: "To direct your eyes" },
+    "only": { phonetic: "OHN-lee", def: "Solely; exclusively" },
+    "come": { phonetic: "kum", def: "To move toward" },
+    "its": { phonetic: "its", def: "Belonging to it" },
+    "over": { phonetic: "OH-ver", def: "Above; across" },
+    "think": { phonetic: "THink", def: "To use your mind" },
+    "also": { phonetic: "AWL-soh", def: "Too; in addition" },
+    "back": { phonetic: "bak", def: "To the rear" },
+    "after": { phonetic: "AF-ter", def: "Following in time" },
+    "use": { phonetic: "yooz", def: "To employ for a purpose" },
+    "two": { phonetic: "too", def: "The number 2" },
+    "how": { phonetic: "how", def: "In what way" },
+    "our": { phonetic: "OW-er", def: "Belonging to us" },
+    "work": { phonetic: "werk", def: "To do labor" },
+    "first": { phonetic: "ferst", def: "Coming before all" },
+    "well": { phonetic: "wel", def: "In a good manner" },
+    "way": { phonetic: "way", def: "A method; a path" },
+    "even": { phonetic: "EE-ven", def: "Flat; also" },
+    "new": { phonetic: "nyoo", def: "Recently made" },
+    "want": { phonetic: "wont", def: "To desire" },
+    "because": { phonetic: "bee-KUZ", def: "For the reason that" },
+    "any": { phonetic: "EN-ee", def: "One or some" },
+    "these": { phonetic: "theez", def: "The ones here" },
+    "give": { phonetic: "giv", def: "To hand over" },
+    "day": { phonetic: "day", def: "A 24-hour period" },
+    "most": { phonetic: "mohst", def: "The greatest amount" },
+    "us": { phonetic: "us", def: "We (object form)" }
+};
+
+const fryWords = Object.keys(wordData);
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+let currentDifficulty = 'easy';
+let score = 0;
+let streak = 0;
+let gameSpeed = 5;
+let gameActive = false;
+let animationId;
+let wordRange = { start: 0, end: Math.ceil(fryWords.length / 3) };
+let obstacles = [];
+let wordPlatforms = [];
+let particles = [];
+let targetWord = '';
+let frameCount = 0;
+let groundY = 300;
+let nextSpawnTime = 0;
+
+let dino = {
+    x: 60, y: 200,
+    width: 48, height: 56,
+    velocityY: 0,
+    jumping: false,
+    grounded: false,
+    legAngle: 0,
+    squish: 1,       // y scale for landing squish
+    squishX: 1,      // x scale
+    blinkTimer: 0
+};
+
+function resizeCanvas() {
+    const container = canvas.parentElement;
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+    groundY = canvas.height - 100;
+    dino.y = groundY - dino.height;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function setDifficulty(level, btn) {
+    currentDifficulty = level;
+    document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const third = Math.ceil(fryWords.length / 3);
+    switch(level) {
+        case 'easy':   wordRange = { start: 0,         end: third };           break;
+        case 'medium': wordRange = { start: third,     end: third * 2 };       break;
+        case 'hard':   wordRange = { start: third * 2, end: fryWords.length }; break;
+    }
+}
+
+function getRandomWord() {
+    const range = wordRange.end - wordRange.start;
+    return fryWords[wordRange.start + Math.floor(Math.random() * range)];
+}
+
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US'; utterance.rate = 0.8; utterance.pitch = 1;
+        const pronEl = document.getElementById('targetPhonetic');
+        pronEl.classList.add('playing');
+        utterance.onend = () => pronEl.classList.remove('playing');
+        window.speechSynthesis.speak(utterance);
+    }
+}
+function speakCurrentWord() {
+    if (targetWord && targetWord !== 'READY?') speak(targetWord);
+}
+function updateTargetDisplay() {
+    targetWord = getRandomWord();
+    const info = wordData[targetWord] || { phonetic: targetWord };
+    document.getElementById('targetWord').textContent = targetWord;
+    document.getElementById('phoneticText').textContent = info.phonetic;
+    speak(targetWord);
+}
+
+function createObstacle() {
+    const h = 35 + Math.floor(Math.random() * 3) * 10; // 35, 45, or 55
+    return { x: canvas.width, y: groundY - h, width: 28, height: h, passed: false };
+}
+function createWordPlatform(obstacleX) {
+    const isTarget = Math.random() > 0.65;
+    const word = isTarget ? targetWord : getRandomWord();
+    return {
+        x: obstacleX + 160 + Math.random() * 80,
+        y: groundY - 120 - Math.random() * 70,
+        width: 92, height: 34,
+        word, collected: false,
+        isTarget: word === targetWord,
+        bob: Math.random() * Math.PI * 2  // bobbing phase offset
+    };
+}
+function createParticle(x, y, color) {
+    for (let i = 0; i < 10; i++) {
+        const angle = (Math.PI * 2 * i) / 10;
+        const speed = 2 + Math.random() * 3;
+        particles.push({ x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed - 2,
+            life: 45, maxLife: 45, color, size: 3 + Math.random() * 3 });
+    }
+}
+function jump() {
+    if (dino.grounded) {
+        dino.velocityY = -16;
+        dino.jumping = true;
+        dino.grounded = false;
+        dino.squish = 1.3;
+        dino.squishX = 0.8;
+    }
+}
+function spawnObstacleGroup() {
+    const obs = createObstacle();
+    obstacles.push(obs);
+    if (Math.random() > 0.25) wordPlatforms.push(createWordPlatform(obs.x));
+}
+
+// ─── DINO DRAWING ────────────────────────────────────────────────────────────
+function drawDino() {
+    const cx = dino.x + dino.width / 2;
+    const cy = dino.y + dino.height / 2;
+
+    // Squish / stretch easing
+    dino.squish += (1 - dino.squish) * 0.2;
+    dino.squishX += (1 - dino.squishX) * 0.2;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(dino.squishX, dino.squish);
+    ctx.translate(-cx, -cy);
+
+    const x = dino.x;
+    const y = dino.y;
+    const W = dino.width;   // 48
+    const H = dino.height;  // 56
+
+    // ── Tail ──────────────────────────────────────────────
+    const tailWag = dino.grounded ? Math.sin(dino.legAngle * 0.8) * 4 : 0;
+    ctx.fillStyle = '#22c55e';
+    ctx.beginPath();
+    ctx.moveTo(x + 4, y + H * 0.45);
+    ctx.quadraticCurveTo(x - 14, y + H * 0.5 + tailWag, x - 6, y + H * 0.7);
+    ctx.quadraticCurveTo(x - 2, y + H * 0.78, x + 8, y + H * 0.6);
+    ctx.closePath();
+    ctx.fill();
+
+    // ── Body ──────────────────────────────────────────────
+    ctx.fillStyle = '#4ade80';
+    ctx.beginPath();
+    ctx.ellipse(x + W * 0.48, y + H * 0.58, W * 0.38, H * 0.3, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // belly lighter patch
+    ctx.fillStyle = '#86efac';
+    ctx.beginPath();
+    ctx.ellipse(x + W * 0.5, y + H * 0.62, W * 0.2, H * 0.18, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ── Legs ──────────────────────────────────────────────
+    const swing = dino.grounded ? Math.sin(dino.legAngle) : 0;
+    const legColor = '#16a34a';
+    const footColor = '#15803d';
+    const legW = 8, legH = 18;
+    const legY = y + H * 0.78;
+
+    // back leg
+    ctx.fillStyle = legColor;
+    const backLegX = x + W * 0.25;
+    ctx.save();
+    ctx.translate(backLegX + legW/2, legY);
+    ctx.rotate(-swing * 0.35);
+    ctx.fillRect(-legW/2, 0, legW, legH);
+    // foot
+    ctx.fillStyle = footColor;
+    ctx.beginPath();
+    ctx.ellipse(0, legH + 3, 8, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // front leg
+    ctx.fillStyle = legColor;
+    const frontLegX = x + W * 0.6;
+    ctx.save();
+    ctx.translate(frontLegX + legW/2, legY);
+    ctx.rotate(swing * 0.35);
+    ctx.fillRect(-legW/2, 0, legW, legH);
+    ctx.fillStyle = footColor;
+    ctx.beginPath();
+    ctx.ellipse(0, legH + 3, 8, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // ── Neck ──────────────────────────────────────────────
+    ctx.fillStyle = '#4ade80';
+    ctx.beginPath();
+    ctx.moveTo(x + W * 0.55, y + H * 0.35);
+    ctx.lineTo(x + W * 0.72, y + H * 0.13);
+    ctx.lineTo(x + W * 0.95, y + H * 0.18);
+    ctx.lineTo(x + W * 0.78, y + H * 0.42);
+    ctx.closePath();
+    ctx.fill();
+
+    // ── Head ──────────────────────────────────────────────
+    ctx.fillStyle = '#4ade80';
+    ctx.beginPath();
+    ctx.ellipse(x + W * 0.85, y + H * 0.12, W * 0.25, H * 0.15, -0.15, 0, Math.PI * 2);
+    ctx.fill();
+
+    // snout
+    ctx.fillStyle = '#22c55e';
+    ctx.beginPath();
+    ctx.ellipse(x + W * 1.05, y + H * 0.17, W * 0.12, H * 0.09, 0.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // nostril
+    ctx.fillStyle = '#15803d';
+    ctx.beginPath();
+    ctx.arc(x + W * 1.1, y + H * 0.13, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // ── Eye ───────────────────────────────────────────────
+    const eyeX = x + W * 0.9;
+    const eyeY = y + H * 0.07;
+    const blink = dino.blinkTimer > 0 && dino.blinkTimer < 5;
+
+    // eye white
+    ctx.fillStyle = 'white';
+    if (blink) {
+        ctx.fillRect(eyeX - 7, eyeY - 1, 14, 3);
+    } else {
+        ctx.beginPath();
+        ctx.arc(eyeX, eyeY, 7, 0, Math.PI * 2);
+        ctx.fill();
+        // pupil
+        ctx.fillStyle = '#1a1a2e';
+        ctx.beginPath();
+        ctx.arc(eyeX + 1.5, eyeY + 1, 4, 0, Math.PI * 2);
+        ctx.fill();
+        // highlight
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(eyeX + 2.5, eyeY - 1, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // ── Small arm ─────────────────────────────────────────
+    ctx.fillStyle = '#22c55e';
+    ctx.save();
+    ctx.translate(x + W * 0.72, y + H * 0.38);
+    ctx.rotate(-0.3 + swing * 0.2);
+    ctx.fillRect(-3, 0, 6, 12);
+    // tiny claws
+    ctx.fillStyle = '#15803d';
+    ctx.fillRect(-4, 11, 4, 3);
+    ctx.fillRect(0, 11, 4, 3);
+    ctx.restore();
+
+    // ── Spines on back ────────────────────────────────────
+    ctx.fillStyle = '#16a34a';
+    const spines = [[x + W*0.62, y + H*0.28, 5, 9],
+                    [x + W*0.53, y + H*0.32, 4, 7],
+                    [x + W*0.44, y + H*0.38, 3, 6]];
+    spines.forEach(([sx, sy, sw, sh]) => {
+        ctx.beginPath();
+        ctx.moveTo(sx - sw/2, sy + sh);
+        ctx.lineTo(sx, sy);
+        ctx.lineTo(sx + sw/2, sy + sh);
+        ctx.fill();
+    });
+
+    ctx.restore(); // end squish transform
+
+    // ── Ground shadow ─────────────────────────────────────
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.beginPath();
+    const shadowY = groundY + 4;
+    const shadowW = W * dino.squishX * 0.7;
+    ctx.ellipse(cx, shadowY, shadowW, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
+function update() {
+    if (!gameActive) return;
+    frameCount++;
+
+    // Physics
+    dino.velocityY += 0.82;
+    dino.y += dino.velocityY;
+
+    if (dino.y + dino.height > groundY) {
+        if (!dino.grounded) {
+            // landing squish
+            dino.squish = 0.65;
+            dino.squishX = 1.35;
+        }
+        dino.y = groundY - dino.height;
+        dino.velocityY = 0;
+        dino.grounded = true;
+        dino.jumping = false;
+    }
+
+    if (dino.grounded) dino.legAngle += 0.28;
+
+    // Blink randomly
+    dino.blinkTimer--;
+    if (dino.blinkTimer < 0) dino.blinkTimer = 120 + Math.floor(Math.random() * 180);
+
+    // Spawn
+    if (frameCount >= nextSpawnTime) {
+        spawnObstacleGroup();
+        nextSpawnTime = frameCount + 90 + Math.floor(Math.random() * 70);
+    }
+
+    // Obstacles
+    for (let i = obstacles.length - 1; i >= 0; i--) {
+        const obs = obstacles[i];
+        obs.x -= gameSpeed;
+        if (!obs.passed &&
+            dino.x + 6 < obs.x + obs.width - 4 &&
+            dino.x + dino.width - 6 > obs.x + 4 &&
+            dino.y + dino.height - 4 > obs.y + 5) {
+            gameOver(); return;
+        }
+        if (obs.x + obs.width < 0) obstacles.splice(i, 1);
+    }
+
+    // Word platforms
+    for (let i = wordPlatforms.length - 1; i >= 0; i--) {
+        const p = wordPlatforms[i];
+        p.x -= gameSpeed;
+        p.bob += 0.04;
+
+        if (!p.collected &&
+            dino.x + 4 < p.x + p.width &&
+            dino.x + dino.width - 4 > p.x &&
+            dino.y < p.y + p.height + 4 &&
+            dino.y + dino.height > p.y) {
+            p.collected = true;
+            if (p.isTarget) {
+                score += 100 + streak * 20;
+                streak++;
+                createParticle(p.x + p.width/2, p.y + p.height/2, '#4ade80');
+                updateTargetDisplay();
+                gameSpeed = Math.min(10, gameSpeed + 0.2);
+            } else {
+                createParticle(p.x + p.width/2, p.y + p.height/2, '#f87171');
+                gameOver(); return;
+            }
+            updateStats();
+            wordPlatforms.splice(i, 1);
+            continue;
+        }
+        if (p.x + p.width < 0) wordPlatforms.splice(i, 1);
+    }
+
+    // Particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life--;
+        if (p.life <= 0) particles.splice(i, 1);
+    }
+
+    // Speed ramp
+    if (frameCount % 500 === 0) {
+        gameSpeed = Math.min(10, gameSpeed + 0.3);
+        updateStats();
+    }
+
+    draw();
+    animationId = requestAnimationFrame(update);
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Sky gradient
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
+    skyGrad.addColorStop(0, '#87CEEB');
+    skyGrad.addColorStop(1, '#E0F6FF');
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, canvas.width, groundY);
+
+    // Clouds
+    ctx.fillStyle = 'rgba(255,255,255,0.82)';
+    for (let i = 0; i < 4; i++) {
+        const cx = ((frameCount * 0.25) + i * 270) % (canvas.width + 220) - 110;
+        const cy = 45 + i * 30;
+        const r = 22 + i * 4;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.8, 0, Math.PI * 2);
+        ctx.arc(cx + r * 0.8, cy - r * 0.3, r, 0, Math.PI * 2);
+        ctx.arc(cx + r * 1.6, cy, r * 0.8, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Ground
+    ctx.fillStyle = '#deb887';
+    ctx.fillRect(0, groundY, canvas.width, canvas.height - groundY);
+    // Ground line
+    ctx.strokeStyle = '#8b4513';
+    ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(canvas.width, groundY); ctx.stroke();
+    // Ground texture dashes
+    ctx.strokeStyle = 'rgba(139,69,19,0.35)';
+    ctx.lineWidth = 1;
+    const dashOffset = (frameCount * gameSpeed * 0.6) % 50;
+    for (let i = -dashOffset; i < canvas.width; i += 50) {
+        ctx.beginPath(); ctx.moveTo(i, groundY + 12); ctx.lineTo(i + 25, groundY + 12); ctx.stroke();
+    }
+
+    // Dino
+    drawDino();
+
+    // Cacti
+    obstacles.forEach(obs => {
+        const bx = obs.x, by = obs.y, bw = obs.width, bh = obs.height;
+        // stem
+        ctx.fillStyle = '#2d6a2d';
+        ctx.beginPath(); ctx.roundRect(bx + bw*0.3, by, bw*0.4, bh, 3); ctx.fill();
+        // left arm
+        ctx.beginPath(); ctx.roundRect(bx, by + bh*0.3, bw*0.35, bh*0.22, 3); ctx.fill();
+        ctx.beginPath(); ctx.roundRect(bx, by + bh*0.12, bw*0.16, bh*0.28, 3); ctx.fill();
+        // right arm
+        ctx.beginPath(); ctx.roundRect(bx + bw*0.65, by + bh*0.4, bw*0.35, bh*0.2, 3); ctx.fill();
+        ctx.beginPath(); ctx.roundRect(bx + bw*0.84, by + bh*0.24, bw*0.16, bh*0.24, 3); ctx.fill();
+        // lighter highlight
+        ctx.fillStyle = '#3a8a3a';
+        ctx.fillRect(bx + bw*0.38, by + 3, 4, bh - 6);
+    });
+
+    // Word platforms (with gentle bob)
+    wordPlatforms.forEach(platform => {
+        const px = platform.x;
+        const py = platform.y + Math.sin(platform.bob) * 3;
+        const pw = platform.width, ph = platform.height;
+
+        // shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.18)';
+        ctx.beginPath(); ctx.ellipse(px + pw/2, py + ph + 6, pw*0.45, 5, 0, 0, Math.PI*2); ctx.fill();
+
+        // platform
+        const grad = ctx.createLinearGradient(px, py, px, py + ph);
+        if (platform.isTarget) {
+            grad.addColorStop(0, '#fcd34d');
+            grad.addColorStop(1, '#f59e0b');
+        } else {
+            grad.addColorStop(0, '#94a3b8');
+            grad.addColorStop(1, '#475569');
+        }
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.roundRect(px, py, pw, ph, 8); ctx.fill();
+
+        // glow for target
+        if (platform.isTarget) {
+            ctx.strokeStyle = 'rgba(251,191,36,0.6)';
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.roundRect(px - 2, py - 2, pw + 4, ph + 4, 10); ctx.stroke();
+        }
+
+        // border
+        ctx.strokeStyle = platform.isTarget ? '#d97706' : '#334155';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.roundRect(px, py, pw, ph, 8); ctx.stroke();
+
+        // text
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 15px "Segoe UI", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.shadowColor = 'rgba(0,0,0,0.4)';
+        ctx.shadowBlur = 3;
+        ctx.fillText(platform.word, px + pw/2, py + ph/2 + 1);
+        ctx.shadowBlur = 0;
+    });
+
+    // Particles
+    particles.forEach(p => {
+        ctx.globalAlpha = p.life / p.maxLife;
+        ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size * (p.life/p.maxLife), 0, Math.PI*2); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+}
+
+function updateStats() {
+    document.getElementById('score').textContent = score;
+    document.getElementById('streak').textContent = streak;
+    document.getElementById('speed').textContent = 'Speed: ' + gameSpeed.toFixed(1) + 'x';
+}
+function gameOver() {
+    gameActive = false;
+    cancelAnimationFrame(animationId);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('gameOverOverlay').classList.add('show');
+}
+function startGame() {
+    document.getElementById('startOverlay').classList.add('hidden');
+    gameActive = true;
+    score = 0; streak = 0; gameSpeed = 5; frameCount = 0; nextSpawnTime = 80;
+    obstacles = []; wordPlatforms = []; particles = [];
+    dino.y = groundY - dino.height;
+    dino.velocityY = 0; dino.grounded = true; dino.legAngle = 0;
+    dino.squish = 1; dino.squishX = 1; dino.blinkTimer = 60;
+    updateStats();
+    updateTargetDisplay();
+    update();
+}
+function restartGame() {
+    document.getElementById('gameOverOverlay').classList.remove('show');
+    startGame();
+}
+function changeDifficulty() {
+    gameActive = false;
+    cancelAnimationFrame(animationId);
+    document.getElementById('startOverlay').classList.remove('hidden');
+}
+
+document.addEventListener('keydown', e => {
+    if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); if (gameActive) jump(); }
+});
+canvas.addEventListener('mousedown', () => { if (gameActive) jump(); });
+canvas.addEventListener('touchstart', e => { e.preventDefault(); if (gameActive) jump(); });
+</script>
+</body>
+</html>
