@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 12 Academic Writing: Translation & Editing</title>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --maple-green: #003300;
+            --maple-dark: #001a00;
+            --maple-mid: #1a4d1a;
+            --maple-light: #2d6e2d;
+            --burgundy: #8B0000;
+            --burgundy-light: #a31515;
+            --gold: #c8a84b;
+            --gold-light: #e8c96a;
+            --cream: #faf8f2;
+            --light-grey: #f0ede4;
+            --text-dark: #1a1a1a;
+            --text-mid: #444;
+            --success: #1a5c1a;
+            --error: #7a0000;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.65;
+        }
+
+        /* ─── HEADER ─── */
+        .site-header {
+            background: var(--maple-green);
+            border-bottom: 4px solid var(--gold);
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 70px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .maple-leaf-icon {
+            width: 42px;
+            height: 42px;
+        }
+
+        .school-name {
+            color: var(--gold);
+            font-family: 'EB Garamond', serif;
+            font-size: 1.05em;
+            line-height: 1.2;
+        }
+        .school-name span {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.78em;
+            font-style: italic;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .module-badge {
+            background: var(--burgundy);
+            color: white;
+            font-size: 0.78em;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .student-name-display {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        /* ─── PROGRESS BAR ─── */
+        .progress-track {
+            background: var(--maple-dark);
+            height: 5px;
+        }
+        .progress-fill {
+            background: var(--gold);
+            height: 100%;
+            width: 0%;
+            transition: width 0.6s ease;
+        }
+
+        /* ─── NAV TABS ─── */
+        .nav-tabs {
+            background: var(--maple-dark);
+            display: flex;
+            overflow-x: auto;
+            border-bottom: 2px solid var(--gold);
+            padding: 0 20px;
+            gap: 2px;
+        }
+
+        .nav-tab {
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.55);
+            padding: 13px 18px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.82em;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            position: relative;
+            top: 2px;
+        }
+
+        .nav-tab:hover {
+            color: rgba(255,255,255,0.85);
+        }
+
+        .nav-tab.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        .nav-tab.locked {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .nav-tab .tab-num {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            font-size: 0.8em;
+            margin-right: 7px;
+        }
+
+        .nav-tab.active .tab-num {
+            background: var(--gold);
+            color: var(--maple-dark);
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 30px 80px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+        .section.active { display: block; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── TYPOGRAPHY ─── */
+        .section-title {
+            font-family: 'EB Garamond', serif;
+            color: var(--maple-green);
+            font-size: 2em;
+            margin-bottom: 6px;
+            border-bottom: 3px solid var(--gold);
+            padding-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: var(--text-mid);
+            font-size: 0.95em;
+            margin-bottom: 28px;
+            font-style: italic;
+        }
+
+        h3 {
+            font-family: 'EB Garamond', serif;
+            color: var(--burgundy);
+            font-size: 1.3em;
+            margin: 28px 0 10px;
+        }
+
+        p { margin-bottom: 14px; }
+
+        /* ─── INTRO BOX ─── */
+        .welcome-box {
+            background: var(--maple-green);
+            color: white;
+            padding: 28px 32px;
+            border-radius: 4px;
+            margin-bottom: 28px;
+            border-left: 5px solid var(--gold);
+        }
+        .welcome-box h2 {
+            font-family: 'EB Garamond', serif;
+            color: var(--gold);
+            font-size: 1.5em;
+            margin-bottom: 12px;
+        }
+        .welcome-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .welcome-box li {
+            margin-bottom: 6px;
+            opacity: 0.92;
+        }
+
+        /* ─── NAME INPUT ─── */
+        .name-entry {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+        .name-entry label {
+            font-weight: 700;
+            font-size: 0.95em;
+            color: var(--maple-green);
+            display: block;
+            margin-bottom: 8px;
+        }
+        .name-entry input {
+            width: 100%;
+            padding: 11px 15px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            font-family: 'Source Sans 3', sans-serif;
+            transition: border-color 0.2s;
+        }
+        .name-entry input:focus {
+            outline: none;
+            border-color: var(--maple-green);
+        }
+
+        /* ─── COMPARISON COLUMNS ─── */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 20px 0;
+        }
+
+        .compare-box {
+            border-radius: 4px;
+            padding: 20px;
+            position: relative;
+            padding-top: 30px;
+        }
+
+        .compare-box.bad {
+            background: #fff5f5;
+            border: 2px solid #e88;
+        }
+        .compare-box.good {
+            background: #f3fff3;
+            border: 2px solid #6a6;
+        }
+
+        .compare-label {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            padding: 4px 14px;
+            font-size: 0.75em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-radius: 4px 0 4px 0;
+        }
+
+        .compare-box.bad .compare-label { background: var(--error); color: white; }
+        .compare-box.good .compare-label { background: var(--success); color: white; }
+
+        .compare-text {
+            font-family: 'EB Garamond', serif;
+            font-size: 1.05em;
+            line-height: 1.75;
+            margin-top: 10px;
+            color: var(--text-dark);
+        }
+
+        .issue-list, .fix-list {
+            margin-top: 14px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            font-size: 0.88em;
+        }
+        .issue-list {
+            background: #ffe5e5;
+        }
+        .fix-list {
+            background: #e5f5e5;
+        }
+        .issue-list strong, .fix-list strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+        .issue-list ul, .fix-list ul {
+            margin-left: 18px;
+        }
+        .issue-list li, .fix-list li {
+            margin-bottom: 4px;
+        }
+
+        /* ─── ACTIVITY BOXES ─── */
+        .activity {
+            background: white;
+            border: 2px dashed var(--maple-light);
+            border-radius: 4px;
+            padding: 22px;
+            margin: 22px 0;
+        }
+
+        .activity-title {
+            font-weight: 700;
+            color: var(--maple-green);
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 130px;
+            padding: 13px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95em;
+            line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.2s;
+            margin-top: 8px;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--maple-green);
+        }
+
+        /* ─── HINT / INFO BOXES ─── */
+        .hint-box {
+            background: #fffbea;
+            border-left: 4px solid var(--gold);
+            padding: 16px 20px;
+            border-radius: 0 4px 4px 0;
+            margin: 16px 0;
+            font-size: 0.92em;
+        }
+        .hint-box strong { color: #7a5a00; }
+
+        .info-box {
+            background: #eef4ee;
+            border-left: 4px solid var(--maple-green);
+            padding: 16px 20px;
+            border-radius: 0 4px 4px 0;
+            margin: 16px 0;
+            font-size: 0.92em;
+        }
+
+        /* ─── BUTTONS ─── */
+        .btn {
+            display: inline-block;
+            padding: 11px 28px;
+            border-radius: 3px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.92em;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            letter-spacing: 0.03em;
+        }
+
+        .btn-primary {
+            background: var(--maple-green);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--maple-light); }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--maple-dark);
+        }
+        .btn-gold:hover { background: var(--gold-light); }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--maple-green);
+            color: var(--maple-green);
+        }
+        .btn-outline:hover { background: var(--maple-green); color: white; }
+
+        .btn-reveal {
+            background: var(--burgundy);
+            color: white;
+            font-size: 0.85em;
+            padding: 8px 18px;
+        }
+        .btn-reveal:hover { background: var(--burgundy-light); }
+
+        /* ─── SELF-CHECK (multiple choice) ─── */
+        .self-check {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            padding: 20px 22px;
+            margin: 18px 0;
+        }
+        .self-check .question {
+            font-weight: 600;
+            margin-bottom: 14px;
+            color: var(--maple-green);
+        }
+
+        .choice-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: var(--light-grey);
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            padding: 10px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.93em;
+            transition: all 0.2s;
+        }
+        .choice-btn:hover:not(:disabled) {
+            border-color: var(--maple-green);
+            background: #e4ede4;
+        }
+        .choice-btn.correct {
+            background: #dff5df;
+            border-color: var(--success);
+            color: var(--success);
+            font-weight: 600;
+        }
+        .choice-btn.incorrect {
+            background: #fce8e8;
+            border-color: var(--error);
+            color: var(--error);
+        }
+        .choice-btn.revealed-correct {
+            background: #dff5df;
+            border-color: var(--success);
+            opacity: 0.7;
+        }
+
+        .check-feedback {
+            display: none;
+            padding: 12px 16px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+        .check-feedback.show { display: block; }
+        .check-feedback.success {
+            background: #dff5df;
+            border-left: 4px solid var(--success);
+            color: var(--success);
+        }
+        .check-feedback.try-again {
+            background: #fce8e8;
+            border-left: 4px solid var(--error);
+            color: var(--error);
+        }
+        .check-feedback.partial {
+            background: #fff8e1;
+            border-left: 4px solid var(--gold);
+            color: #7a5a00;
+        }
+
+        /* ─── AUDIENCE CARDS ─── */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .audience-card {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .audience-card:hover {
+            border-color: var(--maple-green);
+            transform: translateY(-2px);
+        }
+        .audience-card.selected {
+            border-color: var(--maple-green);
+            background: #eef4ee;
+        }
+
+        .audience-card .icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        .audience-card h4 {
+            color: var(--maple-green);
+            font-size: 1em;
+            margin-bottom: 6px;
+        }
+        .audience-card p {
+            font-size: 0.83em;
+            color: var(--text-mid);
+            margin: 0;
+        }
+
+        .audience-detail {
+            display: none;
+            background: var(--maple-green);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 4px;
+            margin-top: 16px;
+            animation: fadeUp 0.3s ease;
+        }
+        .audience-detail.show { display: block; }
+        .audience-detail h4 { color: var(--gold); margin-bottom: 10px; }
+        .audience-detail ul { margin-left: 18px; }
+        .audience-detail li { margin-bottom: 5px; font-size: 0.92em; opacity: 0.93; }
+
+        /* ─── ORIGINAL TEXT ─── */
+        .original-text {
+            background: #f5f0e8;
+            border: 2px solid #c8b89a;
+            border-radius: 4px;
+            padding: 20px 22px;
+            margin: 18px 0;
+            font-family: 'EB Garamond', serif;
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #3a2e1e;
+        }
+
+        .original-text .label {
+            display: inline-block;
+            background: #8a7055;
+            color: white;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.72em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 10px;
+            border-radius: 2px;
+            margin-bottom: 12px;
+        }
+
+        /* ─── SOLUTION BOX ─── */
+        .solution-box {
+            display: none;
+            background: #f3fff3;
+            border: 2px solid #6a6;
+            border-radius: 4px;
+            padding: 20px 22px;
+            margin-top: 14px;
+            animation: fadeUp 0.3s ease;
+        }
+        .solution-box.show { display: block; }
+        .solution-box .label {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            font-size: 0.72em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 10px;
+            border-radius: 2px;
+            margin-bottom: 12px;
+        }
+        .solution-text {
+            font-family: 'EB Garamond', serif;
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: var(--text-dark);
+            margin-bottom: 14px;
+        }
+
+        /* ─── RATING STARS ─── */
+        .rating-group {
+            margin-bottom: 20px;
+            background: white;
+            padding: 16px 20px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+        }
+        .rating-group p {
+            margin-bottom: 10px;
+            font-weight: 600;
+            font-size: 0.93em;
+            color: var(--maple-green);
+        }
+        .stars {
+            display: flex;
+            gap: 8px;
+        }
+        .star-btn {
+            background: none;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .star-btn:hover, .star-btn.active {
+            background: var(--gold);
+            border-color: var(--gold);
+        }
+
+        /* ─── NAV FOOTER ─── */
+        .section-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e0d8cc;
+        }
+
+        /* ─── CERTIFICATE ─── */
+        .certificate {
+            background: white;
+            border: 6px double var(--gold);
+            border-radius: 4px;
+            padding: 50px 40px;
+            text-align: center;
+            margin-top: 30px;
+            position: relative;
+        }
+        .certificate::before, .certificate::after {
+            content: '🍁';
+            position: absolute;
+            font-size: 2em;
+            top: 20px;
+        }
+        .certificate::before { left: 20px; }
+        .certificate::after { right: 20px; }
+
+        .cert-school {
+            font-family: 'EB Garamond', serif;
+            color: var(--maple-green);
+            font-size: 1em;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .cert-title {
+            font-family: 'EB Garamond', serif;
+            color: var(--maple-green);
+            font-size: 2.2em;
+            font-weight: 600;
+            margin: 20px 0 8px;
+            border-top: 2px solid var(--gold);
+            border-bottom: 2px solid var(--gold);
+            padding: 10px 0;
+        }
+        .cert-certifies {
+            font-style: italic;
+            color: var(--text-mid);
+            margin: 16px 0 6px;
+        }
+        .cert-name {
+            font-family: 'EB Garamond', serif;
+            font-size: 2.4em;
+            color: var(--burgundy);
+            font-style: italic;
+            margin: 10px 0 20px;
+        }
+        .cert-items {
+            list-style: none;
+            text-align: center;
+            margin: 18px 0;
+        }
+        .cert-items li {
+            padding: 4px 0;
+            color: var(--text-mid);
+            font-size: 0.93em;
+        }
+        .cert-items li::before {
+            content: '✓ ';
+            color: var(--maple-green);
+            font-weight: bold;
+        }
+        .cert-date {
+            color: var(--text-mid);
+            font-size: 0.9em;
+            margin-top: 22px;
+        }
+        .cert-module {
+            font-size: 0.75em;
+            color: #aaa;
+            margin-top: 8px;
+            letter-spacing: 0.08em;
+        }
+
+        .screenshot-notice {
+            background: var(--burgundy);
+            color: white;
+            padding: 18px 22px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 680px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+            .nav-tab { padding: 10px 12px; font-size: 0.75em; }
+            .main { padding: 24px 16px 60px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="site-header">
+    <div class="logo-area">
+        <svg class="maple-leaf-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 5 L58 30 L80 20 L70 42 L95 48 L75 60 L85 80 L60 70 L55 95 L50 75 L45 95 L40 70 L15 80 L25 60 L5 48 L30 42 L20 20 L42 30 Z" fill="#c8a84b"/>
+        </svg>
+        <div class="school-name">
+            Maple Leaf World School
+            <span>Grade 12 Academic Writing</span>
+        </div>
+    </div>
+    <div class="header-right">
+        <span class="module-badge">Unit 1 · Independent Work</span>
+        <span class="student-name-display" id="headerName"></span>
+    </div>
+</header>
+
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- ─── NAV TABS ─── -->
+<nav class="nav-tabs">
+    <button class="nav-tab active" id="tab-1" onclick="goTo(1)"><span class="tab-num">1</span>Start</button>
+    <button class="nav-tab locked" id="tab-2" onclick="goTo(2)"><span class="tab-num">2</span>Machine vs. Human</button>
+    <button class="nav-tab locked" id="tab-3" onclick="goTo(3)"><span class="tab-num">3</span>Common Errors</button>
+    <button class="nav-tab locked" id="tab-4" onclick="goTo(4)"><span class="tab-num">4</span>Know Your Audience</button>
+    <button class="nav-tab locked" id="tab-5" onclick="goTo(5)"><span class="tab-num">5</span>Practice Challenge</button>
+    <button class="nav-tab locked" id="tab-6" onclick="goTo(6)"><span class="tab-num">6</span>Reflection & Certificate</button>
+</nav>
+
+<main class="main">
+
+    <!-- ══════════════════════════════════════
+         SECTION 1 — WELCOME
+    ══════════════════════════════════════ -->
+    <section class="section active" id="sec-1">
+        <h1 class="section-title">Translation & Editing Mastery</h1>
+        <p class="section-subtitle">Independent Learning Module · Unit 1 · Approximately 15 minutes</p>
+
+        <div class="welcome-box">
+            <h2>What You Will Practice Today</h2>
+            <p>Machine translation (Google Translate, Baidu Translate) often produces awkward <strong>"Chinglish"</strong> — English that is grammatically wrong or culturally confusing. Today you will learn to edit these translations into clear, professional academic English.</p>
+            <ul>
+                <li>Identify common Chinglish grammar and vocabulary errors</li>
+                <li>Transform machine translations into natural academic English</li>
+                <li>Adapt writing for different audiences (tourist, professor, child, and more)</li>
+                <li>Practice editing real restaurant review texts</li>
+            </ul>
+        </div>
+
+        <div class="name-entry">
+            <label for="nameInput">Enter Your Full Name to Begin</label>
+            <input type="text" id="nameInput" placeholder="e.g., Zhang Wei" oninput="updateName()">
+        </div>
+
+        <div class="self-check">
+            <p class="question">Quick Check: Have you ever used Google Translate or Baidu Translate for a school assignment?</p>
+            <button class="choice-btn" onclick="quickCheck(this, 'yes')">Yes — I use it frequently</button>
+            <button class="choice-btn" onclick="quickCheck(this, 'sometimes')">Sometimes, when I get stuck</button>
+            <button class="choice-btn" onclick="quickCheck(this, 'no')">No, I have never used it</button>
+            <div class="check-feedback" id="qc-feedback"></div>
+        </div>
+
+        <div class="section-nav">
+            <span></span>
+            <button class="btn btn-primary" onclick="advanceTo(2)">Begin Module →</button>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 2 — MACHINE vs HUMAN
+    ══════════════════════════════════════ -->
+    <section class="section" id="sec-2">
+        <h1 class="section-title">Machine vs. Human Translation</h1>
+        <p class="section-subtitle">Compare these two versions of the same dish description. What makes one better?</p>
+
+        <div class="comparison-grid">
+            <div class="compare-box bad">
+                <span class="compare-label">❌ Machine Translation</span>
+                <div class="compare-text">
+                    "The red burn meat is very delicious food of China. It use pig meat and sugar to make the flavor of sweet. Many person eat this in festival."
+                </div>
+                <div class="issue-list">
+                    <strong>Problems:</strong>
+                    <ul>
+                        <li>Wrong grammar: "It use" / "Many person"</li>
+                        <li>Awkward phrase: "flavor of sweet"</li>
+                        <li>No cultural context — what IS this dish?</li>
+                        <li>Literal translation of 红烧肉</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="compare-box good">
+                <span class="compare-label">✅ Human-Edited</span>
+                <div class="compare-text">
+                    "Red-braised pork belly is one of China's most beloved dishes. It features tender pork simmered in soy sauce, sugar, and spices until rich and caramelized. Families often enjoy it during holidays."
+                </div>
+                <div class="fix-list">
+                    <strong>Improvements:</strong>
+                    <ul>
+                        <li>Correct grammar throughout</li>
+                        <li>Proper dish name + explanation</li>
+                        <li>Cultural context: "Families," "holidays"</li>
+                        <li>Appetizing descriptive words</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity">
+            <div class="activity-title">✏️ Activity: Spot the Changes</div>
+            <p>List <strong>at least 5 specific changes</strong> that make the human-edited version clearer and more professional. Be as specific as possible — name the exact words that changed and explain why.</p>
+            <textarea id="changes-list" placeholder="1. 'Red burn meat' → 'Red-braised pork belly' — gives the real dish name and uses correct cooking vocabulary&#10;2. ..."></textarea>
+        </div>
+
+        <div class="hint-box">
+            <strong>💡 Editing Checklist — Use this every time:</strong><br>
+            Grammar (subject-verb agreement, tenses) · Vocabulary (precise words) · Cultural context (does the reader understand the culture?) · Tone (formal or informal?) · Clarity (is every sentence clear?)
+        </div>
+
+        <h3>Self-Check: Grammar Rule</h3>
+        <div class="self-check">
+            <p class="question">Why is "Many person eat this" incorrect English?</p>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec2q1', 'Not quite. The word "person" is a noun, not a verb. The issue is subject–verb agreement and the use of plural nouns.')">A. The verb "eat" is wrong — it should be "eats"</button>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec2q1', 'Close — plural does matter here, but the bigger problem is that "person" is the singular form. The sentence needs "Many <em>people</em> eat this."')">B. "Many" cannot be used with food words</button>
+            <button class="choice-btn" onclick="mcCheck(this, true, 'sec2q1', '✓ Correct! "Person" is singular. When talking about a group, we use "people." The correct sentence is: "Many <em>people</em> eat this during festivals."')">C. "Person" is the singular form — the plural is "people"</button>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec2q1', 'Not quite. "This" is fine here as a reference to the dish. The problem is "Many person" — it should be "Many people."')">D. "This" should be replaced with "these"</button>
+            <div class="check-feedback" id="sec2q1"></div>
+        </div>
+
+        <div class="section-nav">
+            <button class="btn btn-outline" onclick="goTo(1)">← Back</button>
+            <button class="btn btn-primary" onclick="advanceTo(3)">Next Section →</button>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 3 — COMMON ERRORS
+    ══════════════════════════════════════ -->
+    <section class="section" id="sec-3">
+        <h1 class="section-title">Common Translation Errors</h1>
+        <p class="section-subtitle">Study three real examples. For each, analyze the problems yourself before seeing the corrected version.</p>
+
+        <!-- EXAMPLE 1 -->
+        <h3>Example 1: Sichuan Restaurant Description</h3>
+        <div class="original-text">
+            <span class="label">Original (Machine Translated)</span>
+            "Fragrant come from old Sichuan restaurant, establish 1987, our shop have many famous Sichuan taste foods. The pungent degree can choose, small pungent, middle pungent, big pungent, and special pungent. Our shop's signature dish is Water Boil Fish, use live fish kill now, put many dry chili and Chinese prickly ash, very hemp and spicy let you cannot stop eating."
+        </div>
+
+        <div class="activity">
+            <div class="activity-title">📝 Your Analysis: What are the 3 biggest problems?</div>
+            <textarea id="ex1-analysis" placeholder="1. Grammar: 'establish 1987' should be 'established in 1987' because...&#10;2. Vocabulary: 'pungent degree' is not natural English. A better phrase would be...&#10;3. Cultural/translation issue: 'hemp' is being used to describe a sensation, but the correct English word is..."></textarea>
+        </div>
+
+        <button class="btn btn-reveal" onclick="toggleSolution('sol-1')">▼ Show Corrected Version & Explanation</button>
+        <div class="solution-box" id="sol-1">
+            <span class="label">✅ Improved Version</span>
+            <div class="solution-text">
+                "Welcome to Old Sichuan, established in 1987. We specialize in authentic Sichuan cuisine with customizable spice levels: mild, medium, hot, and extra hot. Our signature dish is Shuizhu Fish, prepared with fresh live fish and generously seasoned with dried chilies and Sichuan peppercorns. The combination of numbing and spicy heat is absolutely irresistible."
+            </div>
+            <div class="fix-list">
+                <strong>Key Corrections Explained:</strong>
+                <ul>
+                    <li><strong>"pungent degree" → "spice levels"</strong> — Natural English uses "level" or "heat" for spiciness</li>
+                    <li><strong>"hemp" → "numbing"</strong> — The Sichuan peppercorn (花椒) sensation in English is called "numbing" or "tingling," not "hemp"</li>
+                    <li><strong>"establish 1987" → "established in 1987"</strong> — Past tense passive form with preposition</li>
+                    <li><strong>"cannot stop eating" → "irresistible"</strong> — One academic word replaces a clumsy phrase</li>
+                    <li><strong>"Water Boil Fish" → "Shuizhu Fish"</strong> — Keep the Chinese name and explain it instead of literal translation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- EXAMPLE 2 -->
+        <h3>Example 2: Negative Restaurant Review</h3>
+        <div class="original-text">
+            <span class="label">Original (Machine Translated)</span>
+            "Yesterday I go eat Beijing Roast Duck, feeling very disappointment. The duck skin is supposed to be crisp crisp, but actually is soft collapse collapse, oil is many many. The waiter demonstrate how wrap pancake, but his action is too fast, I no see clear. Most unacceptable is the duck bone soup, obviously is use many MSG. Price also not cheap, one whole set want 388 yuan. Next time I will not come again, suggest everyone also don't come, go eat KFC more better!"
+        </div>
+
+        <div class="activity">
+            <div class="activity-title">✏️ Your Task: Rewrite this as formal, appropriate English</div>
+            <p>Fix all grammar issues. Use academic/professional vocabulary. Remove unprofessional phrases. Keep the critical opinion — just express it correctly.</p>
+            <textarea id="ex2-rewrite" placeholder="I was disappointed by my recent visit to a Beijing Roast Duck restaurant..."></textarea>
+        </div>
+
+        <button class="btn btn-reveal" onclick="toggleSolution('sol-2')">▼ Show Model Rewrite</button>
+        <div class="solution-box" id="sol-2">
+            <span class="label">✅ Model Rewrite</span>
+            <div class="solution-text">
+                "I was disappointed by my recent visit to a Beijing Roast Duck restaurant. The duck skin, which should have been crispy and golden, was instead limp and greasy. Although the server demonstrated how to wrap the pancakes, he moved too quickly for me to follow. The duck bone soup was noticeably over-seasoned. For a set meal priced at 388 yuan, I expected considerably higher quality. I would not recommend this restaurant."
+            </div>
+            <div class="fix-list">
+                <strong>Key Changes:</strong>
+                <ul>
+                    <li><strong>Repeated words removed</strong> — "crisp crisp" → "crispy and golden"; "many many" → "greasy"</li>
+                    <li><strong>Tense fixed throughout</strong> — "I go" → "I visited"; "is supposed" → "should have been"</li>
+                    <li><strong>Tone adjusted</strong> — Removed "go eat KFC more better!" (unprofessional and irrelevant)</li>
+                    <li><strong>MSG → "over-seasoned"</strong> — More tactful and professional for written reviews</li>
+                    <li><strong>Comparative error fixed</strong> — "more better" → never correct; use "better" alone</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SELF CHECK -->
+        <h3>Self-Check: Recognizing Errors</h3>
+        <div class="self-check">
+            <p class="question">Which of the following is an example of Chinglish caused by directly translating a Chinese sentence structure?</p>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec3q1', 'Not quite. "The restaurant was good" is correct, natural English with no structural problems.')">A. "The restaurant was good."</button>
+            <button class="choice-btn" onclick="mcCheck(this, true, 'sec3q1', '✓ Correct! In Chinese, adjectives can be repeated for emphasis (好吃好吃). Directly translating this pattern to English — "delicious delicious" — sounds unnatural and incorrect. English uses intensifiers like "incredibly delicious" or "absolutely delicious."')">B. "This food is delicious delicious, I very like it."</button>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec3q1', 'Not quite. "I enjoyed the meal" is standard, correct English.')">C. "I enjoyed the meal very much."</button>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec3q1', 'Not quite. This is perfectly natural English. The issue with Chinglish is usually structural or vocabulary-based, not about using formal words.')">D. "The service was exceptional."</button>
+            <div class="check-feedback" id="sec3q1"></div>
+        </div>
+
+        <div class="section-nav">
+            <button class="btn btn-outline" onclick="goTo(2)">← Back</button>
+            <button class="btn btn-primary" onclick="advanceTo(4)">Next Section →</button>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 4 — AUDIENCE AWARENESS
+    ══════════════════════════════════════ -->
+    <section class="section" id="sec-4">
+        <h1 class="section-title">Know Your Audience</h1>
+        <p class="section-subtitle">Your audience changes everything about your writing. Before you write, always ask: <em>Who is reading this? What do they already know? What do they need me to explain?</em></p>
+
+        <div class="info-box">
+            <strong>The Same Information, Rewritten for Different Readers</strong><br>
+            A description of a dish can be simple and fun (for a child), formal and analytical (for a professor), or practical and welcoming (for a tourist). The facts may be the same — but the vocabulary, tone, and level of detail change completely.
+        </div>
+
+        <p><strong>Click on an audience card to see what they need:</strong></p>
+
+        <div class="audience-grid">
+            <div class="audience-card" onclick="showAudience('student')">
+                <div class="icon">🎓</div>
+                <h4>Exchange Student</h4>
+                <p>New to Chinese culture; curious but unfamiliar</p>
+            </div>
+            <div class="audience-card" onclick="showAudience('professor')">
+                <div class="icon">👨‍🏫</div>
+                <h4>University Professor</h4>
+                <p>Expects formal academic English and clear argument structure</p>
+            </div>
+            <div class="audience-card" onclick="showAudience('tourist')">
+                <div class="icon">✈️</div>
+                <h4>Tourist Visiting China</h4>
+                <p>Wants practical, friendly, actionable information</p>
+            </div>
+            <div class="audience-card" onclick="showAudience('child')">
+                <div class="icon">🧒</div>
+                <h4>Elementary School Child</h4>
+                <p>Needs simple vocabulary and fun, engaging writing</p>
+            </div>
+            <div class="audience-card" onclick="showAudience('chef')">
+                <div class="icon">👨‍🍳</div>
+                <h4>Professional Chef</h4>
+                <p>Needs precise techniques, temperatures, and ingredient details</p>
+            </div>
+            <div class="audience-card" onclick="showAudience('business')">
+                <div class="icon">💼</div>
+                <h4>Business Investor</h4>
+                <p>Wants data, market context, and professional tone</p>
+            </div>
+        </div>
+
+        <div class="audience-detail" id="audience-detail"></div>
+
+        <!-- ACTIVITY -->
+        <h3>Activity: Adapt the Same Text</h3>
+        <div class="info-box">
+            <strong>Base text:</strong> "Dongpo Pork is a traditional Hangzhou dish made by braising pork belly in soy sauce, wine, and spices for several hours until tender."
+        </div>
+
+        <div class="activity">
+            <div class="activity-title">✈️ Rewrite for a TOURIST (friendly, practical, welcoming)</div>
+            <textarea id="tourist-version" placeholder="If you're looking for a must-try dish in Hangzhou..."></textarea>
+        </div>
+
+        <div class="activity">
+            <div class="activity-title">👨‍🏫 Rewrite for a PROFESSOR (formal, academic, analytical)</div>
+            <textarea id="professor-version" placeholder="Dongpo Pork (东坡肉) represents a significant example of..."></textarea>
+        </div>
+
+        <button class="btn btn-reveal" onclick="toggleSolution('sol-audience')">▼ See Model Examples</button>
+        <div class="solution-box" id="sol-audience">
+            <span class="label">✅ Model Examples</span>
+            <div class="solution-text">
+                <strong>Tourist version:</strong><br>
+                "Don't leave Hangzhou without trying Dongpo Pork! This melt-in-your-mouth braised pork belly has been a local favorite for centuries. Rich, sweet, and savory, it's served in small clay pots — perfect with steamed rice. Order it at almost any local restaurant."
+                <br><br>
+                <strong>Professor version:</strong><br>
+                "Dongpo Pork (东坡肉) is a historically significant culinary preparation originating in Hangzhou during the Song Dynasty. The dish involves extended braising of pork belly in a reduction of soy sauce, Shaoxing rice wine, and aromatics, resulting in a complex flavor profile characterized by the Maillard reaction and caramelization of sugars. Its cultural endurance reflects both gastronomic and historical value in Chinese cuisine."
+            </div>
+            <div class="fix-list">
+                <strong>Notice the differences:</strong>
+                <ul>
+                    <li><strong>Tourist</strong> — Short sentences, exclamation points, sensory words ("melt-in-your-mouth"), practical tips ("Order it at any local restaurant")</li>
+                    <li><strong>Professor</strong> — Long sentences, technical vocabulary ("Maillard reaction," "caramelization"), historical context, Chinese characters included</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SELF CHECK -->
+        <h3>Self-Check: Audience Awareness</h3>
+        <div class="self-check">
+            <p class="question">You are writing a description of Peking Duck for a 7-year-old child visiting a museum. Which opening is most appropriate?</p>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec4q1', 'Not quite. This language is too formal and academic for a 7-year-old. "Characterized," "preparation," and "roasting methodology" are words an elementary child would not understand.')">A. "Peking Duck is characterized by its unique preparation methodology, which involves a specific roasting technique to achieve optimal crispiness."</button>
+            <button class="choice-btn" onclick="mcCheck(this, true, 'sec4q1', '✓ Correct! This version uses simple vocabulary, a friendly tone, and a direct, engaging question — perfect for capturing a young child\'s attention and interest.')">B. "Have you ever seen a whole duck cooked until its skin is perfectly crispy? Peking Duck is one of China's most famous and delicious foods!"</button>
+            <button class="choice-btn" onclick="mcCheck(this, false, 'sec4q1', 'Not quite. This might work for a business newsletter, but the language ("substantial revenue," "premium pricing") is completely wrong for a 7-year-old.')">C. "Peking Duck generates substantial revenue for Beijing restaurants, with premium pricing reflecting its high production cost."</button>
+            <div class="check-feedback" id="sec4q1"></div>
+        </div>
+
+        <div class="section-nav">
+            <button class="btn btn-outline" onclick="goTo(3)">← Back</button>
+            <button class="btn btn-primary" onclick="advanceTo(5)">Next Section →</button>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 5 — PRACTICE CHALLENGE
+    ══════════════════════════════════════ -->
+    <section class="section" id="sec-5">
+        <h1 class="section-title">Practice: The Full Editing Challenge</h1>
+        <p class="section-subtitle">This is your main practice activity. Edit the text below for an <strong>English-speaking food magazine</strong> audience.</p>
+
+        <div class="original-text">
+            <span class="label">Original (Chinglish — Machine Translated)</span>
+            "Grandma's Hand Make Noodle Soup. This noodle is our grandmother generation pass down secret recipe, use high gluten flour manual knead dough, repeat fold press many times, make noodle muscle road very good. Soup base use old hen and pig big bone slow fire boil 8 hour, soup color is milk white, thick white like milk. Topping have braised pork cube, pickled mustard tuber, and scallion flower. When eat must first drink soup, then eat noodle, finally eat meat, this is orthodox eating method. If you put vinegar, we will very angry, because this is insult to our grandmother!"
+        </div>
+
+        <div class="hint-box">
+            <strong>💡 Translation Notes:</strong><br>
+            • "Muscle road" (筋道) = chewy texture / the noodle has a satisfying chew<br>
+            • "Pig big bone" = pork bones<br>
+            • "Pickled mustard tuber" = preserved mustard greens<br>
+            • "Scallion flower" = chopped scallions<br>
+            • "Orthodox eating method" = traditional / recommended way to eat<br>
+            • Remove the threatening ending — replace with an enthusiastic recommendation instead
+        </div>
+
+        <div class="activity">
+            <div class="activity-title">✍️ Your Full Edited Version — Food Magazine Style</div>
+            <p style="font-size:0.88em; color: var(--text-mid); margin-bottom: 6px;">Requirements: Fix all grammar and vocabulary · Use food magazine tone (appetizing, engaging, informative) · Add cultural context where helpful · Keep all the authentic details, just express them correctly</p>
+            <textarea id="final-edit" style="min-height:200px;" placeholder="Grandmother's Handmade Noodle Soup&#10;&#10;Born from a family recipe passed down through generations..."></textarea>
+        </div>
+
+        <button class="btn btn-reveal" onclick="toggleSolution('sol-final')">▼ See Model Version</button>
+        <div class="solution-box" id="sol-final">
+            <span class="label">✅ Model Version — Food Magazine Style</span>
+            <div class="solution-text">
+                <strong>Grandmother's Handmade Noodle Soup</strong><br><br>
+                "This recipe has been passed down through generations, and you can taste the love in every bowl. The noodles are hand-kneaded from high-gluten flour, folded and pressed repeatedly until they achieve that perfect satisfying chew. The rich, milky-white broth is made by simmering a whole free-range hen and pork bones over low heat for eight hours — slow, patient, and deeply flavorful.<br><br>
+                Each bowl is topped with braised pork cubes, tangy preserved mustard greens, and fresh chopped scallions. For the full experience, follow tradition: sip the broth first, then enjoy the noodles, and finally savor the meat. Trust us — it's worth doing it right."
+            </div>
+            <div class="fix-list">
+                <strong>What Changed and Why:</strong>
+                <ul>
+                    <li><strong>"Muscle road very good" → "perfect satisfying chew"</strong> — Food magazines use sensory language</li>
+                    <li><strong>"Old hen" → "free-range hen"</strong> — More descriptive and appetizing</li>
+                    <li><strong>"Slow fire boil 8 hour" → "simmering over low heat for eight hours"</strong> — Correct culinary verb + spelling out numbers (style rule for most publications)</li>
+                    <li><strong>Threatening ending removed</strong> — Replaced with friendly encouragement: "Trust us — it's worth doing it right"</li>
+                    <li><strong>Paragraph structure added</strong> — Separates preparation, broth, and serving instructions</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section-nav">
+            <button class="btn btn-outline" onclick="goTo(4)">← Back</button>
+            <button class="btn btn-primary" onclick="advanceTo(6)">Next Section →</button>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+         SECTION 6 — REFLECTION & CERTIFICATE
+    ══════════════════════════════════════ -->
+    <section class="section" id="sec-6">
+        <h1 class="section-title">Reflection & Certificate</h1>
+        <p class="section-subtitle">Honestly assess your learning before generating your completion certificate.</p>
+
+        <h3>Rate Your Confidence</h3>
+
+        <div class="rating-group">
+            <p>I can identify Chinglish grammar errors in a text:</p>
+            <div class="stars" id="stars-1">
+                <button class="star-btn" onclick="rateStar(1,1)">1</button>
+                <button class="star-btn" onclick="rateStar(1,2)">2</button>
+                <button class="star-btn" onclick="rateStar(1,3)">3</button>
+                <button class="star-btn" onclick="rateStar(1,4)">4</button>
+                <button class="star-btn" onclick="rateStar(1,5)">5</button>
+            </div>
+        </div>
+
+        <div class="rating-group">
+            <p>I can adapt the same information for different audiences:</p>
+            <div class="stars" id="stars-2">
+                <button class="star-btn" onclick="rateStar(2,1)">1</button>
+                <button class="star-btn" onclick="rateStar(2,2)">2</button>
+                <button class="star-btn" onclick="rateStar(2,3)">3</button>
+                <button class="star-btn" onclick="rateStar(2,4)">4</button>
+                <button class="star-btn" onclick="rateStar(2,5)">5</button>
+            </div>
+        </div>
+
+        <div class="rating-group">
+            <p>I understand why word-for-word translation from Chinese to English fails:</p>
+            <div class="stars" id="stars-3">
+                <button class="star-btn" onclick="rateStar(3,1)">1</button>
+                <button class="star-btn" onclick="rateStar(3,2)">2</button>
+                <button class="star-btn" onclick="rateStar(3,3)">3</button>
+                <button class="star-btn" onclick="rateStar(3,4)">4</button>
+                <button class="star-btn" onclick="rateStar(3,5)">5</button>
+            </div>
+        </div>
+
+        <div class="activity">
+            <div class="activity-title">📝 Final Reflection</div>
+            <p>What is <strong>one specific strategy</strong> you learned today that you will use in your next writing or editing assignment? Be specific — name the strategy and explain how you will apply it.</p>
+            <textarea id="reflection" placeholder="One strategy I will use is... because..."></textarea>
+        </div>
+
+        <div style="text-align:center; margin-top: 30px;">
+            <button class="btn btn-gold" onclick="generateCert()" style="font-size:1.1em; padding:14px 36px;">Generate Completion Certificate 🏆</button>
+        </div>
+
+        <div id="cert-area" style="display:none; margin-top: 30px;">
+            <div class="certificate">
+                <p class="cert-school">Maple Leaf World School · Xiangyang</p>
+                <p class="cert-title">Grade 12 Academic Writing</p>
+                <p class="cert-certifies">This certifies that</p>
+                <p class="cert-name" id="cert-name-display">—</p>
+                <p>has successfully completed</p>
+                <p style="font-weight:700; margin: 8px 0;">Grade 12 Academic Writing · Unit 1</p>
+                <p>demonstrating understanding of:</p>
+                <ul class="cert-items">
+                    <li>Machine vs. Human Translation</li>
+                    <li>Common Chinglish Grammar &amp; Vocabulary Errors</li>
+                    <li>Audience Awareness in Academic Writing</li>
+                    <li>Editing Strategies for Professional English</li>
+                </ul>
+                <div id="cert-reflection-area" style="margin: 20px auto; max-width: 560px; background: #f9f6ee; border: 1px solid #c8a84b; border-radius: 4px; padding: 16px 20px; text-align: left;">
+                    <p style="font-size:0.75em; font-weight:700; text-transform:uppercase; letter-spacing:0.07em; color:#7a5a00; margin-bottom:8px;">Student Reflection</p>
+                    <p id="cert-reflection-display" style="font-family:'EB Garamond',serif; font-style:italic; font-size:1.05em; color:#333; line-height:1.7;">—</p>
+                </div>
+                <p class="cert-date" id="cert-date-display">—</p>
+                <p class="cert-module">MODULE ID: ELA-UNIT1-TRANS · Maple Leaf Educational Systems</p>
+            </div>
+
+            <div class="screenshot-notice">
+                📸 STOP — Take a screenshot of this certificate now.<br>
+                Submit the screenshot to your teacher as proof of completion.<br>
+                Make sure your full name and today's date are clearly visible.
+            </div>
+        </div>
+
+        <div class="section-nav">
+            <button class="btn btn-outline" onclick="goTo(5)">← Back</button>
+            <span></span>
+        </div>
+    </section>
+
+</main>
+
+<script>
+    // ─── State ───
+    let currentSection = 1;
+    const totalSections = 6;
+    const unlocked = [1];
+    let ratings = {};
+
+    // ─── Name ───
+    function updateName() {
+        const name = document.getElementById('nameInput').value;
+        document.getElementById('headerName').textContent = name ? `Student: ${name}` : '';
+    }
+
+    // ─── Quick Check (intro) ───
+    function quickCheck(btn, val) {
+        const fb = document.getElementById('qc-feedback');
+        const btns = btn.closest('.self-check').querySelectorAll('.choice-btn');
+        btns.forEach(b => b.disabled = true);
+        btn.style.borderColor = 'var(--maple-green)';
+        btn.style.background = '#eef4ee';
+
+        const msgs = {
+            yes: 'That\'s common — and that\'s exactly why this module matters! Learning to spot and fix machine translation errors is a valuable real-world skill.',
+            sometimes: 'Using translation tools occasionally is fine as long as you edit the output carefully. This module will help you know exactly what to fix.',
+            no: 'Great! Even if you don\'t use machine translation, understanding these errors will help you write more natural, professional English.'
+        };
+        fb.className = 'check-feedback partial show';
+        fb.innerHTML = msgs[val];
+    }
+
+    // ─── Multiple Choice Check ───
+    function mcCheck(btn, isCorrect, feedbackId, message) {
+        const card = btn.closest('.self-check');
+        const btns = card.querySelectorAll('.choice-btn');
+        const fb = document.getElementById(feedbackId);
+        btns.forEach(b => b.disabled = true);
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            fb.className = 'check-feedback success show';
+        } else {
+            btn.classList.add('incorrect');
+            // Highlight the correct one
+            btns.forEach(b => {
+                if (b.getAttribute('onclick').includes('true')) {
+                    b.classList.add('revealed-correct');
+                }
+            });
+            fb.className = 'check-feedback try-again show';
+        }
+        fb.innerHTML = message;
+    }
+
+    // ─── Solution Toggle ───
+    function toggleSolution(id) {
+        const box = document.getElementById(id);
+        const showing = box.classList.contains('show');
+        box.classList.toggle('show');
+        event.target.textContent = showing ? '▼ Show Corrected Version & Explanation' : '▲ Hide';
+        if (!showing) box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // ─── Audience Cards ───
+    const audienceData = {
+        student: {
+            title: '🎓 Exchange Student',
+            tips: [
+                'Compare unfamiliar foods to something from their home country (e.g., "similar to BBQ ribs, but sweeter")',
+                'Explain cultural customs they might not know (e.g., "It\'s traditional to eat this at New Year")',
+                'Use simple but not childish vocabulary',
+                'Friendly, curious, welcoming tone'
+            ]
+        },
+        professor: {
+            title: '👨‍🏫 University Professor',
+            tips: [
+                'Use formal academic vocabulary (not slang, not exclamation points)',
+                'Include historical or cultural context with specific details',
+                'Structure your paragraph with a clear topic sentence and supporting evidence',
+                'You may include Chinese characters with pinyin in parentheses',
+                'Cite sources if this were a real essay'
+            ]
+        },
+        tourist: {
+            title: '✈️ Tourist Visiting China',
+            tips: [
+                'Short, clear sentences — they\'re reading on their phone while walking',
+                'Start with what makes it exciting or unique',
+                'Give practical tips: where to find it, how much it costs, what to order',
+                'Friendly, welcoming tone — like a knowledgeable friend recommending something',
+                'Avoid jargon they won\'t understand'
+            ]
+        },
+        child: {
+            title: '🧒 Elementary School Child',
+            tips: [
+                'Vocabulary: no more than 2 syllables per key word where possible',
+                'Short sentences — one idea per sentence',
+                'Use comparisons to things children know ("as crispy as a potato chip")',
+                'Fun facts work well ("Did you know it takes 8 hours to make the soup?")',
+                'Enthusiastic, playful tone'
+            ]
+        },
+        chef: {
+            title: '👨‍🍳 Professional Chef',
+            tips: [
+                'Use precise culinary terminology (braise, sauté, julienne, deglaze)',
+                'Include exact temperatures, times, and measurements',
+                'Explain the science behind the technique if relevant',
+                'They don\'t need cultural background — they need technical accuracy',
+                'Professional, peer-to-peer tone'
+            ]
+        },
+        business: {
+            title: '💼 Business Investor',
+            tips: [
+                'Lead with market data or business opportunity',
+                'Use professional, concise language — no flowery descriptions',
+                'Include relevant numbers: market size, price point, demand',
+                'Focus on ROI, scalability, or cultural significance as a brand asset',
+                'No emotional or sensory language — keep it analytical'
+            ]
+        }
+    };
+
+    function showAudience(type) {
+        document.querySelectorAll('.audience-card').forEach(c => c.classList.remove('selected'));
+        event.currentTarget.classList.add('selected');
+        const d = audienceData[type];
+        const box = document.getElementById('audience-detail');
+        box.innerHTML = `<h4>${d.title} — What This Audience Needs:</h4><ul>${d.tips.map(t => `<li>${t}</li>`).join('')}</ul>`;
+        box.classList.add('show');
+    }
+
+    // ─── Star Ratings ───
+    function rateStar(group, val) {
+        ratings[group] = val;
+        const stars = document.querySelectorAll(`#stars-${group} .star-btn`);
+        stars.forEach((s, i) => {
+            s.classList.toggle('active', i < val);
+        });
+    }
+
+    // ─── Navigation ───
+    function goTo(n) {
+        if (!unlocked.includes(n)) return;
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`sec-${n}`).classList.add('active');
+
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(`tab-${n}`).classList.add('active');
+
+        currentSection = n;
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function advanceTo(n) {
+        if (!unlocked.includes(n)) {
+            unlocked.push(n);
+            const tab = document.getElementById(`tab-${n}`);
+            tab.classList.remove('locked');
+        }
+        goTo(n);
+    }
+
+    function updateProgress() {
+        const pct = (Math.max(...unlocked) / totalSections) * 100;
+        document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    // ─── Certificate ───
+    function generateCert() {
+        const nameEl = document.getElementById('nameInput');
+        const name = nameEl ? nameEl.value.trim() : '';
+        if (!name) {
+            alert('Please go back to Section 1 and enter your full name first.');
+            return;
+        }
+        const reflectionEl = document.getElementById('reflection');
+        const reflection = reflectionEl ? reflectionEl.value.trim() : '';
+
+        document.getElementById('cert-name-display').textContent = name;
+        document.getElementById('cert-reflection-display').textContent = reflection || '(No reflection entered)';
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        document.getElementById('cert-date-display').textContent = 'Completed: ' + dateStr;
+
+        const certArea = document.getElementById('cert-area');
+        certArea.style.display = 'block';
+        setTimeout(function() { certArea.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+    }
+
+    updateProgress();
+</script>
+</body>
+</html>
