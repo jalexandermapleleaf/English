@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 1 Quiz: Real World Translation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #CC0000; --red-dark: #990000; --green: #1B4D2E;
+            --green-mid: #2D6E47; --gold: #C9A84C; --cream: #FAF7F2;
+            --gray-light: #F0EDE8; --gray: #8A8580; --text: #1A1A1A;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Source Serif 4',Georgia,serif; background:var(--green); min-height:100vh; padding:30px 20px; color:var(--text); user-select:none; -webkit-user-select:none; }
+        .timer { position:fixed; top:20px; right:20px; background:var(--green); color:white; padding:10px 20px; border-radius:8px; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; border:2px solid var(--gold); box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:100; text-align:center; }
+        .timer-label { display:block; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:2px; font-family:'Source Serif 4',serif; }
+        .tab-overlay { display:none; position:fixed; inset:0; background:rgba(10,5,5,.96); z-index:9000; justify-content:center; align-items:center; flex-direction:column; gap:16px; color:white; text-align:center; padding:20px; }
+        .tab-overlay.show { display:flex; }
+        .tab-overlay .icon { font-size:56px; animation:pulse 1s infinite; }
+        .tab-overlay h2 { font-family:'Playfair Display',serif; font-size:26px; color:#FF4444; }
+        .tab-overlay p { font-size:15px; color:rgba(255,255,255,.8); max-width:340px; }
+        .tab-overlay .vcount { background:var(--red); padding:7px 22px; border-radius:20px; font-weight:700; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .warning-banner { display:none; background:var(--red); color:white; padding:12px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; text-align:center; }
+        .submitted-msg { display:none; background:#EDFAF2; border:2px solid var(--green); color:var(--green); padding:13px; border-radius:8px; font-weight:600; text-align:center; margin-bottom:20px; }
+        .unanswered-msg { display:none; background:#FFF0F0; border:2px solid var(--red); color:var(--red-dark); padding:13px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; }
+        .school-band { max-width:860px; margin:0 auto; background:var(--red); border-radius:12px 12px 0 0; padding:13px 28px; display:flex; align-items:center; justify-content:space-between; }
+        .school-band .name { font-family:'Playfair Display',serif; color:white; font-size:16px; font-weight:700; }
+        .quiz-wrap { max-width:860px; margin:0 auto; background:white; border-radius:0 0 16px 16px; box-shadow:0 12px 48px rgba(0,0,0,.2); overflow:hidden; }
+        .quiz-inner { padding:36px 44px 48px; }
+        .quiz-header { text-align:center; margin-bottom:32px; }
+        .quiz-header h1 { font-family:'Playfair Display',serif; color:var(--green); font-size:28px; margin-bottom:6px; }
+        .quiz-header .sub { font-size:13px; color:var(--gray); font-style:italic; }
+        .divider { display:flex; align-items:center; gap:12px; margin:14px 0; }
+        .divider::before { content:''; flex:1; height:2px; background:linear-gradient(to right,transparent,var(--red)); }
+        .divider::after  { content:''; flex:1; height:2px; background:linear-gradient(to left,transparent,var(--red)); }
+        .student-info { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; padding-top:18px; border-top:2px solid var(--gray-light); }
+        .info-field label { display:block; font-size:11px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .info-field input { width:100%; padding:9px 13px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:15px; background:var(--cream); user-select:text; -webkit-user-select:text; }
+        .info-field input:focus { outline:none; border-color:var(--red); }
+        .integrity-notice { background:#FFF8F0; border:2px solid var(--red); border-radius:10px; padding:20px 22px; margin-bottom:28px; }
+        .integrity-notice h3 { font-family:'Playfair Display',serif; color:var(--red); font-size:16px; margin-bottom:12px; }
+        .rule { display:flex; gap:11px; align-items:flex-start; font-size:13.5px; color:#333; line-height:1.5; margin-bottom:8px; }
+        .rule:last-child { margin-bottom:0; }
+        .rule-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+        .section { margin-bottom:32px; }
+        .section-head { background:var(--green); border-radius:10px 10px 0 0; padding:13px 22px; }
+        .sec-title { font-family:'Playfair Display',serif; color:white; font-size:18px; font-weight:700; }
+        .sec-title span { background:var(--red); font-family:'Source Serif 4',serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:2px 9px; border-radius:20px; margin-left:8px; vertical-align:middle; }
+        .sec-desc { color:rgba(255,255,255,.82); font-size:13px; font-style:italic; margin-top:3px; }
+        .section-body { background:var(--cream); border:2px solid var(--green); border-top:none; border-radius:0 0 10px 10px; padding:20px; display:flex; flex-direction:column; gap:14px; }
+        .q-card { background:white; border-radius:8px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .q-card.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; animation:shake .4s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+        .q-num { font-size:12px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .q-text { font-size:15px; line-height:1.6; margin-bottom:13px; }
+        .options { display:flex; flex-direction:column; gap:7px; }
+        .opt { display:flex; align-items:center; gap:11px; padding:10px 14px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; transition:all .15s; }
+        .opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .opt input { accent-color:var(--red); cursor:pointer; }
+        .tf-opts { display:flex; gap:14px; }
+        .tf-opt { display:flex; align-items:center; gap:9px; padding:10px 22px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; font-weight:600; transition:all .15s; }
+        .tf-opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .tf-opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .tf-opt input { accent-color:var(--red); cursor:pointer; }
+        .match-item { background:white; border-radius:8px; padding:14px 18px; display:grid; grid-template-columns:32px 1fr auto; align-items:center; gap:14px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .match-item.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; }
+        .match-num { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--red); }
+        .match-term { font-weight:600; font-size:15px; color:var(--green); }
+        .match-select { padding:8px 12px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:13.5px; background:var(--cream); cursor:pointer; min-width:230px; }
+        .match-select:focus { outline:none; border-color:var(--red); }
+        .section-bonus .section-head { background:linear-gradient(135deg,var(--red-dark),var(--red)); }
+        .section-bonus .section-body { border-color:var(--red); background:#FFF8F8; }
+        .bonus-badge { display:inline-block; background:var(--gold); color:#3A2A00; padding:3px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; }
+        .bonus-ta { width:100%; min-height:130px; padding:13px 15px; border:2px solid #DDD; border-radius:8px; font-family:inherit; font-size:14.5px; resize:vertical; background:white; user-select:text; -webkit-user-select:text; }
+        .bonus-ta:focus { outline:none; border-color:var(--red); }
+        .submit-btn { width:100%; padding:17px; background:linear-gradient(135deg,var(--red-dark),var(--red)); color:white; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:20px; font-weight:700; cursor:pointer; margin-top:8px; box-shadow:0 4px 16px rgba(204,0,0,.3); transition:all .2s; }
+        .submit-btn:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(204,0,0,.4); }
+        .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:1000; justify-content:center; align-items:center; padding:20px; }
+        .modal-box { background:white; padding:36px; border-radius:16px; max-width:820px; width:100%; max-height:92vh; overflow-y:auto; animation:fadeUp .35s ease-out; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(-30px)} to{opacity:1;transform:translateY(0)} }
+        .score-wrap { text-align:center; margin-bottom:24px; }
+        .score-circle { width:180px; height:180px; border-radius:50%; background:linear-gradient(135deg,var(--green),var(--green-mid)); border:6px solid var(--gold); display:flex; flex-direction:column; justify-content:center; align-items:center; margin:0 auto 16px; color:white; box-shadow:0 10px 36px rgba(27,77,46,.3); }
+        .score-num { font-family:'Playfair Display',serif; font-size:58px; font-weight:700; line-height:1; }
+        .score-lbl { font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-top:4px; }
+        .score-name { font-size:17px; color:var(--green); font-weight:600; }
+        .score-date { font-size:13px; color:var(--gray); margin-top:3px; }
+        .score-breakdown { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-top:18px; }
+        .bd-item { background:var(--cream); padding:13px 15px; border-radius:8px; border-left:4px solid var(--green); font-size:14px; }
+        .bd-item.gold { border-left-color:var(--gold); }
+        .activity { background:#FFFBF0; border:2px solid var(--gold); border-radius:10px; padding:18px; margin:22px 0; }
+        .activity h4 { color:#5A4200; font-size:15px; font-weight:700; margin-bottom:13px; }
+        .act-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+        .act-box { background:white; padding:13px; border-radius:8px; text-align:center; border:1px solid #EDD98A; }
+        .act-num { font-family:'Playfair Display',serif; font-size:28px; font-weight:700; color:var(--red); }
+        .act-lbl { font-size:11px; color:#856404; text-transform:uppercase; margin-top:3px; }
+        .act-log { margin-top:14px; max-height:170px; overflow-y:auto; background:white; border-radius:6px; padding:11px; font-family:'Courier New',monospace; }
+        .log-entry { padding:6px; border-bottom:1px solid #EEE; font-size:12px; color:#555; }
+        .log-entry:last-child { border-bottom:none; }
+        .log-time { color:var(--green); font-weight:bold; }
+        .log-sus { color:var(--red); font-weight:bold; }
+        .log-ok { color:var(--green-mid); }
+        .review { margin-top:22px; border-top:2px solid #EEE; padding-top:22px; }
+        .review h4 { font-family:'Playfair Display',serif; font-size:19px; color:var(--green); text-align:center; margin-bottom:14px; }
+        .review-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(64px,1fr)); gap:9px; }
+        .r-item { padding:13px 8px; border-radius:8px; text-align:center; font-weight:700; font-size:13px; }
+        .r-correct { background:#EDFAF2; border:2px solid #2D6E47; color:var(--green); }
+        .r-wrong   { background:#FFF0F0; border:2px solid var(--red); color:var(--red-dark); }
+        .r-item .rq { font-size:15px; display:block; margin-bottom:3px; }
+        .r-item .rs { font-size:17px; }
+        .review-sum { margin-top:14px; padding:13px; background:var(--cream); border-radius:8px; text-align:center; font-size:14px; color:#495057; }
+        .ss-notice { background:#F0F7FF; border:2px solid var(--green); border-radius:10px; padding:18px; margin-top:18px; text-align:center; }
+        .ss-notice strong { display:block; font-family:'Playfair Display',serif; font-size:17px; color:var(--green); margin-bottom:7px; }
+        .ss-notice p { font-size:13.5px; color:#555; }
+        .close-btn { display:block; width:100%; padding:14px; margin-top:18px; background:var(--green); color:white; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:16px; font-weight:700; cursor:pointer; }
+        .close-btn:hover { background:var(--green-mid); }
+        @media (max-width:640px) {
+            .quiz-inner { padding:24px 18px; }
+            .student-info { grid-template-columns:1fr; }
+            .act-stats { grid-template-columns:1fr 1fr; }
+            .match-item { grid-template-columns:28px 1fr; }
+            .match-select { min-width:unset; width:100%; grid-column:1/-1; }
+            .score-breakdown { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer" id="timer"><span class="timer-label">Time Elapsed</span>00:00:00</div>
+    <div class="tab-overlay" id="tabOverlay">
+        <div class="icon">🍁</div>
+        <h2>TAB SWITCH DETECTED</h2>
+        <p>Return to the quiz immediately. This is being recorded for your teacher.</p>
+        <div class="vcount" id="tabCount">Violations: 0</div>
+    </div>
+    <div class="school-band">
+        <div class="name">Maple Leaf World School</div>
+        <div style="font-size:26px">🍁</div>
+    </div>
+    <div class="quiz-wrap">
+        <div class="quiz-inner">
+            <div class="warning-banner" id="warningBanner"></div>
+            <div class="unanswered-msg" id="unansweredMsg">Please answer ALL questions before submitting. Unanswered questions are highlighted in red. / 请回答所有问题后再提交。</div>
+            <div class="submitted-msg" id="submittedMsg">Quiz Submitted — Please screenshot your results below.</div>
+            <div class="quiz-header">
+                <h1>Unit 1 Quiz: Real World Translation</h1>
+                <div class="divider"><span>🍁</span></div>
+                <div class="sub">English Language Arts · Grade 11–12 · Maple Leaf World School</div>
+                <div class="student-info">
+                    <div class="info-field"><label>Student Name / 姓名</label><input type="text" id="studentName" autocomplete="off" placeholder="Enter your full name"></div>
+                    <div class="info-field"><label>Date / 日期</label><input type="date" id="quizDate"></div>
+                </div>
+            </div>
+            <form id="quizForm">
+                <div class="integrity-notice">
+                    <h3>🍁 Academic Integrity Rules / 学术诚信规定</h3>
+                    <div class="rule"><span class="rule-icon">🚫</span><span><strong>No AI Tools / 禁止使用AI工具</strong> — Do not use ChatGPT, Claude, DeepSeek, or any other AI. This is cheating and will result in a zero.</span></div>
+                    <div class="rule"><span class="rule-icon">🚫</span><span><strong>No Translation Apps / 禁止使用翻译软件</strong> — Do not use Google Translate, Baidu Translate, or any other translation tool. This quiz tests YOUR knowledge.</span></div>
+                    <div class="rule"><span class="rule-icon">🚫</span><span><strong>Stay on This Tab / 请勿切换标签页</strong> — Do not switch tabs or open new windows. Tab switching is automatically recorded and reported to your teacher.</span></div>
+                    <div class="rule"><span class="rule-icon">✅</span><span><strong>Your Own Work Only / 独立完成</strong> — Use only your own knowledge. Your honest effort is what matters.</span></div>
+                </div>
+                <div class="section">
+                    <div class="section-head"><div class="sec-title">Section A <span>Multiple Choice</span></div><div class="sec-desc">Questions 1–10 · 5 points each · Choose the BEST answer. 选择最佳答案。</div></div>
+                    <div class="section-body" id="secA"></div>
+                </div>
+                <div class="section">
+                    <div class="section-head"><div class="sec-title">Section B <span>True or False</span></div><div class="sec-desc">Questions 11–15 · 5 points each · 判断对错</div></div>
+                    <div class="section-body" id="secB"></div>
+                </div>
+                <div class="section">
+                    <div class="section-head"><div class="sec-title">Section C <span>Matching</span></div><div class="sec-desc">Questions 16–20 · 5 points each · Match each word to its definition. 连线配对</div></div>
+                    <div class="section-body" id="secC"></div>
+                </div>
+                <div class="section section-bonus">
+                    <div class="section-head"><div class="sec-title">Section D <span>Bonus</span></div><div class="sec-desc">Questions 21a &amp; 21b · Extra Credit + Metacognitive Reflection</div></div>
+                    <div class="section-body">
+                        <div class="q-card" style="border-left-color:var(--gold)">
+                            <span class="bonus-badge">⭐ Bonus Points</span>
+                            <div class="q-num">Question 21a — Translation Knowledge</div>
+                            <div class="q-text">Tell me everything you know about what to do and <em>not</em> to do when translating Chinese to English.</div>
+                            <textarea class="bonus-ta" name="q21a" placeholder="Write your answer here... 在这里写下你的答案..."></textarea>
+                        </div>
+                        <div class="q-card" style="border-left-color:var(--gold);margin-top:2px">
+                            <span class="bonus-badge">🧠 Metacognitive Reflection</span>
+                            <div class="q-num">Question 21b — Reflecting on Your Learning</div>
+                            <div class="q-text">Think carefully about <em>how</em> you learned this material. Answer the following:<ol style="margin-top:9px;margin-left:20px;line-height:2.1"><li>Which question was the <strong>hardest</strong> for you, and <em>why</em> do you think it was difficult?</li><li>What is <strong>one thing</strong> from this unit that surprised you or changed how you think?</li><li>If you could study this unit again, what would you do <strong>differently</strong> to prepare?</li></ol></div>
+                            <textarea class="bonus-ta" name="q21b" placeholder="Write your reflection here... Think deeply! 写下你的反思..." style="min-height:150px"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">🍁 Submit Quiz / 提交测验</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="resultsModal">
+        <div class="modal-box">
+            <div class="score-wrap">
+                <div class="score-circle"><div class="score-num" id="scoreNum">0</div><div class="score-lbl">Points / 100</div></div>
+                <div class="score-name" id="scoreName"></div>
+                <div class="score-date" id="scoreDate"></div>
+                <div class="score-breakdown">
+                    <div class="bd-item"><strong>Section A (Multiple Choice):</strong><br><span id="scoreA">0</span> / 50 pts</div>
+                    <div class="bd-item"><strong>Section B (True / False):</strong><br><span id="scoreB">0</span> / 25 pts</div>
+                    <div class="bd-item"><strong>Section C (Matching):</strong><br><span id="scoreC">0</span> / 25 pts</div>
+                    <div class="bd-item gold"><strong>Section D (Bonus):</strong><br>Submitted for teacher review ✓</div>
+                </div>
+            </div>
+            <div class="activity">
+                <h4>⚠️ Academic Integrity Monitor</h4>
+                <div class="act-stats">
+                    <div class="act-box"><div class="act-num" id="actTabs">0</div><div class="act-lbl">Tab Switches</div></div>
+                    <div class="act-box"><div class="act-num" id="actTotal">0s</div><div class="act-lbl">Total Away</div></div>
+                    <div class="act-box"><div class="act-num" id="actAvg">0s</div><div class="act-lbl">Avg Per Switch</div></div>
+                </div>
+                <div class="act-log" id="actLog"><div style="color:#aaa;font-style:italic;font-size:13px">No tab switching detected ✓</div></div>
+            </div>
+            <div class="review">
+                <h4>Question Review 题目回顾</h4>
+                <div class="review-grid" id="reviewGrid"></div>
+                <div class="review-sum" id="reviewSum"></div>
+            </div>
+            <div class="ss-notice">
+                <strong>📸 Screenshot Required</strong>
+                <p>Take a screenshot of this entire results page and submit it to your teacher.<br><strong>Do not close this window until you have saved your screenshot!</strong></p>
+            </div>
+            <button class="close-btn" onclick="closeModal()">✓ Screenshot Saved — Close Results</button>
+        </div>
+    </div>
+    <script>
+    const _k={1:'To communicate meaning clearly between languages',2:'Sharing dishes with family at a round table',3:'Consider what your reader already knows and does not know',4:'The translation is correct and free from errors',5:'Sauteed prawns with garlic and ginger',6:'It helps the reader understand the cultural meaning',7:'Honestly evaluate your strengths and areas for improvement',8:'Using correct grammar, spelling, and punctuation',9:'Chinese cooking uses more diverse methods like steaming, sauteing, and quick-frying',10:'Discuss the strengths of the writing',11:'F',12:'F',13:'T',14:'T',15:'F',16:'D',17:'C',18:'A',19:'B',20:'E'};
+    const _e={};Object.keys(_k).forEach(k=>{_e[k]=btoa(unescape(encodeURIComponent(_k[k])));});
+    function chk(id,val){const n=s=>s.toLowerCase().trim().replace(/[éèê]/g,'e').replace(/[àâ]/g,'a');try{return n(decodeURIComponent(escape(atob(_e[id]))))==n(val);}catch(e){return false;}}
+
+    const QA=[{id:1,text:'What is the MAIN purpose of translation?',opts:['To copy words exactly from one language to another','To communicate meaning clearly between languages','To make all languages sound the same','To replace one language with another']},{id:2,text:'Which is an example of communal eating?',opts:['Eating a sandwich alone at your desk','Ordering individual plates at a Western restaurant','Sharing dishes with family at a round table','Eating fast food in your car']},{id:3,text:'When writing for an English-speaking audience, you should:',opts:['Translate word-for-word from Chinese','Use Chinese grammar patterns in English sentences','Consider what your reader already knows and does not know','Only use simple, one-word sentences']},{id:4,text:'What does "accuracy" mean in translation?',opts:['Writing very quickly','The translation is correct and free from errors','Using as many big words as possible','Making the translation very long']},{id:5,text:'Which sentence is the BEST English translation of a Chinese dish?',opts:['Fragrant explode big shrimp','Sauteed prawns with garlic and ginger','Fried fire king prawn delicious','Shrimp Chinese style good']},{id:6,text:'Why is context important in translation?',opts:['It makes translations longer','It helps the reader understand the cultural meaning','It is not important at all','It only matters for spoken language']},{id:7,text:'In a self-assessment, you should:',opts:['Only write about what you did well',"Copy your friend's reflection",'Honestly evaluate your strengths and areas for improvement','Write as little as possible']},{id:8,text:'Which is a convention of English academic writing?',opts:['Using lots of emojis','Writing in all lowercase without punctuation','Using correct grammar, spelling, and punctuation','Mixing Chinese and English randomly']},{id:9,text:'What is the difference between Chinese and Western cooking methods according to the reading?',opts:['Western cooking uses more methods than Chinese','Chinese cooking uses more diverse methods like steaming, sauteing, and quick-frying','Both use exactly the same methods','Neither culture fries food']},{id:10,text:"In a writer's workshop, what should reviewers do FIRST?",opts:['Tell the writer everything that is wrong','Ask the writer lots of questions','Discuss the strengths of the writing','Rewrite the paper for the writer']}];
+    const QB=[{id:11,text:'Chinese people traditionally eat at square tables while Westerners eat at round tables.'},{id:12,text:'Word-for-word translation always produces accurate English.'},{id:13,text:'Knowing your audience helps you choose the right words and tone in writing.'},{id:14,text:"In a writer's workshop, strengths should outweigh areas of improvement in feedback."},{id:15,text:'Self-assessment means asking your teacher to grade your work for you.'}];
+    const QC=[{id:16,term:'Translation'},{id:17,term:'Communal'},{id:18,term:'Conventions'},{id:19,term:'Self-Assessment'},{id:20,term:'Accurate'}];
+    const DEFS=[{letter:'A',text:'The accepted rules of writing'},{letter:'B',text:'Evaluating your own work'},{letter:'C',text:'Shared by all members of a group'},{letter:'D',text:'Changing words from one language to another'},{letter:'E',text:'Correct and free from errors'}];
+
+    function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+    function renderA(){const c=document.getElementById('secA');QA.forEach(q=>{const opts=shuffle(q.opts);const d=document.createElement('div');d.className='q-card';d.dataset.q=q.id;d.innerHTML=`<div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><div class="options">${opts.map(o=>`<label class="opt"><input type="radio" name="q${q.id}" value="${o.replace(/"/g,'&quot;')}"> ${o}</label>`).join('')}</div>`;c.appendChild(d);});}
+    function renderB(){const c=document.getElementById('secB');QB.forEach(q=>{const d=document.createElement('div');d.className='q-card';d.dataset.q=q.id;d.innerHTML=`<div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><div class="tf-opts"><label class="tf-opt"><input type="radio" name="q${q.id}" value="T"> T — True</label><label class="tf-opt"><input type="radio" name="q${q.id}" value="F"> F — False</label></div>`;c.appendChild(d);});}
+    function renderC(){const c=document.getElementById('secC');const defs=shuffle(DEFS);QC.forEach(q=>{const d=document.createElement('div');d.className='match-item';d.dataset.q=q.id;d.innerHTML=`<div class="match-num">${q.id}.</div><div class="match-term">${q.term}</div><select class="match-select" name="q${q.id}"><option value="">— Select a definition —</option>${defs.map(x=>`<option value="${x.letter}">${x.text}</option>`).join('')}</select>`;c.appendChild(d);});}
+    renderA();renderB();renderC();
+
+    document.addEventListener('contextmenu',e=>e.preventDefault());
+    document.addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C','U'].includes(e.key.toUpperCase()))||(e.ctrlKey&&['U','S','P'].includes(e.key.toUpperCase())))e.preventDefault();});
+    document.addEventListener('copy',e=>{if(!['INPUT','TEXTAREA'].includes(e.target.tagName))e.preventDefault();});
+
+    let tabCount=0,totalAway=0,awayStart=null,isAway=false,tabLog=[];
+    function onLeave(){if(isAway)return;isAway=true;awayStart=Date.now();tabCount++;document.getElementById('warningBanner').style.display='block';document.getElementById('warningBanner').textContent=`Tab switch #${tabCount} detected — recorded for teacher review.`;document.getElementById('tabCount').textContent=`Violations: ${tabCount}`;document.getElementById('tabOverlay').classList.add('show');}
+    function onReturn(){if(!isAway)return;isAway=false;document.getElementById('tabOverlay').classList.remove('show');if(awayStart){const dur=Math.floor((Date.now()-awayStart)/1000);totalAway+=dur;tabLog.push({time:new Date().toLocaleTimeString(),dur,count:tabCount,sus:dur>30});awayStart=null;}}
+    document.addEventListener('visibilitychange',()=>{document.hidden?onLeave():onReturn();});
+    window.addEventListener('blur',()=>{setTimeout(()=>{if(!document.hasFocus())onLeave();},150);});
+    window.addEventListener('focus',()=>{setTimeout(()=>{if(document.hasFocus())onReturn();},150);});
+
+    const t0=Date.now();
+    setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);const h=String(Math.floor(s/3600)).padStart(2,'0');const m=String(Math.floor((s%3600)/60)).padStart(2,'0');const sc=String(s%60).padStart(2,'0');document.getElementById('timer').innerHTML=`<span class="timer-label">Time Elapsed</span>${h}:${m}:${sc}`;},1000);
+
+    document.addEventListener('click',e=>{const opt=e.target.closest('.opt,.tf-opt');if(!opt)return;const inp=opt.querySelector('input');if(!inp)return;document.querySelectorAll(`input[name="${inp.name}"]`).forEach(r=>r.parentElement.classList.remove('selected'));opt.classList.add('selected');});
+
+    function fmtTime(s){return s<60?`${s}s`:`${Math.floor(s/60)}m ${s%60}s`;}
+
+    document.getElementById('quizForm').addEventListener('submit',e=>{
+        e.preventDefault();
+        const name=document.getElementById('studentName').value.trim();
+        if(!name){alert('Please enter your name. / 请输入您的姓名。');return;}
+        const missing=[];
+        for(let i=1;i<=20;i++){if(i<=15){if(!document.querySelector(`input[name="q${i}"]:checked`))missing.push(i);}else{const s=document.querySelector(`select[name="q${i}"]`);if(!s||!s.value)missing.push(i);}}
+        document.querySelectorAll('.q-card.unanswered,.match-item.unanswered').forEach(el=>el.classList.remove('unanswered'));
+        if(missing.length>0){missing.forEach(i=>{const el=document.querySelector(`[data-q="${i}"]`);if(el){el.classList.add('unanswered');el.style.animation='none';el.offsetHeight;el.style.animation='';}});document.getElementById('unansweredMsg').style.display='block';document.querySelector(`[data-q="${missing[0]}"]`).scrollIntoView({behavior:'smooth',block:'center'});return;}
+        document.getElementById('unansweredMsg').style.display='none';
+        let sA=0,sB=0,sC=0;const results=[];
+        for(let i=1;i<=20;i++){let ans='';if(i<=15){const el=document.querySelector(`input[name="q${i}"]:checked`);ans=el?el.value:'';}else{const el=document.querySelector(`select[name="q${i}"]`);ans=el?el.value:'';}const correct=ans!==''&&chk(i,ans);results.push({q:i,correct,ans});if(correct){if(i<=10)sA++;else if(i<=15)sB++;else sC++;}}
+        const ptA=sA*5,ptB=sB*5,ptC=sC*5,total=ptA+ptB+ptC;
+        const b21a=document.querySelector('textarea[name="q21a"]').value;
+        const b21b=document.querySelector('textarea[name="q21b"]').value;
+        document.getElementById('quizForm').style.display='none';
+        document.getElementById('submittedMsg').style.display='block';
+        window.scrollTo(0,0);
+        document.getElementById('scoreNum').textContent=total;
+        document.getElementById('scoreA').textContent=ptA;
+        document.getElementById('scoreB').textContent=ptB;
+        document.getElementById('scoreC').textContent=ptC;
+        document.getElementById('scoreName').textContent=name;
+        document.getElementById('scoreDate').textContent=document.getElementById('quizDate').value||new Date().toLocaleDateString();
+        document.getElementById('actTabs').textContent=tabCount;
+        document.getElementById('actTotal').textContent=fmtTime(totalAway);
+        document.getElementById('actAvg').textContent=tabCount>0?fmtTime(Math.floor(totalAway/tabCount)):'0s';
+        const logEl=document.getElementById('actLog');
+        if(tabLog.length>0){logEl.innerHTML=tabLog.map(l=>`<div class="log-entry"><span class="log-time">[${l.time}]</span> Switch #${l.count} — away ${l.dur}s ${l.sus?'<span class="log-sus">[SUSPICIOUS]</span>':'<span class="log-ok">[Normal]</span>'}</div>`).join('');}
+        const grid=document.getElementById('reviewGrid');grid.innerHTML='';
+        results.forEach(r=>{const d=document.createElement('div');d.className=`r-item ${r.correct?'r-correct':'r-wrong'}`;d.innerHTML=`<span class="rq">Q${r.q}</span><span class="rs">${r.correct?'✓':'✗'}</span>`;grid.appendChild(d);});
+        const nC=results.filter(r=>r.correct).length,nW=results.filter(r=>!r.correct).length;
+        document.getElementById('reviewSum').innerHTML=`You got <strong>${nC}</strong> correct and <strong>${nW}</strong> incorrect. We will review missed questions in class.`;
+        document.getElementById('resultsModal').style.display='flex';
+        console.log('%c=== QUIZ SUBMISSION ===','color:#CC0000;font-size:15px;font-weight:bold;');
+        console.log('Student:',name,'| Score:',total+'/100');
+        console.log('Breakdown:',{A:ptA+'/50',B:ptB+'/25',C:ptC+'/25'});
+        console.log('Bonus 21a:',b21a||'(none)');
+        console.log('Reflection 21b:',b21b||'(none)');
+        console.log('Tab switches:',tabCount,'| Away:',totalAway+'s');
+        console.log('Tab log:',tabLog);
+        console.log('Results:',results);
+    });
+
+    function closeModal(){document.getElementById('resultsModal').style.display='none';}
+    document.getElementById('quizDate').valueAsDate=new Date();
+    </script>
+</body>
+</html>
