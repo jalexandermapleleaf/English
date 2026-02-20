@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABC Dino Runner - Learn Letters!</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F6FF 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+        }
+        body.night {
+            background: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        }
+        .header {
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 3px solid #4ade80;
+            z-index: 10;
+        }
+        body.night .header {
+            background: rgba(26,26,46,0.9);
+            border-bottom-color: #667eea;
+            color: white;
+        }
+        .score-board { display: flex; gap: 30px; color: #333; font-size: 18px; font-weight: bold; }
+        body.night .score-board { color: #fff; }
+        .stat { display: flex; align-items: center; gap: 8px; }
+        .stat-icon { font-size: 24px; }
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 400px;
+            margin-top: 20px;
+            border: 4px solid #333;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #gameCanvas { display: block; width: 100%; height: 100%; }
+        .target-display {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 15px 40px;
+            border-radius: 20px;
+            border: 4px solid #fbbf24;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 5;
+            min-width: 120px;
+        }
+        body.night .target-display {
+            background: rgba(255,255,255,0.95);
+            border-color: #667eea;
+        }
+        .target-word { font-size: 72px; font-weight: 900; color: #333; margin: 0; }
+        .controls-hint {
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); color: white; padding: 10px 20px;
+            border-radius: 20px; font-size: 14px; z-index: 5;
+        }
+        .start-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 1000; color: white;
+        }
+        .start-overlay.hidden { display: none; }
+        .start-title {
+            font-size: 64px; font-weight: 900; margin-bottom: 10px;
+            background: linear-gradient(45deg, #4ade80, #fbbf24, #667eea);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .dino-icon { font-size: 80px; margin-bottom: 20px; animation: bounce 1s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+        .start-btn {
+            padding: 20px 60px; font-size: 28px;
+            background: linear-gradient(45deg, #4ade80, #22c55e);
+            color: white; border: none; border-radius: 50px; cursor: pointer;
+            font-weight: bold; transition: all 0.3s; box-shadow: 0 10px 30px rgba(74,222,128,0.4);
+        }
+        .start-btn:hover { transform: scale(1.1); box-shadow: 0 15px 40px rgba(74,222,128,0.6); }
+        .instructions { margin-top: 30px; text-align: center; opacity: 0.9; font-size: 18px; line-height: 1.6; max-width: 600px; }
+        .round-complete-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8); display: none; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 100; color: white;
+        }
+        .round-complete-overlay.show { display: flex; }
+        .round-title { font-size: 48px; font-weight: 900; margin-bottom: 20px; color: #4ade80; }
+        .round-info { font-size: 24px; margin-bottom: 30px; text-align: center; }
+        .continue-btn {
+            padding: 15px 40px; font-size: 24px; background: #4ade80; color: white;
+            border: none; border-radius: 30px; cursor: pointer; font-weight: bold; transition: all 0.3s;
+        }
+        .continue-btn:hover { transform: scale(1.1); background: #22c55e; }
+        .moon { display: none; }
+        body.night .moon { display: block; position: absolute; top: 30px; right: 50px; font-size: 60px; }
+        body.night .sun { display: none; }
+        .sun { position: absolute; top: 30px; right: 50px; font-size: 60px; }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="start-overlay" id="startOverlay">
+        <div class="dino-icon">🦕</div>
+        <div class="start-title">ABC DINO RUNNER!</div>
+        <button class="start-btn" onclick="startGame()">START LEARNING</button>
+        <div class="instructions">
+            🎮 Press SPACE or click to jump and catch letters!<br>
+            🔊 Each letter is spoken aloud<br>
+            🎯 Catch the letter shown at the top<br>
+            🌅 Day = UPPERCASE, Night = lowercase<br>
+            🏆 Jump over the cactus and climb the flagpole at the end!
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="score-board">
+            <div class="stat"><span class="stat-icon">🔤</span><span id="currentLetter">A</span></div>
+            <div class="stat"><span class="stat-icon">⭐</span><span id="score">0</span></div>
+            <div class="stat"><span class="stat-icon">🔄</span><span id="round">Round 1</span></div>
+        </div>
+        <div class="moon">🌙</div>
+        <div class="sun">☀️</div>
+    </div>
+
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div class="target-display">
+            <div class="target-word" id="targetWord">A</div>
+        </div>
+        <div class="controls-hint">SPACE or Click to Jump</div>
+        <div class="round-complete-overlay" id="roundCompleteOverlay">
+            <div class="round-title" id="roundTitle">Round Complete!</div>
+            <div class="round-info" id="roundInfo">Score: 0</div>
+            <button class="continue-btn" onclick="nextRound()">Continue</button>
+        </div>
+    </div>
+
+<script>
+// Game Constants
+const LETTERS_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const LETTERS_LOWER = 'abcdefghijklmnopqrstuvwxyz'.split('');
+
+// Game State
+const state = {
+    currentRound: 1,
+    isNight: false,
+    score: 0,
+    letterIndex: 0,
+    gameSpeed: 3,
+    gameActive: false,
+    frameCount: 0,
+    groundY: 300,
+    lastSpokenLetter: '',
+    speechQueue: null
+};
+
+// Game Objects
+const gameObjects = {
+    dino: null,
+    letterBox: null,
+    obstacle: null,
+    flagpole: null,
+    particles: []
+};
+
+// Canvas Setup
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+function resizeCanvas() {
+    const container = canvas.parentElement;
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+    state.groundY = canvas.height - 100;
+    if (gameObjects.dino) {
+        gameObjects.dino.y = state.groundY - gameObjects.dino.height;
+    }
+}
+window.addEventListener('resize', resizeCanvas);
+
+// Speech Synthesis - speak only once with delay after cancel
+function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    
+    // Cancel any current speech
+    window.speechSynthesis.cancel();
+    
+    // Clear any pending speech timeout
+    if (state.speechQueue) {
+        clearTimeout(state.speechQueue);
+    }
+    
+    // Schedule new speech with small delay to ensure cancel completes
+    state.speechQueue = setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.7;
+        utterance.pitch = 1.1;
+        window.speechSynthesis.speak(utterance);
+    }, 50);
+}
+
+// Get current letters based on day/night
+function getCurrentLetters() {
+    return state.isNight ? LETTERS_LOWER : LETTERS_UPPER;
+}
+
+// Update the target display (visual only, no audio)
+function updateTargetDisplay() {
+    const letters = getCurrentLetters();
+    const letter = letters[state.letterIndex];
+    document.getElementById('targetWord').textContent = letter;
+    document.getElementById('currentLetter').textContent = letter;
+}
+
+// Create letter box
+function createLetterBox() {
+    const letters = getCurrentLetters();
+    return {
+        x: canvas.width + 50,
+        y: state.groundY - 140 - Math.random() * 60,
+        width: 80,
+        height: 80,
+        letter: letters[state.letterIndex],
+        bob: 0
+    };
+}
+
+// Create cactus obstacle
+function createObstacle() {
+    return {
+        x: canvas.width + 50,
+        y: state.groundY - 50,
+        width: 35,
+        height: 50,
+        hit: false
+    };
+}
+
+// Create flagpole
+function createFlagpole() {
+    return {
+        x: canvas.width + 150,
+        y: state.groundY - 200,
+        width: 10,
+        height: 200,
+        reached: false,
+        slideDown: false,
+        flagY: state.groundY - 200
+    };
+}
+
+// Create particles
+function createParticles(x, y, color) {
+    for (let i = 0; i < 12; i++) {
+        const angle = (Math.PI * 2 * i) / 12;
+        const speed = 2 + Math.random() * 3;
+        gameObjects.particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 2,
+            life: 40,
+            maxLife: 40,
+            color,
+            size: 3 + Math.random() * 3
+        });
+    }
+}
+
+// Initialize dino
+function initDino() {
+    return {
+        x: 60,
+        y: state.groundY - 56,
+        width: 48,
+        height: 56,
+        velocityY: 0,
+        jumping: false,
+        grounded: true,
+        legAngle: 0,
+        squish: 1,
+        squishX: 1,
+        blinkTimer: 0,
+        climbing: false
+    };
+}
+
+// Jump function
+function jump() {
+    const dino = gameObjects.dino;
+    if (dino && dino.grounded && !dino.climbing) {
+        dino.velocityY = -16;
+        dino.jumping = true;
+        dino.grounded = false;
+        dino.squish = 1.3;
+        dino.squishX = 0.8;
+    }
+}
+
+// Draw dino
+function drawDino() {
+    const dino = gameObjects.dino;
+    const cx = dino.x + dino.width / 2;
+    const cy = dino.y + dino.height / 2;
+
+    dino.squish += (1 - dino.squish) * 0.2;
+    dino.squishX += (1 - dino.squishX) * 0.2;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(dino.squishX, dino.squish);
+    ctx.translate(-cx, -cy);
+
+    const x = dino.x;
+    const y = dino.y;
+    const W = dino.width;
+    const H = dino.height;
+
+    // Colors based on day/night
+    const bodyColor = state.isNight ? '#22c55e' : '#4ade80';
+    const bellyColor = state.isNight ? '#4ade80' : '#86efac';
+    const darkColor = state.isNight ? '#15803d' : '#16a34a';
+    const darkerColor = state.isNight ? '#14532d' : '#15803d';
+
+    // Tail
+    const tailWag = dino.grounded ? Math.sin(dino.legAngle * 0.8) * 4 : 0;
+    ctx.fillStyle = darkColor;
+    ctx.beginPath();
+    ctx.moveTo(x + 4, y + H * 0.45);
+    ctx.quadraticCurveTo(x - 14, y + H * 0.5 + tailWag, x - 6, y + H * 0.7);
+    ctx.quadraticCurveTo(x - 2, y + H * 0.78, x + 8, y + H * 0.6);
+    ctx.closePath();
+    ctx.fill();
+
+    // Body
+    ctx.fillStyle = bodyColor;
+    ctx.beginPath();
+    ctx.ellipse(x + W * 0.48, y + H * 0.58, W * 0.38, H * 0.3, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Belly
+    ctx.fillStyle = bellyColor;
+    ctx.beginPath();
+    ctx.ellipse(x + W * 0.5, y + H * 0.62, W * 0.2, H * 0.18, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Legs
+    const swing = dino.grounded ? Math.sin(dino.legAngle) : 0;
+    const legW = 8, legH = 18;
+    const legY = y + H * 0.78;
+
+    // Back leg
+    ctx.fillStyle = darkColor;
+    const backLegX = x + W * 0.25;
+    ctx.save();
+    ctx.translate(backLegX + legW/2, legY);
+    ctx.rotate(-swing * 0.35);
+    ctx.fillRect(-legW/2, 0, legW, legH);
+    ctx.fillStyle = darkerColor;
+    ctx.beginPath();
+    ctx.ellipse(0, legH + 3, 8, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Front leg
+    ctx.fillStyle = darkColor;
+    const frontLegX = x + W * 0.6;
+    ctx.save();
+    ctx.translate(frontLegX + legW/2, legY);
+    ctx.rotate(swing * 0.35);
+    ctx.fillRect(-legW/2, 0, legW, legH);
+    ctx.fillStyle = darkerColor;
+    ctx.beginPath();
+    ctx.ellipse(0, legH + 3, 8, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // Neck
+    ctx.fillStyle = bodyColor;
+    ctx.beginPath();
+    ctx.moveTo(x + W * 0.55, y + H * 0.35);
+    ctx.lineTo(x + W * 0.72, y + H * 0.13);
+    ctx.lineTo(x + W * 0.95, y + H * 0.18);
+    ctx.lineTo(x + W * 0.78, y + H * 0.42);
+    ctx.closePath();
+    ctx.fill();
+
+    // Head
+    ctx.fillStyle = bodyColor;
+    ctx.beginPath();
+    ctx.ellipse(x + W * 0.85, y + H * 0.12, W * 0.25, H * 0.15, -0.15, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Snout
+    ctx.fillStyle = darkColor;
+    ctx.beginPath();
+    ctx.ellipse(x + W * 1.05, y + H * 0.17, W * 0.12, H * 0.09, 0.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Nostril
+    ctx.fillStyle = darkerColor;
+    ctx.beginPath();
+    ctx.arc(x + W * 1.1, y + H * 0.13, 2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Eye
+    const eyeX = x + W * 0.9;
+    const eyeY = y + H * 0.07;
+    const blink = dino.blinkTimer > 0 && dino.blinkTimer < 5;
+
+    ctx.fillStyle = 'white';
+    if (blink) {
+        ctx.fillRect(eyeX - 7, eyeY - 1, 14, 3);
+    } else {
+        ctx.beginPath();
+        ctx.arc(eyeX, eyeY, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#1a1a2e';
+        ctx.beginPath();
+        ctx.arc(eyeX + 1.5, eyeY + 1, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = 'white';
+        ctx.beginPath();
+        ctx.arc(eyeX + 2.5, eyeY - 1, 1.5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Arm
+    ctx.fillStyle = darkColor;
+    ctx.save();
+    ctx.translate(x + W * 0.72, y + H * 0.38);
+    ctx.rotate(-0.3 + swing * 0.2);
+    ctx.fillRect(-3, 0, 6, 12);
+    ctx.fillStyle = darkerColor;
+    ctx.fillRect(-4, 11, 4, 3);
+    ctx.fillRect(0, 11, 4, 3);
+    ctx.restore();
+
+    // Spines
+    ctx.fillStyle = darkColor;
+    const spines = [[x + W*0.62, y + H*0.28, 5, 9],
+                    [x + W*0.53, y + H*0.32, 4, 7],
+                    [x + W*0.44, y + H*0.38, 3, 6]];
+    spines.forEach(([sx, sy, sw, sh]) => {
+        ctx.beginPath();
+        ctx.moveTo(sx - sw/2, sy + sh);
+        ctx.lineTo(sx, sy);
+        ctx.lineTo(sx + sw/2, sy + sh);
+        ctx.fill();
+    });
+
+    ctx.restore();
+
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.15)';
+    ctx.beginPath();
+    const shadowY = state.groundY + 4;
+    const shadowW = W * dino.squishX * 0.7;
+    ctx.ellipse(cx, shadowY, shadowW, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+// Draw cactus obstacle
+function drawObstacle(obs) {
+    const bx = obs.x, by = obs.y, bw = obs.width, bh = obs.height;
+    const cactusColor = state.isNight ? '#1a472a' : '#2d6a2d';
+    const highlightColor = state.isNight ? '#2d5a3d' : '#3a8a3a';
+    
+    ctx.fillStyle = cactusColor;
+    // Stem
+    ctx.beginPath();
+    ctx.roundRect(bx + bw*0.3, by, bw*0.4, bh, 4);
+    ctx.fill();
+    // Left arm
+    ctx.beginPath();
+    ctx.roundRect(bx, by + bh*0.3, bw*0.35, bh*0.22, 4);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.roundRect(bx, by + bh*0.12, bw*0.16, bh*0.28, 4);
+    ctx.fill();
+    // Right arm
+    ctx.beginPath();
+    ctx.roundRect(bx + bw*0.65, by + bh*0.4, bw*0.35, bh*0.2, 4);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.roundRect(bx + bw*0.84, by + bh*0.24, bw*0.16, bh*0.24, 4);
+    ctx.fill();
+    // Highlight
+    ctx.fillStyle = highlightColor;
+    ctx.fillRect(bx + bw*0.38, by + 3, 4, bh - 6);
+}
+
+// Draw flagpole
+function drawFlagpole(fp) {
+    const fx = fp.x, fy = fp.y, fh = fp.height;
+    
+    // Pole
+    ctx.fillStyle = '#8B4513';
+    ctx.fillRect(fx, fy, fp.width, fh);
+    
+    // Ball on top
+    ctx.fillStyle = '#FFD700';
+    ctx.beginPath();
+    ctx.arc(fx + fp.width/2, fy - 10, 8, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Flag
+    ctx.fillStyle = '#FF0000';
+    ctx.beginPath();
+    ctx.moveTo(fx + fp.width, fp.flagY);
+    ctx.lineTo(fx + fp.width + 40, fp.flagY + 15);
+    ctx.lineTo(fx + fp.width, fp.flagY + 30);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.2)';
+    ctx.beginPath();
+    ctx.ellipse(fx + fp.width/2, state.groundY + 5, 20, 5, 0, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+// Draw letter box
+function drawLetterBox(box) {
+    const px = box.x;
+    const py = box.y + Math.sin(box.bob) * 5;
+    const pw = box.width, ph = box.height;
+
+    // Shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.2)';
+    ctx.beginPath();
+    ctx.ellipse(px + pw/2, py + ph + 10, pw*0.45, 6, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // Platform
+    const grad = ctx.createLinearGradient(px, py, px, py + ph);
+    grad.addColorStop(0, '#fcd34d');
+    grad.addColorStop(1, '#f59e0b');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.roundRect(px, py, pw, ph, 12);
+    ctx.fill();
+
+    // Glow
+    ctx.strokeStyle = 'rgba(251,191,36,0.6)';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.roundRect(px - 3, py - 3, pw + 6, ph + 6, 15);
+    ctx.stroke();
+
+    // Border
+    ctx.strokeStyle = '#d97706';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.roundRect(px, py, pw, ph, 12);
+    ctx.stroke();
+
+    // Letter
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 48px "Segoe UI", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = 'rgba(0,0,0,0.4)';
+    ctx.shadowBlur = 4;
+    ctx.fillText(box.letter, px + pw/2, py + ph/2 + 2);
+    ctx.shadowBlur = 0;
+}
+
+// Main game update
+function update() {
+    if (!state.gameActive) return;
+    
+    state.frameCount++;
+    const dino = gameObjects.dino;
+
+    // Handle flagpole climbing animation
+    if (dino.climbing && gameObjects.flagpole) {
+        const fp = gameObjects.flagpole;
+        if (!fp.slideDown) {
+            dino.y -= 2;
+            if (dino.y <= fp.y + 20) {
+                fp.slideDown = true;
+                speak('Great job!');
+            }
+        } else {
+            dino.y += 3;
+            fp.flagY += 3;
+            if (dino.y >= state.groundY - dino.height) {
+                dino.y = state.groundY - dino.height;
+                dino.climbing = false;
+                completeRound();
+                return;
+            }
+        }
+        dino.x = fp.x - dino.width/2;
+        draw();
+        requestAnimationFrame(update);
+        return;
+    }
+
+    // Dino physics
+    dino.velocityY += 0.82;
+    dino.y += dino.velocityY;
+
+    if (dino.y + dino.height > state.groundY) {
+        if (!dino.grounded) {
+            dino.squish = 0.65;
+            dino.squishX = 1.35;
+        }
+        dino.y = state.groundY - dino.height;
+        dino.velocityY = 0;
+        dino.grounded = true;
+        dino.jumping = false;
+    }
+
+    if (dino.grounded) dino.legAngle += 0.28;
+    dino.blinkTimer--;
+    if (dino.blinkTimer < 0) dino.blinkTimer = 120 + Math.floor(Math.random() * 180);
+
+    // Spawn logic - determine what to spawn based on game state
+    const letters = getCurrentLetters();
+    const isLastLetter = state.letterIndex >= letters.length - 1;
+    
+    // Spawn letter box if none exists and no obstacle/flagpole active
+    if (!gameObjects.letterBox && !gameObjects.obstacle && !gameObjects.flagpole) {
+        gameObjects.letterBox = createLetterBox();
+        // Speak the letter when it appears (only once!)
+        const letter = letters[state.letterIndex];
+        if (state.lastSpokenLetter !== letter) {
+            speak(letter);
+            state.lastSpokenLetter = letter;
+        }
+    }
+
+    // Update letter box
+    if (gameObjects.letterBox) {
+        const box = gameObjects.letterBox;
+        box.x -= state.gameSpeed;
+        box.bob += 0.05;
+
+        // Check collision with dino
+        if (dino.x + 4 < box.x + box.width &&
+            dino.x + dino.width - 4 > box.x &&
+            dino.y < box.y + box.height + 4 &&
+            dino.y + dino.height > box.y) {
+            
+            createParticles(box.x + box.width/2, box.y + box.height/2, '#fbbf24');
+            state.score += 10;
+            gameObjects.letterBox = null;
+            
+            // Check if this was the last letter
+            if (isLastLetter) {
+                // Spawn obstacle before flagpole
+                gameObjects.obstacle = createObstacle();
+            } else {
+                // Move to next letter
+                state.letterIndex++;
+                updateTargetDisplay();
+                updateStats();
+            }
+        }
+
+        // Remove if off screen
+        if (box && box.x + box.width < -50) {
+            gameObjects.letterBox = null;
+        }
+    }
+
+    // Update obstacle (cactus before flagpole)
+    if (gameObjects.obstacle) {
+        const obs = gameObjects.obstacle;
+        obs.x -= state.gameSpeed;
+
+        // Check collision with dino
+        if (!obs.hit &&
+            dino.x + 6 < obs.x + obs.width - 4 &&
+            dino.x + dino.width - 6 > obs.x + 4 &&
+            dino.y + dino.height - 4 > obs.y + 5) {
+            
+            obs.hit = true;
+            createParticles(dino.x + dino.width/2, dino.y + dino.height/2, '#f87171');
+            // Just continue - hitting the cactus doesn't end the game
+        }
+
+        // Spawn flagpole after obstacle passes certain point
+        if (obs.x < canvas.width * 0.6 && !gameObjects.flagpole) {
+            gameObjects.flagpole = createFlagpole();
+        }
+
+        // Remove obstacle if off screen
+        if (obs.x + obs.width < -50) {
+            gameObjects.obstacle = null;
+        }
+    }
+
+    // Update flagpole
+    if (gameObjects.flagpole) {
+        const fp = gameObjects.flagpole;
+        fp.x -= state.gameSpeed;
+
+        // Check if dino touches flagpole
+        if (!fp.reached &&
+            dino.x + dino.width > fp.x &&
+            dino.x < fp.x + fp.width &&
+            dino.y + dino.height > fp.y) {
+            
+            fp.reached = true;
+            dino.climbing = true;
+            dino.velocityY = 0;
+            createParticles(fp.x, fp.y + 20, '#fbbf24');
+        }
+
+        // If flagpole goes off screen without being touched
+        if (fp.x + fp.width < -100 && !dino.climbing) {
+            gameObjects.flagpole = null;
+            completeRound();
+            return;
+        }
+    }
+
+    // Update particles
+    for (let i = gameObjects.particles.length - 1; i >= 0; i--) {
+        const p = gameObjects.particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.15;
+        p.life--;
+        if (p.life <= 0) gameObjects.particles.splice(i, 1);
+    }
+
+    draw();
+    requestAnimationFrame(update);
+}
+
+// Main draw function
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Sky
+    const skyGrad = ctx.createLinearGradient(0, 0, 0, state.groundY);
+    if (state.isNight) {
+        skyGrad.addColorStop(0, '#1a1a2e');
+        skyGrad.addColorStop(0.5, '#16213e');
+        skyGrad.addColorStop(1, '#0f3460');
+    } else {
+        skyGrad.addColorStop(0, '#87CEEB');
+        skyGrad.addColorStop(1, '#E0F6FF');
+    }
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, canvas.width, state.groundY);
+
+    // Stars at night
+    if (state.isNight) {
+        ctx.fillStyle = 'white';
+        for (let i = 0; i < 50; i++) {
+            const sx = (i * 73) % canvas.width;
+            const sy = (i * 37) % (state.groundY * 0.6);
+            const size = 1 + (i % 3);
+            ctx.globalAlpha = 0.3 + (Math.sin(state.frameCount * 0.05 + i) + 1) / 4;
+            ctx.beginPath();
+            ctx.arc(sx, sy, size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    // Clouds
+    ctx.fillStyle = state.isNight ? 'rgba(255,255,255,0.15)' : 'rgba(255,255,255,0.82)';
+    const cloudSpeed = state.isNight ? 0.1 : 0.25;
+    for (let i = 0; i < 4; i++) {
+        const cx = ((state.frameCount * cloudSpeed) + i * 270) % (canvas.width + 220) - 110;
+        const cy = 45 + i * 30;
+        const r = 22 + i * 4;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.8, 0, Math.PI * 2);
+        ctx.arc(cx + r * 0.8, cy - r * 0.3, r, 0, Math.PI * 2);
+        ctx.arc(cx + r * 1.6, cy, r * 0.8, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    // Ground
+    ctx.fillStyle = state.isNight ? '#5c4033' : '#deb887';
+    ctx.fillRect(0, state.groundY, canvas.width, canvas.height - state.groundY);
+    
+    // Ground line
+    ctx.strokeStyle = state.isNight ? '#3d2b1f' : '#8b4513';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(0, state.groundY);
+    ctx.lineTo(canvas.width, state.groundY);
+    ctx.stroke();
+
+    // Ground texture
+    ctx.strokeStyle = state.isNight ? 'rgba(61,43,31,0.5)' : 'rgba(139,69,19,0.35)';
+    ctx.lineWidth = 1;
+    const dashOffset = (state.frameCount * state.gameSpeed * 0.6) % 50;
+    for (let i = -dashOffset; i < canvas.width; i += 50) {
+        ctx.beginPath();
+        ctx.moveTo(i, state.groundY + 12);
+        ctx.lineTo(i + 25, state.groundY + 12);
+        ctx.stroke();
+    }
+
+    // Draw game objects
+    if (gameObjects.flagpole) drawFlagpole(gameObjects.flagpole);
+    if (gameObjects.obstacle) drawObstacle(gameObjects.obstacle);
+    if (gameObjects.letterBox) drawLetterBox(gameObjects.letterBox);
+    
+    drawDino();
+
+    // Particles
+    gameObjects.particles.forEach(p => {
+        ctx.globalAlpha = p.life / p.maxLife;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * (p.life/p.maxLife), 0, Math.PI*2);
+        ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+}
+
+// Update stats display
+function updateStats() {
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('round').textContent = 'Round ' + state.currentRound;
+}
+
+// Complete round
+function completeRound() {
+    state.gameActive = false;
+    
+    const overlay = document.getElementById('roundCompleteOverlay');
+    const title = document.getElementById('roundTitle');
+    const info = document.getElementById('roundInfo');
+    
+    const nextCase = state.isNight ? 'UPPERCASE' : 'lowercase';
+    const nextTime = state.isNight ? '☀️ Day' : '🌙 Night';
+    title.textContent = '🎉 Round Complete!';
+    info.innerHTML = `Score: ${state.score}<br>${nextTime} Mode: ${nextCase}<br>Speed increasing...`;
+    
+    overlay.classList.add('show');
+}
+
+// Next round
+function nextRound() {
+    document.getElementById('roundCompleteOverlay').classList.remove('show');
+    
+    // Toggle day/night
+    state.isNight = !state.isNight;
+    document.body.classList.toggle('night', state.isNight);
+    
+    // Increase speed
+    state.gameSpeed = Math.min(8, state.gameSpeed + 0.5);
+    
+    // Reset round state
+    state.letterIndex = 0;
+    state.currentRound++;
+    gameObjects.letterBox = null;
+    gameObjects.obstacle = null;
+    gameObjects.flagpole = null;
+    gameObjects.dino.climbing = false;
+    state.lastSpokenLetter = '';
+    
+    updateTargetDisplay();
+    updateStats();
+    
+    state.gameActive = true;
+    update();
+}
+
+// Start game
+function startGame() {
+    document.getElementById('startOverlay').classList.add('hidden');
+    
+    resizeCanvas();
+    
+    // Reset state
+    state.currentRound = 1;
+    state.isNight = false;
+    state.score = 0;
+    state.letterIndex = 0;
+    state.gameSpeed = 3;
+    state.gameActive = true;
+    state.frameCount = 0;
+    state.lastSpokenLetter = '';
+    
+    // Reset game objects
+    gameObjects.dino = initDino();
+    gameObjects.letterBox = null;
+    gameObjects.obstacle = null;
+    gameObjects.flagpole = null;
+    gameObjects.particles = [];
+    
+    document.body.classList.remove('night');
+    
+    updateStats();
+    updateTargetDisplay();
+    update();
+}
+
+// Controls
+document.addEventListener('keydown', e => {
+    if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        if (state.gameActive) jump();
+    }
+});
+
+canvas.addEventListener('mousedown', () => {
+    if (state.gameActive) jump();
+});
+
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    if (state.gameActive) jump();
+});
+</script>
+</body>
+</html>
