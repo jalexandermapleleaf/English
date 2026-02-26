@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sleep Optimization Intake – Full Assessment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#040812;
+--card:#0a1628;
+--soft:#0f1f35;
+--border:#1a3050;
+--text:#e8edf5;
+--muted:#6b8cae;
+--accent:#4fc3f7;
+--accent2:#ab6de8;
+--warn:#f5a623;
+--good:#4caf82;
+--lion:#fbbf24;
+--bear:#6dd5a0;
+--wolf:#b57ef5;
+--dolphin:#4fc3f7;
+--glow-accent:rgba(79,195,247,0.15);
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+body{
+margin:0;
+background:var(--bg);
+font-family:'Space Grotesk',sans-serif;
+color:var(--text);
+min-height:100vh;
+display:flex;
+flex-direction:column;
+overflow-x:hidden;
+background-image:
+  radial-gradient(ellipse 80% 50% at 50% -20%,rgba(79,195,247,0.08),transparent),
+  radial-gradient(ellipse 60% 40% at 80% 80%,rgba(171,109,232,0.06),transparent);
+}
+
+/* ── PROGRESS ── */
+.progress-container{
+position:fixed;top:0;left:0;right:0;height:3px;
+background:rgba(255,255,255,0.05);z-index:100;
+}
+.progress-bar{
+height:100%;
+background:linear-gradient(90deg,var(--accent),var(--accent2));
+width:0%;transition:width 0.5s cubic-bezier(.4,0,.2,1);
+box-shadow:0 0 12px var(--accent);
+}
+
+/* ── HEADER ── */
+.header{padding:56px 24px 16px;text-align:center;}
+.header h1{
+margin:0;font-size:1.5rem;font-weight:700;
+font-family:'Syne',sans-serif;letter-spacing:-0.5px;
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.header p{margin:6px 0 0;color:var(--muted);font-size:0.82rem;letter-spacing:0.5px;}
+
+/* ── CONTAINER ── */
+#questionArea{
+flex:1;display:flex;flex-direction:column;justify-content:center;
+padding:0 24px 100px;max-width:580px;margin:0 auto;width:100%;
+}
+
+/* ── STEP ── */
+.step{display:none;animation:fadeUp 0.4s ease both;width:100%;}
+.step.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+
+.step-number{
+text-align:center;color:var(--accent);font-size:0.75rem;font-weight:600;
+margin-bottom:14px;letter-spacing:2px;text-transform:uppercase;
+}
+
+.question{
+text-align:center;font-size:1.35rem;font-weight:700;
+font-family:'Syne',sans-serif;margin-bottom:6px;line-height:1.3;
+}
+
+.sub-question{
+text-align:center;color:var(--muted);font-size:0.875rem;
+margin-bottom:28px;min-height:36px;line-height:1.4;
+}
+
+/* ── TIME WHEELS ── */
+.time-wheel-container{
+display:flex;justify-content:center;align-items:center;
+gap:10px;margin:16px 0;position:relative;height:280px;
+}
+
+.wheel-wrapper{
+position:relative;height:100%;width:82px;overflow:hidden;
+background:var(--card);border-radius:16px;
+border:1px solid var(--border);
+}
+.wheel-wrapper::before,.wheel-wrapper::after{
+content:'';position:absolute;left:0;right:0;height:96px;z-index:2;pointer-events:none;
+}
+.wheel-wrapper::before{top:0;background:linear-gradient(to bottom,var(--card) 20%,transparent);}
+.wheel-wrapper::after{bottom:0;background:linear-gradient(to top,var(--card) 20%,transparent);}
+
+.wheel{
+height:100%;overflow-y:auto;scroll-snap-type:y mandatory;
+scrollbar-width:none;-ms-overflow-style:none;padding:112px 0;
+}
+.wheel::-webkit-scrollbar{display:none;}
+
+.wheel-item{
+height:56px;display:flex;align-items:center;justify-content:center;
+font-size:1.2rem;font-weight:600;scroll-snap-align:center;
+color:var(--muted);transition:all 0.2s;cursor:pointer;user-select:none;
+}
+.wheel-item.selected{
+color:var(--accent);font-size:1.55rem;font-weight:700;
+text-shadow:0 0 20px rgba(79,195,247,0.6);
+}
+.wheel-item:hover{color:var(--text);}
+
+.separator{font-size:1.4rem;font-weight:300;color:var(--muted);align-self:center;margin-top:-8px;}
+
+.selection-indicator{
+position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+width:75%;height:48px;border:1.5px solid var(--accent);
+border-radius:10px;pointer-events:none;opacity:0.25;z-index:1;
+box-shadow:0 0 16px rgba(79,195,247,0.1);
+}
+
+/* ── SELECT ── */
+.select-container{
+background:var(--card);border:1px solid var(--border);
+border-radius:14px;padding:4px;margin:16px 0;
+transition:border-color 0.2s;
+}
+.select-container:focus-within{border-color:var(--accent);}
+select{
+width:100%;padding:16px;background:transparent;
+border:none;color:var(--text);font-size:1rem;
+font-family:'Space Grotesk',sans-serif;outline:none;cursor:pointer;
+}
+option{background:#0a1628;color:var(--text);}
+
+/* ── NUMBER INPUT ── */
+.number-input{
+width:100%;padding:20px;background:var(--card);
+border:1.5px solid var(--border);border-radius:14px;
+color:var(--text);font-size:1.6rem;font-family:'Syne',sans-serif;
+text-align:center;outline:none;transition:border-color 0.2s;margin:16px 0;
+}
+.number-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,195,247,0.1);}
+.input-helper{text-align:center;color:var(--muted);font-size:0.82rem;margin-top:-8px;margin-bottom:16px;}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}
+
+/* ── NAV ── */
+.nav-buttons{
+position:fixed;bottom:0;left:0;right:0;padding:16px 24px 28px;
+background:linear-gradient(to top,var(--bg) 55%,transparent);
+display:flex;gap:10px;z-index:50;max-width:580px;margin:0 auto;
+left:50%;transform:translateX(-50%);width:100%;
+}
+.btn{
+flex:1;padding:15px 20px;border-radius:12px;border:none;
+font-size:0.95rem;font-weight:600;font-family:'Space Grotesk',sans-serif;
+cursor:pointer;transition:all 0.2s;
+}
+.btn-secondary{background:var(--soft);color:var(--text);border:1px solid var(--border);}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
+.btn-primary{
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+color:#040812;font-weight:700;letter-spacing:0.3px;
+box-shadow:0 4px 20px rgba(79,195,247,0.25);
+}
+.btn-primary:hover{box-shadow:0 4px 30px rgba(79,195,247,0.4);transform:translateY(-1px);}
+.btn:active{transform:scale(0.98);}
+
+/* ══════════════════════════════════
+   RESULTS
+══════════════════════════════════ */
+#resultsArea{
+display:none;padding:70px 24px 120px;
+max-width:580px;margin:0 auto;width:100%;
+animation:fadeUp 0.6s ease both;
+}
+#resultsArea.active{display:block;}
+
+.results-header{text-align:center;margin-bottom:28px;}
+.results-header h2{
+font-family:'Syne',sans-serif;font-size:1.6rem;margin:0 0 6px;
+background:linear-gradient(135deg,var(--accent),var(--accent2));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.results-header p{color:var(--muted);font-size:0.8rem;margin:0;}
+
+/* Chronotype Card */
+.chronotype-card{
+padding:28px;border-radius:20px;margin:20px 0;
+text-align:center;border:1px solid;
+position:relative;overflow:hidden;
+}
+.chronotype-card::before{
+content:'';position:absolute;inset:0;opacity:0.04;
+background:radial-gradient(circle at 50% 0%,white,transparent 70%);
+}
+.chronotype-card.lion{background:rgba(251,191,36,0.08);border-color:rgba(251,191,36,0.3);}
+.chronotype-card.bear{background:rgba(109,213,160,0.08);border-color:rgba(109,213,160,0.3);}
+.chronotype-card.wolf{background:rgba(181,126,245,0.08);border-color:rgba(181,126,245,0.3);}
+.chronotype-card.dolphin{background:rgba(79,195,247,0.08);border-color:rgba(79,195,247,0.3);}
+
+.chronotype-icon{font-size:3.2rem;margin-bottom:10px;}
+.chronotype-title{
+font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;margin-bottom:8px;
+}
+.lion .chronotype-title{color:var(--lion);}
+.bear .chronotype-title{color:var(--bear);}
+.wolf .chronotype-title{color:var(--wolf);}
+.dolphin .chronotype-title{color:var(--dolphin);}
+
+.chronotype-meta{color:var(--muted);font-size:0.88rem;line-height:1.55;}
+
+/* Schedule Grid */
+.schedule-grid{
+display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;
+}
+.schedule-item{
+background:var(--card);padding:16px 12px;border-radius:14px;
+text-align:center;border:1px solid var(--border);
+transition:border-color 0.2s;
+}
+.schedule-item:hover{border-color:var(--accent);}
+.schedule-time{
+font-size:1.25rem;font-weight:700;font-family:'Syne',sans-serif;
+color:var(--accent);margin-bottom:4px;
+}
+.schedule-label{font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;}
+
+/* Section title */
+.section-title{
+font-size:0.78rem;color:var(--accent);margin:28px 0 14px;
+font-weight:600;display:flex;align-items:center;gap:8px;
+text-transform:uppercase;letter-spacing:1.5px;
+}
+
+/* Insights */
+.insight{
+margin:10px 0;padding:16px 18px;border-left:3px solid var(--accent);
+background:var(--card);border-radius:0 12px 12px 0;
+font-size:0.875rem;line-height:1.55;border:1px solid var(--border);
+border-left:3px solid var(--accent);
+}
+.insight strong{display:block;margin-bottom:4px;font-size:0.875rem;}
+.insight.warn{border-left-color:var(--warn);background:rgba(245,166,35,0.06);}
+.insight.warn strong{color:var(--warn);}
+.insight.good{border-left-color:var(--good);background:rgba(76,175,130,0.06);}
+.insight.good strong{color:var(--good);}
+.insight.info{border-left-color:var(--accent2);background:rgba(171,109,232,0.06);}
+.insight.info strong{color:var(--accent2);}
+
+.references{
+margin-top:28px;padding:20px;background:var(--card);
+border-radius:14px;border:1px solid var(--border);
+font-size:0.78rem;color:var(--muted);line-height:1.7;
+}
+.references strong{color:var(--text);display:block;margin-bottom:10px;font-size:0.85rem;}
+
+.restart-btn{
+width:100%;margin-top:28px;padding:16px;
+background:var(--soft);border:1px solid var(--border);
+border-radius:14px;color:var(--text);font-size:0.95rem;
+font-weight:600;font-family:'Space Grotesk',sans-serif;
+cursor:pointer;transition:all 0.2s;
+}
+.restart-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+@media(max-width:400px){
+.time-wheel-container{transform:scale(0.88);gap:6px;}
+.wheel-wrapper{width:72px;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- HEADER -->
+<div class="header" id="mainHeader">
+  <h1>🌙 Sleep Optimization</h1>
+  <p>Complete Chronotype Assessment · 26 Questions</p>
+</div>
+
+<!-- QUESTION AREA -->
+<div id="questionArea">
+
+  <!-- Q1 -->
+  <div class="step active" data-step="1">
+    <div class="step-number">Question 1 of 26 · Schedule Anchors</div>
+    <div class="question">Required weekday wake time?</div>
+    <div class="sub-question">What time does your alarm go off?</div>
+    <div class="time-wheel-container" data-q="1">
+      <div class="wheel-wrapper"><div class="wheel" id="q1-h">
+        <div class="wheel-item" data-val="12">12</div>
+        <div class="wheel-item" data-val="1">1</div>
+        <div class="wheel-item" data-val="2">2</div>
+        <div class="wheel-item" data-val="3">3</div>
+        <div class="wheel-item" data-val="4">4</div>
+        <div class="wheel-item selected" data-val="5">5</div>
+        <div class="wheel-item" data-val="6">6</div>
+        <div class="wheel-item" data-val="7">7</div>
+        <div class="wheel-item" data-val="8">8</div>
+        <div class="wheel-item" data-val="9">9</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="11">11</div>
+      </div></div>
+      <div class="separator">:</div>
+      <div class="wheel-wrapper"><div class="wheel" id="q1-m">
+        <div class="wheel-item selected" data-val="0">00</div>
+        <div class="wheel-item" data-val="5">05</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="15">15</div>
+        <div class="wheel-item" data-val="20">20</div>
+        <div class="wheel-item" data-val="25">25</div>
+        <div class="wheel-item" data-val="30">30</div>
+        <div class="wheel-item" data-val="35">35</div>
+        <div class="wheel-item" data-val="40">40</div>
+        <div class="wheel-item" data-val="45">45</div>
+        <div class="wheel-item" data-val="50">50</div>
+        <div class="wheel-item" data-val="55">55</div>
+      </div></div>
+      <div class="wheel-wrapper" style="width:68px;"><div class="wheel" id="q1-ampm">
+        <div class="wheel-item selected" data-val="AM">AM</div>
+        <div class="wheel-item" data-val="PM">PM</div>
+      </div></div>
+      <div class="selection-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="step" data-step="2">
+    <div class="step-number">Question 2 of 26 · Schedule Anchors</div>
+    <div class="question">Natural weekend wake time?</div>
+    <div class="sub-question">Without an alarm, when do you naturally wake?</div>
+    <div class="time-wheel-container" data-q="2">
+      <div class="wheel-wrapper"><div class="wheel" id="q2-h">
+        <div class="wheel-item" data-val="12">12</div>
+        <div class="wheel-item" data-val="1">1</div>
+        <div class="wheel-item" data-val="2">2</div>
+        <div class="wheel-item" data-val="3">3</div>
+        <div class="wheel-item" data-val="4">4</div>
+        <div class="wheel-item" data-val="5">5</div>
+        <div class="wheel-item" data-val="6">6</div>
+        <div class="wheel-item selected" data-val="7">7</div>
+        <div class="wheel-item" data-val="8">8</div>
+        <div class="wheel-item" data-val="9">9</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="11">11</div>
+      </div></div>
+      <div class="separator">:</div>
+      <div class="wheel-wrapper"><div class="wheel" id="q2-m">
+        <div class="wheel-item selected" data-val="0">00</div>
+        <div class="wheel-item" data-val="5">05</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="15">15</div>
+        <div class="wheel-item" data-val="20">20</div>
+        <div class="wheel-item" data-val="25">25</div>
+        <div class="wheel-item" data-val="30">30</div>
+        <div class="wheel-item" data-val="35">35</div>
+        <div class="wheel-item" data-val="40">40</div>
+        <div class="wheel-item" data-val="45">45</div>
+        <div class="wheel-item" data-val="50">50</div>
+        <div class="wheel-item" data-val="55">55</div>
+      </div></div>
+      <div class="wheel-wrapper" style="width:68px;"><div class="wheel" id="q2-ampm">
+        <div class="wheel-item selected" data-val="AM">AM</div>
+        <div class="wheel-item" data-val="PM">PM</div>
+      </div></div>
+      <div class="selection-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="step" data-step="3">
+    <div class="step-number">Question 3 of 26 · Schedule Anchors</div>
+    <div class="question">Do you hit snooze?</div>
+    <div class="sub-question"></div>
+    <div class="select-container"><select id="q3">
+      <option value="no">No — I get up immediately</option>
+      <option value="sometimes" selected>Sometimes</option>
+      <option value="often">Often — multiple times</option>
+    </select></div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="step" data-step="4">
+    <div class="step-number">Question 4 of 26 · Schedule Anchors</div>
+    <div class="question">How long do you snooze?</div>
+    <div class="sub-question">Total extra minutes in bed</div>
+    <input type="number" class="number-input" id="q4" value="10" min="0" max="60">
+    <div class="input-helper">minutes</div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="step" data-step="5">
+    <div class="step-number">Question 5 of 26 · Sleep Quantity</div>
+    <div class="question">How many hours feel optimal?</div>
+    <div class="sub-question">How much sleep do you need to feel your best?</div>
+    <input type="number" class="number-input" id="q5" value="7.5" min="4" max="12" step="0.25">
+    <div class="input-helper">hours (e.g., 7.5)</div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="step" data-step="6">
+    <div class="step-number">Question 6 of 26 · Sleep Quantity</div>
+    <div class="question">Hours you currently get?</div>
+    <div class="sub-question">Average on weeknights</div>
+    <input type="number" class="number-input" id="q6" value="6.5" min="3" max="12" step="0.25">
+    <div class="input-helper">hours</div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="step" data-step="7">
+    <div class="step-number">Question 7 of 26 · Sleep Quality</div>
+    <div class="question">Night awakenings?</div>
+    <div class="sub-question">How often do you wake during the night?</div>
+    <div class="select-container"><select id="q7">
+      <option value="none">None — sleep straight through</option>
+      <option value="1x" selected>Once</option>
+      <option value="2-3">2–3 times</option>
+      <option value="many">Many times / very fragmented</option>
+    </select></div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="step" data-step="8">
+    <div class="step-number">Question 8 of 26 · Sleep Quality</div>
+    <div class="question">Fall back asleep easily?</div>
+    <div class="sub-question">When you wake during the night</div>
+    <div class="select-container"><select id="q8">
+      <option value="yes" selected>Yes, within minutes</option>
+      <option value="no">No, takes 20+ minutes</option>
+      <option value="variable">Sometimes yes, sometimes no</option>
+    </select></div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="step" data-step="9">
+    <div class="step-number">Question 9 of 26 · Energy Timing</div>
+    <div class="question">First daily energy crash?</div>
+    <div class="sub-question">When do you hit your first slump?</div>
+    <div class="select-container"><select id="q9">
+      <option value="morning">Late morning (10am–12pm)</option>
+      <option value="early-afternoon" selected>Early afternoon (12–3pm)</option>
+      <option value="late-afternoon">Late afternoon (3–6pm)</option>
+      <option value="evening">Evening (6pm+)</option>
+    </select></div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="step" data-step="10">
+    <div class="step-number">Question 10 of 26 · Energy Timing</div>
+    <div class="question">Evening second wind?</div>
+    <div class="sub-question">Do you get a burst of energy at night?</div>
+    <div class="select-container"><select id="q10">
+      <option value="no">No — I wind down steadily</option>
+      <option value="mild" selected>Mild boost</option>
+      <option value="strong">Strong second wind</option>
+    </select></div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="step" data-step="11">
+    <div class="step-number">Question 11 of 26 · Energy Timing</div>
+    <div class="question">When are you most mentally sharp?</div>
+    <div class="sub-question">Best cognitive performance window</div>
+    <div class="select-container"><select id="q11">
+      <option value="morning">Morning (6–10am)</option>
+      <option value="midday" selected>Midday (10am–2pm)</option>
+      <option value="afternoon">Afternoon (2–6pm)</option>
+      <option value="evening">Evening (6–10pm)</option>
+    </select></div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="step" data-step="12">
+    <div class="step-number">Question 12 of 26 · Morning Experience</div>
+    <div class="question">How do you feel waking up?</div>
+    <div class="sub-question">First 10 minutes after waking</div>
+    <div class="select-container"><select id="q12">
+      <option value="alert">Alert and ready</option>
+      <option value="okay" selected>Okay — need a few minutes</option>
+      <option value="foggy">Foggy and groggy</option>
+    </select></div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="step" data-step="13">
+    <div class="step-number">Question 13 of 26 · Morning Experience</div>
+    <div class="question">If unconstrained, how much later would you sleep?</div>
+    <div class="sub-question">Compared to your required wake time</div>
+    <div class="select-container"><select id="q13">
+      <option value="none">Not later — same time</option>
+      <option value="30">30 minutes later</option>
+      <option value="60-90" selected>60–90 minutes later</option>
+      <option value="120">2+ hours later</option>
+    </select></div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="step" data-step="14">
+    <div class="step-number">Question 14 of 26 · Chronotype Signals</div>
+    <div class="question">Natural bedtime (no obligations)?</div>
+    <div class="sub-question">When would you naturally fall asleep?</div>
+    <div class="time-wheel-container" data-q="14">
+      <div class="wheel-wrapper"><div class="wheel" id="q14-h">
+        <div class="wheel-item" data-val="12">12</div>
+        <div class="wheel-item" data-val="1">1</div>
+        <div class="wheel-item" data-val="2">2</div>
+        <div class="wheel-item" data-val="3">3</div>
+        <div class="wheel-item" data-val="4">4</div>
+        <div class="wheel-item" data-val="5">5</div>
+        <div class="wheel-item" data-val="6">6</div>
+        <div class="wheel-item" data-val="7">7</div>
+        <div class="wheel-item" data-val="8">8</div>
+        <div class="wheel-item" data-val="9">9</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item selected" data-val="11">11</div>
+      </div></div>
+      <div class="separator">:</div>
+      <div class="wheel-wrapper"><div class="wheel" id="q14-m">
+        <div class="wheel-item selected" data-val="0">00</div>
+        <div class="wheel-item" data-val="5">05</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="15">15</div>
+        <div class="wheel-item" data-val="20">20</div>
+        <div class="wheel-item" data-val="25">25</div>
+        <div class="wheel-item" data-val="30">30</div>
+        <div class="wheel-item" data-val="35">35</div>
+        <div class="wheel-item" data-val="40">40</div>
+        <div class="wheel-item" data-val="45">45</div>
+        <div class="wheel-item" data-val="50">50</div>
+        <div class="wheel-item" data-val="55">55</div>
+      </div></div>
+      <div class="wheel-wrapper" style="width:68px;"><div class="wheel" id="q14-ampm">
+        <div class="wheel-item" data-val="AM">AM</div>
+        <div class="wheel-item selected" data-val="PM">PM</div>
+      </div></div>
+      <div class="selection-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="step" data-step="15">
+    <div class="step-number">Question 15 of 26 · Chronotype Signals</div>
+    <div class="question">How quickly do you fall asleep?</div>
+    <div class="sub-question">Once you get into bed</div>
+    <div class="select-container"><select id="q15">
+      <option value="fast">&lt;15 minutes</option>
+      <option value="normal" selected>15–30 minutes</option>
+      <option value="slow">&gt;30 minutes</option>
+    </select></div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="step" data-step="16">
+    <div class="step-number">Question 16 of 26 · Chronotype Signals</div>
+    <div class="question">Wake between 2–4am?</div>
+    <div class="sub-question">Middle-of-night awakening pattern</div>
+    <div class="select-container"><select id="q16">
+      <option value="no" selected>No</option>
+      <option value="yes">Yes, often</option>
+      <option value="sometimes">Occasionally</option>
+    </select></div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="step" data-step="17">
+    <div class="step-number">Question 17 of 26 · Lifestyle Inputs</div>
+    <div class="question">Daily caffeine intake (mg)?</div>
+    <div class="sub-question">Approx. total — 100mg ≈ 1 cup of coffee</div>
+    <input type="number" class="number-input" id="q17" value="200" min="0" max="1000" step="50">
+    <div class="input-helper">milligrams</div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="step" data-step="18">
+    <div class="step-number">Question 18 of 26 · Lifestyle Inputs</div>
+    <div class="question">Latest caffeine time?</div>
+    <div class="sub-question">Last coffee, tea, or energy drink</div>
+    <div class="time-wheel-container" data-q="18">
+      <div class="wheel-wrapper"><div class="wheel" id="q18-h">
+        <div class="wheel-item" data-val="12">12</div>
+        <div class="wheel-item" data-val="1">1</div>
+        <div class="wheel-item" data-val="2">2</div>
+        <div class="wheel-item" data-val="3">3</div>
+        <div class="wheel-item" data-val="4">4</div>
+        <div class="wheel-item" data-val="5">5</div>
+        <div class="wheel-item" data-val="6">6</div>
+        <div class="wheel-item" data-val="7">7</div>
+        <div class="wheel-item" data-val="8">8</div>
+        <div class="wheel-item" data-val="9">9</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item selected" data-val="11">11</div>
+      </div></div>
+      <div class="separator">:</div>
+      <div class="wheel-wrapper"><div class="wheel" id="q18-m">
+        <div class="wheel-item selected" data-val="0">00</div>
+        <div class="wheel-item" data-val="5">05</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="15">15</div>
+        <div class="wheel-item" data-val="20">20</div>
+        <div class="wheel-item" data-val="25">25</div>
+        <div class="wheel-item" data-val="30">30</div>
+        <div class="wheel-item" data-val="35">35</div>
+        <div class="wheel-item" data-val="40">40</div>
+        <div class="wheel-item" data-val="45">45</div>
+        <div class="wheel-item" data-val="50">50</div>
+        <div class="wheel-item" data-val="55">55</div>
+      </div></div>
+      <div class="wheel-wrapper" style="width:68px;"><div class="wheel" id="q18-ampm">
+        <div class="wheel-item" data-val="AM">AM</div>
+        <div class="wheel-item selected" data-val="PM">PM</div>
+      </div></div>
+      <div class="selection-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="step" data-step="19">
+    <div class="step-number">Question 19 of 26 · Lifestyle Inputs</div>
+    <div class="question">Exercise timing?</div>
+    <div class="sub-question">When do you typically work out?</div>
+    <div class="select-container"><select id="q19">
+      <option value="morning">Morning</option>
+      <option value="midday">Midday</option>
+      <option value="afternoon" selected>Afternoon (4–6pm)</option>
+      <option value="evening">Evening (6–8pm)</option>
+      <option value="late">Late night (8pm+)</option>
+      <option value="none">I don't exercise regularly</option>
+    </select></div>
+  </div>
+
+  <!-- Q20 -->
+  <div class="step" data-step="20">
+    <div class="step-number">Question 20 of 26 · Lifestyle Inputs</div>
+    <div class="question">Evening screen exposure?</div>
+    <div class="sub-question">Phone / TV / computer in the 2 hours before bed</div>
+    <div class="select-container"><select id="q20">
+      <option value="low">Low (&lt;1 hour)</option>
+      <option value="moderate" selected>Moderate (1–2 hours)</option>
+      <option value="high">High (3+ hours)</option>
+    </select></div>
+  </div>
+
+  <!-- Q21 -->
+  <div class="step" data-step="21">
+    <div class="step-number">Question 21 of 26 · Sleep Environment</div>
+    <div class="question">Bedroom temperature?</div>
+    <div class="sub-question">How does your room feel at night?</div>
+    <div class="select-container"><select id="q21">
+      <option value="cool" selected>Cool (60–67°F / 15–19°C)</option>
+      <option value="neutral">Neutral (68–72°F / 20–22°C)</option>
+      <option value="warm">Warm (73°F+ / 23°C+)</option>
+    </select></div>
+  </div>
+
+  <!-- Q22 -->
+  <div class="step" data-step="22">
+    <div class="step-number">Question 22 of 26 · Sleep Environment</div>
+    <div class="question">Darkness level?</div>
+    <div class="sub-question">How dark is your bedroom when you sleep?</div>
+    <div class="select-container"><select id="q22">
+      <option value="dark" selected>Complete darkness</option>
+      <option value="some">Some light (clock, windows)</option>
+      <option value="bright">Significant light pollution</option>
+    </select></div>
+  </div>
+
+  <!-- Q23 -->
+  <div class="step" data-step="23">
+    <div class="step-number">Question 23 of 26 · Sleep Environment</div>
+    <div class="question">Alcohol within 3 hours of bed?</div>
+    <div class="sub-question">Nightcap or evening drinks</div>
+    <div class="select-container"><select id="q23">
+      <option value="never" selected>Never</option>
+      <option value="sometimes">Sometimes</option>
+      <option value="often">Often</option>
+    </select></div>
+  </div>
+
+  <!-- Q24 -->
+  <div class="step" data-step="24">
+    <div class="step-number">Question 24 of 26 · Goals</div>
+    <div class="question">Desired weekday wake time?</div>
+    <div class="sub-question">If you could choose your ideal schedule</div>
+    <div class="time-wheel-container" data-q="24">
+      <div class="wheel-wrapper"><div class="wheel" id="q24-h">
+        <div class="wheel-item" data-val="12">12</div>
+        <div class="wheel-item" data-val="1">1</div>
+        <div class="wheel-item" data-val="2">2</div>
+        <div class="wheel-item" data-val="3">3</div>
+        <div class="wheel-item" data-val="4">4</div>
+        <div class="wheel-item selected" data-val="5">5</div>
+        <div class="wheel-item" data-val="6">6</div>
+        <div class="wheel-item" data-val="7">7</div>
+        <div class="wheel-item" data-val="8">8</div>
+        <div class="wheel-item" data-val="9">9</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="11">11</div>
+      </div></div>
+      <div class="separator">:</div>
+      <div class="wheel-wrapper"><div class="wheel" id="q24-m">
+        <div class="wheel-item selected" data-val="0">00</div>
+        <div class="wheel-item" data-val="5">05</div>
+        <div class="wheel-item" data-val="10">10</div>
+        <div class="wheel-item" data-val="15">15</div>
+        <div class="wheel-item" data-val="20">20</div>
+        <div class="wheel-item" data-val="25">25</div>
+        <div class="wheel-item" data-val="30">30</div>
+        <div class="wheel-item" data-val="35">35</div>
+        <div class="wheel-item" data-val="40">40</div>
+        <div class="wheel-item" data-val="45">45</div>
+        <div class="wheel-item" data-val="50">50</div>
+        <div class="wheel-item" data-val="55">55</div>
+      </div></div>
+      <div class="wheel-wrapper" style="width:68px;"><div class="wheel" id="q24-ampm">
+        <div class="wheel-item selected" data-val="AM">AM</div>
+        <div class="wheel-item" data-val="PM">PM</div>
+      </div></div>
+      <div class="selection-indicator"></div>
+    </div>
+  </div>
+
+  <!-- Q25 -->
+  <div class="step" data-step="25">
+    <div class="step-number">Question 25 of 26 · Goals</div>
+    <div class="question">Willingness to shift your schedule?</div>
+    <div class="sub-question">How much can you adjust your current routine?</div>
+    <div class="select-container"><select id="q25">
+      <option value="small">Small shifts only</option>
+      <option value="moderate" selected>Moderate (30–60 min)</option>
+      <option value="aggressive">Aggressive (60+ min)</option>
+    </select></div>
+  </div>
+
+  <!-- Q26 -->
+  <div class="step" data-step="26">
+    <div class="step-number">Question 26 of 26 · Goals</div>
+    <div class="question">Post-wake constraints?</div>
+    <div class="sub-question">Family or work demands immediately after waking</div>
+    <div class="select-container"><select id="q26">
+      <option value="none" selected>None — easy mornings</option>
+      <option value="some">Some demands</option>
+      <option value="high">High pressure immediately</option>
+    </select></div>
+  </div>
+
+</div><!-- end #questionArea -->
+
+<!-- RESULTS (outside questionArea!) -->
+<div id="resultsArea">
+  <div class="results-header">
+    <h2>📊 Your Personalized Sleep Plan</h2>
+    <p>Based on Daniel Pink's chronotype research &amp; MCTQ methodology</p>
+  </div>
+
+  <div class="chronotype-card" id="chronotypeCard">
+    <div class="chronotype-icon" id="typeIcon">🌙</div>
+    <div class="chronotype-title" id="typeTitle">Analyzing...</div>
+    <div class="chronotype-meta" id="typeDesc">Calculating your biological clock profile</div>
+  </div>
+
+  <div class="section-title">⏰ Optimal Schedule</div>
+  <div class="schedule-grid">
+    <div class="schedule-item"><div class="schedule-time" id="optBed">--:--</div><div class="schedule-label">Ideal Bedtime</div></div>
+    <div class="schedule-item"><div class="schedule-time" id="optWake">--:--</div><div class="schedule-label">Ideal Wake</div></div>
+    <div class="schedule-item"><div class="schedule-time" id="targetBed">--:--</div><div class="schedule-label">Target Bedtime (Work Days)</div></div>
+    <div class="schedule-item"><div class="schedule-time" id="midSleep">--:--</div><div class="schedule-label">Mid-Sleep Point (MSF)</div></div>
+    <div class="schedule-item"><div class="schedule-time" id="windDown">--:--</div><div class="schedule-label">Wind-Down Starts</div></div>
+    <div class="schedule-item"><div class="schedule-time" id="caffeineCutoff">--:--</div><div class="schedule-label">Caffeine Cutoff</div></div>
+  </div>
+
+  <div class="section-title">🎯 Chronotype Strategy</div>
+  <div id="strategyContent"></div>
+
+  <div class="section-title">⚠️ Personalized Alerts</div>
+  <div id="insightsContent"></div>
+
+  <div class="section-title">📚 The Science</div>
+  <div class="insight info" id="scienceContent"></div>
+
+  <div class="references" id="referencesContent"></div>
+
+  <button class="restart-btn" onclick="location.reload()">↩ Start New Assessment</button>
+</div>
+
+<!-- NAV -->
+<div class="nav-buttons" id="navButtons">
+  <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()" style="display:none">← Back</button>
+  <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next →</button>
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 26;
+const answers = {};
+
+/* ── Wheel: click to select ── */
+function initWheels(){
+  document.querySelectorAll('.wheel-item').forEach(item => {
+    item.addEventListener('click', function(){
+      const wheel = this.parentElement;
+      wheel.querySelectorAll('.wheel-item').forEach(i => i.classList.remove('selected'));
+      this.classList.add('selected');
+      const wRect = wheel.getBoundingClientRect();
+      const iRect = this.getBoundingClientRect();
+      const top = wheel.scrollTop + (iRect.top - wRect.top) - (wRect.height / 2) + (iRect.height / 2);
+      wheel.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+}
+
+/* ── Wheel: scroll snapping → update selected ── */
+function bindScrollSelection(){
+  document.querySelectorAll('.wheel').forEach(wheel => {
+    wheel.addEventListener('scroll', () => {
+      const center = wheel.scrollTop + wheel.clientHeight / 2;
+      let closest = null, minDist = Infinity;
+      wheel.querySelectorAll('.wheel-item').forEach(item => {
+        const itemCenter = item.offsetTop + item.offsetHeight / 2;
+        const dist = Math.abs(center - itemCenter);
+        if(dist < minDist){ minDist = dist; closest = item; }
+      });
+      if(closest){
+        wheel.querySelectorAll('.wheel-item').forEach(i => i.classList.remove('selected'));
+        closest.classList.add('selected');
+      }
+    });
+  });
+}
+
+/* ── Read wheel value for a question number ── */
+function getWheelValue(qNum){
+  const hEl   = document.querySelector(`#q${qNum}-h .selected`);
+  const mEl   = document.querySelector(`#q${qNum}-m .selected`);
+  const amEl  = document.querySelector(`#q${qNum}-ampm .selected`);
+  let h = hEl   ? parseInt(hEl.dataset.val)   : 6;
+  let mn = mEl  ? parseInt(mEl.dataset.val)   : 0;
+  const ap = amEl ? amEl.dataset.val : 'AM';
+  if(ap === 'PM' && h !== 12) h += 12;
+  if(ap === 'AM' && h === 12) h = 0;
+  return `${String(h).padStart(2,'0')}:${String(mn).padStart(2,'0')}`;
+}
+
+/* ── Save current step ── */
+function saveCurrentStep(){
+  const timeSteps = [1, 2, 14, 18, 24];
+  const numSteps  = [4, 5, 6, 17];
+  if(timeSteps.includes(currentStep)){
+    answers[`q${currentStep}`] = getWheelValue(currentStep);
+  } else if(numSteps.includes(currentStep)){
+    const el = document.getElementById(`q${currentStep}`);
+    answers[`q${currentStep}`] = currentStep === 17 ? parseInt(el.value) : parseFloat(el.value);
+  } else {
+    const el = document.getElementById(`q${currentStep}`);
+    if(el) answers[`q${currentStep}`] = el.value;
+  }
+}
+
+/* ── Navigation ── */
+function nextStep(){
+  saveCurrentStep();
+  if(currentStep < totalSteps){
+    currentStep++;
+    showStep(currentStep);
+    updateProgress();
+    updateNav();
+  } else {
+    showResults();
+  }
+}
+
+function prevStep(){
+  if(currentStep > 1){
+    currentStep--;
+    showStep(currentStep);
+    updateProgress();
+    updateNav();
+  }
+}
+
+function showStep(step){
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const t = document.querySelector(`.step[data-step="${step}"]`);
+  if(t) t.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(){
+  document.getElementById('progressBar').style.width = (currentStep / totalSteps * 100) + '%';
+}
+
+function updateNav(){
+  document.getElementById('prevBtn').style.display = currentStep === 1 ? 'none' : 'flex';
+  document.getElementById('nextBtn').textContent = currentStep === totalSteps ? '🎯 Get Results' : 'Next →';
+}
+
+/* ── Time helpers ── */
+function toMin(t){
+  const [h, m] = t.split(':').map(Number);
+  return h * 60 + m;
+}
+function fromMin(x){
+  x = ((x % 1440) + 1440) % 1440;
+  const h = Math.floor(x / 60), m = x % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+function fmt12(t){
+  let [h, m] = t.split(':').map(Number);
+  const ap = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${String(m).padStart(2,'0')} ${ap}`;
+}
+
+/* ── RESULTS ── */
+function showResults(){
+  // Hide question UI
+  document.getElementById('questionArea').style.display = 'none';
+  document.getElementById('navButtons').style.display = 'none';
+  document.getElementById('mainHeader').style.display = 'none';
+  document.querySelector('.progress-container').style.display = 'none';
+
+  // Show results
+  const ra = document.getElementById('resultsArea');
+  ra.classList.add('active');
+  window.scrollTo(0, 0);
+
+  calculateResults();
+}
+
+function calculateResults(){
+  const a = answers;
+
+  // MSF calculation (MCTQ)
+  const freeBedMin  = toMin(a.q14 || '23:00');
+  const freeWakeMin = toMin(a.q2  || '07:00');
+  let dur = (freeWakeMin - freeBedMin + 1440) % 1440;
+  if(dur < 180) dur += 1440; // if woke before bed somehow, add day
+  const msfMin = (freeBedMin + dur / 2) % 1440;
+  const msfHour = msfMin / 60;
+
+  // Determine chronotype
+  let type, icon, title, desc, idealBed, idealWake, strategy, pinkStrategy;
+
+  const hasEveningPeak = a.q11 === 'evening' || a.q10 === 'strong';
+  const hasMorningPeak = a.q11 === 'morning';
+  const isPoorSleeper  = a.q7 === 'many' || a.q8 === 'no' || a.q16 === 'yes';
+
+  if((msfHour <= 3.0 || hasMorningPeak) && !hasEveningPeak){
+    type='lion'; icon='🦁'; title='Lion (Early Bird)';
+    desc='~15% of the population. Natural early riser with analytical morning peaks. Your brain is wired for dawn productivity — society was built for you.';
+    idealBed='21:00'; idealWake='05:30';
+    strategy='Schedule analytical and high-stakes work 8–11am. Your trough hits 2–4pm — avoid major decisions then. Light creative or social work 5–7pm. You align well with societal norms but often push too hard in the evenings.';
+    pinkStrategy='As a Lark, your day follows a clear Peak → Trough → Recovery arc. Do analytical work 8–11am, administrative tasks 1–3pm, creative/insight work 5–7pm. Pink (2018) notes this alignment gives you a 20–30% cognitive advantage when properly synced.';
+  } else if(msfHour >= 5.5 || hasEveningPeak){
+    type='wolf'; icon='🐺'; title='Wolf (Night Owl)';
+    desc='~20% of the population. Late chronotype with evening creativity bursts. Your brain hits peak performance when most others are winding down.';
+    idealBed='00:00'; idealWake='08:00';
+    strategy='Protect 4–8pm for deep work. Morning is for routine only — email, light admin, and exercise. Negotiate flexible hours where possible. Your "second wind" is real; channel it into creative tasks, not passive screen time.';
+    pinkStrategy='As an Owl, your schedule is inverted: Peak is 4–8pm. Request flexible start times when possible. Avoid critical meetings before noon. Pink (2018) notes Owls face societal misalignment but hold creative advantages in off-hours.';
+  } else if(isPoorSleeper){
+    type='dolphin'; icon='🐬'; title='Dolphin (Light Sleeper)';
+    desc='~10% of the population. Anxious, hyperaroused sleepers. Sleep is fragile, but intelligence and drive are characteristically high.';
+    idealBed='23:30'; idealWake='06:30';
+    strategy='Strict sleep hygiene is non-negotiable. Use a worry journal 30 min before bed. Schedule your most important tasks during confirmed energy windows (typically 10am–2pm). Avoid daytime naps as they fragment your already fragile sleep architecture.';
+    pinkStrategy='Dolphins have unpredictable energy windows. Track patterns for 2 weeks to identify personal micro-peaks. Breus (2016) recommends strict environmental control and consistent scheduling above all else.';
+  } else {
+    type='bear'; icon='🐻'; title='Bear (Solar Sleeper)';
+    desc='~50% of the population. Solar-aligned and most adaptable to standard 9–5 schedules. Your sleep drive closely follows the rise and fall of the sun.';
+    idealBed='23:00'; idealWake='07:00';
+    strategy='Follow the standard Peak → Trough → Rebound arc: analytical tasks 9am–1pm, admin 1–3pm, creative work 4–7pm. You need a solid 8 hours — this is your single biggest lever. Afternoon coffee before 2pm is your friend.';
+    pinkStrategy='As a Third Bird (Bear), follow the standard cognitive arc. Analytical morning, administrative afternoon, insight and creative evening. Pink (2018) identifies this as the most common pattern and the one most rewarded by conventional work structures.';
+  }
+
+  const targetWakeMin = toMin(a.q24 || a.q1 || '06:00');
+  const idealHours    = parseFloat(a.q5) || 7.5;
+  const currentHours  = parseFloat(a.q6) || 6.5;
+  const targetBedMin  = targetWakeMin - idealHours * 60;
+  const windDownMin   = targetBedMin - 45;
+  const cutoffMin     = targetBedMin - 480; // 8h before bed
+
+  // Update DOM
+  const card = document.getElementById('chronotypeCard');
+  card.className = 'chronotype-card ' + type;
+  document.getElementById('typeIcon').textContent = icon;
+  document.getElementById('typeTitle').textContent = title;
+  document.getElementById('typeDesc').textContent = desc;
+
+  document.getElementById('optBed').textContent        = fmt12(idealBed);
+  document.getElementById('optWake').textContent       = fmt12(idealWake);
+  document.getElementById('targetBed').textContent     = fmt12(fromMin(targetBedMin));
+  document.getElementById('midSleep').textContent      = fmt12(fromMin(msfMin));
+  document.getElementById('windDown').textContent      = fmt12(fromMin(windDownMin));
+  document.getElementById('caffeineCutoff').textContent = fmt12(fromMin(cutoffMin));
+
+  const deficit = (idealHours - currentHours).toFixed(1);
+  document.getElementById('strategyContent').innerHTML = `
+    <div class="insight info">
+      <strong>Daniel Pink's "When" Framework</strong>
+      ${pinkStrategy}
+    </div>
+    <div class="insight">
+      <strong>Chronotype-Specific Tactics</strong>
+      ${strategy}
+    </div>
+    <div class="insight ${parseFloat(deficit) > 1 ? 'warn' : 'good'}">
+      <strong>Sleep Need Analysis</strong>
+      You require ${idealHours}h. Currently getting ${currentHours}h —
+      ${parseFloat(deficit) > 0
+        ? `a deficit of ${deficit}h per night. Over a week this accumulates ${(parseFloat(deficit)*7).toFixed(1)}h of sleep debt.`
+        : 'you\'re meeting your sleep need. Maintain this consistency.'}
+    </div>
+  `;
+
+  // Insights
+  let insights = [];
+
+  // Social jetlag
+  const workWakeMin = toMin(a.q1 || '06:00');
+  const freeWakeM   = toMin(a.q2 || '07:00');
+  const jetlag = Math.abs(freeWakeM - workWakeMin);
+  if(jetlag > 90){
+    insights.push(`<div class="insight warn"><strong>⚡ Social Jetlag Alert</strong>Your weekend wake time differs by ${(jetlag/60).toFixed(1)}h from work days. This weekly "time-zone travel" disrupts circadian rhythms. Roenneberg et al. (2012) links social jetlag &gt;1h to elevated obesity and metabolic risk. Try to keep the difference under 60 min.</div>`);
+  } else if(jetlag < 30){
+    insights.push(`<div class="insight good"><strong>✅ Excellent Consistency</strong>Your weekend alignment is within 30 minutes of your weekday schedule. This strengthens circadian entrainment and improves sleep quality.</div>`);
+  }
+
+  if(a.q3 === 'often'){
+    insights.push(`<div class="insight warn"><strong>⚡ Snooze Fragmentation</strong>Hitting snooze for ${a.q4 || 10} minutes creates fragmented sleep architecture. Each alarm interrupts REM or light-sleep cycles. Set your alarm for the latest possible time and rise immediately.</div>`);
+  }
+
+  if(a.q20 === 'high'){
+    insights.push(`<div class="insight warn"><strong>📱 Blue Light Suppression</strong>3+ hours of evening screens suppresses melatonin production by up to 50% (Chang et al., 2015). Implement a 90-min screen curfew or use blue-blocking lenses after 8pm.</div>`);
+  }
+
+  if(a.q23 === 'often'){
+    insights.push(`<div class="insight warn"><strong>🍷 Alcohol &amp; REM Sleep</strong>Regular nightcaps fragment REM sleep and reduce overall sleep quality by ~9% (Roehrs &amp; Roth, 2001). If drinking, finish at least 3 hours before bed to allow alcohol to metabolize.</div>`);
+  }
+
+  if(a.q19 === 'late'){
+    insights.push(`<div class="insight warn"><strong>🏋️ Late Exercise</strong>Post-8pm workouts elevate core body temperature, delaying sleep onset by 1–2 hours (Flausino et al., 2012). Shift workouts to 4–6pm for optimal recovery and sleep quality.</div>`);
+  }
+
+  // Caffeine gap check
+  const lastCaffM = toMin(a.q18 || '14:00');
+  const bedTargetM = ((targetBedMin % 1440) + 1440) % 1440;
+  let cafGap = (bedTargetM - lastCaffM + 1440) % 1440 / 60;
+  if(cafGap < 8){
+    insights.push(`<div class="insight warn"><strong>☕ Caffeine Timing</strong>Your last caffeine is only ${cafGap.toFixed(1)}h before bed. With a 5–7h half-life (Drake et al., 2013), this disrupts deep (N3) sleep even if you fall asleep fine. Move your cutoff to ${fmt12(fromMin(cutoffMin))}.</div>`);
+  } else {
+    insights.push(`<div class="insight good"><strong>✅ Good Caffeine Timing</strong>Your ${cafGap.toFixed(1)}h caffeine buffer before bed is solid. This allows most caffeine to clear before sleep onset.</div>`);
+  }
+
+  if(a.q21 === 'warm'){
+    insights.push(`<div class="insight warn"><strong>🌡️ Thermal Environment</strong>Rooms above 72°F inhibit sleep onset. Core body temperature must drop ~2°F to initiate sleep. Cool to 65°F / 18°C for optimal conditions (Harding et al., 2019).</div>`);
+  }
+
+  if(a.q22 === 'bright'){
+    insights.push(`<div class="insight warn"><strong>💡 Light Pollution</strong>Even small light sources suppress melatonin production at night. Use blackout curtains or a sleep mask (Gooley et al., 2011). Every photon counts.</div>`);
+  }
+
+  if(a.q7 === 'many' || a.q8 === 'no'){
+    insights.push(`<div class="insight warn"><strong>🔁 Sleep Maintenance Issues</strong>Frequent awakenings suggest hyperarousal or insufficient sleep pressure. Try magnesium glycinate (400mg) 30 min before bed and keep the bedroom strictly for sleep — no screens, no work (stimulus control therapy).</div>`);
+  }
+
+  if(a.q16 === 'yes'){
+    insights.push(`<div class="insight warn"><strong>⏰ 2–4am Waking Pattern</strong>Regular middle-of-night waking can indicate cortisol dysregulation or blood sugar drops. Try a small protein snack before bed (handful of almonds or walnuts) and evaluate overall stress load.</div>`);
+  }
+
+  if(insights.length === 0){
+    insights.push(`<div class="insight good"><strong>✅ Strong Sleep Profile</strong>Your sleep hygiene indicators look solid. Focus on consistency with your ${title} schedule for the best results.</div>`);
+  }
+
+  document.getElementById('insightsContent').innerHTML = insights.join('');
+
+  document.getElementById('scienceContent').innerHTML = `
+    <strong>Your Mid-Sleep Point (MSF): ${fmt12(fromMin(msfMin))}</strong><br><br>
+    Calculated using the Munich Chronotype Questionnaire (MCTQ) method: the midpoint between free-day sleep onset and wake time. MSF is the gold-standard measure for chronotype classification (Roenneberg et al., 2003).<br><br>
+    <strong>Population Distribution:</strong> Lions ~15% · Bears ~50% · Wolves ~20% · Dolphins ~10% (Breus, 2016).<br><br>
+    <strong>Biological Reality:</strong> Chronotype is approximately 50% genetic (Archer et al., 2003). You cannot will yourself into a different chronotype — but you can optimize performance, health, and energy by working within yours.
+  `;
+
+  document.getElementById('referencesContent').innerHTML = `
+    <strong>References</strong>
+    • Pink, D. H. (2018). <em>When: The Scientific Secrets of Perfect Timing</em>. Riverhead Books.<br>
+    • Breus, M. (2016). <em>The Power of When</em>. Little, Brown and Company.<br>
+    • Roenneberg, T., et al. (2003). "The Munich ChronoType Questionnaire (MCTQ)." <em>Journal of Biological Rhythms</em>.<br>
+    • Roenneberg, T., et al. (2012). "Social jetlag and obesity." <em>Current Biology</em>.<br>
+    • Chang, A. M., et al. (2015). "Evening use of light-emitting eReaders negatively affects sleep." <em>PNAS</em>.<br>
+    • Drake, C., et al. (2013). "Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed." <em>Journal of Clinical Sleep Medicine</em>.<br>
+    • Harding, E. C., et al. (2019). "The temperature dependence of sleep." <em>Frontiers in Neuroscience</em>.<br>
+    • Flausino, N., et al. (2012). "Physical exercise performed before bedtime improves the sleep pattern." <em>Brazilian Journal of Medical and Biological Research</em>.
+  `;
+}
+
+// Init
+initWheels();
+bindScrollSelection();
+updateProgress();
+updateNav();
+</script>
+</body>
+</html>
