@@ -283,6 +283,82 @@ cursor:pointer;transition:all 0.2s;
 .time-wheel-container{transform:scale(0.88);gap:6px;}
 .wheel-wrapper{width:72px;}
 }
+
+/* ── RAMP-UP PLAN ── */
+.plan-picker{
+  display:flex;gap:10px;margin:16px 0 24px;flex-wrap:wrap;
+}
+.plan-btn{
+  flex:1;min-width:120px;padding:14px 10px;border-radius:14px;
+  border:1.5px solid var(--border);background:var(--card);
+  color:var(--muted);font-family:'Space Grotesk',sans-serif;
+  font-size:0.85rem;font-weight:600;cursor:pointer;
+  transition:all 0.2s;text-align:center;line-height:1.4;
+}
+.plan-btn:hover{border-color:var(--accent);color:var(--text);}
+.plan-btn.active{
+  border-color:var(--accent);background:rgba(79,195,247,0.1);
+  color:var(--accent);box-shadow:0 0 0 3px rgba(79,195,247,0.08);
+}
+.plan-btn .plan-label{font-size:1rem;margin-bottom:3px;}
+.plan-btn .plan-sub{font-size:0.72rem;opacity:0.8;}
+
+.ramp-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.82rem;}
+.ramp-table thead tr{
+  background:var(--soft);
+}
+.ramp-table th{
+  padding:10px 8px;text-align:center;color:var(--muted);
+  font-size:0.7rem;letter-spacing:1px;text-transform:uppercase;
+  border-bottom:1px solid var(--border);font-weight:600;
+}
+.ramp-table th:first-child{text-align:left;padding-left:12px;}
+.ramp-table td{
+  padding:10px 8px;text-align:center;border-bottom:1px solid rgba(26,48,80,0.6);
+  vertical-align:middle;
+}
+.ramp-table td:first-child{text-align:left;padding-left:12px;}
+.ramp-table tr:last-child td{border-bottom:none;}
+.ramp-table tr.target-row td{
+  background:rgba(79,195,247,0.06);font-weight:700;
+}
+.ramp-table tr.target-row td:first-child .day-badge{
+  background:var(--accent);color:#040812;
+}
+.day-badge{
+  display:inline-block;background:var(--soft);border:1px solid var(--border);
+  color:var(--muted);font-size:0.7rem;font-weight:700;
+  padding:2px 7px;border-radius:6px;margin-bottom:3px;letter-spacing:0.5px;
+}
+.day-name{font-size:0.8rem;color:var(--text);}
+.time-pill{
+  display:inline-block;font-size:0.82rem;font-weight:700;
+  font-family:'Syne',sans-serif;color:var(--text);
+}
+.time-pill.screens{color:#f472b6;}
+.time-pill.brain{color:var(--accent2);}
+.time-pill.bed{color:var(--accent);}
+.time-pill.wake{color:var(--good);}
+.time-pill.target{color:var(--lion);}
+
+.ramp-legend{
+  display:flex;flex-wrap:wrap;gap:12px;margin:12px 0 20px;
+  font-size:0.75rem;
+}
+.legend-item{display:flex;align-items:center;gap:5px;color:var(--muted);}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+.ramp-note{
+  padding:14px 16px;background:var(--card);border-radius:12px;
+  border:1px solid var(--border);font-size:0.82rem;
+  color:var(--muted);line-height:1.6;margin-top:16px;
+}
+.ramp-note strong{color:var(--text);}
+
+.shift-indicator{
+  font-size:0.68rem;color:var(--muted);margin-top:2px;
+}
+
 </style>
 </head>
 <body>
@@ -303,8 +379,8 @@ cursor:pointer;transition:all 0.2s;
   <!-- Q1 -->
   <div class="step active" data-step="1">
     <div class="step-number">Question 1 of 26 · Schedule Anchors</div>
-    <div class="question">Required weekday wake time?</div>
-    <div class="sub-question">What time does your alarm go off?</div>
+    <div class="question">What time do you wake up now?</div>
+    <div class="sub-question">Your current weekday alarm — where you're starting from</div>
     <div class="time-wheel-container" data-q="1">
       <div class="wheel-wrapper"><div class="wheel" id="q1-h">
         <div class="wheel-item" data-val="12">12</div>
@@ -698,8 +774,8 @@ cursor:pointer;transition:all 0.2s;
   <!-- Q24 -->
   <div class="step" data-step="24">
     <div class="step-number">Question 24 of 26 · Goals</div>
-    <div class="question">Desired weekday wake time?</div>
-    <div class="sub-question">If you could choose your ideal schedule</div>
+    <div class="question">What time do you want to wake up?</div>
+    <div class="sub-question">Your goal — the ramp plan will shift you from Q1 to here</div>
     <div class="time-wheel-container" data-q="24">
       <div class="wheel-wrapper"><div class="wheel" id="q24-h">
         <div class="wheel-item" data-val="12">12</div>
@@ -798,6 +874,29 @@ cursor:pointer;transition:all 0.2s;
 
   <div class="references" id="referencesContent"></div>
 
+
+  <div class="section-title">📅 Sleep Shift Ramp-Up Plan</div>
+  <div style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;line-height:1.5;">
+    Your circadian clock can safely shift ~15 minutes per day. Choose a pace below and get a personalized day-by-day schedule showing exactly when to cut screens, offload your brain, get into bed, and wake up — all stepping toward your target wake time.
+  </div>
+
+  <div class="plan-picker" id="planPicker">
+    <button class="plan-btn" data-days="7" onclick="buildRampPlan(7, this)">
+      <div class="plan-label">⚡ 7-Day</div>
+      <div class="plan-sub">Aggressive<br>~15–20 min/day</div>
+    </button>
+    <button class="plan-btn" data-days="10" onclick="buildRampPlan(10, this)">
+      <div class="plan-label">⚖️ 10-Day</div>
+      <div class="plan-sub">Balanced<br>~10–15 min/day</div>
+    </button>
+    <button class="plan-btn" data-days="14" onclick="buildRampPlan(14, this)">
+      <div class="plan-label">🌱 14-Day</div>
+      <div class="plan-sub">Gentle<br>~7–10 min/day</div>
+    </button>
+  </div>
+
+  <div id="rampPlanOutput"></div>
+
   <button class="restart-btn" onclick="location.reload()">↩ Start New Assessment</button>
 </div>
 
@@ -811,6 +910,7 @@ cursor:pointer;transition:all 0.2s;
 let currentStep = 1;
 const totalSteps = 26;
 const answers = {};
+let userSleepNeed = 7.5;  // set by calculateResults, read by buildRampPlan
 
 /* ── Wheel: click to select ── */
 function initWheels(){
@@ -831,6 +931,10 @@ function initWheels(){
 function bindScrollSelection(){
   document.querySelectorAll('.wheel').forEach(wheel => {
     wheel.addEventListener('scroll', () => {
+      // Guard: only update selection when the wheel is actually visible.
+      // Hidden wheels (display:none parent steps) have clientHeight=0 and
+      // produce wrong center calculations that corrupt the HTML defaults.
+      if(wheel.clientHeight < 50) return;
       const center = wheel.scrollTop + wheel.clientHeight / 2;
       let closest = null, minDist = Infinity;
       wheel.querySelectorAll('.wheel-item').forEach(item => {
@@ -899,7 +1003,14 @@ function prevStep(){
 function showStep(step){
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   const t = document.querySelector(`.step[data-step="${step}"]`);
-  if(t) t.classList.add('active');
+  if(t){
+    t.classList.add('active');
+    // Now that the step is visible, scroll its wheels to selected items.
+    // Use rAF so the browser has painted and clientHeight is correct.
+    requestAnimationFrame(() => {
+      t.querySelectorAll('.wheel').forEach(scrollWheelToSelected);
+    });
+  }
   window.scrollTo(0, 0);
 }
 
@@ -948,53 +1059,96 @@ function showResults(){
 function calculateResults(){
   const a = answers;
 
-  // MSF calculation (MCTQ)
+  // ── MSF Calculation (MCTQ / Roenneberg method) ──────────────────────────
+  // Mid-Sleep on Free days = midpoint between free-day sleep onset & wake time
   const freeBedMin  = toMin(a.q14 || '23:00');
   const freeWakeMin = toMin(a.q2  || '07:00');
-  let dur = (freeWakeMin - freeBedMin + 1440) % 1440;
-  if(dur < 180) dur += 1440; // if woke before bed somehow, add day
-  const msfMin = (freeBedMin + dur / 2) % 1440;
-  const msfHour = msfMin / 60;
+  let freeDur = (freeWakeMin - freeBedMin + 1440) % 1440;
+  if(freeDur < 180) freeDur += 1440; // wrap: if raw diff < 3h, add a day
+  const msfMin  = (freeBedMin + freeDur / 2) % 1440;
+  const msfHour = msfMin / 60; // e.g. 3.0 = 3:00 AM
 
-  // Determine chronotype
-  let type, icon, title, desc, idealBed, idealWake, strategy, pinkStrategy;
+  // ── Dolphin detection ───────────────────────────────────────────────────
+  // Dolphin is defined by SLEEP QUALITY signals, not timing.
+  // It overrides the MSF-based Lion/Bear/Wolf classification.
+  // Key signals: frequent night wakings + trouble falling back asleep,
+  // OR regular 2-4am waking, OR highly fragmented sleep.
+  const dolphinScore =
+    (a.q7  === 'many'     ? 2 : a.q7 === '2-3' ? 1 : 0) +
+    (a.q8  === 'no'       ? 2 : a.q8 === 'variable' ? 1 : 0) +
+    (a.q16 === 'yes'      ? 2 : a.q16 === 'sometimes' ? 1 : 0) +
+    (a.q15 === 'slow'     ? 1 : 0) +
+    (a.q12 === 'foggy'    ? 1 : 0);
+  const isDolphin = dolphinScore >= 4;
+
+  // ── MSF thresholds (calibrated to Breus/Roenneberg research) ────────────
+  // Lion:  MSF ≤ 2:00 AM  (free sleep midpoint before 2am = very early type)
+  //        e.g. bed 9pm, wake 5am → sleep 8h → MSF = 9pm + 4h = 1:00 AM ✓
+  // Bear:  MSF 2:00-5:00 AM  (majority, solar-aligned)
+  //        e.g. bed 11pm, wake 7am → MSF = 11pm + 4h = 3:00 AM ✓
+  // Wolf:  MSF ≥ 5:00 AM  (late type)
+  //        e.g. bed 12:30am, wake 8am → MSF = 12:30am + 3.75h = 4:15 AM → Bear
+  //        e.g. bed 1:00am, wake 9am → MSF = 1am + 4h = 5:00 AM → Wolf ✓
+  // Supplementary signals adjust the threshold by ±1 tier when ambiguous.
 
   const hasEveningPeak = a.q11 === 'evening' || a.q10 === 'strong';
   const hasMorningPeak = a.q11 === 'morning';
-  const isPoorSleeper  = a.q7 === 'many' || a.q8 === 'no' || a.q16 === 'yes';
+  // Shift willingness signals: unconstrained sleep-in = later chronotype
+  const sleepsLate   = a.q13 === '120';
+  const sleepsEarly  = a.q13 === 'none';
 
-  if((msfHour <= 3.0 || hasMorningPeak) && !hasEveningPeak){
-    type='lion'; icon='🦁'; title='Lion (Early Bird)';
-    desc='~15% of the population. Natural early riser with analytical morning peaks. Your brain is wired for dawn productivity — society was built for you.';
-    idealBed='21:00'; idealWake='05:30';
-    strategy='Schedule analytical and high-stakes work 8–11am. Your trough hits 2–4pm — avoid major decisions then. Light creative or social work 5–7pm. You align well with societal norms but often push too hard in the evenings.';
-    pinkStrategy='As a Lark, your day follows a clear Peak → Trough → Recovery arc. Do analytical work 8–11am, administrative tasks 1–3pm, creative/insight work 5–7pm. Pink (2018) notes this alignment gives you a 20–30% cognitive advantage when properly synced.';
-  } else if(msfHour >= 5.5 || hasEveningPeak){
-    type='wolf'; icon='🐺'; title='Wolf (Night Owl)';
-    desc='~20% of the population. Late chronotype with evening creativity bursts. Your brain hits peak performance when most others are winding down.';
-    idealBed='00:00'; idealWake='08:00';
-    strategy='Protect 4–8pm for deep work. Morning is for routine only — email, light admin, and exercise. Negotiate flexible hours where possible. Your "second wind" is real; channel it into creative tasks, not passive screen time.';
-    pinkStrategy='As an Owl, your schedule is inverted: Peak is 4–8pm. Request flexible start times when possible. Avoid critical meetings before noon. Pink (2018) notes Owls face societal misalignment but hold creative advantages in off-hours.';
-  } else if(isPoorSleeper){
-    type='dolphin'; icon='🐬'; title='Dolphin (Light Sleeper)';
-    desc='~10% of the population. Anxious, hyperaroused sleepers. Sleep is fragile, but intelligence and drive are characteristically high.';
-    idealBed='23:30'; idealWake='06:30';
-    strategy='Strict sleep hygiene is non-negotiable. Use a worry journal 30 min before bed. Schedule your most important tasks during confirmed energy windows (typically 10am–2pm). Avoid daytime naps as they fragment your already fragile sleep architecture.';
-    pinkStrategy='Dolphins have unpredictable energy windows. Track patterns for 2 weeks to identify personal micro-peaks. Breus (2016) recommends strict environmental control and consistent scheduling above all else.';
+  let type, icon, title, desc, idealBed, idealWake, idealSleepH, strategy, pinkStrategy;
+
+  if(isDolphin){
+    // ── DOLPHIN ───────────────────────────────────────────────────────────
+    type='dolphin'; icon='🐬'; title='Dolphin';
+    desc="~10% of the population (Breus, 2016). You\'re a light, anxious sleeper with a hyperactive nervous system. Sleep doesn\'t come easily and rarely feels complete -- but Dolphins tend to be highly intelligent, detail-oriented, and driven.";
+    idealBed='23:30'; idealWake='06:30'; idealSleepH=6.5;
+    strategy='Your nervous system stays on high alert, so environment and routine are everything. Keep your bedroom for sleep only -- no screens, no work, no lying awake. If you haven\'t fallen asleep in 20 min, get up and do something quiet in dim light until you feel sleepy. Avoid naps -- they reduce the sleep pressure that makes nighttime sleep possible.';
+    pinkStrategy="Dolphins can\'t predict their peaks, so track your energy for 2 weeks to find personal micro-windows. Your best cognitive window is typically late morning to early afternoon (10am-2pm). Breus (2016) recommends that Dolphins front-load their day with low-stakes tasks to warm up, then tackle demanding work when clarity arrives around 10am.";
+
+  } else if(msfHour <= 2.0 || (msfHour <= 3.0 && hasMorningPeak && sleepsEarly)){
+    // ── LION ─────────────────────────────────────────────────────────────
+    // MSF ≤ 2:00 AM, or borderline-early + strong morning signals
+    type='lion'; icon='🦁'; title='Lion';
+    desc="~15% of the population (Breus, 2016). You\'re the natural early riser -- up before sunrise, brain firing on all cylinders before most people are awake. Lions are driven, organized, and most productive in the early morning hours. Society\'s schedule was built for you.";
+    idealBed='21:30'; idealWake='05:30'; idealSleepH=7.5;
+    // Breus: Lions & Bears = 5 cycles × 90min + 20min latency = 470min = 7.8h ≈ 7.5h
+    strategy='Your Peak is 6:00-11:00 AM -- guard this window fiercely for your most analytical, high-stakes work. Your Trough arrives early: 1:00-3:00 PM. Use it for admin, emails, and passive tasks. Your Recovery window is 3:00-6:00 PM -- good for insight work, brainstorming, and creative tasks when you\'ve loosened up mentally. After 8pm your cognitive function drops sharply; protect your sleep by going dark early.';
+    pinkStrategy='Pink (2018): Lions follow the standard Peak → Trough → Recovery arc, but earlier than Bears. Your analytical peak window (6am-noon) is your most valuable asset. Protect it from meetings and interruptions. Note: Pink recommends waiting 90 minutes after waking before your first coffee -- your cortisol is still rising at wake time and caffeine at that point blunts its effect.';
+
+  } else if(msfHour >= 5.0 || (msfHour >= 4.0 && hasEveningPeak && sleepsLate)){
+    // ── WOLF ─────────────────────────────────────────────────────────────
+    // MSF ≥ 5:00 AM, or borderline-late + strong evening signals
+    type='wolf'; icon='🐺'; title='Wolf';
+    desc="~15% of the population (Breus, 2016). You\'re the classic night owl -- biologically wired to sleep and wake later than society demands. Your brain comes alive in the afternoon and evening, and morning is essentially your \"night.\" Wolves are often creative, introverted, and independent.";
+    idealBed='00:00'; idealWake='07:30'; idealSleepH=7.0;
+    // Breus: Wolves = 4 cycles × 90min + 40min latency = 400min = 6.7h ≈ 7h
+    strategy='Your schedule is INVERTED from Lions and Bears. Morning is your Recovery (routine tasks only -- email, admin, light reading). Your first real Peak arrives noon-4:00 PM -- reserve this for deep work, creative output, and decisions. You get a second energy boost around 6:00 PM -- use it for creative projects, writing, or strategy. Avoid forcing deep work before 10am; it fights your biology and costs you quality.';
+    pinkStrategy='Pink (2018): Wolves follow a Recovery → Trough → Peak arc -- the reverse of the standard pattern. Your analytic window is afternoon, not morning. This is why standard 9am meetings feel punishing -- you\'re being asked to do analytical work during your biological Recovery phase. Negotiate later start times where possible. Like Lions, wait 90 min after waking before caffeine.';
+
   } else {
-    type='bear'; icon='🐻'; title='Bear (Solar Sleeper)';
-    desc='~50% of the population. Solar-aligned and most adaptable to standard 9–5 schedules. Your sleep drive closely follows the rise and fall of the sun.';
-    idealBed='23:00'; idealWake='07:00';
-    strategy='Follow the standard Peak → Trough → Rebound arc: analytical tasks 9am–1pm, admin 1–3pm, creative work 4–7pm. You need a solid 8 hours — this is your single biggest lever. Afternoon coffee before 2pm is your friend.';
-    pinkStrategy='As a Third Bird (Bear), follow the standard cognitive arc. Analytical morning, administrative afternoon, insight and creative evening. Pink (2018) identifies this as the most common pattern and the one most rewarded by conventional work structures.';
+    // ── BEAR ─────────────────────────────────────────────────────────────
+    // MSF 2:00-5:00 AM -- the majority, solar-aligned
+    type='bear'; icon='🐻'; title='Bear';
+    desc='~50% of the population (Breus, 2016). You follow the sun. Your circadian rhythm is closely aligned with the solar cycle, making you well-suited to standard work schedules. Bears are adaptable, social, and consistent -- but often shortchange sleep because they can "get away with it" for a while.';
+    idealBed='23:00'; idealWake='07:00'; idealSleepH=8.0;
+    // Breus: Bears = 5 cycles × 90min + 20min = 470min = 7.8h ≈ 8h; bed 11pm wake 7am
+    strategy='Your Peak is roughly 9:00 AM-1:00 PM -- the sweet spot for analytical work, complex decisions, and focused output. Your Trough hits 2:00-4:00 PM (the classic post-lunch slump) -- use this for admin, routine tasks, or a 20-min nap if possible. Your Recovery window is late afternoon into evening (4:00-7:00 PM) -- good for creative work, brainstorming, and social tasks. Bears most often underperform by cutting sleep short -- 8 hours is your baseline, not a luxury.';
+    pinkStrategy='Pink (2018): Bears follow the textbook Peak → Trough → Recovery arc that most scheduling advice is built around. Your risk is complacency -- you can function on less sleep but not optimally. Protecting 8 hours is your single biggest performance lever. Like Lions, wait 90 min after waking before your first coffee to let cortisol do its job first.';
   }
 
-  const targetWakeMin = toMin(a.q24 || a.q1 || '06:00');
-  const idealHours    = parseFloat(a.q5) || 7.5;
-  const currentHours  = parseFloat(a.q6) || 6.5;
-  const targetBedMin  = targetWakeMin - idealHours * 60;
-  const windDownMin   = targetBedMin - 45;
-  const cutoffMin     = targetBedMin - 480; // 8h before bed
+  // ── Schedule math ───────────────────────────────────────────────────────
+  // Use desired wake (q24) if set, else fall back to required wake (q1)
+  const targetWakeMin  = toMin(a.q24 || a.q1 || '06:00');
+  userSleepNeed  = parseFloat(a.q5) || idealSleepH;  // update module-level var
+  const currentHours   = parseFloat(a.q6) || 6.5;
+  const targetBedMin   = targetWakeMin - (userSleepNeed * 60);
+  const windDownMin    = targetBedMin - 45;   // begin wind-down routine
+  const brainDumpMin   = targetBedMin - 30;   // journal/brain-offload
+  const screensOffMin  = targetBedMin - 90;   // screens off
+  const cutoffMin      = targetBedMin - 480;  // caffeine cutoff (8h before bed)
+  const firstCoffeeMin = targetWakeMin + 90;  // wait 90min post-wake for cortisol
 
   // Update DOM
   const card = document.getElementById('chronotypeCard');
@@ -1003,33 +1157,43 @@ function calculateResults(){
   document.getElementById('typeTitle').textContent = title;
   document.getElementById('typeDesc').textContent = desc;
 
-  document.getElementById('optBed').textContent        = fmt12(idealBed);
-  document.getElementById('optWake').textContent       = fmt12(idealWake);
-  document.getElementById('targetBed').textContent     = fmt12(fromMin(targetBedMin));
-  document.getElementById('midSleep').textContent      = fmt12(fromMin(msfMin));
-  document.getElementById('windDown').textContent      = fmt12(fromMin(windDownMin));
+  document.getElementById('optBed').textContent         = fmt12(idealBed);
+  document.getElementById('optWake').textContent        = fmt12(idealWake);
+  document.getElementById('targetBed').textContent      = fmt12(fromMin(targetBedMin));
+  document.getElementById('midSleep').textContent       = fmt12(fromMin(msfMin));
+  document.getElementById('windDown').textContent       = fmt12(fromMin(windDownMin));
   document.getElementById('caffeineCutoff').textContent = fmt12(fromMin(cutoffMin));
 
-  const deficit = (idealHours - currentHours).toFixed(1);
-  document.getElementById('strategyContent').innerHTML = `
-    <div class="insight info">
-      <strong>Daniel Pink's "When" Framework</strong>
-      ${pinkStrategy}
-    </div>
-    <div class="insight">
-      <strong>Chronotype-Specific Tactics</strong>
-      ${strategy}
-    </div>
-    <div class="insight ${parseFloat(deficit) > 1 ? 'warn' : 'good'}">
-      <strong>Sleep Need Analysis</strong>
-      You require ${idealHours}h. Currently getting ${currentHours}h —
-      ${parseFloat(deficit) > 0
-        ? `a deficit of ${deficit}h per night. Over a week this accumulates ${(parseFloat(deficit)*7).toFixed(1)}h of sleep debt.`
-        : 'you\'re meeting your sleep need. Maintain this consistency.'}
-    </div>
-  `;
+  const deficit = (userSleepNeed - currentHours).toFixed(1);
+  const debtClass = parseFloat(deficit) > 1 ? 'warn' : parseFloat(deficit) > 0 ? 'info' : 'good';
+  const cycleLine = (type === 'lion' || type === 'bear')
+    ? 'Research (Breus, 2016): Lions and Bears optimally complete 5 × 90-min cycles (≈7.5-8h). '
+    : type === 'wolf'
+    ? 'Research (Breus, 2016): Wolves typically complete 4 × 90-min cycles (≈7h). '
+    : 'Research (Breus, 2016): Dolphins rarely complete full cycles -- 6-6.5h is realistic. ';
 
-  // Insights
+  document.getElementById('strategyContent').innerHTML =
+    '<div class="insight info">' +
+      '<strong>Pink\'s Peak-Trough-Recovery Framework</strong> ' + pinkStrategy +
+    '</div>' +
+    '<div class="insight">' +
+      '<strong>Chronotype Daily Blueprint</strong> ' + strategy +
+    '</div>' +
+    '<div class="insight ' + debtClass + '">' +
+      '<strong>Sleep Debt Analysis</strong> ' + cycleLine +
+      'You need ' + userSleepNeed + 'h. Currently getting ' + currentHours + 'h -- ' +
+      (parseFloat(deficit) > 0
+        ? 'a nightly deficit of ' + deficit + 'h. That\'s ' + (parseFloat(deficit)*7).toFixed(1) + 'h of sleep debt per week -- equivalent to losing nearly a full night\'s sleep.'
+        : parseFloat(deficit) < 0
+        ? 'you\'re sleeping ' + Math.abs(parseFloat(deficit)).toFixed(1) + 'h over your need -- you may still be paying back accumulated debt.'
+        : 'you\'re meeting your sleep need. Consistency is everything -- keep this schedule.') +
+    '</div>' +
+    '<div class="insight info">' +
+      '<strong>☕ First Coffee: ' + fmt12(fromMin(firstCoffeeMin)) + '</strong> ' +
+      'Don\'t drink caffeine the moment you wake. Cortisol is still rising for the first 90 minutes after waking -- adding caffeine now blunts cortisol\'s natural alerting effect and builds caffeine tolerance faster. Wait until ' + fmt12(fromMin(firstCoffeeMin)) + ' for your first cup. (Pink, 2018; Lovallo et al., 2005)' +
+    '</div>';
+
+// Insights
   let insights = [];
 
   // Social jetlag
@@ -1055,7 +1219,7 @@ function calculateResults(){
   }
 
   if(a.q19 === 'late'){
-    insights.push(`<div class="insight warn"><strong>🏋️ Late Exercise</strong>Post-8pm workouts elevate core body temperature, delaying sleep onset by 1–2 hours (Flausino et al., 2012). Shift workouts to 4–6pm for optimal recovery and sleep quality.</div>`);
+    insights.push(`<div class="insight warn"><strong>🏋️ Late Exercise</strong>Post-8pm workouts elevate core body temperature, delaying sleep onset by 1-2 hours (Flausino et al., 2012). Shift workouts to 4-6pm for optimal recovery and sleep quality.</div>`);
   }
 
   // Caffeine gap check
@@ -1063,7 +1227,7 @@ function calculateResults(){
   const bedTargetM = ((targetBedMin % 1440) + 1440) % 1440;
   let cafGap = (bedTargetM - lastCaffM + 1440) % 1440 / 60;
   if(cafGap < 8){
-    insights.push(`<div class="insight warn"><strong>☕ Caffeine Timing</strong>Your last caffeine is only ${cafGap.toFixed(1)}h before bed. With a 5–7h half-life (Drake et al., 2013), this disrupts deep (N3) sleep even if you fall asleep fine. Move your cutoff to ${fmt12(fromMin(cutoffMin))}.</div>`);
+    insights.push(`<div class="insight warn"><strong>☕ Caffeine Timing</strong>Your last caffeine is only ${cafGap.toFixed(1)}h before bed. With a 5-7h half-life (Drake et al., 2013), this disrupts deep (N3) sleep even if you fall asleep fine. Move your cutoff to ${fmt12(fromMin(cutoffMin))}.</div>`);
   } else {
     insights.push(`<div class="insight good"><strong>✅ Good Caffeine Timing</strong>Your ${cafGap.toFixed(1)}h caffeine buffer before bed is solid. This allows most caffeine to clear before sleep onset.</div>`);
   }
@@ -1077,11 +1241,11 @@ function calculateResults(){
   }
 
   if(a.q7 === 'many' || a.q8 === 'no'){
-    insights.push(`<div class="insight warn"><strong>🔁 Sleep Maintenance Issues</strong>Frequent awakenings suggest hyperarousal or insufficient sleep pressure. Try magnesium glycinate (400mg) 30 min before bed and keep the bedroom strictly for sleep — no screens, no work (stimulus control therapy).</div>`);
+    insights.push(`<div class="insight warn"><strong>🔁 Sleep Maintenance Issues</strong>Frequent awakenings suggest hyperarousal or insufficient sleep pressure. Try magnesium glycinate (400mg) 30 min before bed and keep the bedroom strictly for sleep -- no screens, no work (stimulus control therapy).</div>`);
   }
 
   if(a.q16 === 'yes'){
-    insights.push(`<div class="insight warn"><strong>⏰ 2–4am Waking Pattern</strong>Regular middle-of-night waking can indicate cortisol dysregulation or blood sugar drops. Try a small protein snack before bed (handful of almonds or walnuts) and evaluate overall stress load.</div>`);
+    insights.push(`<div class="insight warn"><strong>⏰ 2-4am Waking Pattern</strong>Regular middle-of-night waking can indicate cortisol dysregulation or blood sugar drops. Try a small protein snack before bed (handful of almonds or walnuts) and evaluate overall stress load.</div>`);
   }
 
   if(insights.length === 0){
@@ -1090,29 +1254,166 @@ function calculateResults(){
 
   document.getElementById('insightsContent').innerHTML = insights.join('');
 
-  document.getElementById('scienceContent').innerHTML = `
-    <strong>Your Mid-Sleep Point (MSF): ${fmt12(fromMin(msfMin))}</strong><br><br>
-    Calculated using the Munich Chronotype Questionnaire (MCTQ) method: the midpoint between free-day sleep onset and wake time. MSF is the gold-standard measure for chronotype classification (Roenneberg et al., 2003).<br><br>
-    <strong>Population Distribution:</strong> Lions ~15% · Bears ~50% · Wolves ~20% · Dolphins ~10% (Breus, 2016).<br><br>
-    <strong>Biological Reality:</strong> Chronotype is approximately 50% genetic (Archer et al., 2003). You cannot will yourself into a different chronotype — but you can optimize performance, health, and energy by working within yours.
+  document.getElementById('scienceContent').innerHTML = '<strong>Your Mid-Sleep Point (MSF): ' + fmt12(fromMin(msfMin)) + '</strong><br><br>' +'Calculated using the Munich Chronotype Questionnaire (MCTQ) method: ' +'the midpoint between your free-day sleep onset and wake time. ' +'MSF is the gold-standard objective measure for chronotype (Roenneberg et al., 2003).' +'<br><br><strong>MSF Thresholds Used:</strong> Lion ≤ 2:00 AM • Bear 2:00-5:00 AM • Wolf ≥ 5:00 AM • Dolphin = sleep quality override.<br><br>' +'<strong>Population Distribution (Breus, 2016):</strong> Lions 15-20% • Bears 50-55% • Wolves 15-20% • Dolphins 10%<br><br>' +'<strong>Biological Reality:</strong> Chronotype is ~40-50% genetic (Jones et al., Nature Communications, 2019; 351 genetic loci identified). ' +'You cannot permanently change your chronotype -- but you can shift it 30-45 minutes and, critically, work <em>with</em> it for significantly better outcomes.';
+
+  document.getElementById('referencesContent').innerHTML = '<strong>References</strong>' +'• Pink, D. H. (2018). <em>When: The Scientific Secrets of Perfect Timing</em>. Riverhead Books.<br>' +'• Breus, M. (2016). <em>The Power of When</em>. Little, Brown and Company.<br>' +'• Roenneberg, T., et al. (2003). "The Munich ChronoType Questionnaire (MCTQ)." <em>Journal of Biological Rhythms</em>.<br>' +'• Roenneberg, T., et al. (2012). "Social jetlag and obesity." <em>Current Biology</em>.<br>' +'• Jones, S. E., et al. (2019). "Genome-wide association analyses of chronotype." <em>Nature Communications</em>.<br>' +'• Chang, A. M., et al. (2015). "Evening use of light-emitting eReaders negatively affects sleep." <em>PNAS</em>.<br>' +'• Drake, C., et al. (2013). "Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed." <em>Journal of Clinical Sleep Medicine</em>.<br>' +'• Lovallo, W. R., et al. (2005). "Caffeine stimulation of cortisol secretion across the waking hours." <em>Psychosomatic Medicine</em>.<br>' +'• Harding, E. C., et al. (2019). "The temperature dependence of sleep." <em>Frontiers in Neuroscience</em>.<br>' +'• Flausino, N., et al. (2012). "Physical exercise performed before bedtime improves the sleep pattern." <em>Brazilian Journal of Medical and Biological Research</em>.';
+}
+
+
+/* ── RAMP-UP PLAN BUILDER ── */
+function buildRampPlan(days, btn){
+  // Update active button
+  document.querySelectorAll('.plan-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const a = answers;
+  const targetWakeMin = toMin(a.q24 || a.q1 || '06:00');
+  const currentWakeMin = toMin(a.q1 || '06:00');
+  
+
+  // Gap between current wake and target wake (could be earlier OR later)
+  // Positive = need to wake earlier; negative = need to wake later
+  let gapMin = currentWakeMin - targetWakeMin;
+  // Handle wrap-around (e.g. current 7am, target 5am = 120 min earlier)
+  if(gapMin > 720) gapMin -= 1440;
+  if(gapMin < -720) gapMin += 1440;
+
+  const stepMin = Math.round(gapMin / days);  // minutes to shift per day (signed)
+
+  // Build day rows
+  const rows = [];
+  const DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const today = new Date();
+
+  for(let d = 1; d <= days; d++){
+    const dayDate = new Date(today);
+    dayDate.setDate(today.getDate() + d);
+    const dayLabel = DAYS[dayDate.getDay()];
+    const dateLabel = `${dayDate.getMonth()+1}/${dayDate.getDate()}`;
+    const isLast = d === days;
+
+    // Wake time for this day: step from current toward target
+    let wakeMin;
+    if(isLast){
+      wakeMin = targetWakeMin;
+    } else {
+      // Interpolate: current minus (stepMin * d), but clamp to target
+      const raw = currentWakeMin - (stepMin * d);
+      // Clamp: don\'t overshoot target
+      if(stepMin > 0) {
+        // moving earlier
+        wakeMin = Math.max(targetWakeMin, raw);
+      } else {
+        // moving later
+        wakeMin = Math.min(targetWakeMin, raw);
+      }
+    }
+
+    const bedMin = wakeMin - userSleepNeed * 60;
+    const brainMin = bedMin - 30;    // brain offload / journal 30 min before bed
+    const screensMin = bedMin - 90;  // screens off 90 min before bed
+
+    // Shift from previous day for display
+    let shiftLabel = '';
+    if(d === 1){
+      const prevWake = currentWakeMin;
+      const diff = prevWake - wakeMin;
+      shiftLabel = diff === 0 ? 'start' : (diff > 0 ? `−${diff}m` : `+${Math.abs(diff)}m`);
+    } else {
+      const prevWakeMin2 = d === days
+        ? currentWakeMin - stepMin * (d - 1)
+        : currentWakeMin - stepMin * (d - 1);
+      // clamp prev too
+      let prevWake2;
+      if(stepMin > 0) prevWake2 = Math.max(targetWakeMin, currentWakeMin - stepMin*(d-1));
+      else prevWake2 = Math.min(targetWakeMin, currentWakeMin - stepMin*(d-1));
+      const diff = prevWake2 - wakeMin;
+      shiftLabel = diff === 0 ? '--' : (diff > 0 ? `−${diff}m` : `+${Math.abs(diff)}m`);
+    }
+
+    rows.push({ d, dayLabel, dateLabel, screensMin, brainMin, bedMin, wakeMin, isLast, shiftLabel });
+  }
+
+  // Build HTML
+  let html = `
+  <div class="ramp-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#f472b6"></div>Screens Off</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent2)"></div>Brain Offload</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>In Bed</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--good)"></div>Wake Up</div>
+  </div>
+  <table class="ramp-table">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>📵 Screens Off</th>
+        <th>🧠 Brain Offload</th>
+        <th>🛏 In Bed</th>
+        <th>⏰ Wake Up</th>
+      </tr>
+    </thead>
+    <tbody>
   `;
 
-  document.getElementById('referencesContent').innerHTML = `
-    <strong>References</strong>
-    • Pink, D. H. (2018). <em>When: The Scientific Secrets of Perfect Timing</em>. Riverhead Books.<br>
-    • Breus, M. (2016). <em>The Power of When</em>. Little, Brown and Company.<br>
-    • Roenneberg, T., et al. (2003). "The Munich ChronoType Questionnaire (MCTQ)." <em>Journal of Biological Rhythms</em>.<br>
-    • Roenneberg, T., et al. (2012). "Social jetlag and obesity." <em>Current Biology</em>.<br>
-    • Chang, A. M., et al. (2015). "Evening use of light-emitting eReaders negatively affects sleep." <em>PNAS</em>.<br>
-    • Drake, C., et al. (2013). "Caffeine effects on sleep taken 0, 3, or 6 hours before going to bed." <em>Journal of Clinical Sleep Medicine</em>.<br>
-    • Harding, E. C., et al. (2019). "The temperature dependence of sleep." <em>Frontiers in Neuroscience</em>.<br>
-    • Flausino, N., et al. (2012). "Physical exercise performed before bedtime improves the sleep pattern." <em>Brazilian Journal of Medical and Biological Research</em>.
+  rows.forEach(r => {
+    const rowClass = r.isLast ? ' class="target-row"' : '';
+    html += `
+    <tr${rowClass}>
+      <td>
+        <div class="day-badge">${r.dayLabel} ${r.dateLabel}</div>
+        <div class="shift-indicator">${r.shiftLabel}</div>
+      </td>
+      <td><span class="time-pill screens">${fmt12(fromMin(r.screensMin))}</span></td>
+      <td><span class="time-pill brain">${fmt12(fromMin(r.brainMin))}</span></td>
+      <td><span class="time-pill bed">${fmt12(fromMin(r.bedMin))}</span></td>
+      <td><span class="time-pill ${r.isLast ? 'target' : 'wake'}">${fmt12(fromMin(r.wakeMin))}${r.isLast ? ' 🎯' : ''}</span></td>
+    </tr>`;
+  });
+
+  html += `</tbody></table>`;
+
+  // Add contextual note
+  const shiftDir = gapMin > 0 ? 'earlier' : 'later';
+  const totalShift = Math.abs(gapMin);
+  const screenNote = answers.q20 === 'high'
+    ? 'Given your high screen use, the screens-off time is especially critical -- treat it as a hard cutoff.'
+    : 'The screens-off window lets melatonin begin rising naturally before your brain offload routine.';
+
+  html += `
+  <div class="ramp-note">
+    <strong>How to use this plan:</strong><br>
+    You\'re shifting your wake time <strong>${totalShift} minutes ${shiftDir}</strong> over ${days} days (~${Math.abs(stepMin)} min/day).<br><br>
+    <strong>📵 Screens Off</strong> -- 90 min before bed. Put phone in another room or use Night Mode. Blue light blocks melatonin onset. ${screenNote}<br><br>
+    <strong>🧠 Brain Offload</strong> -- 30 min before bed. Write tomorrow\'s to-do list, journal 3 things you\'re grateful for, or do a "worry dump." This clears working memory and lowers cortisol so your brain doesn\'t process anxiety in bed.<br><br>
+    <strong>🛏 In Bed</strong> -- Lights fully off, room cooled, phone out. If you can\'t sleep within 20 min, get up and do something calm in dim light (stimulus control). Don\'t lie awake watching the clock.<br><br>
+    <strong>⏰ Wake Up</strong> -- No snooze. Get bright light immediately (window, outdoor, or light therapy lamp). This is the most powerful circadian anchor -- morning light sets your entire next-day clock.
+  </div>
   `;
+
+  document.getElementById('rampPlanOutput').innerHTML = html;
+  document.getElementById('rampPlanOutput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Scroll a wheel (or all visible wheels) to their selected item.
+// Must only run on visible wheels - hidden ones have clientHeight=0.
+function scrollWheelToSelected(wheel){
+  if(wheel.clientHeight < 50) return;
+  const sel = wheel.querySelector('.wheel-item.selected');
+  if(!sel) return;
+  const target = sel.offsetTop - (wheel.clientHeight / 2) + (sel.offsetHeight / 2);
+  wheel.scrollTop = target;
+}
+function scrollWheelsToDefault(){
+  document.querySelectorAll('.wheel').forEach(scrollWheelToSelected);
 }
 
 // Init
 initWheels();
 bindScrollSelection();
+// Scroll step 1 wheels to their defaults after first paint
+requestAnimationFrame(() => {
+  document.querySelectorAll('.step[data-step="1"] .wheel').forEach(scrollWheelToSelected);
+});
 updateProgress();
 updateNav();
 </script>
