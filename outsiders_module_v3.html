@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Outsiders — Narrative Craft · Week 1 Tuesday</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400&family=Noto+Sans+SC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream:#fdf8f0;--warm:#fffcf5;--ink:#1a1410;--ink2:#3a2e22;
+  --brown:#6b4226;--amber:#c47d0e;--amb2:#e8a020;--amb3:#fef3c7;
+  --teal:#0c6e82;--teal2:#cff4fc;--red:#a81c1c;--red2:#fee2e2;
+  --green:#155a2e;--grn2:#dcfce7;--purple:#5b21b6;--pur2:#ede9fe;
+  --border:#ddd0b8;--bord2:#c4a87a;--shadow:rgba(106,66,30,.13);
+  --drag-bg:#fff7e6;--drop-empty:#f5efe3;--drop-full:#fef3c7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1e120a;font-family:'Source Serif 4','Noto Sans SC',serif;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+/* 16:9 wrapper */
+#app{position:relative;width:min(100vw,calc(100vh*16/9));height:min(100vh,calc(100vw*9/16));background:var(--cream);overflow:hidden;border-radius:4px;box-shadow:0 40px 120px rgba(0,0,0,.65)}
+
+/* topbar */
+#topbar{position:absolute;top:0;left:0;right:0;height:48px;background:var(--ink);display:flex;align-items:center;padding:0 2%;gap:0;z-index:60}
+.tlogo{font-family:'Fraunces',serif;font-size:1em;color:#e8c87a;letter-spacing:-.01em}
+.tlogo em{font-style:italic;color:#fff;font-weight:400}
+.tdiv{width:1px;height:20px;background:#3a2e22;margin:0 2.5%}
+.tzh{font-family:'Noto Sans SC',sans-serif;font-size:.58em;color:#7a6a50;flex:1}
+.tright{display:flex;align-items:center;gap:10px}
+.tpill{font-family:'IBM Plex Mono',monospace;font-size:.58em;color:#e8c87a;background:rgba(232,192,122,.1);border:1px solid rgba(232,192,122,.2);padding:3px 10px;border-radius:20px}
+.tfocus{font-family:'IBM Plex Mono',monospace;font-size:.55em;color:#5a4a30;border:1px solid #3a2e22;padding:3px 8px;border-radius:20px;transition:all .3s}
+.tfocus.warn{color:var(--red);border-color:var(--red);background:var(--red2)}
+
+/* progress */
+#prog-track{position:absolute;top:48px;left:0;right:0;height:4px;background:#e5d5b0;z-index:55}
+#prog-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--amb2));transition:width .5s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px rgba(196,125,14,.4)}
+
+/* slides */
+#slides{position:absolute;top:52px;bottom:50px;left:0;right:0;overflow:hidden}
+.slide{display:none;position:absolute;inset:0;flex-direction:column;background:var(--cream);overflow-y:auto;padding:1.8% 2.5% 1.5%;animation:sIn .3s cubic-bezier(.4,0,.2,1)}
+.slide.active{display:flex}
+@keyframes sIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.slide::-webkit-scrollbar{width:5px}
+.slide::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:3px}
+
+/* slide header */
+.sh{display:flex;align-items:stretch;gap:1.8%;margin-bottom:1.2%;padding-bottom:1%;border-bottom:2px solid var(--bord2);flex-shrink:0}
+.snum{display:flex;flex-direction:column;align-items:center;justify-content:center;width:50px;flex-shrink:0;background:var(--ink);border-radius:6px;padding:5px}
+.snum .n{font-family:'Fraunces',serif;font-size:1.8em;line-height:1;color:#e8c87a}
+.snum .nzh{font-family:'Noto Sans SC',sans-serif;font-size:.48em;color:#7a6a50;margin-top:1px}
+.stxt{flex:1;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.stag{font-family:'IBM Plex Mono',monospace;font-size:.5em;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);font-weight:600}
+.stitle{font-family:'Fraunces',serif;font-size:1.05em;color:var(--ink);line-height:1.1}
+.stzh{font-family:'Noto Sans SC',sans-serif;font-size:.58em;color:var(--brown);font-weight:400}
+.sbadge{flex-shrink:0;align-self:center;background:var(--amb3);border:1px solid var(--bord2);border-radius:4px;padding:4px 9px;font-family:'IBM Plex Mono',monospace;font-size:.52em;color:var(--brown);text-align:center;line-height:1.4}
+
+/* layout */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1.2%;flex:1;min-height:0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1%;flex:1;min-height:0}
+.g1{display:grid;grid-template-columns:1fr;gap:1%;flex:1;min-height:0}
+.gcustom{display:grid;gap:1.2%;flex:1;min-height:0}
+.col{display:flex;flex-direction:column;gap:1%;min-height:0}
+
+/* cards */
+.card{background:var(--warm);border:1.5px solid var(--border);border-radius:8px;padding:2% 2.2%;display:flex;flex-direction:column;gap:5px;box-shadow:0 2px 8px var(--shadow)}
+.card:focus-within{border-color:var(--amber)}
+.at{border-left:4px solid var(--teal)}
+.ar{border-left:4px solid var(--red)}
+.ap{border-left:4px solid var(--purple)}
+.ag{border-left:4px solid var(--green)}
+.aa{border-left:4px solid var(--amber)}
+.filled{background:var(--amb3);border-color:var(--bord2)}
+.clabel{font-family:'IBM Plex Mono',monospace;font-size:.54em;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--brown)}
+.clabel .zh{font-family:'Noto Sans SC',sans-serif;text-transform:none;letter-spacing:0;font-weight:500;color:#9a8060;font-size:1em;margin-left:4px}
+.cp{font-size:.67em;color:var(--ink2);line-height:1.6}
+.cp .zhq{font-family:'Noto Sans SC',sans-serif;display:block;color:#8a7060;font-size:.88em;margin-top:3px;line-height:1.55}
+
+/* zh support box */
+.zhbox{background:#fffbeb;border:1.5px solid #fcd34d;border-radius:6px;padding:1.3% 1.8%;margin-bottom:1%;flex-shrink:0;display:flex;gap:8px;align-items:flex-start}
+.zhbox .icon{font-size:.85em;flex-shrink:0;margin-top:1px}
+.zhbox .zhlabel{font-family:'IBM Plex Mono',monospace;font-size:.5em;color:#92400e;text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.zhbox .zhtext{font-family:'Noto Sans SC',sans-serif;font-size:.68em;color:var(--ink2);line-height:1.7}
+.zhbox .zhtext strong{color:var(--brown);font-weight:700}
+
+/* inputs */
+label{font-family:'IBM Plex Mono',monospace;font-size:.56em;color:var(--brown);display:block;margin-bottom:2px;margin-top:5px}
+label .lzh{font-family:'Noto Sans SC',sans-serif;font-weight:400;color:#a0906a;margin-left:4px;font-size:.9em}
+textarea,input[type=text]{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:5px;color:var(--ink);font-family:'Source Serif 4',serif;font-size:.7em;padding:6px 9px;resize:none;transition:border-color .2s,box-shadow .2s;line-height:1.6}
+textarea:focus,input[type=text]:focus{outline:none;border-color:var(--amber);box-shadow:0 0 0 3px rgba(196,125,14,.1)}
+textarea{min-height:52px}
+textarea.tall{min-height:90px}
+textarea.sh2{min-height:40px}
+::placeholder{color:#c4a87a;font-style:italic;font-size:.92em}
+
+/* choice btns */
+.cgroup{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0}
+.cbtn{font-family:'IBM Plex Mono',monospace;font-size:.58em;padding:5px 11px;border:1.5px solid var(--bord2);border-radius:20px;background:#fff;color:var(--brown);cursor:pointer;transition:all .15s;user-select:none;line-height:1}
+.cbtn:hover{border-color:var(--amber);color:var(--amber);background:var(--amb3)}
+.cbtn.sel{border-color:var(--amber);background:var(--amber);color:#fff;font-weight:600}
+.cbtn .bz{font-family:'Noto Sans SC',sans-serif;font-size:.85em;margin-left:3px;letter-spacing:0}
+
+/* ── EXCERPT STYLES ── */
+.excerpt-wrap{background:#fff;border:2px solid var(--bord2);border-radius:8px;overflow:hidden;flex-shrink:0}
+.excerpt-head{background:var(--ink);padding:6px 14px;display:flex;align-items:center;justify-content:space-between}
+.excerpt-head .et{font-family:'Fraunces',serif;font-size:.65em;color:#e8c87a;font-style:italic}
+.excerpt-head .ez{font-family:'Noto Sans SC',sans-serif;font-size:.55em;color:#7a6a50}
+.excerpt-body{padding:2% 3%;max-height:180px;overflow-y:auto;line-height:1.9}
+.excerpt-body p{font-size:.7em;color:var(--ink);margin-bottom:.5em}
+.excerpt-body p:last-child{margin-bottom:0}
+.excerpt-body .zh-aside{font-family:'Noto Sans SC',sans-serif;font-size:.82em;color:#8a7060;font-style:normal;display:block;margin-top:1px;padding-left:10px;border-left:2px solid var(--border)}
+.excerpt-body .hl-trait{background:#fef9c3;border-bottom:2px solid #f59e0b;cursor:help;position:relative}
+.excerpt-body .hl-conflict{background:#dbeafe;border-bottom:2px solid #3b82f6;cursor:help}
+.excerpt-body .hl-mood{background:#f0fdf4;border-bottom:2px solid #22c55e;cursor:help}
+.excerpt-body .hl-fig{background:var(--pur2);border-bottom:2px solid #8b5cf6;cursor:help}
+.excerpt-body::-webkit-scrollbar{width:4px}
+.excerpt-body::-webkit-scrollbar-thumb{background:var(--bord2);border-radius:2px}
+
+/* ── WORD BANK ── */
+.wb-wrap{background:var(--ink);border-radius:6px;padding:1.5% 2%}
+.wb-title{font-family:'IBM Plex Mono',monospace;font-size:.52em;color:#e8c87a;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.wb-title .wbzh{font-family:'Noto Sans SC',sans-serif;text-transform:none;letter-spacing:0;color:#8a7a60;font-size:1em}
+.wb-chips{display:flex;flex-wrap:wrap;gap:6px}
+.wb-chip{font-family:'IBM Plex Mono',monospace;font-size:.58em;padding:5px 10px;background:#2d2010;border:1.5px solid #5a4a30;border-radius:5px;color:#e8c87a;cursor:grab;transition:all .2s;user-select:none;display:flex;flex-direction:column;align-items:center;gap:1px}
+.wb-chip .czh{font-family:'Noto Sans SC',sans-serif;font-size:.82em;color:#8a7a60;letter-spacing:0}
+.wb-chip:hover{border-color:var(--amb2);background:#3d2e18;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.wb-chip.dragging{opacity:.4;cursor:grabbing}
+.wb-chip.used{opacity:.3;cursor:not-allowed;pointer-events:none}
+
+/* ── DROP ZONES ── */
+.drop-zone{min-height:38px;border:2px dashed var(--bord2);border-radius:6px;background:var(--drop-empty);display:flex;align-items:center;justify-content:center;transition:all .2s;padding:5px 8px;flex-wrap:wrap;gap:5px}
+.drop-zone.over{border-color:var(--amber);background:#fef9e0;box-shadow:0 0 0 3px rgba(196,125,14,.15)}
+.drop-zone.has-item{background:var(--drop-full);border-style:solid;border-color:var(--bord2)}
+.drop-zone .ph{font-size:.6em;color:#c4a87a;font-style:italic;font-family:'Noto Sans SC',sans-serif;pointer-events:none}
+.dropped-chip{font-family:'IBM Plex Mono',monospace;font-size:.58em;padding:4px 10px;background:var(--amber);color:#fff;border-radius:5px;cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:600}
+.dropped-chip .rm{font-size:.8em;opacity:.7;transition:opacity .2s}
+.dropped-chip:hover .rm{opacity:1}
+
+/* ── MATCH ACTIVITY ── */
+.match-wrap{display:flex;gap:1.5%;align-items:stretch}
+.match-col{flex:1;display:flex;flex-direction:column;gap:6px}
+.match-item{padding:6px 10px;border-radius:5px;font-size:.65em;line-height:1.4}
+.match-src{background:var(--ink);color:#e8c87a;border:1.5px solid #5a4a30;cursor:grab;font-family:'IBM Plex Mono',monospace}
+.match-src:hover{border-color:var(--amb2)}
+.match-src .mzh{font-family:'Noto Sans SC',sans-serif;color:#8a7a60;display:block;font-size:.88em;margin-top:1px}
+.match-target{background:var(--drop-empty);border:2px dashed var(--bord2);min-height:36px;display:flex;flex-direction:column;gap:3px;padding:4px 8px}
+.match-target.over{border-color:var(--amber);background:#fef9e0}
+.match-target .tq{font-size:.78em;color:#8a7060;margin-bottom:3px;font-family:'Noto Sans SC',sans-serif}
+.match-label-col{flex:0 0 38%;display:flex;flex-direction:column;gap:6px}
+.match-label-item{padding:6px 10px;background:var(--amb3);border:1.5px solid var(--bord2);border-radius:5px;font-size:.63em;color:var(--ink2);line-height:1.4;display:flex;flex-direction:column;gap:2px;min-height:36px;justify-content:center}
+.match-label-item .mzen{font-family:'IBM Plex Mono',monospace;color:var(--brown);font-weight:600;font-size:1em}
+.match-label-item .mzzh{font-family:'Noto Sans SC',sans-serif;color:#8a7060;font-size:.9em}
+
+/* ── SENTENCE FRAMES ── */
+.sf-row{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin:4px 0;padding:6px 10px;background:#fff;border:1.5px solid var(--border);border-radius:6px}
+.sf-text{font-size:.67em;color:var(--ink2);line-height:1.7}
+.sf-blank{display:inline-block;min-width:90px;border-bottom:2px solid var(--amber);padding:1px 6px;font-size:.67em;color:var(--ink);font-style:italic;background:transparent;border-top:none;border-left:none;border-right:none;outline:none;font-family:'Source Serif 4',serif}
+.sf-blank:focus{background:var(--amb3)}
+.sf-zh{font-family:'Noto Sans SC',sans-serif;font-size:.6em;color:#8a7060;display:block;margin-top:3px;padding-left:4px}
+
+/* ── SORT ACTIVITY ── */
+.sort-bank{display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:var(--ink);border-radius:6px;min-height:44px}
+.sort-targets{display:flex;gap:1%;margin-top:1%}
+.sort-target{flex:1;border:2px dashed var(--bord2);border-radius:6px;padding:8px;background:var(--drop-empty);min-height:60px}
+.sort-target .st-label{font-family:'IBM Plex Mono',monospace;font-size:.55em;color:var(--brown);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;text-align:center}
+.sort-target .st-zh{font-family:'Noto Sans SC',sans-serif;font-size:.52em;color:#8a7060;text-align:center;display:block;margin-bottom:5px}
+.sort-target.over{border-color:var(--amber);background:#fef9e0}
+.sort-target .items-area{display:flex;flex-wrap:wrap;gap:4px;min-height:30px;align-content:flex-start}
+
+/* ── ABCD scaffold dark ── */
+.scaffold-dark{background:linear-gradient(135deg,#1a1410,#2d2010);border-radius:8px;padding:2.5% 2.8%;display:flex;flex-direction:column;gap:7px}
+.sd-title{font-family:'Fraunces',serif;font-size:.7em;color:#e8c87a;font-style:italic;border-bottom:1px solid #3a2e22;padding-bottom:5px;margin-bottom:3px}
+.sd-title .sz{font-family:'Noto Sans SC',sans-serif;font-style:normal;color:#c4a87a;font-size:.85em;display:block;margin-top:1px}
+.abcd-row2{display:flex;align-items:flex-start;gap:10px}
+.abcd-L{font-family:'Fraunces',serif;font-size:1.3em;color:#e8c87a;line-height:1;min-width:.9em;flex-shrink:0}
+.abcd-R{flex:1}
+.abcd-en{font-family:'IBM Plex Mono',monospace;font-size:.58em;color:#d4c5a9;font-weight:600}
+.abcd-zh2{font-family:'Noto Sans SC',sans-serif;font-size:.56em;color:#7a6a50;display:block;margin-top:1px}
+.abcd-hint2{font-size:.58em;color:#5a4a30;font-style:italic;margin-top:2px}
+
+/* vocab */
+.vcard{background:var(--warm);border:1.5px solid var(--border);border-radius:8px;padding:2% 2.2%;box-shadow:0 2px 6px var(--shadow);display:flex;flex-direction:column;gap:5px}
+.vword{font-family:'Fraunces',serif;font-size:1em;color:var(--ink);display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.vpos{font-family:'IBM Plex Mono',monospace;font-size:.42em;color:var(--brown);background:var(--amb3);padding:2px 6px;border-radius:3px}
+.vzh{font-family:'Noto Sans SC',sans-serif;font-size:.52em;color:var(--teal);font-weight:700}
+.vroot{font-family:'IBM Plex Mono',monospace;font-size:.52em;color:#8a7a60;background:#f5f0e8;border-radius:3px;padding:2px 6px;display:inline-block}
+.vzhdefs{font-family:'Noto Sans SC',sans-serif;font-size:.62em;color:var(--teal);background:var(--teal2);border-radius:4px;padding:3px 8px;line-height:1.5}
+.vprompt{font-size:.63em;color:var(--ink2);line-height:1.5}
+.vprompt .vpzh{font-family:'Noto Sans SC',sans-serif;color:#8a7060;display:block;font-size:.88em;margin-top:2px}
+
+/* speaking */
+.pstep{display:flex;align-items:flex-start;gap:8px;background:var(--warm);border:1.5px solid var(--border);border-radius:6px;padding:1.5% 2%}
+.pcirc{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#e8c87a;font-family:'Fraunces',serif;font-size:.7em;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pstep-en{font-size:.67em;color:var(--ink2);line-height:1.5}
+.pstep-en strong{color:var(--ink)}
+.pstep-zh{font-family:'Noto Sans SC',sans-serif;font-size:.6em;color:var(--brown);display:block;margin-top:2px;line-height:1.5}
+
+/* criteria */
+.crit-row{display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-bottom:1px solid var(--border)}
+.crit-row:last-child{border-bottom:none}
+.crit-ico{color:var(--amber);font-size:.75em;flex-shrink:0;margin-top:2px}
+.crit-en{font-size:.65em;color:var(--ink2);line-height:1.4}
+.crit-zh{font-family:'Noto Sans SC',sans-serif;font-size:.6em;color:var(--brown);display:block;margin-top:2px}
+
+/* bottomnav */
+#bnav{position:absolute;bottom:0;left:0;right:0;height:50px;background:var(--ink);display:flex;align-items:center;padding:0 2%;gap:0;z-index:60}
+.nbtn{font-family:'IBM Plex Mono',monospace;font-size:.58em;letter-spacing:.06em;text-transform:uppercase;padding:7px 16px;border-radius:4px;cursor:pointer;transition:all .2s;border:1.5px solid #3a2e22;background:transparent;color:#7a6a50;flex-shrink:0}
+.nbtn:hover:not(:disabled){border-color:#e8c87a;color:#e8c87a;background:rgba(232,200,122,.06)}
+.nbtn:disabled{opacity:.25;cursor:not-allowed}
+.nbtn.pri{border-color:var(--amber);background:var(--amber);color:var(--ink);font-weight:600}
+.nbtn.pri:hover{background:var(--amb2);border-color:var(--amb2)}
+.dot-strip{flex:1;display:flex;align-items:center;justify-content:center;gap:7px}
+.dot{width:6px;height:6px;border-radius:50%;background:#3a2e22;cursor:pointer;transition:all .2s;border:1.5px solid transparent}
+.dot.visited{background:#5a4a30}
+.dot.active{background:#e8c87a;transform:scale(1.4)}
+.dot:hover{border-color:var(--amber)}
+
+/* modal */
+#wmodal{display:none;position:absolute;inset:0;background:rgba(26,20,16,.92);z-index:300;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+#wmodal.show{display:flex;animation:fi .2s ease}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.mbox{background:var(--warm);border:2px solid var(--red);border-radius:12px;padding:5% 6%;max-width:42%;text-align:center;box-shadow:0 40px 80px rgba(0,0,0,.5);animation:pi .25s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pi{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.micon{font-size:2.5em;margin-bottom:8px}
+.mtit{font-family:'Fraunces',serif;font-size:1.1em;color:var(--red);margin-bottom:2px}
+.mtitzh{font-family:'Noto Sans SC',sans-serif;font-size:.68em;color:var(--red);opacity:.7;margin-bottom:10px;display:block}
+.mbody{font-size:.67em;color:var(--ink2);line-height:1.7;margin-bottom:5px}
+.mbody .mbzh{font-family:'Noto Sans SC',sans-serif;display:block;color:var(--brown);margin-top:5px;font-size:.95em}
+.mcnt{font-family:'IBM Plex Mono',monospace;font-size:.62em;color:var(--red);background:var(--red2);padding:4px 12px;border-radius:4px;margin:8px auto;display:inline-block}
+.mret{font-family:'IBM Plex Mono',monospace;font-size:.6em;text-transform:uppercase;letter-spacing:.08em;padding:8px 20px;border-radius:5px;cursor:pointer;background:var(--ink);color:#e8c87a;border:none;margin-top:7px;transition:background .2s}
+.mret:hover{background:#3a2e22}
+.mretzh{font-family:'Noto Sans SC',sans-serif;font-size:.58em;color:#7a6a50;display:block;margin-top:5px}
+
+/* results */
+#rscreen{display:none;position:absolute;inset:0;background:var(--ink);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:4%}
+#rscreen.show{display:flex;animation:fi .4s ease}
+.rcrown{font-size:2.3em;margin-bottom:7px}
+.rtit{font-family:'Fraunces',serif;font-size:1.5em;color:#e8c87a;margin-bottom:3px;text-align:center}
+.rtitzh{font-family:'Noto Sans SC',sans-serif;font-size:.72em;color:#7a6a50;margin-bottom:2.5%;text-align:center}
+.srow{display:flex;gap:2%;width:78%;margin-bottom:2.5%}
+.sbox{flex:1;background:#2d2010;border-radius:8px;border:1.5px solid #3a2e22;padding:4%;text-align:center}
+.sbox.wrn{border-color:var(--red)}
+.snum2{font-family:'Fraunces',serif;font-size:1.9em;color:#e8c87a;display:block}
+.snum2.red{color:var(--red)}
+.slbl{font-family:'IBM Plex Mono',monospace;font-size:.52em;color:#5a4a30;text-transform:uppercase;letter-spacing:.08em}
+.szh2{font-family:'Noto Sans SC',sans-serif;font-size:.55em;color:#4a3a20;display:block;margin-top:2px}
+.dlbtn{font-family:'IBM Plex Mono',monospace;font-size:.65em;letter-spacing:.08em;text-transform:uppercase;padding:11px 28px;border-radius:6px;cursor:pointer;background:var(--amber);color:var(--ink);border:none;font-weight:600;box-shadow:0 4px 20px rgba(196,125,14,.35);transition:all .2s}
+.dlbtn:hover{background:var(--amb2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(196,125,14,.45)}
+.dlzh{font-family:'Noto Sans SC',sans-serif;font-size:.6em;color:#7a6a50;display:block;margin-top:7px;text-align:center}
+.flog{font-family:'IBM Plex Mono',monospace;font-size:.55em;color:#4a3a20;margin-top:1.5%;text-align:center;max-width:70%;line-height:1.7}
+
+/* EQ banner */
+.eqb{background:linear-gradient(135deg,var(--ink),#2d2010);border-radius:6px;padding:1.3% 2%;display:flex;align-items:center;gap:10px;flex-shrink:0;margin-bottom:1%}
+.eqlbl{font-family:'IBM Plex Mono',monospace;font-size:.5em;color:var(--amber);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap;line-height:1.4}
+.eqen{font-family:'Fraunces',serif;font-style:italic;font-size:.72em;color:#fff}
+.eqzh{font-family:'Noto Sans SC',sans-serif;font-size:.6em;color:#e8c87a;font-weight:500;display:block;margin-top:2px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="topbar">
+    <div class="tlogo">The <em>Outsiders</em></div>
+    <div class="tdiv"></div>
+    <div class="tzh">局外人 · 叙事技巧 · 第一周周二 · MLWS English 11/12</div>
+    <div class="tright">
+      <div class="tfocus" id="tfocus">专注中 · In Focus</div>
+      <div class="tpill" id="tpill">1 / 8</div>
+    </div>
+  </div>
+  <div id="prog-track"><div id="prog-fill" style="width:12.5%"></div></div>
+  <div id="slides">
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 1 — Cold Read + Annotation
+════════════════════════════════════════════════════ -->
+<div class="slide active" id="slide-1">
+  <div class="sh">
+    <div class="snum"><div class="n">1</div><div class="nzh">第一页</div></div>
+    <div class="stxt">
+      <div class="stag">Cold Read · 冷读</div>
+      <div class="stitle">Read &amp; Annotate the Excerpt</div>
+      <div class="stzh">阅读并注释课文节选 — 用下面的符号标记课文</div>
+    </div>
+    <div class="sbadge">Independent<br><span style="font-family:'Noto Sans SC',sans-serif;font-size:.85em">独立完成</span></div>
+  </div>
+
+  <div class="gcustom" style="grid-template-columns:1.15fr 1fr">
+    <!-- LEFT: Embedded excerpt -->
+    <div class="col">
+      <div class="excerpt-wrap" style="flex:1">
+        <div class="excerpt-head">
+          <span class="et">The Outsiders, Ch.1 — S.E. Hinton (excerpt)</span>
+          <span class="ez">点击高亮词语查看注释提示</span>
+        </div>
+        <div class="excerpt-body">
+          <p>When I stepped out into the bright sunlight from the darkness of the movie house, I had only two things on my mind: <span class="hl-trait" title="🟡 TRAIT: What does this tell us about Ponyboy? 这告诉我们什么特征？">Paul Newman and a ride home</span>. I was wishing I looked like Paul Newman — he's not even good looking, but he has this toughness about him. I had a long walk home and no company, but I usually <span class="hl-conflict" title="🔵 INTERNAL CONFLICT: Why does he walk alone? What does this reveal? 他为什么独自走？这揭示了什么？">lone it anyway, for safety</span>. Automatically my hand reached for where my back pocket should be — sometimes I carry a book in my back pocket.</p>
+          <span class="zh-aside">当我走出电影院，从黑暗走进明亮的阳光时，我脑子里只想着两件事：保罗·纽曼和回家的车。我希望自己长得像保罗·纽曼——他其实也不帅，但他有一种强硬的气质。回家的路很长，也没人陪我，但我通常独自走，这样更安全。我下意识地摸了摸裤子后袋——有时我会在后袋里装一本书。</span>
+
+          <p>I liked that part. I'm not like most greasers — <span class="hl-trait" title="🟡 TRAIT: What does reading tell us about Ponyboy's character? 读书说明了什么特征？">I read a lot and even liked school</span>, which was unusual for a greaser. Darry was always harping on me about it — "Stay in school, Ponyboy. We need you to get a scholarship." I'd rather drop out anyway; school bored me to death sometimes. My older brother Soda, the middle one, never cracked a book unless it was absolutely necessary.</p>
+          <span class="zh-aside">我喜欢这一点。我和大多数"油脂党"不一样——我爱读书，甚至喜欢上学，这对油脂党来说很少见。达里总是唠叨我："好好上学，波尼男孩。我们需要你获得奖学金。"其实我宁愿退学；上学有时让我无聊透了。我的哥哥苏打，排行老二，除非绝对必要，否则从不看书。</span>
+
+          <p>I was almost home. It was a nice night — <span class="hl-mood" title="🟢 MOOD SHIFT: How does the mood change here? 这里情绪如何转变？">too nice to have anything go wrong</span>. I had a strange feeling that something bad was going to happen. I just shrugged it off. We're in a dangerous position, us greasers. We're poorer than the Socs and the middle class. <span class="hl-conflict" title="🔵 CONFLICT: External conflict introduced. 外部冲突出现了。">I could feel eyes on me — the prickling feeling on the back of my neck.</span> It wasn't too long before a red Corvair was moving slowly beside me.</p>
+          <span class="zh-aside">我快到家了。这是个好夜晚——好得不像是会出什么事的那种夜晚。但我有种奇怪的预感，感觉要有什么不好的事情发生。我耸耸肩，没放在心上。我们油脂党的处境很危险。我们比索克斯和中产阶级都穷。我能感觉到有人在盯着我看——脖子后面有种刺痒的感觉。没过多久，一辆红色科威尔跑车缓缓驶到我旁边。</span>
+
+          <p>"Hey, <span class="hl-fig" title="🟣 FIGURATIVE LANGUAGE: What type? What effect? 什么修辞手法？有什么效果？">greaser</span>," one of them said. They were Socs — <span class="hl-mood" title="🟢 MOOD: The mood shifts now. How would you describe it? 情绪发生了变化。你如何描述？">the jet set, the West-side rich kids</span>. It's like they got nothing to do but make it hard for guys like us.</p>
+          <span class="zh-aside">"嘿，油腻鬼，"其中一个说。他们是索克斯——那群有钱的西区富家子弟。他们似乎没什么别的事可做，就专门给我们这样的人制造麻烦。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Annotation tasks -->
+    <div class="col">
+      <div class="zhbox"><div class="icon">📌</div><div>
+        <div class="zhlabel">注释任务 Annotation Tasks</div>
+        <div class="zhtext">点击课文中的<strong>高亮词语</strong>查看提示。然后在下面填写你的注释。<br>Click highlighted words for hints. Then complete your annotations below.</div>
+      </div></div>
+
+      <!-- Word bank for traits -->
+      <div class="wb-wrap">
+        <div class="wb-title">🏷 Character Trait Word Bank <span class="wbzh">人物特征词汇库</span></div>
+        <div class="wb-chips" id="wb-traits">
+          <div class="wb-chip" draggable="true" data-word="Intellectual 爱思考" data-bank="traits"><span>Intellectual</span><span class="czh">爱思考</span></div>
+          <div class="wb-chip" draggable="true" data-word="Sensitive 敏感" data-bank="traits"><span>Sensitive</span><span class="czh">敏感</span></div>
+          <div class="wb-chip" draggable="true" data-word="Proud 骄傲" data-bank="traits"><span>Proud</span><span class="czh">骄傲</span></div>
+          <div class="wb-chip" draggable="true" data-word="Lonely 孤独" data-bank="traits"><span>Lonely</span><span class="czh">孤独</span></div>
+          <div class="wb-chip" draggable="true" data-word="Observant 善于观察" data-bank="traits"><span>Observant</span><span class="czh">善于观察</span></div>
+          <div class="wb-chip" draggable="true" data-word="Defiant 反抗" data-bank="traits"><span>Defiant</span><span class="czh">反抗</span></div>
+        </div>
+      </div>
+
+      <div class="card aa">
+        <div class="clabel">○ Circle — Character Trait <span class="zh">人物特征</span></div>
+        <div class="cp">Drag a trait from the word bank. Then write the word you circled.
+          <span class="zhq">从词汇库拖一个特征词。然后写下你圈出的词语。</span>
+        </div>
+        <label>Drag trait here 拖拽特征词到这里:</label>
+        <div class="drop-zone" id="dz-trait" data-label="trait"><span class="ph">拖到这里 Drag here →</span></div>
+        <label>Word circled from text 圈出的词语:</label>
+        <input type="text" id="s1-circle" placeholder="e.g. lone it... 例如：lone it...">
+      </div>
+
+      <div class="card at">
+        <div class="clabel">_ Underline — Internal Conflict IC <span class="zh">内心冲突</span></div>
+        <div class="cp">Drag the mood words for before &amp; after the shift.
+          <span class="zhq">拖拽情绪词，描述转变前后的情绪。</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">
+          <div>
+            <label>Before 转变前:</label>
+            <div class="drop-zone" id="dz-mood1" data-label="mood1"><span class="ph">转变前 Before</span></div>
+          </div>
+          <div>
+            <label>After 转变后:</label>
+            <div class="drop-zone" id="dz-mood2" data-label="mood2"><span class="ph">转变后 After</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mood word bank -->
+      <div class="wb-wrap">
+        <div class="wb-title">🌡 Mood Word Bank <span class="wbzh">情绪词汇库</span></div>
+        <div class="wb-chips" id="wb-mood">
+          <div class="wb-chip" draggable="true" data-word="Peaceful 平静" data-bank="mood"><span>Peaceful</span><span class="czh">平静</span></div>
+          <div class="wb-chip" draggable="true" data-word="Uneasy 不安" data-bank="mood"><span>Uneasy</span><span class="czh">不安</span></div>
+          <div class="wb-chip" draggable="true" data-word="Tense 紧张" data-bank="mood"><span>Tense</span><span class="czh">紧张</span></div>
+          <div class="wb-chip" draggable="true" data-word="Threatening 威胁" data-bank="mood"><span>Threatening</span><span class="czh">威胁</span></div>
+          <div class="wb-chip" draggable="true" data-word="Reflective 沉思" data-bank="mood"><span>Reflective</span><span class="czh">沉思</span></div>
+        </div>
+      </div>
+
+      <div class="card ap">
+        <div class="clabel">□ Box — Figurative Language <span class="zh">修辞手法</span></div>
+        <input type="text" id="s1-figlang" placeholder="Quote from text... 课文中的引语..." style="margin-bottom:4px">
+        <div class="cgroup">
+          <span class="cbtn" onclick="pick(this,'s1-figtype')">Metaphor<span class="bz">比喻</span></span>
+          <span class="cbtn" onclick="pick(this,'s1-figtype')">Simile<span class="bz">明喻</span></span>
+          <span class="cbtn" onclick="pick(this,'s1-figtype')">Imagery<span class="bz">意象</span></span>
+          <span class="cbtn" onclick="pick(this,'s1-figtype')">Personification<span class="bz">拟人</span></span>
+        </div>
+        <input type="hidden" id="s1-figtype">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 2 — Comprehension + EQ
+════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-2">
+  <div class="sh">
+    <div class="snum"><div class="n">2</div><div class="nzh">第二页</div></div>
+    <div class="stxt">
+      <div class="stag">Comprehension · 理解</div>
+      <div class="stitle">Connect to the Essential Question</div>
+      <div class="stzh">联系核心问题 — 理解课文，连接大问题</div>
+    </div>
+  </div>
+
+  <div class="eqb">
+    <div class="eqlbl">Essential Q<br>核心问题</div>
+    <div>
+      <div class="eqen">How do experiences shape who we become?</div>
+      <div class="eqzh">经历如何塑造我们成为什么样的人？</div>
+    </div>
+  </div>
+
+  <div class="g2" style="gap:1.2%">
+    <div class="col">
+      <!-- Sort activity: Ponyboy facts -->
+      <div class="card aa">
+        <div class="clabel">Q1 — What do we learn about Ponyboy? <span class="zh">我们了解到波尼男孩的什么？</span></div>
+        <div class="cp">Sort these facts into the correct category. Drag each chip below.
+          <span class="zhq">把下面的事实拖到正确的分类中。</span>
+        </div>
+        <div class="wb-wrap" style="margin-top:6px">
+          <div class="wb-title">📋 Fact Chips <span class="wbzh">事实卡片（拖动分类）</span></div>
+          <div class="wb-chips" id="wb-facts">
+            <div class="wb-chip" draggable="true" data-word="Loves to read 爱读书" data-bank="facts"><span>Loves to read</span><span class="czh">爱读书</span></div>
+            <div class="wb-chip" draggable="true" data-word="Walks alone 独自走路" data-bank="facts"><span>Walks alone</span><span class="czh">独自走路</span></div>
+            <div class="wb-chip" draggable="true" data-word="A greaser 油脂党" data-bank="facts"><span>A greaser</span><span class="czh">油脂党成员</span></div>
+            <div class="wb-chip" draggable="true" data-word="Has 2 brothers 有两个哥哥" data-bank="facts"><span>Has 2 brothers</span><span class="czh">有两个哥哥</span></div>
+            <div class="wb-chip" draggable="true" data-word="Likes movies 喜欢电影" data-bank="facts"><span>Likes movies</span><span class="czh">喜欢看电影</span></div>
+            <div class="wb-chip" draggable="true" data-word="Carries a book 带着书" data-bank="facts"><span>Carries a book</span><span class="czh">带着书</span></div>
+          </div>
+        </div>
+        <div class="sort-targets">
+          <div class="sort-target" id="sort-identity" data-cat="identity">
+            <div class="st-label">Identity 身份</div>
+            <div class="st-zh">他是什么样的人</div>
+            <div class="items-area" id="area-identity"></div>
+          </div>
+          <div class="sort-target" id="sort-behavior" data-cat="behavior">
+            <div class="st-label">Behavior 行为</div>
+            <div class="st-zh">他怎么做</div>
+            <div class="items-area" id="area-behavior"></div>
+          </div>
+          <div class="sort-target" id="sort-interest" data-cat="interest">
+            <div class="st-label">Interests 兴趣</div>
+            <div class="st-zh">他喜欢什么</div>
+            <div class="items-area" id="area-interest"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card ap">
+        <div class="clabel">EQ Connection <span class="zh">核心问题连接</span></div>
+        <div class="cp">What experience in this excerpt begins to shape who Ponyboy is becoming?
+          <span class="zhq">这段课文中，哪个经历开始塑造波尼男孩？</span>
+        </div>
+        <!-- Sentence frame -->
+        <div class="sf-row">
+          <span class="sf-text">The experience of </span>
+          <input class="sf-blank" id="sf-eq1" placeholder="被攻击...">
+          <span class="sf-text"> shapes Ponyboy because </span>
+          <input class="sf-blank" id="sf-eq2" placeholder="他感到...">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">_____的经历塑造了波尼男孩，因为_____。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card at">
+        <div class="clabel">Q2 — Environment &amp; Perception <span class="zh">环境与他人的看法</span></div>
+        <div class="cp">How does where Ponyboy lives shape how others see him? Use evidence.
+          <span class="zhq">波尼男孩住的地方如何影响别人对他的看法？用课文证据。</span>
+        </div>
+        <!-- Match activity: Evidence → Effect -->
+        <div style="font-size:.58em;font-family:'IBM Plex Mono',monospace;color:var(--brown);text-transform:uppercase;letter-spacing:.08em;margin:4px 0 6px">Match Evidence → Effect / 连线：证据 → 影响</div>
+        <div class="match-wrap">
+          <div class="match-col" id="match-evidence">
+            <div class="match-item match-src" draggable="true" data-match="A">"lone it anyway, for safety"<div class="mzh">独自走，为了安全</div></div>
+            <div class="match-item match-src" draggable="true" data-match="B">"prickling feeling on back of neck"<div class="mzh">脖子后面刺痒的感觉</div></div>
+            <div class="match-item match-src" draggable="true" data-match="C">"poorer than the Socs"<div class="mzh">比索克斯穷</div></div>
+          </div>
+          <div class="match-col">
+            <div class="match-target" id="mt-A" data-expects="A">
+              <div class="tq">他被认为是危险的 / seen as dangerous</div>
+              <div class="drop-zone" style="min-height:28px;padding:3px 6px" data-label="mt-A"><span class="ph">拖到这里</span></div>
+            </div>
+            <div class="match-target" id="mt-B" data-expects="B">
+              <div class="tq">他感到不安全 / feels unsafe</div>
+              <div class="drop-zone" style="min-height:28px;padding:3px 6px" data-label="mt-B"><span class="ph">拖到这里</span></div>
+            </div>
+            <div class="match-target" id="mt-C" data-expects="C">
+              <div class="tq">阶级差异造成冲突 / class creates conflict</div>
+              <div class="drop-zone" style="min-height:28px;padding:3px 6px" data-label="mt-C"><span class="ph">拖到这里</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card ag">
+        <div class="clabel">Sentence Frame Practice <span class="zh">句子框架练习</span></div>
+        <div class="cp">Complete this evidence sentence.
+          <span class="zhq">完成这个用证据回答的句子。</span>
+        </div>
+        <div class="sf-row">
+          <span class="sf-text">Where Ponyboy lives shapes how others see him because </span>
+          <input class="sf-blank" id="sf-env" placeholder="他的环境..." style="min-width:130px">
+          <span class="sf-text">. Hinton shows this when she writes, "</span>
+          <input class="sf-blank" id="sf-quote" placeholder="引语..." style="min-width:120px">
+          <span class="sf-text">."</span>
+          <span class="sf-zh">波尼男孩住的地方影响了别人的看法，因为_____。欣顿通过"_____"展示了这一点。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 3 — Craft & Structure
+════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-3">
+  <div class="sh">
+    <div class="snum"><div class="n">3</div><div class="nzh">第三页</div></div>
+    <div class="stxt">
+      <div class="stag">Analysis · 分析</div>
+      <div class="stitle">Craft &amp; Structure</div>
+      <div class="stzh">写作技巧与结构 — 作者如何构建故事</div>
+    </div>
+  </div>
+
+  <div class="zhbox" style="margin-bottom:1%"><div class="icon">🔑</div><div>
+    <div class="zhlabel">关键词汇 Key Terms</div>
+    <div class="zhtext"><strong>POV叙事视角</strong>=谁在讲故事 · <strong>Plot Arc情节弧线</strong>=故事结构 · <strong>External Conflict外部冲突</strong>=与外界的冲突 · <strong>Internal Conflict内心冲突</strong>=内心挣扎</div>
+  </div></div>
+
+  <div class="g2">
+    <div class="col">
+      <div class="card at">
+        <div class="clabel">POV — What we know vs. what we miss <span class="zh">视角分析</span></div>
+        <div class="cp">1st-person narration (第一人称). Drag to sort what we CAN and CAN'T know.
+          <span class="zhq">拖动下面的知识卡片，分类哪些是我们能知道的，哪些是我们不能知道的。</span>
+        </div>
+        <div class="wb-wrap" style="margin-top:4px">
+          <div class="wb-title">📚 POV Knowledge Chips <span class="wbzh">视角知识卡片</span></div>
+          <div class="wb-chips" id="wb-pov">
+            <div class="wb-chip" draggable="true" data-word="Ponyboy's thoughts 波尼的想法" data-bank="pov"><span>Ponyboy's thoughts</span><span class="czh">波尼的想法</span></div>
+            <div class="wb-chip" draggable="true" data-word="What Socs think 索克斯的想法" data-bank="pov"><span>What Socs think</span><span class="czh">索克斯的想法</span></div>
+            <div class="wb-chip" draggable="true" data-word="Ponyboy's feelings 波尼的感受" data-bank="pov"><span>Ponyboy's feelings</span><span class="czh">波尼的感受</span></div>
+            <div class="wb-chip" draggable="true" data-word="Darry's true motive 达里的真实动机" data-bank="pov"><span>Darry's true motive</span><span class="czh">达里的真实动机</span></div>
+            <div class="wb-chip" draggable="true" data-word="What Ponyboy sees 波尼看到的" data-bank="pov"><span>What Ponyboy sees</span><span class="czh">波尼看到的</span></div>
+          </div>
+        </div>
+        <div class="sort-targets">
+          <div class="sort-target" id="sort-know" data-cat="know">
+            <div class="st-label">We KNOW ✓ 我们能知道</div>
+            <div class="items-area" id="area-know"></div>
+          </div>
+          <div class="sort-target" id="sort-miss" data-cat="miss">
+            <div class="st-label">We MISS ✗ 我们不能知道</div>
+            <div class="items-area" id="area-miss"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card ap">
+        <div class="clabel">Sentence Craft <span class="zh">句子技巧</span></div>
+        <div class="cp">Find a short sentence (&lt;8 words) and long sentence (20+ words) in the excerpt.
+          <span class="zhq">从课文中找一个短句（少于8个词）和一个长句（超过20个词）。</span>
+        </div>
+        <label>Short sentence 短句 (copy it): <span class="lzh">抄写短句</span></label>
+        <input type="text" id="s3-short" placeholder='"I had a long walk home..." — under 8 words'>
+        <label>Long sentence 长句 (first few words): <span class="lzh">抄写长句开头</span></label>
+        <input type="text" id="s3-long" placeholder='"When I stepped out into..." — 20+ words'>
+        <label>Effect on pace/mood 对节奏/情绪的影响: <span class="lzh">句子长度的作用</span></label>
+        <div class="cgroup">
+          <span class="cbtn" onclick="pick(this,'s3-pace')">Short = Fast pace<span class="bz">短=节奏快</span></span>
+          <span class="cbtn" onclick="pick(this,'s3-pace')">Long = Slow/Reflective<span class="bz">长=慢/沉思</span></span>
+          <span class="cbtn" onclick="pick(this,'s3-pace')">Both create tension<span class="bz">都制造张力</span></span>
+        </div>
+        <input type="hidden" id="s3-pace">
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card ag">
+        <div class="clabel">Plot Arc Placement <span class="zh">情节位置</span></div>
+        <div class="cp">Where does this excerpt fall on the plot arc? Drag the excerpt label to the right spot.
+          <span class="zhq">这段课文在情节弧线的哪个位置？把标签拖到正确位置。</span>
+        </div>
+        <!-- Visual plot arc -->
+        <div style="margin:6px 0;padding:8px;background:#fff;border-radius:6px;border:1.5px solid var(--border)">
+          <div style="font-size:.55em;font-family:'IBM Plex Mono',monospace;color:#8a7060;margin-bottom:5px;text-align:center">Plot Arc 情节弧线 — drag "This excerpt" to the right stage</div>
+          <div style="display:flex;align-items:flex-end;gap:4px;height:50px;padding:0 4px">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+              <div class="drop-zone" id="arc-exp" style="width:100%;min-height:30px;padding:2px" data-label="arc-exp"><span class="ph" style="font-size:.8em">📍</span></div>
+              <div style="font-size:.5em;font-family:'Noto Sans SC',sans-serif;color:#8a7060;text-align:center">Exposition<br>铺垫</div>
+            </div>
+            <div style="font-size:1.2em;color:var(--amber);padding-bottom:20px">↗</div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+              <div class="drop-zone" id="arc-inc" style="width:100%;min-height:30px;padding:2px" data-label="arc-inc"><span class="ph" style="font-size:.8em">📍</span></div>
+              <div style="font-size:.5em;font-family:'Noto Sans SC',sans-serif;color:#8a7060;text-align:center">Inciting Incident<br>触发事件</div>
+            </div>
+            <div style="font-size:1.2em;color:var(--amber);padding-bottom:20px">↗</div>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+              <div class="drop-zone" id="arc-rise" style="width:100%;min-height:30px;padding:2px" data-label="arc-rise"><span class="ph" style="font-size:.8em">📍</span></div>
+              <div style="font-size:.5em;font-family:'Noto Sans SC',sans-serif;color:#8a7060;text-align:center">Rising Action<br>上升动作</div>
+            </div>
+          </div>
+          <div class="wb-chips" style="justify-content:center;margin-top:5px">
+            <div class="wb-chip" draggable="true" data-word="This excerpt 本段课文" data-bank="arc" id="arc-chip"><span>This excerpt</span><span class="czh">本段课文</span></div>
+          </div>
+        </div>
+        <label>Justify with evidence 用证据说明原因: <span class="lzh">解释为什么</span></label>
+        <textarea id="s3-arc-just" class="sh2" placeholder="This is the _____ because Hinton shows... 这是_____，因为欣顿写到..."></textarea>
+      </div>
+
+      <div class="card ar">
+        <div class="clabel">Conflict Identification <span class="zh">冲突识别</span></div>
+        <div class="cp">Match each conflict type to the correct description.
+          <span class="zhq">把冲突类型和描述连起来。</span>
+        </div>
+        <div class="sort-targets" style="margin-top:5px">
+          <div class="sort-target" id="sort-ext" data-cat="ext">
+            <div class="st-label">External 外部冲突</div>
+            <div class="st-zh">与外界的冲突</div>
+            <div class="items-area" id="area-ext"></div>
+          </div>
+          <div class="sort-target" id="sort-int" data-cat="int">
+            <div class="st-label">Internal 内心冲突</div>
+            <div class="st-zh">内心的挣扎</div>
+            <div class="items-area" id="area-int"></div>
+          </div>
+        </div>
+        <div class="wb-chips" id="wb-conflict" style="margin-top:6px">
+          <div class="wb-chip" draggable="true" data-word="Socs threaten him 索克斯威胁他" data-bank="conflict"><span style="font-size:.85em">Socs threaten him</span><span class="czh">索克斯威胁他</span></div>
+          <div class="wb-chip" draggable="true" data-word="Different from greasers 与油脂党不同" data-bank="conflict"><span style="font-size:.85em">Feels different</span><span class="czh">感到与众不同</span></div>
+          <div class="wb-chip" draggable="true" data-word="Unsafe neighborhood 危险街区" data-bank="conflict"><span style="font-size:.85em">Unsafe streets</span><span class="czh">危险的街道</span></div>
+          <div class="wb-chip" draggable="true" data-word="Torn identity 撕裂的身份" data-bank="conflict"><span style="font-size:.85em">Torn identity</span><span class="czh">撕裂的身份认同</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 4 — Tone & Mood
+════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-4">
+  <div class="sh">
+    <div class="snum"><div class="n">4</div><div class="nzh">第四页</div></div>
+    <div class="stxt">
+      <div class="stag">Author's Style · 作者风格</div>
+      <div class="stitle">Tone &amp; Mood Analysis</div>
+      <div class="stzh">语气与情绪分析 — 作者如何让读者有感受</div>
+    </div>
+  </div>
+
+  <div class="zhbox" style="margin-bottom:1%"><div class="icon">💡</div><div>
+    <div class="zhlabel">概念区别 Key Difference</div>
+    <div class="zhtext"><strong>Tone语气</strong>=作者/叙述者的态度（作者感受）· <strong>Mood情绪</strong>=读者的感受（读者感受）<br>Tone = the narrator's attitude · Mood = how YOU as the reader feel</div>
+  </div></div>
+
+  <div class="g2">
+    <div class="col">
+      <!-- Tone drag to spectrum -->
+      <div class="card aa">
+        <div class="clabel">Tone — Drag to the Spectrum <span class="zh">拖动到语气光谱上</span></div>
+        <div class="cp">Where does Ponyboy's tone fall? Drag the tone chip to the right place on the spectrum.
+          <span class="zhq">波尼男孩的语气在哪里？把语气词拖到语气光谱上。</span>
+        </div>
+        <div style="margin:6px 0;background:#fff;border-radius:6px;border:1.5px solid var(--border);padding:8px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+            <span style="font-size:.55em;color:#5a9a5a;font-family:'IBM Plex Mono',monospace">POSITIVE 积极</span>
+            <span style="font-size:.55em;color:#9a5a5a;font-family:'IBM Plex Mono',monospace">NEGATIVE 消极</span>
+          </div>
+          <div style="display:flex;gap:3px;align-items:center">
+            <div class="drop-zone" id="tone-pos" style="flex:1;min-height:32px;padding:3px" data-label="tone-pos"><span class="ph" style="font-size:.75em">Positive+</span></div>
+            <div class="drop-zone" id="tone-mid" style="flex:1;min-height:32px;padding:3px" data-label="tone-mid"><span class="ph" style="font-size:.75em">Neutral</span></div>
+            <div class="drop-zone" id="tone-neg" style="flex:1;min-height:32px;padding:3px" data-label="tone-neg"><span class="ph" style="font-size:.75em">Negative-</span></div>
+          </div>
+        </div>
+        <div class="wb-chips" id="wb-tone" style="margin-top:4px">
+          <div class="wb-chip" draggable="true" data-word="Defiant 反抗" data-bank="tone"><span>Defiant</span><span class="czh">反抗</span></div>
+          <div class="wb-chip" draggable="true" data-word="Sad 悲伤" data-bank="tone"><span>Sad</span><span class="czh">悲伤</span></div>
+          <div class="wb-chip" draggable="true" data-word="Proud 骄傲" data-bank="tone"><span>Proud</span><span class="czh">骄傲</span></div>
+          <div class="wb-chip" draggable="true" data-word="Bitter 苦涩" data-bank="tone"><span>Bitter</span><span class="czh">苦涩</span></div>
+          <div class="wb-chip" draggable="true" data-word="Resigned 无奈" data-bank="tone"><span>Resigned</span><span class="czh">无奈</span></div>
+        </div>
+        <label>Quote that proves your tone choice 证明语气的引语: <span class="lzh">从课文找证据</span></label>
+        <textarea id="s4-tone-quote" class="sh2" placeholder='"..." — This shows _____ tone because... 这句话显示了___语气，因为...'></textarea>
+      </div>
+
+      <div class="card at">
+        <div class="clabel">Slang &amp; Informal Language <span class="zh">俚语与非正式语言</span></div>
+        <div class="cp">What does Hinton's word choice tell us about Ponyboy's world?
+          <span class="zhq">欣顿的词语选择告诉我们波尼男孩的世界是什么样的？</span>
+        </div>
+        <!-- Word bank for social world -->
+        <div class="wb-wrap" style="margin:4px 0">
+          <div class="wb-title">🗣 Social World Words <span class="wbzh">社会世界词汇</span></div>
+          <div class="wb-chips" id="wb-social">
+            <div class="wb-chip" draggable="true" data-word="Working class 工人阶级" data-bank="social"><span>Working class</span><span class="czh">工人阶级</span></div>
+            <div class="wb-chip" draggable="true" data-word="Gang loyalty 帮派忠诚" data-bank="social"><span>Gang loyalty</span><span class="czh">帮派忠诚</span></div>
+            <div class="wb-chip" draggable="true" data-word="Street danger 街头危险" data-bank="social"><span>Street danger</span><span class="czh">街头危险</span></div>
+            <div class="wb-chip" draggable="true" data-word="Class division 阶级分化" data-bank="social"><span>Class division</span><span class="czh">阶级分化</span></div>
+          </div>
+        </div>
+        <label>Drag 1-2 words that best describe Ponyboy's world: <span class="lzh">拖拽1-2个词描述波尼男孩的世界</span></label>
+        <div class="drop-zone" id="dz-social" style="min-height:36px" data-label="social"><span class="ph">拖到这里 Drag here</span></div>
+        <label>Explain in your own words 用自己的话解释: <span class="lzh">用中文或英文都可以</span></label>
+        <textarea id="s4-slang" class="sh2" placeholder="The slang tells us Ponyboy's world is... 俚语告诉我们波尼男孩的世界是..."></textarea>
+      </div>
+    </div>
+
+    <div class="col">
+      <!-- Mood evidence sort -->
+      <div class="card ap" style="flex:1">
+        <div class="clabel">Mood in the Park Scene <span class="zh">公园场景的情绪</span></div>
+        <div class="cp">Drag each detail to the mood it creates. Re-read the excerpt if needed.
+          <span class="zhq">把每个细节拖到它创造的情绪下面。可以重新看课文。</span>
+        </div>
+        <div class="wb-chips" id="wb-moodev" style="margin:5px 0;padding:8px;background:var(--ink);border-radius:5px">
+          <div class="wb-chip" draggable="true" data-word='"too nice to have anything go wrong"' data-bank="moodev"><span style="font-size:.82em">"too nice to go wrong"</span><span class="czh">好得不像真的</span></div>
+          <div class="wb-chip" draggable="true" data-word='"prickling feeling on back of neck"' data-bank="moodev"><span style="font-size:.82em">"prickling feeling"</span><span class="czh">脖子刺痒</span></div>
+          <div class="wb-chip" draggable="true" data-word='"red Corvair moving slowly beside me"' data-bank="moodev"><span style="font-size:.82em">"red Corvair moving"</span><span class="czh">红色跑车缓缓靠近</span></div>
+          <div class="wb-chip" draggable="true" data-word='"I had a strange feeling"' data-bank="moodev"><span style="font-size:.82em">"strange feeling"</span><span class="czh">奇怪的预感</span></div>
+        </div>
+        <div class="sort-targets">
+          <div class="sort-target" id="sort-calm" data-cat="calm">
+            <div class="st-label">Peaceful 平静</div>
+            <div class="items-area" id="area-calm"></div>
+          </div>
+          <div class="sort-target" id="sort-tense" data-cat="tense">
+            <div class="st-label">Tense/Dread 紧张/恐惧</div>
+            <div class="items-area" id="area-tense"></div>
+          </div>
+        </div>
+        <div class="sf-row" style="margin-top:6px">
+          <span class="sf-text">Hinton creates a mood of </span>
+          <input class="sf-blank" id="sf-mood" placeholder="tension..." style="min-width:80px">
+          <span class="sf-text"> through </span>
+          <input class="sf-blank" id="sf-mooddev" placeholder="sensory details..." style="min-width:110px">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">欣顿通过_____创造了_____的情绪。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 5 — Vocabulary
+════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-5">
+  <div class="sh">
+    <div class="snum"><div class="n">5</div><div class="nzh">第五页</div></div>
+    <div class="stxt">
+      <div class="stag">Vocabulary · 词汇</div>
+      <div class="stitle">Greek &amp; Latin Root Practice</div>
+      <div class="stzh">希腊语和拉丁语词根练习 — 通过词根猜意思</div>
+    </div>
+  </div>
+
+  <div class="zhbox" style="margin-bottom:1%"><div class="icon">🌱</div><div>
+    <div class="zhlabel">策略 Strategy — Context + Root</div>
+    <div class="zhtext">步骤：① 看词根猜意思 → ② 在课文中找这个词 → ③ 用上下文确认意思 → ④ 造句<br>Step: ① Guess from root → ② Find in excerpt → ③ Confirm with context → ④ Use in sentence</div>
+  </div></div>
+
+  <div class="g2">
+    <div class="col">
+      <div class="vcard">
+        <div class="vword">UNFAMILIAR <span class="vpos">adj 形容词</span> <span class="vzh">不熟悉的</span></div>
+        <div class="vroot">un- (Latin: not 不) + familiaris (household 家庭的)</div>
+        <div class="vzhdefs">中文：不熟悉的 · 陌生的 · 感到格格不入的</div>
+        <p class="vprompt">Write a sentence about feeling out of place.<span class="vpzh">写一个你感到格格不入的经历。用这个词：I felt unfamiliar when...</span></p>
+        <!-- Sentence frame -->
+        <div class="sf-row">
+          <span class="sf-text">I felt unfamiliar when </span>
+          <input class="sf-blank" id="sf-unf" placeholder="I moved to..." style="min-width:120px">
+          <span class="sf-text">, because </span>
+          <input class="sf-blank" id="sf-unf2" placeholder="everything was..." style="min-width:110px">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">当_____时，我感到不熟悉，因为_____。</span>
+        </div>
+      </div>
+
+      <div class="vcard">
+        <div class="vword">GALLANT <span class="vpos">adj 形容词</span> <span class="vzh">英勇的</span></div>
+        <div class="vroot">Old French: galant (show off, lively 展示活力)</div>
+        <div class="vzhdefs">中文：英勇的 · 有骑士风度的 · 勇敢保护他人</div>
+        <p class="vprompt">What does Ponyboy using this word tell us about his values? Drag the best answer.<span class="vpzh">波尼男孩用这个词说明他重视什么？拖拽最佳答案。</span></p>
+        <div class="wb-chips" id="wb-gallant" style="margin:4px 0;padding:7px;background:var(--ink);border-radius:5px">
+          <div class="wb-chip" draggable="true" data-word="He values courage 他重视勇气" data-bank="gallant"><span>He values courage</span><span class="czh">他重视勇气</span></div>
+          <div class="wb-chip" draggable="true" data-word="He values looks 他重视外貌" data-bank="gallant"><span>He values looks</span><span class="czh">他重视外貌</span></div>
+          <div class="wb-chip" draggable="true" data-word="He values loyalty 他重视忠诚" data-bank="gallant"><span>He values loyalty</span><span class="czh">他重视忠诚</span></div>
+        </div>
+        <div class="drop-zone" id="dz-gallant" data-label="gallant"><span class="ph">波尼男孩的价值观 Drag Ponyboy's value here</span></div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="vcard">
+        <div class="vword">TENSION <span class="vpos">n 名词</span> <span class="vzh">紧张感</span></div>
+        <div class="vroot">Latin: tensio (stretching 拉伸)</div>
+        <div class="vzhdefs">中文：紧张感 · 张力（想象一根绷紧的橡皮筋）</div>
+        <p class="vprompt">Find the moment of highest tension in the excerpt. Complete the frame.<span class="vpzh">找到课文中张力最高的时刻，完成句子框架。</span></p>
+        <div class="sf-row">
+          <span class="sf-text">The moment of highest tension is when </span>
+          <input class="sf-blank" id="sf-ten" placeholder="the Corvair..." style="min-width:120px">
+          <span class="sf-text">. This stretches the reader because </span>
+          <input class="sf-blank" id="sf-ten2" placeholder="we don't know..." style="min-width:110px">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">张力最高的时刻是_____。这让读者感到被"拉伸"，因为_____。</span>
+        </div>
+      </div>
+
+      <div class="vcard">
+        <div class="vword">SOPHISTICATED <span class="vpos">adj 形容词</span> <span class="vzh">复杂/精致的</span></div>
+        <div class="vroot">Greek: sophos (wise 智慧的)</div>
+        <div class="vzhdefs">中文：精致的 · 老练的（此处带讽刺）· 讽刺 = 表面意思与真实意思相反</div>
+        <p class="vprompt">How is this used ironically for the Socs? Drag the best explanation.<span class="vpzh">这个词如何被讽刺地用于索克斯？拖拽最佳解释。</span></p>
+        <div class="wb-chips" id="wb-soph" style="margin:4px 0;padding:7px;background:var(--ink);border-radius:5px">
+          <div class="wb-chip" draggable="true" data-word="They act smart but bully others 他们自以为聪明却欺负人" data-bank="soph"><span style="font-size:.82em">Smart but bully</span><span class="czh">自以为聪明却欺负人</span></div>
+          <div class="wb-chip" draggable="true" data-word="They are truly wise 他们真的很聪明" data-bank="soph"><span style="font-size:.82em">Truly wise</span><span class="czh">真的很聪明</span></div>
+          <div class="wb-chip" draggable="true" data-word="Rich kids acting cruel 有钱人做残忍的事" data-bank="soph"><span style="font-size:.82em">Rich + cruel</span><span class="czh">有钱人做残忍的事</span></div>
+        </div>
+        <div class="drop-zone" id="dz-soph" data-label="soph"><span class="ph">拖拽最佳解释 Drag best explanation</span></div>
+      </div>
+
+      <div class="card aa">
+        <div class="clabel">Root Practice: un- = "not 不" <span class="zh">词根练习</span></div>
+        <p class="cp">Generate 3 un- adjectives for a character in conflict. Use the word bank for ideas.<span class="zhq">造3个带un-的形容词描写冲突中的角色。</span></p>
+        <div class="wb-chips" id="wb-un" style="margin:4px 0;padding:7px;background:var(--ink);border-radius:5px">
+          <div class="wb-chip" draggable="true" data-word="unsafe 不安全" data-bank="un"><span>unsafe</span><span class="czh">不安全</span></div>
+          <div class="wb-chip" draggable="true" data-word="uncertain 不确定" data-bank="un"><span>uncertain</span><span class="czh">不确定</span></div>
+          <div class="wb-chip" draggable="true" data-word="unheard 未被倾听" data-bank="un"><span>unheard</span><span class="czh">未被倾听</span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:3px">
+          <div class="drop-zone" id="dz-un1" data-label="un1"><span class="ph">un-词1</span></div>
+          <div class="drop-zone" id="dz-un2" data-label="un2"><span class="ph">un-词2</span></div>
+          <div class="drop-zone" id="dz-un3" data-label="un3"><span class="ph">un-词3</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 6 — Brief Write
+════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-6">
+  <div class="sh">
+    <div class="snum"><div class="n">6</div><div class="nzh">第六页</div></div>
+    <div class="stxt">
+      <div class="stag">Writing · 写作</div>
+      <div class="stitle">Brief Write — ABCD Structure</div>
+      <div class="stzh">短文写作 — 使用ABCD结构写2-3句话</div>
+    </div>
+  </div>
+
+  <div class="zhbox" style="margin-bottom:1%"><div class="icon">✍️</div><div>
+    <div class="zhlabel">写作任务</div>
+    <div class="zhtext">用<strong>2-3句话</strong>解释波尼男孩的身份如何被他的<strong>环境</strong>塑造。必须使用至少<strong>一处课文证据</strong>。用中文打草稿，再翻译成英文也可以！<br>2–3 sentences · One piece of text evidence · ABCD structure · Chinese drafts welcome</div>
+  </div></div>
+
+  <div class="g2">
+    <!-- Left: Step-by-step build -->
+    <div class="col">
+      <div class="card aa">
+        <div class="clabel">Step-by-Step Builder <span class="zh">逐步构建</span></div>
+        <div class="cp">Build your response one sentence at a time using the frames below.
+          <span class="zhq">用下面的句子框架，一句一句地构建你的回答。</span>
+        </div>
+
+        <div style="font-size:.56em;font-family:'IBM Plex Mono',monospace;color:var(--amber);font-weight:600;margin:3px 0 2px">A — ANSWER your prompt first 先回答问题</div>
+        <div class="sf-row">
+          <span class="sf-text">Ponyboy's identity is shaped by </span>
+          <input class="sf-blank" id="sf-a1" placeholder="his environment 他的环境" style="min-width:100px">
+          <span class="sf-text"> because </span>
+          <input class="sf-blank" id="sf-a2" placeholder="living in the East Side..." style="min-width:120px">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">波尼男孩的身份被_____塑造，因为_____。</span>
+        </div>
+
+        <div style="font-size:.56em;font-family:'IBM Plex Mono',monospace;color:var(--teal);font-weight:600;margin:5px 0 2px">B — BACK IT UP with evidence 用证据支撑</div>
+        <div class="sf-row">
+          <span class="sf-text">Hinton shows this when she writes, "</span>
+          <input class="sf-blank" id="sf-b" placeholder="Quote from excerpt..." style="min-width:140px">
+          <span class="sf-text">."</span>
+          <span class="sf-zh">欣顿写道："_____"。（从课文中找引语）</span>
+        </div>
+
+        <div style="font-size:.56em;font-family:'IBM Plex Mono',monospace;color:var(--purple);font-weight:600;margin:5px 0 2px">C — COMMENT on the evidence 解释证据</div>
+        <div class="sf-row">
+          <span class="sf-text">This shows that </span>
+          <input class="sf-blank" id="sf-c" placeholder="Ponyboy feels..." style="min-width:130px">
+          <span class="sf-text">, which means </span>
+          <input class="sf-blank" id="sf-c2" placeholder="his identity is..." style="min-width:110px">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">这说明_____，意味着_____。</span>
+        </div>
+
+        <div style="font-size:.56em;font-family:'IBM Plex Mono',monospace;color:var(--green);font-weight:600;margin:5px 0 2px">D — DONE — Connect to EQ 联系核心问题</div>
+        <div class="sf-row">
+          <span class="sf-text">This experience shows how </span>
+          <input class="sf-blank" id="sf-d" placeholder="experiences shape..." style="min-width:130px">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">这个经历说明了_____如何塑造一个人。（联系核心问题）</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Final write + scaffold -->
+    <div class="col">
+      <div class="scaffold-dark" style="flex:0 0 auto">
+        <div class="sd-title">ABCD Quick Reference<span class="sz">ABCD快速参考</span></div>
+        <div class="abcd-row2">
+          <div class="abcd-L">A</div>
+          <div class="abcd-R">
+            <div class="abcd-en">Answer — State main idea first</div>
+            <div class="abcd-zh2">回答 — 第一句说明主要观点</div>
+          </div>
+        </div>
+        <div class="abcd-row2">
+          <div class="abcd-L">B</div>
+          <div class="abcd-R">
+            <div class="abcd-en">Back it up — "Hinton writes..."</div>
+            <div class="abcd-zh2">支撑 — "欣顿写道..."</div>
+          </div>
+        </div>
+        <div class="abcd-row2">
+          <div class="abcd-L">C</div>
+          <div class="abcd-R">
+            <div class="abcd-en">Comment — Explain HOW it proves your point</div>
+            <div class="abcd-zh2">评论 — 解释证据如何证明观点</div>
+          </div>
+        </div>
+        <div class="abcd-row2">
+          <div class="abcd-L">D</div>
+          <div class="abcd-R">
+            <div class="abcd-en">Done — Connect to EQ</div>
+            <div class="abcd-zh2">完成 — 联系核心问题</div>
+          </div>
+        </div>
+      </div>
+      <div class="card aa" style="flex:1">
+        <div class="clabel">Your Full Response 你的完整回答:</div>
+        <p class="cp" style="margin-bottom:4px">Now write your full 2-3 sentence response. Use your sentence builder above as a guide!<span class="zhq">现在写完整的2-3句话回答。可以把上面的框架组合在一起！用中文打草稿也可以。</span></p>
+        <textarea id="s6-write" class="tall" placeholder="Ponyboy's identity is shaped by... Hinton shows this when... This shows that...&#10;&#10;（可以先用中文写草稿，再翻译）"></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 7 — Speaking & Listening
+════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-7">
+  <div class="sh">
+    <div class="snum"><div class="n">7</div><div class="nzh">第七页</div></div>
+    <div class="stxt">
+      <div class="stag">Speaking &amp; Listening · 口语与听力</div>
+      <div class="stitle">Think-Pair-Share</div>
+      <div class="stzh">思考-配对-分享 — 搭档讨论活动</div>
+    </div>
+    <div class="sbadge">Partner<br><span style="font-family:'Noto Sans SC',sans-serif;font-size:.85em">搭档活动</span></div>
+  </div>
+
+  <div class="g2">
+    <div class="col">
+      <div class="card filled aa">
+        <div class="clabel">Discussion Question <span class="zh">讨论问题</span></div>
+        <p style="font-size:.75em;color:var(--ink);font-style:italic;line-height:1.5">Would you want Ponyboy as a friend? Why or why not?</p>
+        <p style="font-family:'Noto Sans SC',sans-serif;font-size:.68em;color:var(--brown);margin-top:3px">你愿意和波尼男孩做朋友吗？为什么？</p>
+        <p style="font-size:.6em;color:#8a7060;margin-top:4px">⚠️ Must use text evidence! 必须用课文证据！</p>
+      </div>
+
+      <div class="card aa">
+        <div class="clabel">Your Position <span class="zh">你的立场</span></div>
+        <div class="cgroup">
+          <span class="cbtn" onclick="pick(this,'s7-pos')">Yes, I would 愿意</span>
+          <span class="cbtn" onclick="pick(this,'s7-pos')">No, I wouldn't 不愿意</span>
+        </div>
+        <input type="hidden" id="s7-pos">
+
+        <!-- Speaking sentence frames -->
+        <div class="wb-wrap" style="margin-top:5px">
+          <div class="wb-title">🗣 Speaking Starter Phrases <span class="wbzh">口语开场句 — 点击使用</span></div>
+          <div class="wb-chips" id="wb-speak" style="flex-wrap:wrap">
+            <div class="wb-chip" style="cursor:pointer" onclick="appendToField('s7-reason', 'I think Ponyboy would be a good friend because ')"><span>I think...</span><span class="czh">我认为...</span></div>
+            <div class="wb-chip" style="cursor:pointer" onclick="appendToField('s7-reason', 'The text shows that Ponyboy ')"><span>The text shows...</span><span class="czh">课文显示...</span></div>
+            <div class="wb-chip" style="cursor:pointer" onclick="appendToField('s7-reason', 'For example, Hinton writes that ')"><span>For example...</span><span class="czh">例如...</span></div>
+            <div class="wb-chip" style="cursor:pointer" onclick="appendToField('s7-reason', 'This evidence proves that ')"><span>This proves...</span><span class="czh">这证明了...</span></div>
+          </div>
+        </div>
+        <label>Your text-based reason 你的文本理由: <span class="lzh">点击上面的句子开头，然后继续写</span></label>
+        <textarea id="s7-reason" class="sh2" placeholder="I think... / The text shows..."></textarea>
+      </div>
+
+      <div class="card at">
+        <div class="clabel">Partner's Response <span class="zh">记录搭档的回应</span></div>
+        <div class="cgroup">
+          <span class="cbtn" onclick="appendToField('s7-partner','My partner agrees because ')">Partner agrees 搭档同意</span>
+          <span class="cbtn" onclick="appendToField('s7-partner','My partner disagrees because ')">Partner disagrees 搭档不同意</span>
+        </div>
+        <textarea id="s7-partner" class="sh2" placeholder="My partner [agrees/disagrees] because... 我的搭档[同意/不同意]，因为..."></textarea>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card" style="flex:0 0 auto">
+        <div class="clabel">Protocol 活动步骤:</div>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:5px">
+          <div class="pstep">
+            <div class="pcirc">1</div>
+            <div>
+              <div class="pstep-en"><strong>Partner A</strong> — 45 sec, uninterrupted. Position + evidence.</div>
+              <div class="pstep-zh">搭档A先说45秒，不被打断。说立场+证据。</div>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pcirc">2</div>
+            <div>
+              <div class="pstep-en"><strong>Partner B</strong> — must begin: <em>"I agree/disagree because..."</em></div>
+              <div class="pstep-zh">搭档B回应：必须用"我同意/不同意，因为..."开头</div>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pcirc">3</div>
+            <div>
+              <div class="pstep-en"><strong>Class share</strong> — 3 pairs share strongest evidence.</div>
+              <div class="pstep-zh">全班3组分享最有力的证据。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card ag" style="flex:1">
+        <div class="clabel">Best Class Evidence <span class="zh">最佳课堂证据</span></div>
+        <div class="cp">Record the strongest evidence shared during class share-out.
+          <span class="zhq">记录全班分享时最有力的证据。</span>
+        </div>
+        <textarea id="s7-class" style="min-height:60px" placeholder="The best evidence shared in class was... 课堂上分享的最佳证据是..."></textarea>
+      </div>
+
+      <!-- Evidence sentence frame for class share -->
+      <div class="card aa">
+        <div class="clabel">Class Evidence Frame <span class="zh">课堂证据句子框架</span></div>
+        <div class="sf-row">
+          <span class="sf-text">In class, </span>
+          <input class="sf-blank" id="sf-class1" placeholder="[name/classmate]" style="min-width:70px">
+          <span class="sf-text"> argued that Ponyboy </span>
+          <input class="sf-blank" id="sf-class2" placeholder="would/wouldn't..." style="min-width:90px">
+          <span class="sf-text"> using evidence: "</span>
+          <input class="sf-blank" id="sf-class3" placeholder="quote..." style="min-width:100px">
+          <span class="sf-text">."</span>
+          <span class="sf-zh">在课堂上，_____认为波尼男孩_____，并引用证据："_____"。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     SLIDE 8 — Exit Ticket
+════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-8">
+  <div class="sh">
+    <div class="snum"><div class="n">8</div><div class="nzh">第八页</div></div>
+    <div class="stxt">
+      <div class="stag">Exit Ticket · 出门票</div>
+      <div class="stitle">Solo Formative — 5 Minutes</div>
+      <div class="stzh">个人形成性评估 — 5分钟，独立完成，不讨论</div>
+    </div>
+    <div class="sbadge" style="border-color:var(--red);color:var(--red)">Solo Only<br><span style="font-family:'Noto Sans SC',sans-serif;font-size:.85em">独立完成</span></div>
+  </div>
+
+  <div class="zhbox" style="margin-bottom:1%;border-color:var(--red);background:var(--red2)"><div class="icon">🚫</div><div>
+    <div class="zhlabel" style="color:var(--red)">独立完成 Work Alone</div>
+    <div class="zhtext" style="color:var(--red)"><strong>现在不能和搭档讨论。</strong>独立完成。这是你个人的评估。<br>No partner discussion. Work independently. This is your individual assessment.</div>
+  </div></div>
+
+  <div class="g2">
+    <div class="col">
+      <div class="card aa" style="flex:1">
+        <div class="clabel">Your Exit Ticket <span class="zh">你的出门票</span></div>
+        <p class="cp">Name ONE narrative craft technique Hinton uses. Explain what it is + why she uses it.
+          <span class="zhq">说出欣顿使用的一个叙事技巧，解释它是什么，以及她为什么使用它。</span>
+        </p>
+
+        <div style="font-size:.56em;font-family:'IBM Plex Mono',monospace;color:var(--brown);margin:4px 0 3px;font-weight:600">STEP 1 — Choose your technique 选择技巧:</div>
+        <!-- Technique drag-and-drop from word bank -->
+        <div class="wb-wrap">
+          <div class="wb-title">🛠 Technique Word Bank <span class="wbzh">叙事技巧词汇库</span></div>
+          <div class="wb-chips" id="wb-tech">
+            <div class="wb-chip" draggable="true" data-word="1st-Person POV 第一人称叙事视角" data-bank="tech"><span>1st-Person POV</span><span class="czh">第一人称视角</span></div>
+            <div class="wb-chip" draggable="true" data-word="Internal Monologue 内心独白" data-bank="tech"><span>Internal Monologue</span><span class="czh">内心独白</span></div>
+            <div class="wb-chip" draggable="true" data-word="Sensory Imagery 感官意象" data-bank="tech"><span>Sensory Imagery</span><span class="czh">感官意象</span></div>
+            <div class="wb-chip" draggable="true" data-word="Foreshadowing 预示" data-bank="tech"><span>Foreshadowing</span><span class="czh">预示</span></div>
+            <div class="wb-chip" draggable="true" data-word="Juxtaposition 对比" data-bank="tech"><span>Juxtaposition</span><span class="czh">对比</span></div>
+          </div>
+        </div>
+        <div class="drop-zone" id="dz-tech" data-label="tech" style="min-height:36px"><span class="ph">拖你选择的技巧到这里 Drag your chosen technique here</span></div>
+
+        <div style="font-size:.56em;font-family:'IBM Plex Mono',monospace;color:var(--brown);margin:6px 0 3px;font-weight:600">STEP 2 — Quote or paraphrase 引语或改写:</div>
+        <textarea id="s8-quote" class="sh2" placeholder='Hinton writes/shows... 欣顿写道/展示...'></textarea>
+
+        <div style="font-size:.56em;font-family:'IBM Plex Mono',monospace;color:var(--brown);margin:5px 0 3px;font-weight:600">STEP 3 — Purpose + Effect 目的与效果:</div>
+        <div class="sf-row">
+          <span class="sf-text">Hinton uses this technique to </span>
+          <input class="sf-blank" id="sf-et1" placeholder="create..." style="min-width:100px">
+          <span class="sf-text">, which makes the reader </span>
+          <input class="sf-blank" id="sf-et2" placeholder="feel/understand..." style="min-width:110px">
+          <span class="sf-text">.</span>
+          <span class="sf-zh">欣顿用这个技巧来_____，让读者_____。</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card" style="flex:0 0 auto">
+        <div class="clabel">✓ Strong Exit Ticket Checklist <span class="zh">高质量出门票检查</span></div>
+        <div style="margin-top:4px">
+          <div class="crit-row">
+            <div class="crit-ico">◆</div>
+            <div>
+              <div class="crit-en">Specific technique (not just "description")</div>
+              <div class="crit-zh">具体的技巧（不能只写"描写"）</div>
+            </div>
+          </div>
+          <div class="crit-row">
+            <div class="crit-ico">◆</div>
+            <div>
+              <div class="crit-en">Quotes or closely paraphrases the text</div>
+              <div class="crit-zh">引用或改写课文语句</div>
+            </div>
+          </div>
+          <div class="crit-row">
+            <div class="crit-ico">◆</div>
+            <div>
+              <div class="crit-en">Explains PURPOSE — effect on the reader</div>
+              <div class="crit-zh">解释目的——对读者产生了什么效果</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Excerpt mini-reference -->
+      <div class="excerpt-wrap" style="flex:1">
+        <div class="excerpt-head">
+          <span class="et">📖 Quick Reference — Re-read if needed</span>
+          <span class="ez">需要时重新阅读</span>
+        </div>
+        <div class="excerpt-body" style="max-height:130px">
+          <p>"When I stepped out into the bright sunlight from the darkness of the movie house, I had only two things on my mind: Paul Newman and a ride home."</p>
+          <p>"I had a long walk home and no company, but I usually <strong>lone it anyway, for safety</strong>."</p>
+          <p>"I could feel eyes on me — the <strong>prickling feeling on the back of my neck</strong>."</p>
+          <p>"It wasn't too long before a red Corvair was moving slowly beside me."</p>
+        </div>
+      </div>
+
+      <div class="card ag" style="flex:0 0 auto">
+        <div class="clabel">Self-Check 自我检查:</div>
+        <div class="cgroup">
+          <span class="cbtn" onclick="pick(this,'s8c1')">✓ Specific technique 具体技巧</span>
+          <span class="cbtn" onclick="pick(this,'s8c2')">✓ Text evidence 文本证据</span>
+          <span class="cbtn" onclick="pick(this,'s8c3')">✓ Purpose 解释目的</span>
+        </div>
+        <input type="hidden" id="s8c1"><input type="hidden" id="s8c2"><input type="hidden" id="s8c3">
+        <button onclick="submitExit()" style="width:100%;margin-top:7px;padding:9px;font-family:'IBM Plex Mono',monospace;font-size:.66em;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:#e8c87a;border:none;border-radius:5px;cursor:pointer;transition:background .2s" onmouseover="this.style.background='#3a2e22'" onmouseout="this.style.background='var(--ink)'">Submit Exit Ticket · 提交出门票 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </div><!-- /slides -->
+
+  <!-- BOTTOM NAV -->
+  <div id="bnav">
+    <button class="nbtn" id="btnPrev" onclick="go(-1)" disabled>← Prev</button>
+    <div class="dot-strip" id="dotStrip"></div>
+    <button class="nbtn pri" id="btnNext" onclick="go(1)">Next · 下一页 →</button>
+  </div>
+
+  <!-- WARNING MODAL -->
+  <div id="wmodal">
+    <div class="mbox">
+      <div class="micon">⚠️</div>
+      <div class="mtit">Focus Warning</div>
+      <div class="mtitzh">专注警告</div>
+      <p class="mbody">You navigated away from this module. Your teacher can see this in your submission.<span class="mbzh">你离开了学习模块。你的老师可以在你的提交记录中看到这条记录。请立即返回。</span></p>
+      <div class="mcnt" id="mcnt">Switch #1 · 第1次离开</div>
+      <button class="mret" onclick="closeWarn()">Return to Module · 返回模块</button>
+      <div class="mretzh">点击上方按钮立即返回</div>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="rscreen">
+    <div class="rcrown">🎓</div>
+    <div class="rtit">Exit Ticket Submitted!</div>
+    <div class="rtitzh">出门票已提交 · 请下载你的作业文件提交给老师</div>
+    <div class="srow">
+      <div class="sbox"><span class="snum2">8</span><span class="slbl">Pages 完成页数</span></div>
+      <div class="sbox"><span class="snum2" id="rfields">—</span><span class="slbl">Responses 填写数</span></div>
+      <div class="sbox wrn"><span class="snum2 red" id="rexits">0</span><span class="slbl">Focus Warnings<br>专注警告</span><span class="szh2" id="rexitnote"></span></div>
+    </div>
+    <button class="dlbtn" onclick="doDownload()">⬇ Download My Work · 下载作业 (.txt)</button>
+    <div class="dlzh">包含所有回答、拖拽结果和专注警告记录 · 提交给老师</div>
+    <div class="flog" id="flog"></div>
+  </div>
+</div><!-- /app -->
+
+<script>
+// ══ STATE ══
+let cur=1, TOTAL=8, switchCount=0, switchLog=[], tStart=Date.now();
+let pageVis={1:Date.now()};
+let dropData={};   // stores all drag-drop results
+
+// ══ CHOICE PICK ══
+function pick(el,id){
+  el.closest('.cgroup').querySelectorAll('.cbtn').forEach(b=>b.classList.remove('sel'));
+  el.classList.add('sel');
+  const h=document.getElementById(id); if(h) h.value=el.textContent.trim();
+}
+
+// ══ APPEND TO TEXTAREA ══
+function appendToField(id, text){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.value = (el.value ? el.value+' ' : '') + text;
+  el.focus();
+}
+
+// ══ NAVIGATION ══
+function go(dir){
+  const next=cur+dir;
+  if(next<1||next>TOTAL) return;
+  document.getElementById('slide-'+cur).classList.remove('active');
+  cur=next;
+  if(!pageVis[cur]) pageVis[cur]=Date.now();
+  document.getElementById('slide-'+cur).classList.add('active');
+  syncNav();
+}
+function jumpTo(n){
+  document.getElementById('slide-'+cur).classList.remove('active');
+  cur=n; if(!pageVis[cur]) pageVis[cur]=Date.now();
+  document.getElementById('slide-'+cur).classList.add('active');
+  syncNav();
+}
+function syncNav(){
+  document.getElementById('tpill').textContent=cur+' / '+TOTAL;
+  document.getElementById('btnPrev').disabled=cur===1;
+  const nb=document.getElementById('btnNext');
+  if(cur===TOTAL){nb.textContent='Submit · 提交 →';nb.onclick=submitExit;}
+  else{nb.textContent='Next · 下一页 →';nb.onclick=()=>go(1);}
+  document.getElementById('prog-fill').style.width=((cur/TOTAL)*100)+'%';
+  document.querySelectorAll('.dot').forEach((d,i)=>{
+    d.classList.remove('active','visited');
+    if(i+1===cur) d.classList.add('active');
+    else if(pageVis[i+1]) d.classList.add('visited');
+  });
+}
+
+// Build dots
+const ds=document.getElementById('dotStrip');
+for(let i=1;i<=TOTAL;i++){
+  const d=document.createElement('div');
+  d.className='dot'+(i===1?' active':'');
+  d.title='Page '+i;
+  d.onclick=(n=>()=>jumpTo(n))(i);
+  ds.appendChild(d);
+}
+
+// ══ DRAG & DROP ENGINE ══
+let dragEl=null, dragWord=null, dragBank=null;
+
+document.addEventListener('dragstart',e=>{
+  const chip=e.target.closest('[draggable="true"]');
+  if(!chip) return;
+  dragEl=chip; dragWord=chip.dataset.word; dragBank=chip.dataset.bank;
+  chip.classList.add('dragging');
+  e.dataTransfer.effectAllowed='move';
+});
+
+document.addEventListener('dragend',e=>{
+  if(dragEl) dragEl.classList.remove('dragging');
+  dragEl=null;
+});
+
+document.addEventListener('dragover',e=>{
+  const dz=e.target.closest('.drop-zone,.sort-target');
+  if(dz){e.preventDefault();dz.classList.add('over');}
+});
+
+document.addEventListener('dragleave',e=>{
+  const dz=e.target.closest('.drop-zone,.sort-target');
+  if(dz) dz.classList.remove('over');
+});
+
+document.addEventListener('drop',e=>{
+  e.preventDefault();
+  const dz=e.target.closest('.drop-zone');
+  const st=e.target.closest('.sort-target');
+  if(dz && dragWord){
+    handleDrop(dz, dragWord, dragBank, dragEl);
+  } else if(st && dragWord){
+    handleSortDrop(st, dragWord, dragBank, dragEl);
+  }
+  document.querySelectorAll('.drop-zone,.sort-target').forEach(z=>z.classList.remove('over'));
+});
+
+function handleDrop(dz, word, bank, chip){
+  // remove previous dropped chip from this zone
+  dz.querySelectorAll('.dropped-chip').forEach(c=>c.remove());
+  // clear placeholder
+  dz.querySelectorAll('.ph').forEach(p=>p.style.display='none');
+  // create dropped chip
+  const dc=document.createElement('div');
+  dc.className='dropped-chip';
+  dc.innerHTML=word+' <span class="rm" onclick="removeDropped(this,\''+dz.dataset.label+'\',\''+bank+'\',\''+word+'\')">✕</span>';
+  dz.appendChild(dc);
+  dz.classList.add('has-item');
+  // store
+  dropData[dz.dataset.label]=word;
+  // mark bank chip as used (if from static bank)
+  if(chip && chip.closest('.wb-chips')){
+    // allow reuse — don't mark as used for word banks
+  }
+}
+
+function handleSortDrop(st, word, bank, chip){
+  const area=st.querySelector('.items-area');
+  if(!area) return;
+  const dc=document.createElement('div');
+  dc.className='dropped-chip';
+  dc.style.fontSize='.58em';
+  dc.innerHTML=word+' <span class="rm" onclick="this.closest(\'.dropped-chip\').remove()">✕</span>';
+  area.appendChild(dc);
+  // store
+  const cat=st.dataset.cat;
+  if(!dropData['sort_'+cat]) dropData['sort_'+cat]=[];
+  dropData['sort_'+cat].push(word);
+}
+
+function removeDropped(btn, label, bank, word){
+  const dc=btn.closest('.dropped-chip');
+  const dz=dc.closest('.drop-zone');
+  dc.remove();
+  delete dropData[label];
+  if(dz){
+    dz.classList.remove('has-item');
+    const ph=dz.querySelector('.ph');
+    if(ph) ph.style.display='';
+  }
+}
+
+// ══ FOCUS WARNING ══
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){
+    switchCount++;
+    switchLog.push({n:switchCount,time:new Date().toLocaleTimeString(),page:cur});
+    const fb=document.getElementById('tfocus');
+    fb.textContent='⚠️ '+switchCount+'次离开';
+    fb.classList.add('warn');
+  } else { showWarn(); }
+});
+
+function showWarn(){
+  document.getElementById('mcnt').textContent='Switch #'+switchCount+' · 第'+switchCount+'次离开 · Page '+cur;
+  document.getElementById('wmodal').classList.add('show');
+}
+function closeWarn(){ document.getElementById('wmodal').classList.remove('show'); }
+
+// ══ COLLECT ALL DATA ══
+function collectAll(){
+  const fields=[
+    {id:'s1-circle',label:'S1 — Character trait word circled'},
+    {id:'s1-figtype',label:'S1 — Figurative language type (choice)'},
+    {id:'s1-figlang',label:'S1 — Figurative language example'},
+    {id:'s2-eq',label:'S2 — (legacy) EQ response'},
+    {id:'s3-short',label:'S3 — Short sentence quote'},
+    {id:'s3-long',label:'S3 — Long sentence quote'},
+    {id:'s3-pace',label:'S3 — Effect of sentence length (choice)'},
+    {id:'s3-arc-just',label:'S3 — Plot arc justification'},
+    {id:'s4-tone-quote',label:'S4 — Tone-proving quote'},
+    {id:'s4-slang',label:'S4 — Slang/informal language analysis'},
+    {id:'s6-write',label:'S6 — Full ABCD brief write response'},
+    {id:'s7-pos',label:'S7 — Position: friend or not (choice)'},
+    {id:'s7-reason',label:'S7 — Text-based reason'},
+    {id:'s7-partner',label:"S7 — Partner's response"},
+    {id:'s7-class',label:'S7 — Best class evidence'},
+    {id:'s8-quote',label:'S8 — Exit Ticket: quote/paraphrase'},
+    {id:'s8c1',label:'S8 — Self-check: specific technique'},
+    {id:'s8c2',label:'S8 — Self-check: text evidence'},
+    {id:'s8c3',label:'S8 — Self-check: purpose explained'},
+  ];
+  // Sentence frame fields
+  const sfFields=[
+    {id:'sf-eq1',label:'S2 — SF: EQ experience (blank 1)'},
+    {id:'sf-eq2',label:'S2 — SF: EQ because (blank 2)'},
+    {id:'sf-env',label:'S2 — SF: Environment sentence (blank 1)'},
+    {id:'sf-quote',label:'S2 — SF: Evidence quote (blank 2)'},
+    {id:'sf-unf',label:'S5 — SF: UNFAMILIAR (when blank)'},
+    {id:'sf-unf2',label:'S5 — SF: UNFAMILIAR (because blank)'},
+    {id:'sf-ten',label:'S5 — SF: TENSION moment'},
+    {id:'sf-ten2',label:'S5 — SF: TENSION reader effect'},
+    {id:'sf-mood',label:'S4 — SF: Mood word'},
+    {id:'sf-mooddev',label:'S4 — SF: Mood device'},
+    {id:'sf-a1',label:'S6 — SF: ABCD A-blank1'},
+    {id:'sf-a2',label:'S6 — SF: ABCD A-blank2'},
+    {id:'sf-b',label:'S6 — SF: ABCD B-quote'},
+    {id:'sf-c',label:'S6 — SF: ABCD C-blank1'},
+    {id:'sf-c2',label:'S6 — SF: ABCD C-blank2'},
+    {id:'sf-d',label:'S6 — SF: ABCD D-EQ connection'},
+    {id:'sf-class1',label:'S7 — SF: Class share name'},
+    {id:'sf-class2',label:'S7 — SF: Class share position'},
+    {id:'sf-class3',label:'S7 — SF: Class share quote'},
+    {id:'sf-et1',label:'S8 — SF: Exit Ticket purpose'},
+    {id:'sf-et2',label:'S8 — SF: Exit Ticket reader effect'},
+  ];
+  const all=[...fields,...sfFields];
+  return all.map(f=>{
+    const el=document.getElementById(f.id);
+    return {label:f.label, value: el ? el.value.trim() : ''};
+  });
+}
+
+// ══ SUBMIT ══
+function submitExit(){
+  const data=collectAll();
+  const filled=data.filter(d=>d.value).length + Object.keys(dropData).length;
+  document.getElementById('rfields').textContent=filled;
+  document.getElementById('rexits').textContent=switchCount;
+  document.getElementById('rexitnote').textContent=switchCount===0?'棒极了！👏':'已记录';
+  const logTxt=switchLog.length===0
+    ?'No focus warnings. 没有专注警告。'
+    :switchLog.map(e=>'#'+e.n+' at '+e.time+' (Page '+e.page+')').join(' · ');
+  document.getElementById('flog').textContent=logTxt;
+  document.getElementById('rscreen').classList.add('show');
+}
+
+// ══ DOWNLOAD ══
+function doDownload(){
+  const data=collectAll();
+  const now=new Date();
+  const mins=Math.round((Date.now()-tStart)/60000);
+  const snames={S1:'SECTION 1 — Cold Read & Annotation (冷读与注释)',S2:'SECTION 2 — Comprehension & EQ (理解与核心问题)',S3:'SECTION 3 — Craft & Structure (写作技巧与结构)',S4:"SECTION 4 — Tone & Mood (语气与情绪)",S5:'SECTION 5 — Vocabulary (词汇练习)',S6:'SECTION 6 — Brief Write — ABCD',S7:'SECTION 7 — Speaking & Listening (口语与听力)',S8:'SECTION 8 — Exit Ticket (出门票)'};
+
+  let t='';
+  t+='╔═══════════════════════════════════════════════════════════════╗\n';
+  t+='║  THE OUTSIDERS · NARRATIVE CRAFT · 局外人 · 叙事技巧         ║\n';
+  t+='║  MLWS Xiangyang · Week 1 Tuesday · English 11/12             ║\n';
+  t+='╚═══════════════════════════════════════════════════════════════╝\n\n';
+  t+='Submitted 提交时间: '+now.toLocaleString()+'\n';
+  t+='Time on module 在模块上的时间: ~'+mins+' min\n\n';
+  t+='─────────────────────────────────────────────────────────────\n';
+  t+='  FOCUS / INTEGRITY LOG · 专注与诚信记录\n';
+  t+='─────────────────────────────────────────────────────────────\n';
+  if(switchLog.length===0){t+='No focus warnings. 没有专注警告。\n';}
+  else{
+    t+='Total switches 切换次数: '+switchCount+'\n\n';
+    switchLog.forEach(e=>t+='  Warning #'+e.n+' · Time: '+e.time+' · Page: '+e.page+'\n');
+  }
+  t+='\n─────────────────────────────────────────────────────────────\n';
+  t+='  DRAG & DROP RESULTS · 拖拽活动结果\n';
+  t+='─────────────────────────────────────────────────────────────\n';
+  Object.entries(dropData).forEach(([k,v])=>{
+    if(Array.isArray(v)) t+='  ['+k+']: '+v.join(', ')+'\n';
+    else t+='  ['+k+']: '+v+'\n';
+  });
+  t+='\n─────────────────────────────────────────────────────────────\n';
+  t+='  WRITTEN RESPONSES · 书面回答\n';
+  t+='─────────────────────────────────────────────────────────────\n';
+  let lastSec='';
+  data.forEach(item=>{
+    const m=item.label.match(/^(S\d)/);
+    if(m&&m[1]!==lastSec){
+      lastSec=m[1];
+      t+='\n'+(snames[lastSec]||lastSec)+'\n';
+      t+='· · · · · · · · · · · · · · · · · · · · · · · · · · · ·\n';
+    }
+    const clean=item.label.replace(/^S\d — /,'');
+    t+='\n['+clean+']\n'+(item.value||'(no response · 未填写)')+'\n';
+  });
+  t+='\n╔═══════════════════════════════════════════════════════════════╗\n';
+  t+='║                     END OF SUBMISSION · 提交结束              ║\n';
+  t+='╚═══════════════════════════════════════════════════════════════╝\n';
+
+  const blob=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='Outsiders_W1_Tue_NarrativeCraft.txt';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+syncNav();
+</script>
+</body>
+</html>
