@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5 Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #CC0000; --red-dark: #990000; --green: #1B4D2E;
+            --green-mid: #2D6E47; --gold: #C9A84C; --cream: #FAF7F2;
+            --gray-light: #F0EDE8; --gray: #8A8580; --text: #1A1A1A;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Source Serif 4',Georgia,serif; background:var(--green); min-height:100vh; padding:30px 20px; color:var(--text); user-select:none; -webkit-user-select:none; }
+        .timer { position:fixed; top:20px; right:20px; background:var(--green); color:white; padding:10px 20px; border-radius:8px; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; border:2px solid var(--gold); box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:100; text-align:center; }
+        .timer-label { display:block; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:2px; font-family:'Source Serif 4',serif; }
+        .tab-overlay { display:none; position:fixed; inset:0; background:rgba(10,5,5,.96); z-index:9000; justify-content:center; align-items:center; flex-direction:column; gap:16px; color:white; text-align:center; padding:20px; }
+        .tab-overlay.show { display:flex; }
+        .tab-overlay .icon { font-size:56px; animation:pulse 1s infinite; }
+        .tab-overlay h2 { font-family:'Playfair Display',serif; font-size:26px; color:#FF4444; }
+        .tab-overlay p { font-size:15px; color:rgba(255,255,255,.8); max-width:340px; }
+        .tab-overlay .vcount { background:var(--red); padding:7px 22px; border-radius:20px; font-weight:700; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .warning-banner { display:none; background:var(--red); color:white; padding:12px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; text-align:center; }
+        .submitted-msg { display:none; background:#EDFAF2; border:2px solid var(--green); color:var(--green); padding:13px; border-radius:8px; font-weight:600; text-align:center; margin-bottom:20px; }
+        .unanswered-msg { display:none; background:#FFF0F0; border:2px solid var(--red); color:var(--red-dark); padding:13px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; }
+        .school-band { max-width:860px; margin:0 auto; background:var(--red); border-radius:12px 12px 0 0; padding:13px 28px; display:flex; align-items:center; justify-content:space-between; }
+        .school-band .name { font-family:'Playfair Display',serif; color:white; font-size:16px; font-weight:700; }
+        .quiz-wrap { max-width:860px; margin:0 auto; background:white; border-radius:0 0 16px 16px; box-shadow:0 12px 48px rgba(0,0,0,.2); overflow:hidden; }
+        .quiz-inner { padding:36px 44px 48px; }
+        .quiz-header { text-align:center; margin-bottom:32px; }
+        .quiz-header h1 { font-family:'Playfair Display',serif; color:var(--green); font-size:28px; margin-bottom:6px; }
+        .quiz-header .sub { font-size:13px; color:var(--gray); font-style:italic; }
+        .divider { display:flex; align-items:center; gap:12px; margin:14px 0; }
+        .divider::before { content:''; flex:1; height:2px; background:linear-gradient(to right,transparent,var(--red)); }
+        .divider::after  { content:''; flex:1; height:2px; background:linear-gradient(to left,transparent,var(--red)); }
+        .student-info { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; padding-top:18px; border-top:2px solid var(--gray-light); }
+        .info-field label { display:block; font-size:11px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .info-field input { width:100%; padding:9px 13px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:15px; background:var(--cream); user-select:text; -webkit-user-select:text; }
+        .info-field input:focus { outline:none; border-color:var(--red); }
+        .integrity-notice { background:#FFF8F0; border:2px solid var(--red); border-radius:10px; padding:20px 22px; margin-bottom:28px; }
+        .integrity-notice h3 { font-family:'Playfair Display',serif; color:var(--red); font-size:16px; margin-bottom:12px; }
+        .rule { display:flex; gap:11px; align-items:flex-start; font-size:13.5px; color:#333; line-height:1.5; margin-bottom:8px; }
+        .rule:last-child { margin-bottom:0; }
+        .rule-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+        .section { margin-bottom:32px; }
+        .section-head { background:var(--green); border-radius:10px 10px 0 0; padding:13px 22px; }
+        .sec-title { font-family:'Playfair Display',serif; color:white; font-size:18px; font-weight:700; }
+        .sec-title span { background:var(--red); font-family:'Source Serif 4',serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:2px 9px; border-radius:20px; margin-left:8px; vertical-align:middle; }
+        .sec-desc { color:rgba(255,255,255,.82); font-size:13px; font-style:italic; margin-top:3px; }
+        .section-body { background:var(--cream); border:2px solid var(--green); border-top:none; border-radius:0 0 10px 10px; padding:20px; display:flex; flex-direction:column; gap:14px; }
+
+        /* MC */
+        .q-card { background:white; border-radius:8px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .q-card.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; animation:shake .4s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+        .q-num { font-size:12px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .q-text { font-size:15px; line-height:1.6; margin-bottom:13px; }
+        .options { display:flex; flex-direction:column; gap:7px; }
+        .opt { display:flex; align-items:center; gap:11px; padding:10px 14px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; transition:all .15s; }
+        .opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .opt input { accent-color:var(--red); cursor:pointer; flex-shrink:0; }
+
+        /* T/F */
+        .tf-opts { display:flex; gap:14px; }
+        .tf-opt { display:flex; align-items:center; gap:9px; padding:10px 22px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; font-weight:600; transition:all .15s; }
+        .tf-opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .tf-opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .tf-opt input { accent-color:var(--red); cursor:pointer; }
+
+        /* Matching */
+        .match-item { background:white; border-radius:8px; padding:14px 18px; display:grid; grid-template-columns:32px 1fr auto; align-items:center; gap:14px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .match-item.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; }
+        .match-num { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; color:var(--red); }
+        .match-def { font-size:14px; line-height:1.5; color:#333; }
+        .match-select { padding:8px 12px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:13.5px; background:var(--cream); cursor:pointer; min-width:190px; }
+        .match-select:focus { outline:none; border-color:var(--red); }
+
+        /* Drag & Drop - Word Bank */
+        .dnd-word-bank { background:#EDF5FF; border:2px solid #90B8E0; border-radius:10px; padding:16px 18px; }
+        .dnd-bank-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block; }
+        .dnd-chips { display:flex; flex-wrap:wrap; gap:8px; min-height:40px; padding:4px 0; }
+        .chip {
+            display:inline-flex; align-items:center;
+            padding:6px 16px; background:white;
+            border:2px solid #90B8E0; border-radius:20px;
+            font-size:13.5px; font-family:'Courier New',monospace; color:#1a3a5c;
+            cursor:grab; user-select:none; -webkit-user-select:none;
+            transition:transform .1s, box-shadow .1s, opacity .15s;
+            box-shadow:0 2px 6px rgba(0,0,0,.08);
+        }
+        .chip:active { cursor:grabbing; transform:scale(1.05); }
+        .chip.dragging { opacity:.4; }
+
+        .dnd-q-card { background:white; border-radius:8px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .dnd-q-card.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; animation:shake .4s ease; }
+        .dnd-sentence { font-size:15px; line-height:2.2; }
+        .drop-zone {
+            display:inline-flex; align-items:center; justify-content:center;
+            min-width:140px; height:34px; padding:0 12px;
+            border:2px dashed #90B8E0; border-radius:20px;
+            background:#F0F7FF; color:#999; font-size:13px; font-style:italic;
+            transition:border-color .15s, background .15s;
+            vertical-align:middle; cursor:default;
+        }
+        .drop-zone.drag-over { border-color:var(--green); background:#E8F5E9; color:var(--green); border-style:solid; }
+        .drop-zone.filled { border-style:solid; background:#E8F5E9; border-color:var(--green-mid); color:var(--green); font-style:normal; font-family:'Courier New',monospace; font-size:13.5px; cursor:pointer; font-weight:600; }
+        .drop-zone.filled:hover { background:#FFF0F0; border-color:var(--red); color:var(--red); }
+        .drop-zone.correct-zone { border-color:#1B4D2E; background:#EDFAF2; color:#1B4D2E; }
+        .drop-zone.wrong-zone { border-color:var(--red); background:#FFF0F0; color:var(--red); }
+
+        .passage { background:#F8F9FA; border-left:4px solid var(--gold); padding:16px 20px; border-radius:6px; margin-bottom:16px; font-size:14px; line-height:1.7; color:#333; }
+        .passage-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block; }
+
+        .reflection-area { width:100%; min-height:100px; padding:12px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:14px; background:var(--cream); resize:vertical; user-select:text; -webkit-user-select:text; }
+        .reflection-area:focus { outline:none; border-color:var(--red); }
+
+        .submit-area { text-align:center; margin-top:28px; padding-top:24px; border-top:2px solid var(--gray-light); }
+        .submit-btn { background:var(--red); color:white; padding:14px 48px; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:17px; font-weight:700; cursor:pointer; transition:background .2s; box-shadow:0 4px 12px rgba(204,0,0,.3); }
+        .submit-btn:hover { background:var(--red-dark); }
+        .submit-btn:active { transform:translateY(1px); }
+
+        .results-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:10000; justify-content:center; align-items:center; padding:20px; overflow-y:auto; }
+        .results-content { background:white; border-radius:16px; max-width:700px; width:100%; padding:36px; position:relative; max-height:90vh; overflow-y:auto; }
+        .close-btn { position:absolute; top:16px; right:20px; background:none; border:none; font-size:28px; color:var(--gray); cursor:pointer; line-height:1; }
+        .close-btn:hover { color:var(--red); }
+        .results-header { text-align:center; margin-bottom:28px; }
+        .results-header h2 { font-family:'Playfair Display',serif; color:var(--green); font-size:26px; margin-bottom:8px; }
+        .results-header .sub { color:var(--gray); font-size:14px; }
+        .score-display { background:linear-gradient(135deg,var(--green),var(--green-mid)); color:white; border-radius:12px; padding:24px; text-align:center; margin-bottom:24px; }
+        .score-num { font-family:'Playfair Display',serif; font-size:52px; font-weight:700; line-height:1; }
+        .score-label { font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-top:6px; opacity:.9; }
+        .breakdown { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+        .bd-item { background:var(--cream); border-radius:8px; padding:14px; text-align:center; }
+        .bd-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--gray); margin-bottom:6px; }
+        .bd-score { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--green); }
+        .info-block { background:#F8F9FA; border-radius:8px; padding:16px; margin-bottom:16px; }
+        .info-block h4 { font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--green); margin-bottom:8px; }
+        .info-row { display:flex; justify-content:space-between; font-size:14px; margin-bottom:4px; }
+        .info-row:last-child { margin-bottom:0; }
+        .review-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin-top:12px; }
+        .r-item { aspect-ratio:1; background:var(--gray-light); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; }
+        .r-item.r-correct { background:#EDFAF2; color:var(--green); }
+        .r-item.r-wrong { background:#FFF0F0; color:var(--red); }
+        .rq { font-weight:700; }
+        .rs { font-size:14px; }
+        .log-entry { font-size:12px; padding:6px 0; border-bottom:1px solid #EEE; }
+        .log-entry:last-child { border:none; }
+        .log-time { color:var(--gray); font-family:monospace; }
+        .log-sus { color:var(--red); font-weight:700; }
+        .log-ok { color:var(--green); }
+
+        @media(max-width:768px){
+            body{padding:20px 12px;}
+            .quiz-inner{padding:24px 20px 32px;}
+            .timer{top:12px;right:12px;padding:8px 14px;font-size:15px;}
+            .breakdown{grid-template-columns:repeat(2,1fr);}
+            .review-grid{grid-template-columns:repeat(5,1fr);}
+            .student-info{grid-template-columns:1fr;}
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+<div class="tab-overlay" id="tabOverlay">
+    <div class="icon">⚠️</div>
+    <h2>Tab Switch Detected</h2>
+    <p>Please remain on this page during the quiz. Tab switches are being monitored.</p>
+    <div class="vcount" id="violationCount">Violations: 0</div>
+</div>
+
+<div class="timer" id="timer">
+    <span class="timer-label">Time Elapsed</span>
+    <span id="timerDisplay">00:00</span>
+</div>
+
+<div class="school-band">
+    <div class="name">Maple Leaf World School Xiangyang</div>
+</div>
+
+<div class="quiz-wrap">
+    <div class="quiz-inner">
+        <div class="submitted-msg" id="submittedMsg">
+            ✓ Quiz submitted successfully! Results displayed below.
+        </div>
+
+        <div id="quizForm">
+            <div class="quiz-header">
+                <h1>Week 5 Quiz</h1>
+                <p class="sub">Total: 100 points (20 questions × 5 points each) + 2 reflection questions</p>
+                <div class="student-info">
+                    <div class="info-field">
+                        <label for="studentName">Student Name (English)</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="info-field">
+                        <label for="quizDate">Date</label>
+                        <input type="date" id="quizDate" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="integrity-notice">
+                <h3>📋 Academic Integrity Guidelines</h3>
+                <div class="rule">
+                    <span class="rule-icon">🚫</span>
+                    <span><strong>No external resources:</strong> This quiz must be completed using only your own knowledge.</span>
+                </div>
+                <div class="rule">
+                    <span class="rule-icon">👀</span>
+                    <span><strong>Stay on this page:</strong> Tab switches are monitored and recorded.</span>
+                </div>
+                <div class="rule">
+                    <span class="rule-icon">⏱️</span>
+                    <span><strong>Time tracking:</strong> Your time and activity will be logged.</span>
+                </div>
+            </div>
+
+            <div class="unanswered-msg" id="unansweredMsg">
+                ⚠️ Please answer all questions before submitting. Unanswered questions are highlighted below.
+            </div>
+
+            <!-- PART 1: VOCABULARY (MC & T/F) -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 1: Vocabulary<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 1-5: Multiple choice and true/false</div>
+                </div>
+                <div class="section-body">
+                    
+                    <!-- Q1: TRUE/FALSE -->
+                    <div class="q-card" data-q="1">
+                        <div class="q-num">Question 1 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A "stereotype" is a specific observation about one individual person.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt">
+                                <input type="radio" name="q1" value="TRUE">
+                                <span>TRUE</span>
+                            </label>
+                            <label class="tf-opt">
+                                <input type="radio" name="q1" value="FALSE">
+                                <span>FALSE</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q2: Drag and Drop -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank1">
+                            <div class="chip" draggable="true" data-word="acknowledge">acknowledge</div>
+                            <div class="chip" draggable="true" data-word="authentic">authentic</div>
+                            <div class="chip" draggable="true" data-word="obstacle">obstacle</div>
+                            <div class="chip" draggable="true" data-word="benefit">benefit</div>
+                            <div class="chip" draggable="true" data-word="philosophy">philosophy</div>
+                            <div class="chip" draggable="true" data-word="stereotype">stereotype</div>
+                        </div>
+                    </div>
+
+                    <div class="dnd-q-card" data-q="2">
+                        <div class="q-num">Question 2 (5 points)</div>
+                        <div class="dnd-sentence">
+                            When you <span class="drop-zone" data-q="2">drop here</span> a mistake, you accept that you made it rather than denying it.
+                        </div>
+                    </div>
+
+                    <!-- Q3: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="3">
+                        <div class="q-num">Question 3 (5 points)</div>
+                        <div class="q-text">Which word means "genuine and real, not fake"?</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q3" value="A">
+                                <span>Obstacle</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q3" value="B">
+                                <span>Authentic</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q3" value="C">
+                                <span>Philosophy</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q3" value="D">
+                                <span>Benefit</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q4: MATCHING (converted to MC) -->
+                    <div class="q-card" data-q="4">
+                        <div class="q-num">Question 4 (5 points)</div>
+                        <div class="q-text">Match the word to its definition: <strong>Obstacle</strong></div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q4" value="A">
+                                <span>An advantage or positive outcome</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q4" value="B">
+                                <span>Something that blocks progress or gets in the way</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q4" value="C">
+                                <span>A belief system about life</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q4" value="D">
+                                <span>A fixed, oversimplified idea</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q5: TRUE/FALSE -->
+                    <div class="q-card" data-q="5">
+                        <div class="q-num">Question 5 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A "benefit" is the same thing as a drawback or disadvantage.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt">
+                                <input type="radio" name="q5" value="TRUE">
+                                <span>TRUE</span>
+                            </label>
+                            <label class="tf-opt">
+                                <input type="radio" name="q5" value="FALSE">
+                                <span>FALSE</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 2: LITERARY TERMS -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 2: Literary Terms<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 6-10: Multiple choice and true/false</div>
+                </div>
+                <div class="section-body">
+                    
+                    <!-- Q6: Drag and Drop -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank2">
+                            <div class="chip" draggable="true" data-word="tone">tone</div>
+                            <div class="chip" draggable="true" data-word="mood">mood</div>
+                            <div class="chip" draggable="true" data-word="conflict">conflict</div>
+                            <div class="chip" draggable="true" data-word="tension">tension</div>
+                            <div class="chip" draggable="true" data-word="diction">diction</div>
+                        </div>
+                    </div>
+
+                    <div class="dnd-q-card" data-q="6">
+                        <div class="q-num">Question 6 (5 points)</div>
+                        <div class="dnd-sentence">
+                            <span class="drop-zone" data-q="6">drop here</span> is the author's attitude toward the subject, while mood is the reader's emotional response.
+                        </div>
+                    </div>
+
+                    <!-- Q7: TRUE/FALSE -->
+                    <div class="q-card" data-q="7">
+                        <div class="q-num">Question 7 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: "Tension" in a story creates suspense and keeps readers engaged.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt">
+                                <input type="radio" name="q7" value="TRUE">
+                                <span>TRUE</span>
+                            </label>
+                            <label class="tf-opt">
+                                <input type="radio" name="q7" value="FALSE">
+                                <span>FALSE</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q8: MATCHING (converted to MC) -->
+                    <div class="q-card" data-q="8">
+                        <div class="q-num">Question 8 (5 points)</div>
+                        <div class="q-text">Match the term to its definition: <strong>Diction</strong></div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q8" value="A">
+                                <span>The emotional atmosphere of a text</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q8" value="B">
+                                <span>The specific word choice an author makes</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q8" value="C">
+                                <span>A struggle between opposing forces</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q8" value="D">
+                                <span>The author's attitude toward the subject</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q9: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="9">
+                        <div class="q-num">Question 9 (5 points)</div>
+                        <div class="q-text">Which type of conflict is "a farmer struggling against a drought"?</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q9" value="A">
+                                <span>Person vs. Person</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q9" value="B">
+                                <span>Person vs. Nature</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q9" value="C">
+                                <span>Person vs. Self</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q9" value="D">
+                                <span>Person vs. Society</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q10: TRUE/FALSE -->
+                    <div class="q-card" data-q="10">
+                        <div class="q-num">Question 10 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: "Mood" and "tone" mean exactly the same thing in literature.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt">
+                                <input type="radio" name="q10" value="TRUE">
+                                <span>TRUE</span>
+                            </label>
+                            <label class="tf-opt">
+                                <input type="radio" name="q10" value="FALSE">
+                                <span>FALSE</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 3: TEXT EVIDENCE -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 3: Text Evidence<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 11-15: Read passages and answer questions</div>
+                </div>
+                <div class="section-body">
+                    
+                    <div class="passage">
+                        <span class="passage-label">PASSAGE</span>
+                        Jack Ma applied to Harvard University ten times and was rejected every time. He applied for thirty different jobs and was rejected from all of them, including a job at KFC where 24 people applied and 23 were hired - everyone except Jack Ma. When he first tried to start an internet company in 1995, his family and friends thought he was crazy because most Chinese people had never even used the internet. Despite all these failures and doubts, Jack Ma refused to give up. He kept learning, kept trying, and eventually founded Alibaba, which became one of the world's largest e-commerce companies. Today, he says that his greatest teacher was failure, not success.
+                    </div>
+
+                    <!-- Q11: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="11">
+                        <div class="q-num">Question 11 (5 points)</div>
+                        <div class="q-text">Which evidence BEST shows Jack Ma faced repeated rejection?</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q11" value="A">
+                                <span>"He eventually founded Alibaba"</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q11" value="B">
+                                <span>"Applied to Harvard ten times and was rejected every time"</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q11" value="C">
+                                <span>"Most Chinese people had never used the internet"</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q11" value="D">
+                                <span>"His family and friends thought he was crazy"</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q12: Drag and Drop -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank3">
+                            <div class="chip" draggable="true" data-word="specific">specific</div>
+                            <div class="chip" draggable="true" data-word="vague">vague</div>
+                            <div class="chip" draggable="true" data-word="creative">creative</div>
+                            <div class="chip" draggable="true" data-word="general">general</div>
+                            <div class="chip" draggable="true" data-word="personal">personal</div>
+                        </div>
+                    </div>
+
+                    <div class="dnd-q-card" data-q="12">
+                        <div class="q-num">Question 12 (5 points)</div>
+                        <div class="dnd-sentence">
+                            Text evidence must be <span class="drop-zone" data-q="12">drop here</span> from the text, not just your personal opinion.
+                        </div>
+                    </div>
+
+                    <!-- Q13: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="13">
+                        <div class="q-num">Question 13 (5 points)</div>
+                        <div class="q-text">Which evidence shows Zhang Heng's invention was ahead of its time?</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q13" value="A">
+                                <span>"Zhang Heng was a Chinese astronomer, mathematician, and inventor"</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q13" value="B">
+                                <span>"The seismometer was shaped like a large bronze vessel"</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q13" value="C">
+                                <span>"Europe wouldn't develop a similar device for another 1,500 years"</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q13" value="D">
+                                <span>"Each dragon held a bronze ball in its mouth"</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q14: TRUE/FALSE -->
+                    <div class="q-card" data-q="14">
+                        <div class="q-num">Question 14 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: When citing text evidence, you should always use quotation marks around the exact words from the text.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt">
+                                <input type="radio" name="q14" value="TRUE">
+                                <span>TRUE</span>
+                            </label>
+                            <label class="tf-opt">
+                                <input type="radio" name="q14" value="FALSE">
+                                <span>FALSE</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q15: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="15">
+                        <div class="q-num">Question 15 (5 points)</div>
+                        <div class="q-text">When finding text evidence, you should focus on _____________ over quantity.</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q15" value="A">
+                                <span>Quality</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q15" value="B">
+                                <span>Speed</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q15" value="C">
+                                <span>Length</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q15" value="D">
+                                <span>Complexity</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 4: MAKING INFERENCES -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 4: Making Inferences<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 16-20: Read passages and make inferences</div>
+                </div>
+                <div class="section-body">
+                    
+                    <!-- Q16: Drag and Drop -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank4">
+                            <div class="chip" draggable="true" data-word="background">background</div>
+                            <div class="chip" draggable="true" data-word="future">future</div>
+                            <div class="chip" draggable="true" data-word="random">random</div>
+                            <div class="chip" draggable="true" data-word="creative">creative</div>
+                            <div class="chip" draggable="true" data-word="opinion">opinion</div>
+                        </div>
+                    </div>
+
+                    <div class="dnd-q-card" data-q="16">
+                        <div class="q-num">Question 16 (5 points)</div>
+                        <div class="dnd-sentence">
+                            An inference combines text evidence with your <span class="drop-zone" data-q="16">drop here</span> knowledge.
+                        </div>
+                    </div>
+
+                    <!-- Q17: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="17">
+                        <div class="q-num">Question 17 (5 points)</div>
+                        <div class="q-text">What can you infer about Mei Lin's intentions?</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q17" value="A">
+                                <span>She is writing a school report about animal shelters</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q17" value="B">
+                                <span>She wants to adopt a pet and is preparing to ask her parents</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q17" value="C">
+                                <span>She is volunteering at the animal shelter</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q17" value="D">
+                                <span>She wants to become a veterinarian when she grows up</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q18: TRUE/FALSE -->
+                    <div class="q-card" data-q="18">
+                        <div class="q-num">Question 18 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: An inference is the same as a random guess with no evidence.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt">
+                                <input type="radio" name="q18" value="TRUE">
+                                <span>TRUE</span>
+                            </label>
+                            <label class="tf-opt">
+                                <input type="radio" name="q18" value="FALSE">
+                                <span>FALSE</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="passage">
+                        <span class="passage-label">PASSAGE</span>
+                        The old man's hands trembled as he unfolded the yellowed letter. His eyes filled with tears as he read the familiar handwriting - the same handwriting he had seen every week for fifty years until two years ago. He carefully placed the letter back in the envelope marked "Read this on your 80th birthday" and smiled through his tears. On the table sat a photo of a woman wearing a bright red scarf, the same scarf that now hung on his coat rack by the door.
+                    </div>
+
+                    <!-- Q19: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="19">
+                        <div class="q-num">Question 19 (5 points)</div>
+                        <div class="q-text">What can you infer about the old man's situation?</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q19" value="A">
+                                <span>He is reading a letter from his current wife on his birthday</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q19" value="B">
+                                <span>His wife passed away two years ago and left him a letter to read on his 80th birthday</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q19" value="C">
+                                <span>He found an old letter from a stranger</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q19" value="D">
+                                <span>He is angry about receiving the letter</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Q20: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="20">
+                        <div class="q-num">Question 20 (5 points)</div>
+                        <div class="q-text">Making inferences helps you understand information that the author _____________ but doesn't directly state.</div>
+                        <div class="options">
+                            <label class="opt">
+                                <input type="radio" name="q20" value="A">
+                                <span>Ignores</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q20" value="B">
+                                <span>Implies</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q20" value="C">
+                                <span>Forgets</span>
+                            </label>
+                            <label class="opt">
+                                <input type="radio" name="q20" value="D">
+                                <span>Hides</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- REFLECTION QUESTIONS -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Reflection Questions<span>Required</span></div>
+                    <div class="sec-desc">Questions 21-22: Share your thoughts (required but not scored)</div>
+                </div>
+                <div class="section-body">
+                    
+                    <div class="q-card" data-q="21">
+                        <div class="q-num">Reflection Question 1</div>
+                        <div class="q-text">What strategy helped you most while completing this quiz?</div>
+                        <textarea id="q21" class="reflection-area" placeholder="Type your response here..."></textarea>
+                    </div>
+
+                    <div class="q-card" data-q="22">
+                        <div class="q-num">Reflection Question 2</div>
+                        <div class="q-text">Which question type (multiple choice, true/false, fill-in-blank) did you find most challenging, and why?</div>
+                        <textarea id="q22" class="reflection-area" placeholder="Type your response here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="submit-area">
+                <button type="button" class="submit-btn" id="submitBtn">Submit Quiz</button>
+            </div>
+        </div>
+
+        <!-- RESULTS MODAL -->
+        <div class="results-modal" id="resultsModal">
+            <div class="results-content">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <div class="results-header">
+                    <h2>Quiz Results</h2>
+                    <p class="sub" id="scoreName"></p>
+                    <p class="sub" id="scoreDate"></p>
+                    <button onclick="downloadResults()" style="margin-top:16px; background:var(--green); color:white; padding:12px 32px; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:16px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(27,77,46,.3);">📥 Download Results as TXT</button>
+                </div>
+
+                <div class="score-display">
+                    <div class="score-num" id="scoreNum">0</div>
+                    <div class="score-label">out of 100 points</div>
+                </div>
+
+                <div class="breakdown">
+                    <div class="bd-item">
+                        <div class="bd-label">Vocabulary</div>
+                        <div class="bd-score"><span id="scoreA">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Literary Terms</div>
+                        <div class="bd-score"><span id="scoreB">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Text Evidence</div>
+                        <div class="bd-score"><span id="scoreC">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Inferences</div>
+                        <div class="bd-score"><span id="scoreD">0</span>/25</div>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Activity Monitoring</h4>
+                    <div class="info-row">
+                        <span>Tab switches:</span>
+                        <strong id="actTabs">0</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Total time away:</span>
+                        <strong id="actTotal">0s</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>Average time per switch:</span>
+                        <strong id="actAvg">0s</strong>
+                    </div>
+                    <div id="actLog" style="margin-top:12px; max-height:120px; overflow-y:auto;"></div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Question Review</h4>
+                    <p id="reviewSum" style="margin-bottom:12px;"></p>
+                    <div class="review-grid" id="reviewGrid"></div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Your Reflections</h4>
+                    <div style="margin-bottom:10px;">
+                        <strong>Strategy that helped most:</strong>
+                        <p style="margin-top:4px; font-size:14px;" id="displayQ21"></p>
+                    </div>
+                    <div>
+                        <strong>Most challenging question type:</strong>
+                        <p style="margin-top:4px; font-size:14px;" id="displayQ22"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// === SHUFFLE FUNCTION ===
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+// === SHUFFLE ALL MC OPTIONS ON LOAD ===
+document.addEventListener('DOMContentLoaded', function() {
+    // Shuffle all multiple choice options containers
+    document.querySelectorAll('.options').forEach(container => {
+        const options = Array.from(container.children);
+        const shuffled = shuffle(options);
+        container.innerHTML = '';
+        shuffled.forEach(opt => container.appendChild(opt));
+    });
+    
+    // Shuffle word bank chips
+    document.querySelectorAll('.dnd-chips').forEach(bank => {
+        const chips = Array.from(bank.children);
+        const shuffled = shuffle(chips);
+        bank.innerHTML = '';
+        shuffled.forEach(chip => bank.appendChild(chip));
+    });
+});
+
+// === DRAG AND DROP ===
+let draggedElement = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupDragAndDrop();
+});
+
+function setupDragAndDrop() {
+    document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('dragstart', function(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        
+        chip.addEventListener('dragend', function() {
+            this.classList.remove('dragging');
+        });
+    });
+
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        
+        zone.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+        
+        zone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            if (draggedElement) {
+                const word = draggedElement.dataset.word;
+                
+                // If zone already has a word, return it to bank
+                if (this.dataset.value) {
+                    const oldWord = this.dataset.value;
+                    const parentBank = draggedElement.closest('.dnd-chips');
+                    const newChip = createChip(oldWord);
+                    parentBank.appendChild(newChip);
+                }
+                
+                // Place new word in zone
+                this.textContent = word;
+                this.dataset.value = word;
+                this.classList.add('filled');
+                
+                // Remove chip from bank
+                draggedElement.remove();
+            }
+        });
+        
+        // Click to remove word from drop zone
+        zone.addEventListener('click', function() {
+            if (this.classList.contains('filled')) {
+                const word = this.dataset.value;
+                const qNum = this.dataset.q;
+                
+                // Find the appropriate bank
+                let bankId;
+                if (qNum == 2) bankId = 'bank1';
+                else if (qNum == 6) bankId = 'bank2';
+                else if (qNum == 12) bankId = 'bank3';
+                else if (qNum == 16) bankId = 'bank4';
+                
+                const bank = document.getElementById(bankId);
+                const newChip = createChip(word);
+                bank.appendChild(newChip);
+                
+                // Clear zone
+                this.textContent = 'drop here';
+                delete this.dataset.value;
+                this.classList.remove('filled');
+            }
+        });
+    });
+}
+
+function createChip(word) {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.draggable = true;
+    chip.dataset.word = word;
+    chip.textContent = word;
+    
+    chip.addEventListener('dragstart', function(e) {
+        draggedElement = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    });
+    
+    chip.addEventListener('dragend', function() {
+        this.classList.remove('dragging');
+    });
+    
+    return chip;
+}
+
+
+// === TIMER ===
+let startTime=Date.now(),timerInterval;
+function updateTimer(){
+    const sec=Math.floor((Date.now()-startTime)/1000);
+    const m=String(Math.floor(sec/60)).padStart(2,'0');
+    const s=String(sec%60).padStart(2,'0');
+    document.getElementById('timerDisplay').textContent=`${m}:${s}`;
+}
+timerInterval=setInterval(updateTimer,1000);
+
+// === TAB MONITORING ===
+let tabCount=0,lastLeave=0,totalAway=0,tabLog=[];
+document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+        lastLeave=Date.now();
+        document.getElementById('tabOverlay').classList.add('show');
+    }else{
+        if(lastLeave){
+            const away=Math.floor((Date.now()-lastLeave)/1000);
+            totalAway+=away;
+            tabCount++;
+            const sus=(away>10);
+            tabLog.push({
+                count:tabCount,
+                time:new Date().toLocaleTimeString(),
+                dur:away,
+                sus
+            });
+            document.getElementById('violationCount').textContent=`Violations: ${tabCount}`;
+        }
+        setTimeout(()=>{
+            document.getElementById('tabOverlay').classList.remove('show');
+        },1500);
+    }
+});
+
+// === ANSWER TRACKING ===
+// Fixed: Drag-drop questions (2,6,12,16) have their correct words as answers
+const MC_CORRECT={
+    1:'FALSE', 2:'acknowledge', 3:'B', 4:'B', 5:'FALSE',
+    6:'tone', 7:'TRUE', 8:'B', 9:'B', 10:'FALSE',
+    11:'B', 12:'specific', 13:'C', 14:'TRUE', 15:'A',
+    16:'background', 17:'B', 18:'FALSE', 19:'B', 20:'B'
+};
+
+function norm(s){return String(s||'').trim().toLowerCase().replace(/[^a-z0-9]/g,'');}
+
+document.querySelectorAll('input[type="radio"]').forEach(r=>{
+    r.addEventListener('change',function(){
+        const parent=this.closest('.opt,.tf-opt');
+        if(parent){
+            parent.parentElement.querySelectorAll('.opt,.tf-opt').forEach(o=>o.classList.remove('selected'));
+            parent.classList.add('selected');
+        }
+    });
+});
+
+// === SUBMIT ===
+function fmtTime(s){return s>=60?`${Math.floor(s/60)}m ${s%60}s`:`${s}s`;}
+
+// Helper function to get answer for any question
+function getAnswer(qNum) {
+    if ([2,6,12,16].includes(qNum)) {
+        // Drag-drop question
+        const zone = document.querySelector(`.drop-zone[data-q="${qNum}"]`);
+        return zone ? zone.dataset.value || '' : '';
+    } else {
+        // Radio button question
+        const el = document.querySelector(`input[name="q${qNum}"]:checked`);
+        return el ? el.value : '';
+    }
+}
+
+document.getElementById('submitBtn').addEventListener('click',function(){
+    const name=document.getElementById('studentName').value.trim();
+    if(!name){
+        alert('Please enter your name.');
+        document.getElementById('studentName').focus();
+        return;
+    }
+
+    const missing=[];
+    
+    // Check all questions 1-20
+    for(let i=1;i<=20;i++){
+        const ans = getAnswer(i);
+        if(!ans){
+            missing.push(i);
+        }
+    }
+    
+    // Reflections
+    const q21val=document.getElementById('q21').value.trim();
+    const q22val=document.getElementById('q22').value.trim();
+    if(!q21val)missing.push(21);
+    if(!q22val)missing.push(22);
+
+    // Clear previous error states
+    document.querySelectorAll('.q-card.unanswered, .dnd-q-card.unanswered').forEach(el=>el.classList.remove('unanswered'));
+    
+    if(missing.length>0){
+        missing.forEach(i=>{
+            // Find either regular q-card or dnd-q-card
+            let el=document.querySelector(`.q-card[data-q="${i}"]`);
+            if(!el)el=document.querySelector(`.dnd-q-card[data-q="${i}"]`);
+            if(el){
+                el.classList.add('unanswered');
+                el.style.animation='none';
+                el.offsetHeight;
+                el.style.animation='';
+            }
+        });
+        document.getElementById('unansweredMsg').style.display='block';
+        let first=document.querySelector(`.q-card[data-q="${missing[0]}"]`);
+        if(!first)first=document.querySelector(`.dnd-q-card[data-q="${missing[0]}"]`);
+        if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+        return;
+    }
+    document.getElementById('unansweredMsg').style.display='none';
+
+    let sA=0,sB=0,sC=0,sD=0;
+    const results=[];
+
+    // Part 1: Vocabulary (Q1-5, 5pts each)
+    for(let i=1;i<=5;i++){
+        const ans = getAnswer(i);
+        const correct=(norm(ans)===norm(MC_CORRECT[i]));
+        results.push({q:i,correct});
+        if(correct)sA+=5;
+    }
+    // Part 2: Literary Terms (Q6-10, 5pts each)
+    for(let i=6;i<=10;i++){
+        const ans = getAnswer(i);
+        const correct=(norm(ans)===norm(MC_CORRECT[i]));
+        results.push({q:i,correct});
+        if(correct)sB+=5;
+    }
+    // Part 3: Text Evidence (Q11-15, 5pts each)
+    for(let i=11;i<=15;i++){
+        const ans = getAnswer(i);
+        const correct=(norm(ans)===norm(MC_CORRECT[i]));
+        results.push({q:i,correct});
+        if(correct)sC+=5;
+    }
+    // Part 4: Inferences (Q16-20, 5pts each)
+    for(let i=16;i<=20;i++){
+        const ans = getAnswer(i);
+        const correct=(norm(ans)===norm(MC_CORRECT[i]));
+        results.push({q:i,correct});
+        if(correct)sD+=5;
+    }
+
+    const autoTotal=sA+sB+sC+sD;
+
+    document.getElementById('displayQ21').textContent=q21val;
+    document.getElementById('displayQ22').textContent=q22val;
+
+    document.getElementById('quizForm').style.display='none';
+    document.getElementById('submittedMsg').style.display='block';
+    window.scrollTo(0,0);
+    document.getElementById('scoreNum').textContent=autoTotal;
+    document.getElementById('scoreA').textContent=sA;
+    document.getElementById('scoreB').textContent=sB;
+    document.getElementById('scoreC').textContent=sC;
+    document.getElementById('scoreD').textContent=sD;
+    document.getElementById('scoreName').textContent=name;
+    document.getElementById('scoreDate').textContent=document.getElementById('quizDate').value||new Date().toLocaleDateString();
+    document.getElementById('actTabs').textContent=tabCount;
+    document.getElementById('actTotal').textContent=fmtTime(totalAway);
+    document.getElementById('actAvg').textContent=tabCount>0?fmtTime(Math.floor(totalAway/tabCount)):'0s';
+
+    const logEl=document.getElementById('actLog');
+    if(tabLog.length>0){
+        logEl.innerHTML=tabLog.map(l=>`<div class="log-entry"><span class="log-time">[${l.time}]</span> Switch #${l.count} — away ${l.dur}s ${l.sus?'<span class="log-sus">[SUSPICIOUS]</span>':'<span class="log-ok">[Normal]</span>'}</div>`).join('');
+    }
+
+    const grid=document.getElementById('reviewGrid');
+    grid.innerHTML='';
+    results.forEach(r=>{
+        const d=document.createElement('div');
+        d.className=`r-item ${r.correct?'r-correct':'r-wrong'}`;
+        d.innerHTML=`<span class="rq">Q${r.q}</span><span class="rs">${r.correct?'✓':'✗'}</span>`;
+        grid.appendChild(d);
+    });
+    const nC=results.filter(r=>r.correct===true).length;
+    const nW=results.filter(r=>r.correct===false).length;
+    document.getElementById('reviewSum').innerHTML=`Auto-graded: <strong>${nC}</strong> correct and <strong>${nW}</strong> incorrect out of 20 questions.<br>Reflection questions (21–22) recorded for teacher review.`;
+    document.getElementById('resultsModal').style.display='flex';
+
+    console.log('%c=== QUIZ SUBMISSION ===','color:#CC0000;font-size:15px;font-weight:bold;');
+    console.log('Student:',name,'| Score:',autoTotal+'/100');
+    console.log('Sections:',{Vocabulary:sA+'/25',LiteraryTerms:sB+'/25',TextEvidence:sC+'/25',Inferences:sD+'/25'});
+    console.log('Q21 (Reflection):',q21val);
+    console.log('Q22 (Reflection):',q22val);
+    console.log('Tab switches:',tabCount,'| Away:',totalAway+'s | Log:',tabLog);
+    console.log('Results:',results);
+});
+
+// Close modal function
+function closeModal() {
+    document.getElementById('resultsModal').style.display='none';
+}
+
+// Download results function - FIXED
+function downloadResults() {
+    try {
+        const name = document.getElementById('scoreName').textContent || 'Unknown';
+        const date = document.getElementById('scoreDate').textContent || new Date().toLocaleDateString();
+        const score = document.getElementById('scoreNum').textContent || '0';
+        const sA = document.getElementById('scoreA').textContent || '0';
+        const sB = document.getElementById('scoreB').textContent || '0';
+        const sC = document.getElementById('scoreC').textContent || '0';
+        const sD = document.getElementById('scoreD').textContent || '0';
+        const tabs = document.getElementById('actTabs').textContent || '0';
+        const totalAway = document.getElementById('actTotal').textContent || '0s';
+        const avgAway = document.getElementById('actAvg').textContent || '0s';
+        const q21 = document.getElementById('displayQ21').textContent || '(No response)';
+        const q22 = document.getElementById('displayQ22').textContent || '(No response)';
+        
+        const lines = [];
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('               WEEK 5 QUIZ - RESULTS REPORT');
+        lines.push('               Maple Leaf World School Xiangyang');
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('');
+        lines.push('Student: ' + name);
+        lines.push('Date: ' + date);
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                        OVERALL SCORE');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('        ' + score + ' / 100 points');
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                      SECTION BREAKDOWN');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Part 1 - Vocabulary:       ' + sA + ' / 25 points');
+        lines.push('Part 2 - Literary Terms:   ' + sB + ' / 25 points');
+        lines.push('Part 3 - Text Evidence:    ' + sC + ' / 25 points');
+        lines.push('Part 4 - Inferences:       ' + sD + ' / 25 points');
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                    ACTIVITY MONITORING');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Tab Switches: ' + tabs);
+        lines.push('Total Time Away: ' + totalAway);
+        lines.push('Average Time Per Switch: ' + avgAway);
+        lines.push('');
+        
+        const logEl = document.getElementById('actLog');
+        if (logEl && logEl.innerHTML.trim()) {
+            lines.push('DETAILED LOG:');
+            const logEntries = logEl.querySelectorAll('.log-entry');
+            logEntries.forEach(entry => {
+                const text = entry.textContent.replace(/\s+/g, ' ').trim();
+                lines.push('  ' + text);
+            });
+            lines.push('');
+        }
+        
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                    QUESTION-BY-QUESTION');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        
+        const grid = document.getElementById('reviewGrid');
+        if (grid) {
+            const items = grid.querySelectorAll('.r-item');
+            let row = '';
+            items.forEach((item, idx) => {
+                const qNum = item.querySelector('.rq').textContent;
+                const result = item.classList.contains('r-correct') ? '✓' : '✗';
+                row += qNum + ':' + result + '  ';
+                if ((idx + 1) % 10 === 0) {
+                    lines.push(row);
+                    row = '';
+                }
+            });
+            if (row) lines.push(row);
+        }
+        
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                   REFLECTION RESPONSES');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Question 21: What strategy helped you most while completing');
+        lines.push('this quiz?');
+        lines.push('');
+        lines.push(q21);
+        lines.push('');
+        lines.push('Question 22: Which question type did you find most challenging,');
+        lines.push('and why?');
+        lines.push('');
+        lines.push(q22);
+        lines.push('');
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('                      END OF REPORT');
+        lines.push('═══════════════════════════════════════════════════════════════');
+        
+        const txt = lines.join('\n');
+        const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const safeName = name.replace(/[^a-zA-Z0-9]/g, '_');
+        const safeDate = date.replace(/[^0-9-]/g, '-');
+        a.download = 'Week5_Quiz_Results_' + safeName + '_' + safeDate + '.txt';
+        
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+        
+    } catch(error) {
+        console.error('Download error:', error);
+        alert('Error downloading results: ' + error.message);
+    }
+}
+
+// Set default date
+document.getElementById('quizDate').valueAsDate = new Date();
+</script>
+</body>
+</html>
