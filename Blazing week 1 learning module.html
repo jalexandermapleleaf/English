@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blazing New Trails - Learning Module</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        /* Top Navigation Tabs */
+        .top-nav {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .top-nav button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: #f8f9fa;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 0;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .top-nav button:hover {
+            background: #e9ecef;
+            color: #667eea;
+        }
+        
+        .top-nav button.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .tab-warning {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 8px;
+            display: none;
+            font-weight: bold;
+            animation: shake 0.5s;
+        }
+        
+        .tab-warning.show {
+            display: block;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .day-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .day-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+        
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .vocab-card {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        
+        .vocab-card h3 {
+            color: #667eea;
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+        
+        .vocab-card .part-of-speech {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .vocab-card .definition {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .vocab-card .chinese-context {
+            background: #e3f2fd;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+        }
+        
+        .vocab-card .examples {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+        
+        .vocab-card .examples h4 {
+            color: #28a745;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+        
+        .vocab-card .non-examples h4 {
+            color: #dc3545;
+        }
+        
+        .vocab-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .vocab-card li::before {
+            content: "• ";
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .reading-passage {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .reading-passage h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        .key-concept {
+            background: white;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .key-concept h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        
+        .practice-question {
+            background: #fff8e1;
+            border: 2px solid #ffc107;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .practice-question h4 {
+            color: #f57c00;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        
+        .quiz-question {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .quiz-options, .practice-options {
+            margin-top: 15px;
+        }
+        
+        .quiz-option, .practice-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .quiz-option:hover, .practice-option:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .quiz-option input[type="radio"],
+        .practice-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .quiz-option label,
+        .practice-option label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            margin-top: 10px;
+            font-family: inherit;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .check-answer-btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        
+        .check-answer-btn:hover {
+            background: #218838;
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .feedback.show {
+            display: block;
+        }
+        
+        .feedback.correct {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .feedback h5 {
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .results-area {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 30px;
+            text-align: center;
+            display: none;
+            border: 3px solid #667eea;
+        }
+        
+        .results-area.show {
+            display: block;
+        }
+        
+        .score-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #28a745;
+            margin: 20px 0;
+        }
+        
+        .score-display.low {
+            color: #dc3545;
+        }
+        
+        .score-display.medium {
+            color: #ffc107;
+        }
+        
+        .detailed-results {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .question-result {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        
+        .question-result.correct {
+            background: #d4edda;
+        }
+        
+        .question-result.incorrect {
+            background: #f8d7da;
+        }
+        
+        .passage-box {
+            background: #e8f4f8;
+            border-left: 4px solid #2196f3;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+        }
+        
+        .reflection-box {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+        
+        .student-info {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .tab-log-display {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔥 Blazing New Trails</h1>
+            <p>Week 5 Learning Module - Text Evidence & Inferences</p>
+        </div>
+        
+        <div class="tab-warning" id="tabWarning">
+            ⚠️ Warning: You switched tabs! Stay focused on the module. This has been logged.<br>
+            警告：你切换了标签！专注于模块。这已被记录。
+        </div>
+        
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <button onclick="showSection(1)" id="nav1" class="active">📚 Vocabulary</button>
+            <button onclick="showSection(2)" id="nav2">📅 Tuesday: Text Evidence</button>
+            <button onclick="showSection(3)" id="nav3">📅 Wednesday: Inferences</button>
+        </div>
+        
+        <div class="content">
+            <!-- SECTION 1: VOCABULARY -->
+            <div class="section active" id="section1">
+                <div class="day-header">
+                    <h2>📚 Vocabulary & Literary Terms</h2>
+                    <p>Study Reference | 学习参考</p>
+                </div>
+                
+                <p style="margin-bottom: 30px;">Review these key terms before starting the daily lessons. Use this section as a reference throughout the week.</p>
+                
+                <h2 style="color: #667eea; margin: 30px 0 20px 0;">Vocabulary (词汇)</h2>
+                
+                <div class="vocab-card">
+                    <h3>Acknowledge</h3>
+                    <div class="part-of-speech">(verb) 承认；认可</div>
+                    <div class="definition">To accept or recognize something (a fact, feeling, or truth).</div>
+                    <div class="chinese-context">
+                        <strong>🇨🇳 Chinese Context:</strong> In Chinese culture, when a teacher corrects you in class, you should acknowledge your mistake by saying "对不起，老师" (sorry, teacher). In Western culture, you might acknowledge it by saying "Thank you for the correction."
+                    </div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>The student acknowledged her mistake on the test</li>
+                            <li>The company acknowledged the workers' hard effort during Spring Festival</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Authentic</h3>
+                    <div class="part-of-speech">(adjective) 真实的；正宗的</div>
+                    <div class="definition">Genuine; real; not fake or copied.</div>
+                    <div class="chinese-context">
+                        <strong>🇨🇳 Chinese Context:</strong> When you visit a restaurant in Chengdu, you want authentic Sichuan food (正宗川菜), not a fake version. Similarly, when buying a smartphone, you want an authentic iPhone, not a counterfeit copy.
+                    </div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>Authentic Beijing roast duck from Quanjude restaurant</li>
+                            <li>Her authentic smile showed she was truly happy</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Benefit</h3>
+                    <div class="part-of-speech">(noun) 好处；益处</div>
+                    <div class="definition">An advantage; something that is helpful or positive.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>A benefit of living in Shanghai is access to international opportunities</li>
+                            <li>Learning English has the benefit of opening career doors</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Obstacle</h3>
+                    <div class="part-of-speech">(noun) 障碍；阻碍</div>
+                    <div class="definition">Something that gets in the way and keeps you from making progress.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>Language barriers are a common obstacle for Chinese students studying abroad</li>
+                            <li>Fear of making mistakes can be an obstacle to speaking English fluently</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Philosophy</h3>
+                    <div class="part-of-speech">(noun) 哲学；人生观</div>
+                    <div class="definition">A belief system or way of thinking about the world, life, or a particular topic.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>Jack Ma's business philosophy: "customers first, employees second"</li>
+                            <li>A teacher's philosophy: "every student can succeed with the right support"</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Stereotype</h3>
+                    <div class="part-of-speech">(noun) 刻板印象</div>
+                    <div class="definition">A fixed, oversimplified idea about a type of person or thing.</div>
+                    <div class="examples">
+                        <h4>✓ Examples (of stereotypes - these are WRONG)</h4>
+                        <ul>
+                            <li>"All Asian students are quiet in class" (not true for everyone)</li>
+                            <li>"Girls are bad at science" (a harmful stereotype)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h2 style="color: #667eea; margin: 40px 0 20px 0;">Literary Terms (文学术语)</h2>
+                
+                <div class="vocab-card">
+                    <h3>Tension</h3>
+                    <div class="part-of-speech">(noun) 紧张感</div>
+                    <div class="definition">A state of emotional strain or suspense created by conflict between characters or forces.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>The tension before exam scores are posted on the bulletin board</li>
+                            <li>A basketball game tied in the final seconds creates tension</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Mood</h3>
+                    <div class="part-of-speech">(noun) 氛围；情绪</div>
+                    <div class="definition">The emotional atmosphere or feeling that a reader experiences while reading a text.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>A dark, foggy scene in a cemetery creates a creepy mood</li>
+                            <li>A description of red lanterns creates a celebratory mood</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Tone</h3>
+                    <div class="part-of-speech">(noun) 语气；口吻</div>
+                    <div class="definition">The author's attitude or manner of expression toward the subject matter and audience.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>Sarcastic tone: "Oh great, another three-hour exam. How wonderful."</li>
+                            <li>Encouraging tone: "You can do this! Keep trying and you'll succeed!"</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Conflict</h3>
+                    <div class="part-of-speech">(noun) 冲突；矛盾</div>
+                    <div class="definition">A struggle or disagreement between opposing forces, characters, or ideas that drives the plot forward.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>Person vs. Person: A student arguing with a teacher about a grade</li>
+                            <li>Person vs. Self: Deciding between studying abroad or staying in China</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="vocab-card">
+                    <h3>Diction</h3>
+                    <div class="part-of-speech">(noun) 用词；措辞</div>
+                    <div class="definition">The specific word choice made by an author to convey meaning, create tone, and shape the reader's interpretation.</div>
+                    <div class="examples">
+                        <h4>✓ Examples</h4>
+                        <ul>
+                            <li>"The student walked to school" vs "The student trudged to school" (trudged shows tiredness)</li>
+                            <li>"She was thin" vs "She was slender" vs "She was gaunt" (different connotations)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SECTION 2: TUESDAY -->
+            <div class="section" id="section2">
+                <div class="day-header">
+                    <h2>📅 Tuesday In Class</h2>
+                    <p>Focus: Text Evidence | 文本证据</p>
+                </div>
+                
+                <div class="key-concept">
+                    <h4>What is Text Evidence? (什么是文本证据？)</h4>
+                    <p><strong>Text evidence</strong> includes facts, data, or information from a text that helps support or prove an idea. It's like showing your work in math class - you prove your answer is correct by showing the evidence from the text.</p>
+                </div>
+                
+                <!-- Passage 1 with Practice Question -->
+                <div class="reading-passage">
+                    <h3>Passage 1: Lang Lang's Piano Journey</h3>
+                    <p>When Lang Lang was nine, his piano teacher told him he had no talent. However, Lang Lang practiced eight hours every day, even on holidays. His fingers would sometimes bleed from the intense practice sessions, but he never complained. He would wake up at 5 AM to practice before school. At age 17, he performed with the Chicago Symphony Orchestra. Today, he is one of the world's most famous pianists. He often says that his success came not from natural talent, but from working harder than anyone else.</p>
+                </div>
+                
+                <div class="practice-question" id="practice1">
+                    <h4>Practice Question 1: Which evidence BEST supports the idea that Lang Lang's success came from hard work rather than natural talent?</h4>
+                    <div class="practice-options">
+                        <div class="practice-option">
+                            <input type="radio" name="practice1" value="a" id="p1a">
+                            <label for="p1a">A. "His piano teacher told him he had no talent"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice1" value="b" id="p1b">
+                            <label for="p1b">B. "He practiced eight hours every day, even on holidays"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice1" value="c" id="p1c">
+                            <label for="p1c">C. "At age 17, he performed with the Chicago Symphony"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice1" value="d" id="p1d">
+                            <label for="p1d">D. "Today he is a famous pianist"</label>
+                        </div>
+                    </div>
+                    <button class="check-answer-btn" onclick="checkPractice(1, 'b')">Check Answer</button>
+                    <div class="feedback" id="feedback1">
+                        <h5>Rationale (解释)</h5>
+                        <p><strong>✓ Correct!</strong> Option B shows specific hard work: "practiced eight hours every day, even on holidays." This concrete evidence demonstrates dedication. The other options either mention talent (A), just show results (C, D), but don't prove hard work.</p>
+                    </div>
+                </div>
+                
+                <!-- Passage 2 with Practice Question -->
+                <div class="reading-passage">
+                    <h3>Passage 2: The Terracotta Army Discovery</h3>
+                    <p>In March 1974, farmers in Xi'an were digging a well during a severe drought. They were not looking for historical treasures; they were just trying to find water for their crops. As they dug deeper, their shovels hit something hard. At first, they thought it was just a rock. But when they cleared away soil, they saw a clay face staring up at them. They had discovered the Terracotta Army. This discovery was completely accidental - they were looking for water, not treasures.</p>
+                </div>
+                
+                <div class="practice-question" id="practice2">
+                    <h4>Practice Question 2: Which evidence shows the Terracotta Army discovery was accidental?</h4>
+                    <div class="practice-options">
+                        <div class="practice-option">
+                            <input type="radio" name="practice2" value="a" id="p2a">
+                            <label for="p2a">A. "The farmers were not looking for historical treasures; they were just trying to find water"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice2" value="b" id="p2b">
+                            <label for="p2b">B. "They discovered over 8,000 clay soldiers"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice2" value="c" id="p2c">
+                            <label for="p2c">C. "The discovery was in March 1974"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice2" value="d" id="p2d">
+                            <label for="p2d">D. "The farmers were from Xi'an"</label>
+                        </div>
+                    </div>
+                    <button class="check-answer-btn" onclick="checkPractice(2, 'a')">Check Answer</button>
+                    <div class="feedback" id="feedback2">
+                        <h5>Rationale (解释)</h5>
+                        <p><strong>✓ Correct!</strong> Option A directly states they "were not looking for historical treasures; they were just trying to find water." This proves the discovery was accidental - they had a different purpose (finding water) and found the army by chance.</p>
+                    </div>
+                </div>
+                
+                <!-- Passage 3 with Practice Question -->
+                <div class="reading-passage">
+                    <h3>Passage 3: Tu Youyou's Malaria Research</h3>
+                    <p>In the 1960s, Tu Youyou was assigned to find a cure for malaria. She reviewed over 2,000 traditional Chinese medicine recipes. After testing more than 380 herbal extracts without success, she found a reference to sweet wormwood (青蒿). Her initial experiments failed, but she tried a different approach: extracting at lower temperatures. This worked. Without hesitation, Tu Youyou volunteered to be the first human test subject, taking the extract herself to check for side effects. Her discovery has saved millions of lives.</p>
+                </div>
+                
+                <div class="practice-question" id="practice3">
+                    <h4>Practice Question 3: Which evidence BEST shows Tu Youyou's dedication to finding a cure?</h4>
+                    <div class="practice-options">
+                        <div class="practice-option">
+                            <input type="radio" name="practice3" value="a" id="p3a">
+                            <label for="p3a">A. "She reviewed over 2,000 recipes and tested 380 extracts"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice3" value="b" id="p3b">
+                            <label for="p3b">B. "She won the Nobel Prize"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice3" value="c" id="p3c">
+                            <label for="p3c">C. "Malaria was killing millions"</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice3" value="d" id="p3d">
+                            <label for="p3d">D. "The government assigned her to the project"</label>
+                        </div>
+                    </div>
+                    <button class="check-answer-btn" onclick="checkPractice(3, 'a')">Check Answer</button>
+                    <div class="feedback" id="feedback3">
+                        <h5>Rationale (解释)</h5>
+                        <p><strong>✓ Correct!</strong> Option A provides specific numbers (2,000 recipes, 380 extracts) showing the massive amount of work she did. This concrete evidence proves her dedication. The other options mention results (B), context (C), or assignment (D) but don't show her personal effort.</p>
+                    </div>
+                </div>
+                
+                <!-- Tuesday Quiz Section -->
+                <div class="student-info">
+                    <label for="tuesdayName" style="display: block; font-weight: 600; margin-bottom: 10px;">Student Name 学生姓名: *</label>
+                    <input type="text" id="tuesdayName" placeholder="Enter your full name...">
+                </div>
+                
+                <h2 style="color: #dc3545; margin-bottom: 20px;">📝 Tuesday Quiz (100 points)</h2>
+                <p style="margin-bottom: 30px;"><strong>Instructions:</strong> 10 questions × 10 points each. Select the best answer for each question.</p>
+                
+                <!-- Tuesday Quiz Questions -->
+                <div class="quiz-question">
+                    <h4>1. What does "acknowledge" mean? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q1" value="a" id="tue_q1a"><label for="tue_q1a">A. To ignore or deny something</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q1" value="b" id="tue_q1b"><label for="tue_q1b">B. To accept or recognize something as true</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q1" value="c" id="tue_q1c"><label for="tue_q1c">C. To argue against an idea</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q1" value="d" id="tue_q1d"><label for="tue_q1d">D. To forget about a problem</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>2. Which sentence uses "authentic" correctly? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q2" value="a" id="tue_q2a"><label for="tue_q2a">A. The fake designer bag was very authentic</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q2" value="b" id="tue_q2b"><label for="tue_q2b">B. Her authentic passion for helping others showed in everything she did</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q2" value="c" id="tue_q2c"><label for="tue_q2c">C. He gave an authentic apology, but he didn't mean it</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q2" value="d" id="tue_q2d"><label for="tue_q2d">D. The copied homework was completely authentic</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>3. Which is an example of an "obstacle"? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q3" value="a" id="tue_q3a"><label for="tue_q3a">A. A supportive teacher who helps you learn</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q3" value="b" id="tue_q3b"><label for="tue_q3b">B. A clear pathway to your goals</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q3" value="c" id="tue_q3c"><label for="tue_q3c">C. A language barrier that prevents communication</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q3" value="d" id="tue_q3d"><label for="tue_q3d">D. A scholarship that pays for school</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>4. A "philosophy" is best described as: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q4" value="a" id="tue_q4a"><label for="tue_q4a">A. A temporary mood that changes daily</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q4" value="b" id="tue_q4b"><label for="tue_q4b">B. A scientific fact that can be proven</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q4" value="c" id="tue_q4c"><label for="tue_q4c">C. A belief system or way of thinking about life</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q4" value="d" id="tue_q4d"><label for="tue_q4d">D. A one-time opinion with no deeper meaning</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>5. Why are stereotypes harmful? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q5" value="a" id="tue_q5a"><label for="tue_q5a">A. They make oversimplified assumptions about groups of people</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q5" value="b" id="tue_q5b"><label for="tue_q5b">B. They are always based on scientific research</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q5" value="c" id="tue_q5c"><label for="tue_q5c">C. They help us understand individual differences</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q5" value="d" id="tue_q5d"><label for="tue_q5d">D. They are specific facts about one person</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="passage-box">
+                        <strong>Read this passage:</strong>
+                        <p style="margin-top: 10px;">Lang Lang practiced eight hours every day, even on holidays. His fingers would sometimes bleed from the intense practice sessions, but he never complained. He would wake up at 5 AM to practice before school.</p>
+                    </div>
+                    <h4>6. Which evidence BEST shows Lang Lang's success came from hard work? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q6" value="a" id="tue_q6a"><label for="tue_q6a">A. "His piano teacher told him he had no talent"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q6" value="b" id="tue_q6b"><label for="tue_q6b">B. "He practiced eight hours every day, even on holidays"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q6" value="c" id="tue_q6c"><label for="tue_q6c">C. "At age 17, he performed with the Chicago Symphony"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q6" value="d" id="tue_q6d"><label for="tue_q6d">D. "Today he is a famous pianist"</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="passage-box">
+                        <strong>Read this passage:</strong>
+                        <p style="margin-top: 10px;">The farmers were not looking for historical treasures; they were just trying to find water. If the drought had not forced them to dig that well in that exact location, the Terracotta Army might still be buried today.</p>
+                    </div>
+                    <h4>7. What evidence shows the discovery was accidental? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q7" value="a" id="tue_q7a"><label for="tue_q7a">A. "The farmers were not looking for historical treasures; they were just trying to find water"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q7" value="b" id="tue_q7b"><label for="tue_q7b">B. "They discovered over 8,000 clay soldiers"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q7" value="c" id="tue_q7c"><label for="tue_q7c">C. "The discovery was in 1974"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q7" value="d" id="tue_q7d"><label for="tue_q7d">D. "The farmers were from Xi'an"</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="passage-box">
+                        <strong>Read this passage:</strong>
+                        <p style="margin-top: 10px;">Tu Youyou reviewed over 2,000 traditional Chinese medicine recipes. After testing more than 380 herbal extracts without success, she finally discovered artemisinin. She volunteered to be the first human test subject.</p>
+                    </div>
+                    <h4>8. Which evidence shows Tu Youyou's dedication? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q8" value="a" id="tue_q8a"><label for="tue_q8a">A. "She reviewed over 2,000 recipes and tested 380 extracts"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q8" value="b" id="tue_q8b"><label for="tue_q8b">B. "She won the Nobel Prize"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q8" value="c" id="tue_q8c"><label for="tue_q8c">C. "She worked in the 1960s"</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q8" value="d" id="tue_q8d"><label for="tue_q8d">D. "Malaria was killing millions"</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>9. Text evidence is important in academic writing because: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q9" value="a" id="tue_q9a"><label for="tue_q9a">A. It allows you to make up any answer you want</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q9" value="b" id="tue_q9b"><label for="tue_q9b">B. It proves your ideas are supported by the text, not just opinion</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q9" value="c" id="tue_q9c"><label for="tue_q9c">C. It means copying entire paragraphs from the book</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q9" value="d" id="tue_q9d"><label for="tue_q9d">D. It is only needed for science class</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>10. When citing text evidence, you should: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="tue_q10" value="a" id="tue_q10a"><label for="tue_q10a">A. Use quotation marks and cite specific words from the text</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q10" value="b" id="tue_q10b"><label for="tue_q10b">B. Change the author's words to make them sound better</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q10" value="c" id="tue_q10c"><label for="tue_q10c">C. Never give credit to the original author</label></div>
+                        <div class="quiz-option"><input type="radio" name="tue_q10" value="d" id="tue_q10d"><label for="tue_q10d">D. Only use evidence if the teacher asks</label></div>
+                    </div>
+                </div>
+                
+                <!-- Reflection Questions -->
+                <div class="reflection-box">
+                    <h3 style="color: #1976d2; margin-bottom: 15px;">🤔 Reflection Questions (Not Graded)</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4>Reflection 1: What strategy helped you most with finding text evidence today?</h4>
+                        <textarea id="tue_meta1" placeholder="Type your reflection here..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <h4>Reflection 2: Which vocabulary word was most challenging for you?</h4>
+                        <textarea id="tue_meta2" placeholder="Type your reflection here..."></textarea>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn-primary" onclick="submitTuesday()" style="background: #dc3545; font-size: 1.1em; padding: 15px 40px;">Submit Tuesday Quiz</button>
+                </div>
+                
+                <!-- Tuesday Results Area -->
+                <div id="tuesdayResults" class="results-area">
+                    <h2>🎉 Tuesday Complete!</h2>
+                    <div class="score-display" id="tuesdayScore">0/100</div>
+                    <p id="tuesdayFeedback"></p>
+                    
+                    <div class="tab-log-display" id="tuesdayTabLog"></div>
+                    
+                    <button class="btn-primary" onclick="downloadTuesday()" style="margin: 20px 0;">
+                        📥 Download Tuesday Results
+                    </button>
+                    
+                    <div class="detailed-results" id="tuesdayDetails"></div>
+                </div>
+            </div>
+            
+            <!-- SECTION 3: WEDNESDAY -->
+            <div class="section" id="section3">
+                <div class="day-header">
+                    <h2>📅 Wednesday In Class</h2>
+                    <p>Focus: Making Inferences | 推理判断</p>
+                </div>
+                
+                <div class="key-concept">
+                    <h4>What is an Inference? (什么是推理？)</h4>
+                    <p>An <strong>inference</strong> is like being a detective. You use clues from the text (evidence) + what you already know (background knowledge) = a logical conclusion.</p>
+                </div>
+                
+                <!-- Passage 1 with Practice Question -->
+                <div class="reading-passage">
+                    <h3>Passage 1: The Returned Exam</h3>
+                    <p>Chen Wei sat at his desk, staring at the math exam his teacher had just returned. He crumpled the paper tightly in his fist, then quickly shoved it deep into his backpack without looking at the score. His face turned red, and he kept his eyes fixed on his desk. When the bell rang, he was the first person out the door, nearly running to leave. His friends called out to him, asking how he did, but he pretended not to hear them.</p>
+                </div>
+                
+                <div class="practice-question" id="practice4">
+                    <h4>Practice Question 4: What can you infer about Chen Wei's exam score?</h4>
+                    <div class="practice-options">
+                        <div class="practice-option">
+                            <input type="radio" name="practice4" value="a" id="p4a">
+                            <label for="p4a">A. He got a perfect score and is excited</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice4" value="b" id="p4b">
+                            <label for="p4b">B. He probably did poorly and feels embarrassed</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice4" value="c" id="p4c">
+                            <label for="p4c">C. He got an average score and doesn't care</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice4" value="d" id="p4d">
+                            <label for="p4d">D. We cannot make any inference from this text</label>
+                        </div>
+                    </div>
+                    <button class="check-answer-btn" onclick="checkPractice(4, 'b')">Check Answer</button>
+                    <div class="feedback" id="feedback4">
+                        <h5>Rationale (解释)</h5>
+                        <p><strong>✓ Correct!</strong> <strong>Evidence:</strong> crumpling paper, red face, running away, avoiding friends.<br><strong>Background knowledge:</strong> People act this way when embarrassed about bad news.<br><strong>Inference:</strong> He probably did poorly and feels embarrassed.</p>
+                    </div>
+                </div>
+                
+                <!-- Passage 2 with Practice Question -->
+                <div class="reading-passage">
+                    <h3>Passage 2: The Art Class Secret</h3>
+                    <p>Xiaoming stays in the art room for two hours every Monday. His parents think he's at study hall. He brings an extra change of clothes but leaves them in his locker. Last week, his mother noticed paint stains on his fingers that he tried to hide. When she asked, he said he touched something painted on the subway. This Monday, his art teacher submitted one of Xiaoming's paintings to a national competition without telling him.</p>
+                </div>
+                
+                <div class="practice-question" id="practice5">
+                    <h4>Practice Question 5: What can you infer about why Xiaoming keeps his art class secret?</h4>
+                    <div class="practice-options">
+                        <div class="practice-option">
+                            <input type="radio" name="practice5" value="a" id="p5a">
+                            <label for="p5a">A. He doesn't actually attend art class; he's doing something else</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice5" value="b" id="p5b">
+                            <label for="p5b">B. His parents don't approve of art and want him to focus on academics</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice5" value="c" id="p5c">
+                            <label for="p5c">C. He is not very good at art and is embarrassed</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice5" value="d" id="p5d">
+                            <label for="p5d">D. The art teacher told him to keep it secret</label>
+                        </div>
+                    </div>
+                    <button class="check-answer-btn" onclick="checkPractice(5, 'b')">Check Answer</button>
+                    <div class="feedback" id="feedback5">
+                        <h5>Rationale (解释)</h5>
+                        <p><strong>✓ Correct!</strong> <strong>Evidence:</strong> Parents think he's at study hall (not art), he hides paint stains, lies about them.<br><strong>Background knowledge:</strong> Students hide activities when they think parents won't approve.<br><strong>Inference:</strong> His parents don't approve of art class.</p>
+                    </div>
+                </div>
+                
+                <!-- Passage 3 with Practice Question -->
+                <div class="reading-passage">
+                    <h3>Passage 3: The Community Garden</h3>
+                    <p>Mr. Zhang, 76, tends a small garden plot with incredible care. His plot is only 3 square meters but bursting with vegetables. Every Thursday, he rides the bus across the city to his daughter's apartment and leaves fresh vegetables by her door. He never rings the doorbell or waits for her. His daughter is a busy executive who works 70-hour weeks and rarely visits him.</p>
+                </div>
+                
+                <div class="practice-question" id="practice6">
+                    <h4>Practice Question 6: What can you infer about Mr. Zhang's relationship with his daughter?</h4>
+                    <div class="practice-options">
+                        <div class="practice-option">
+                            <input type="radio" name="practice6" value="a" id="p6a">
+                            <label for="p6a">A. Gardening is just a hobby; the vegetables are for his own use</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice6" value="b" id="p6b">
+                            <label for="p6b">B. He gardens to show love for his daughter despite not spending time together</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice6" value="c" id="p6c">
+                            <label for="p6c">C. He is angry at his daughter and wants to make her feel guilty</label>
+                        </div>
+                        <div class="practice-option">
+                            <input type="radio" name="practice6" value="d" id="p6d">
+                            <label for="p6d">D. His daughter asked him to grow vegetables to save money</label>
+                        </div>
+                    </div>
+                    <button class="check-answer-btn" onclick="checkPractice(6, 'b')">Check Answer</button>
+                    <div class="feedback" id="feedback6">
+                        <h5>Rationale (解释)</h5>
+                        <p><strong>✓ Correct!</strong> <strong>Evidence:</strong> Tends garden with "incredible care," travels across city, leaves vegetables without waiting, daughter rarely visits.<br><strong>Background knowledge:</strong> Parents show love through actions when distance exists.<br><strong>Inference:</strong> He uses gardening to show love despite their distance.</p>
+                    </div>
+                </div>
+                
+                <!-- Wednesday Quiz Section -->
+                <div class="student-info">
+                    <label for="wednesdayName" style="display: block; font-weight: 600; margin-bottom: 10px;">Student Name 学生姓名: *</label>
+                    <input type="text" id="wednesdayName" placeholder="Enter your full name...">
+                </div>
+                
+                <h2 style="color: #dc3545; margin-bottom: 20px;">📝 Wednesday Quiz (100 points)</h2>
+                <p style="margin-bottom: 30px;"><strong>Instructions:</strong> 10 questions × 10 points each. Read carefully and make logical inferences.</p>
+                
+                <!-- Wednesday Quiz Questions -->
+                <div class="quiz-question">
+                    <h4>1. What is the difference between "mood" and "tone"? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q1" value="a" id="wed_q1a"><label for="wed_q1a">A. Mood is the reader's feeling; tone is the author's attitude</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q1" value="b" id="wed_q1b"><label for="wed_q1b">B. They mean exactly the same thing</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q1" value="c" id="wed_q1c"><label for="wed_q1c">C. Mood is the author's attitude; tone is the reader's feeling</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q1" value="d" id="wed_q1d"><label for="wed_q1d">D. Mood is only for poetry, tone is only for stories</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>2. "Tension" in a story serves to: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q2" value="a" id="wed_q2a"><label for="wed_q2a">A. Make readers bored</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q2" value="b" id="wed_q2b"><label for="wed_q2b">B. Create suspense and keep readers engaged</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q2" value="c" id="wed_q2c"><label for="wed_q2c">C. Only appear at the end of stories</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q2" value="d" id="wed_q2d"><label for="wed_q2d">D. Confuse the reader</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>3. "Conflict" is essential because it: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q3" value="a" id="wed_q3a"><label for="wed_q3a">A. Makes stories boring</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q3" value="b" id="wed_q3b"><label for="wed_q3b">B. Drives the plot forward and creates character development</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q3" value="c" id="wed_q3c"><label for="wed_q3c">C. Only appears in action movies</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q3" value="d" id="wed_q3d"><label for="wed_q3d">D. Means characters must physically fight</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>4. "Diction" refers to: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q4" value="a" id="wed_q4a"><label for="wed_q4a">A. Sentence arrangement</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q4" value="b" id="wed_q4b"><label for="wed_q4b">B. The specific word choice an author makes</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q4" value="c" id="wed_q4c"><label for="wed_q4c">C. The main idea</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q4" value="d" id="wed_q4d"><label for="wed_q4d">D. Grammar rules</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>5. The opposite of "benefit" is: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q5" value="a" id="wed_q5a"><label for="wed_q5a">A. Advantage</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q5" value="b" id="wed_q5b"><label for="wed_q5b">B. Profit</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q5" value="c" id="wed_q5c"><label for="wed_q5c">C. Drawback</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q5" value="d" id="wed_q5d"><label for="wed_q5d">D. Gain</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="passage-box">
+                        <strong>Read this passage:</strong>
+                        <p style="margin-top: 10px;">Every Saturday, an elderly woman arrives at the library at 9 AM and reads children's picture books slowly for two hours. She moves her lips while reading and takes notes. She never checks out books or uses the adult section.</p>
+                    </div>
+                    <h4>6. What can you infer about this woman? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q6" value="a" id="wed_q6a"><label for="wed_q6a">A. She is probably learning to read</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q6" value="b" id="wed_q6b"><label for="wed_q6b">B. She is stealing books</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q6" value="c" id="wed_q6c"><label for="wed_q6c">C. She hates adult books</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q6" value="d" id="wed_q6d"><label for="wed_q6d">D. The librarian forces her to read children's books</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h4>7. When making an inference, you combine: (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q7" value="a" id="wed_q7a"><label for="wed_q7a">A. Opinions from friends</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q7" value="b" id="wed_q7b"><label for="wed_q7b">B. Text evidence and background knowledge</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q7" value="c" id="wed_q7c"><label for="wed_q7c">C. Title and author biography</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q7" value="d" id="wed_q7d"><label for="wed_q7d">D. Personal feelings and guesses</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="passage-box">
+                        <strong>Read this passage:</strong>
+                        <p style="margin-top: 10px;">A developer offered Mr. Zhang five times the value of his family studio. His children urged him to sell. Mr. Zhang touched a portrait of his grandfather from 1923 and said, "Some things are more valuable than money."</p>
+                    </div>
+                    <h4>8. What can you infer? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q8" value="a" id="wed_q8a"><label for="wed_q8a">A. He will sell because his children want him to</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q8" value="b" id="wed_q8b"><label for="wed_q8b">B. He values family history more than money</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q8" value="c" id="wed_q8c"><label for="wed_q8c">C. He doesn't understand money</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q8" value="d" id="wed_q8d"><label for="wed_q8d">D. He will negotiate for more money</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="passage-box">
+                        <strong>Read this passage:</strong>
+                        <p style="margin-top: 10px;">Rosa Parks refused to give up her bus seat. She later said she refused not because she was physically tired, but because she was "tired of giving in to injustice."</p>
+                    </div>
+                    <h4>9. What can you infer about her action? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q9" value="a" id="wed_q9a"><label for="wed_q9a">A. She acted on impulse</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q9" value="b" id="wed_q9b"><label for="wed_q9b">B. Her refusal was deliberate resistance against injustice</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q9" value="c" id="wed_q9c"><label for="wed_q9c">C. She was too physically tired</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q9" value="d" id="wed_q9d"><label for="wed_q9d">D. She wanted to become famous</label></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="passage-box">
+                        <strong>Read this passage:</strong>
+                        <p style="margin-top: 10px;">A restaurant owner was about to reject a job applicant with no experience. Then he noticed the young man's hands: scarred from burns, calloused from hard work. He immediately hired him.</p>
+                    </div>
+                    <h4>10. Why did the owner hire him? (10 points)</h4>
+                    <div class="quiz-options">
+                        <div class="quiz-option"><input type="radio" name="wed_q10" value="a" id="wed_q10a"><label for="wed_q10a">A. Because he had an impressive resume</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q10" value="b" id="wed_q10b"><label for="wed_q10b">B. The owner recognized evidence of hard work in his hands</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q10" value="c" id="wed_q10c"><label for="wed_q10c">C. Because no one else applied</label></div>
+                        <div class="quiz-option"><input type="radio" name="wed_q10" value="d" id="wed_q10d"><label for="wed_q10d">D. The owner felt sorry for him</label></div>
+                    </div>
+                </div>
+                
+                <!-- Reflection Questions -->
+                <div class="reflection-box">
+                    <h3 style="color: #1976d2; margin-bottom: 15px;">🤔 Reflection Questions (Not Graded)</h3>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <h4>Reflection 1: What was the most challenging inference you made today?</h4>
+                        <textarea id="wed_meta1" placeholder="Type your reflection here..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <h4>Reflection 2: How is making inferences different from guessing?</h4>
+                        <textarea id="wed_meta2" placeholder="Type your reflection here..."></textarea>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn-primary" onclick="submitWednesday()" style="background: #dc3545; font-size: 1.1em; padding: 15px 40px;">Submit Wednesday Quiz</button>
+                </div>
+                
+                <!-- Wednesday Results Area -->
+                <div id="wednesdayResults" class="results-area">
+                    <h2>🎉 Wednesday Complete!</h2>
+                    <div class="score-display" id="wednesdayScore">0/100</div>
+                    <p id="wednesdayFeedback"></p>
+                    
+                    <div class="tab-log-display" id="wednesdayTabLog"></div>
+                    
+                    <button class="btn-primary" onclick="downloadWednesday()" style="margin: 20px 0;">
+                        📥 Download Wednesday Results
+                    </button>
+                    
+                    <div class="detailed-results" id="wednesdayDetails"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Track tab visibility across the entire module
+        let tabSwitches = [];
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                const timestamp = new Date().toLocaleString();
+                tabSwitches.push(timestamp);
+                const warning = document.getElementById('tabWarning');
+                warning.classList.add('show');
+                setTimeout(() => warning.classList.remove('show'), 3000);
+            }
+        });
+        
+        // Navigation
+        function showSection(n) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`section${n}`).classList.add('active');
+            document.querySelectorAll('.top-nav button').forEach((btn, idx) => {
+                if (idx + 1 === n) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+            window.scrollTo(0, 0);
+        }
+        
+        // Practice question checker
+        function checkPractice(num, correctAnswer) {
+            const selected = document.querySelector(`input[name="practice${num}"]:checked`);
+            const feedback = document.getElementById(`feedback${num}`);
+            
+            if (!selected) {
+                alert('Please select an answer first!');
+                return;
+            }
+            
+            feedback.classList.add('show');
+            if (selected.value === correctAnswer) {
+                feedback.className = 'feedback correct show';
+            } else {
+                feedback.className = 'feedback incorrect show';
+                // Keep the rationale visible even if wrong, just change color
+            }
+        }
+        
+        // Tuesday Answers
+        const tuesdayAnswers = {
+            tue_q1: 'b', tue_q2: 'b', tue_q3: 'c', tue_q4: 'c', tue_q5: 'a',
+            tue_q6: 'b', tue_q7: 'a', tue_q8: 'a', tue_q9: 'b', tue_q10: 'a'
+        };
+        
+        // Wednesday Answers  
+        const wednesdayAnswers = {
+            wed_q1: 'a', wed_q2: 'b', wed_q3: 'b', wed_q4: 'b', wed_q5: 'c',
+            wed_q6: 'a', wed_q7: 'b', wed_q8: 'b', wed_q9: 'b', wed_q10: 'b'
+        };
+        
+        function submitTuesday() {
+            const name = document.getElementById('tuesdayName').value.trim();
+            if (!name) {
+                alert('Please enter your name!');
+                return;
+            }
+            if (!confirm('Are you ready to submit? You cannot change answers after submitting.')) return;
+            
+            let score = 0;
+            let results = [];
+            
+            for (let q in tuesdayAnswers) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                const isCorrect = selected && selected.value === tuesdayAnswers[q];
+                if (isCorrect) score += 10;
+                results.push({q: q.replace('tue_q', 'Q'), correct: isCorrect, selected: selected ? selected.value : 'none'});
+            }
+            
+            document.getElementById('tuesdayResults').classList.add('show');
+            document.getElementById('tuesdayScore').textContent = `${score}/100`;
+            
+            // Feedback
+            const fb = document.getElementById('tuesdayFeedback');
+            if (score >= 90) fb.innerHTML = '<strong style="color: #28a745;">Excellent!</strong> You have mastered text evidence.';
+            else if (score >= 80) fb.innerHTML = '<strong style="color: #667eea;">Good job!</strong> You understand the concepts well.';
+            else if (score >= 70) fb.innerHTML = '<strong style="color: #ffc107;">Passing.</strong> Review the material.';
+            else fb.innerHTML = '<strong style="color: #dc3545;">Needs improvement.</strong> Please review the vocabulary and text evidence notes.';
+            
+            // Tab log
+            const tabLogDiv = document.getElementById('tuesdayTabLog');
+            if (tabSwitches.length > 0) {
+                tabLogDiv.innerHTML = `<strong>⚠️ Tab Switches Detected: ${tabSwitches.length}</strong><br>Times: ${tabSwitches.join(', ')}`;
+            } else {
+                tabLogDiv.innerHTML = '<strong>✓ No tab switches detected. Great focus!</strong>';
+            }
+            
+            // Details
+            const details = document.getElementById('tuesdayDetails');
+            let html = '<h4>Question Breakdown:</h4>';
+            results.forEach(r => {
+                const color = r.correct ? '#d4edda' : '#f8d7da';
+                const status = r.correct ? '✓' : '✗';
+                html += `<div class="question-result" style="background: ${color}; padding: 8px; margin: 5px 0;">
+                    ${status} ${r.number}: ${r.selected === 'none' ? 'No answer' : r.selected.toUpperCase()} ${r.correct ? '(10/10)' : '(0/10)'}
+                </div>`;
+            });
+            details.innerHTML = html;
+            
+            window.scrollTo(0, document.getElementById('tuesdayResults').offsetTop);
+        }
+        
+        function submitWednesday() {
+            const name = document.getElementById('wednesdayName').value.trim();
+            if (!name) {
+                alert('Please enter your name!');
+                return;
+            }
+            if (!confirm('Are you ready to submit? You cannot change answers after submitting.')) return;
+            
+            let score = 0;
+            let results = [];
+            
+            for (let q in wednesdayAnswers) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                const isCorrect = selected && selected.value === wednesdayAnswers[q];
+                if (isCorrect) score += 10;
+                results.push({q: q.replace('wed_q', 'Q'), correct: isCorrect, selected: selected ? selected.value : 'none'});
+            }
+            
+            document.getElementById('wednesdayResults').classList.add('show');
+            document.getElementById('wednesdayScore').textContent = `${score}/100`;
+            
+            // Feedback
+            const fb = document.getElementById('wednesdayFeedback');
+            if (score >= 90) fb.innerHTML = '<strong style="color: #28a745;">Excellent!</strong> You are skilled at making inferences.';
+            else if (score >= 80) fb.innerHTML = '<strong style="color: #667eea;">Good job!</strong> You understand inferences well.';
+            else if (score >= 70) fb.innerHTML = '<strong style="color: #ffc107;">Passing.</strong> Practice making more inferences.';
+            else fb.innerHTML = '<strong style="color: #dc3545;">Needs improvement.</strong> Please review the inference strategies.';
+            
+            // Tab log
+            const tabLogDiv = document.getElementById('wednesdayTabLog');
+            if (tabSwitches.length > 0) {
+                tabLogDiv.innerHTML = `<strong>⚠️ Tab Switches Detected: ${tabSwitches.length}</strong><br>Times: ${tabSwitches.join(', ')}`;
+            } else {
+                tabLogDiv.innerHTML = '<strong>✓ No tab switches detected. Great focus!</strong>';
+            }
+            
+            // Details
+            const details = document.getElementById('wednesdayDetails');
+            let html = '<h4>Question Breakdown:</h4>';
+            results.forEach(r => {
+                const color = r.correct ? '#d4edda' : '#f8d7da';
+                const status = r.correct ? '✓' : '✗';
+                html += `<div class="question-result" style="background: ${color}; padding: 8px; margin: 5px 0;">
+                    ${status} ${r.number}: ${r.selected === 'none' ? 'No answer' : r.selected.toUpperCase()} ${r.correct ? '(10/10)' : '(0/10)'}
+                </div>`;
+            });
+            details.innerHTML = html;
+            
+            window.scrollTo(0, document.getElementById('wednesdayResults').offsetTop);
+        }
+        
+        function downloadTuesday() {
+            const name = document.getElementById('tuesdayName').value.trim() || 'Student';
+            const meta1 = document.getElementById('tue_meta1').value || '';
+            const meta2 = document.getElementById('tue_meta2').value || '';
+            const scoreText = document.getElementById('tuesdayScore').textContent;
+            const date = new Date().toLocaleString();
+            
+            let content = `TUESDAY QUIZ RESULTS - BLAZING NEW TRAILS\n`;
+            content += `==========================================\n`;
+            content += `Student: ${name}\n`;
+            content += `Date: ${date}\n`;
+            content += `Score: ${scoreText}\n\n`;
+            content += `Reflection 1 (Strategy):\n${meta1}\n\n`;
+            content += `Reflection 2 (Challenging word):\n${meta2}\n\n`;
+            content += `Tab Switches: ${tabSwitches.length}\n`;
+            if (tabSwitches.length > 0) content += `Times: ${tabSwitches.join(', ')}\n`;
+            content += `==========================================\n`;
+            
+            downloadTXT(content, `${name}_Tuesday_Results.txt`);
+        }
+        
+        function downloadWednesday() {
+            const name = document.getElementById('wednesdayName').value.trim() || 'Student';
+            const meta1 = document.getElementById('wed_meta1').value || '';
+            const meta2 = document.getElementById('wed_meta2').value || '';
+            const scoreText = document.getElementById('wednesdayScore').textContent;
+            const date = new Date().toLocaleString();
+            
+            let content = `WEDNESDAY QUIZ RESULTS - BLAZING NEW TRAILS\n`;
+            content += `==========================================\n`;
+            content += `Student: ${name}\n`;
+            content += `Date: ${date}\n`;
+            content += `Score: ${scoreText}\n\n`;
+            content += `Reflection 1 (Challenging inference):\n${meta1}\n\n`;
+            content += `Reflection 2 (Inference vs guessing):\n${meta2}\n\n`;
+            content += `Tab Switches: ${tabSwitches.length}\n`;
+            if (tabSwitches.length > 0) content += `Times: ${tabSwitches.join(', ')}\n`;
+            content += `==========================================\n`;
+            
+            downloadTXT(content, `${name}_Wednesday_Results.txt`);
+        }
+        
+        function downloadTXT(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
