@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central Ideas &amp; Theme Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #CC0000; --red-dark: #990000; --green: #1B4D2E;
+            --green-mid: #2D6E47; --gold: #C9A84C; --cream: #FAF7F2;
+            --gray-light: #F0EDE8; --gray: #8A8580; --text: #1A1A1A;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Source Serif 4',Georgia,serif; background:var(--green); min-height:100vh; padding:30px 20px; color:var(--text); user-select:none; -webkit-user-select:none; }
+        .timer { position:fixed; top:20px; right:20px; background:var(--green); color:white; padding:10px 20px; border-radius:8px; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; border:2px solid var(--gold); box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:100; text-align:center; }
+        .timer-label { display:block; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:2px; font-family:'Source Serif 4',serif; }
+        .tab-overlay { display:none; position:fixed; inset:0; background:rgba(10,5,5,.96); z-index:9000; justify-content:center; align-items:center; flex-direction:column; gap:16px; color:white; text-align:center; padding:20px; }
+        .tab-overlay.show { display:flex; }
+        .tab-overlay .icon { font-size:56px; animation:pulse 1s infinite; }
+        .tab-overlay h2 { font-family:'Playfair Display',serif; font-size:26px; color:#FF4444; }
+        .tab-overlay p { font-size:15px; color:rgba(255,255,255,.8); max-width:340px; }
+        .tab-overlay .vcount { background:var(--red); padding:7px 22px; border-radius:20px; font-weight:700; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .warning-banner { display:none; background:var(--red); color:white; padding:12px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; text-align:center; }
+        .submitted-msg { display:none; background:#EDFAF2; border:2px solid var(--green); color:var(--green); padding:13px; border-radius:8px; font-weight:600; text-align:center; margin-bottom:20px; }
+        .unanswered-msg { display:none; background:#FFF0F0; border:2px solid var(--red); color:var(--red-dark); padding:13px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; }
+        .school-band { max-width:860px; margin:0 auto; background:var(--red); border-radius:12px 12px 0 0; padding:13px 28px; display:flex; align-items:center; justify-content:space-between; }
+        .school-band .name { font-family:'Playfair Display',serif; color:white; font-size:16px; font-weight:700; }
+        .quiz-wrap { max-width:860px; margin:0 auto; background:white; border-radius:0 0 16px 16px; box-shadow:0 12px 48px rgba(0,0,0,.2); overflow:hidden; }
+        .quiz-inner { padding:36px 44px 48px; }
+        .quiz-header { text-align:center; margin-bottom:32px; }
+        .quiz-header h1 { font-family:'Playfair Display',serif; color:var(--green); font-size:28px; margin-bottom:6px; }
+        .quiz-header .sub { font-size:13px; color:var(--gray); font-style:italic; }
+        .divider { display:flex; align-items:center; gap:12px; margin:14px 0; }
+        .divider::before { content:''; flex:1; height:2px; background:linear-gradient(to right,transparent,var(--red)); }
+        .divider::after  { content:''; flex:1; height:2px; background:linear-gradient(to left,transparent,var(--red)); }
+        .student-info { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; padding-top:18px; border-top:2px solid var(--gray-light); }
+        .info-field label { display:block; font-size:11px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .info-field input { width:100%; padding:9px 13px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:15px; background:var(--cream); user-select:text; -webkit-user-select:text; }
+        .info-field input:focus { outline:none; border-color:var(--red); }
+        .integrity-notice { background:#FFF8F0; border:2px solid var(--red); border-radius:10px; padding:20px 22px; margin-bottom:28px; }
+        .integrity-notice h3 { font-family:'Playfair Display',serif; color:var(--red); font-size:16px; margin-bottom:12px; }
+        .rule { display:flex; gap:11px; align-items:flex-start; font-size:13.5px; color:#333; line-height:1.5; margin-bottom:8px; }
+        .rule:last-child { margin-bottom:0; }
+        .rule-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+        .section { margin-bottom:32px; }
+        .section-head { background:var(--green); border-radius:10px 10px 0 0; padding:13px 22px; }
+        .sec-title { font-family:'Playfair Display',serif; color:white; font-size:18px; font-weight:700; }
+        .sec-title span { background:var(--red); font-family:'Source Serif 4',serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:2px 9px; border-radius:20px; margin-left:8px; vertical-align:middle; }
+        .sec-desc { color:rgba(255,255,255,.82); font-size:13px; font-style:italic; margin-top:3px; }
+        .section-body { background:var(--cream); border:2px solid var(--green); border-top:none; border-radius:0 0 10px 10px; padding:20px; display:flex; flex-direction:column; gap:14px; }
+
+        /* MC */
+        .q-card { background:white; border-radius:8px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .q-card.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; animation:shake .4s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+        .q-num { font-size:12px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .q-text { font-size:15px; line-height:1.6; margin-bottom:13px; }
+        .options { display:flex; flex-direction:column; gap:7px; }
+        .opt { display:flex; align-items:center; gap:11px; padding:10px 14px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; transition:all .15s; }
+        .opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .opt input { accent-color:var(--red); cursor:pointer; flex-shrink:0; }
+
+        /* T/F */
+        .tf-opts { display:flex; gap:14px; }
+        .tf-opt { display:flex; align-items:center; gap:9px; padding:10px 22px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; font-weight:600; transition:all .15s; }
+        .tf-opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .tf-opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .tf-opt input { accent-color:var(--red); cursor:pointer; }
+
+        /* Drag & Drop - Word Bank */
+        .dnd-word-bank { background:#EDF5FF; border:2px solid #90B8E0; border-radius:10px; padding:16px 18px; }
+        .dnd-bank-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block; }
+        .dnd-chips { display:flex; flex-wrap:wrap; gap:8px; min-height:40px; padding:4px 0; }
+        .chip {
+            display:inline-flex; align-items:center;
+            padding:6px 16px; background:white;
+            border:2px solid #90B8E0; border-radius:20px;
+            font-size:13.5px; font-family:'Courier New',monospace; color:#1a3a5c;
+            cursor:grab; user-select:none; -webkit-user-select:none;
+            transition:transform .1s, box-shadow .1s, opacity .15s;
+            box-shadow:0 2px 6px rgba(0,0,0,.08);
+        }
+        .chip:active { cursor:grabbing; transform:scale(1.05); }
+        .chip.dragging { opacity:.4; }
+
+        .dnd-q-card { background:white; border-radius:8px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .dnd-q-card.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; animation:shake .4s ease; }
+        .dnd-sentence { font-size:15px; line-height:2.2; }
+        .drop-zone {
+            display:inline-flex; align-items:center; justify-content:center;
+            min-width:140px; height:34px; padding:0 12px;
+            border:2px dashed #90B8E0; border-radius:20px;
+            background:#F0F7FF; color:#999; font-size:13px; font-style:italic;
+            transition:border-color .15s, background .15s;
+            vertical-align:middle; cursor:default;
+        }
+        .drop-zone.drag-over { border-color:var(--green); background:#E8F5E9; color:var(--green); border-style:solid; }
+        .drop-zone.filled { border-style:solid; background:#E8F5E9; border-color:var(--green-mid); color:var(--green); font-style:normal; font-family:'Courier New',monospace; font-size:13.5px; cursor:pointer; font-weight:600; }
+        .drop-zone.filled:hover { background:#FFF0F0; border-color:var(--red); color:var(--red); }
+
+        .passage { background:#F8F9FA; border-left:4px solid var(--gold); padding:16px 20px; border-radius:6px; margin-bottom:16px; font-size:14px; line-height:1.7; color:#333; }
+        .passage-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block; }
+        .passage-title { font-family:'Playfair Display',serif; color:var(--green); font-size:14px; font-weight:700; margin-bottom:8px; }
+
+        .reflection-area { width:100%; min-height:100px; padding:12px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:14px; background:var(--cream); resize:vertical; user-select:text; -webkit-user-select:text; }
+        .reflection-area:focus { outline:none; border-color:var(--red); }
+
+        .submit-area { text-align:center; margin-top:28px; padding-top:24px; border-top:2px solid var(--gray-light); }
+        .submit-btn { background:var(--red); color:white; padding:14px 48px; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:17px; font-weight:700; cursor:pointer; transition:background .2s; box-shadow:0 4px 12px rgba(204,0,0,.3); }
+        .submit-btn:hover { background:var(--red-dark); }
+        .submit-btn:active { transform:translateY(1px); }
+
+        .results-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:10000; justify-content:center; align-items:center; padding:20px; overflow-y:auto; }
+        .results-content { background:white; border-radius:16px; max-width:700px; width:100%; padding:36px; position:relative; max-height:90vh; overflow-y:auto; }
+        .close-btn { position:absolute; top:16px; right:20px; background:none; border:none; font-size:28px; color:var(--gray); cursor:pointer; line-height:1; }
+        .close-btn:hover { color:var(--red); }
+        .results-header { text-align:center; margin-bottom:28px; }
+        .results-header h2 { font-family:'Playfair Display',serif; color:var(--green); font-size:26px; margin-bottom:8px; }
+        .results-header .sub { color:var(--gray); font-size:14px; }
+        .score-display { background:linear-gradient(135deg,var(--green),var(--green-mid)); color:white; border-radius:12px; padding:24px; text-align:center; margin-bottom:24px; }
+        .score-num { font-family:'Playfair Display',serif; font-size:52px; font-weight:700; line-height:1; }
+        .score-label { font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-top:6px; opacity:.9; }
+        .breakdown { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+        .bd-item { background:var(--cream); border-radius:8px; padding:14px; text-align:center; }
+        .bd-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--gray); margin-bottom:6px; }
+        .bd-score { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--green); }
+        .info-block { background:#F8F9FA; border-radius:8px; padding:16px; margin-bottom:16px; }
+        .info-block h4 { font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--green); margin-bottom:8px; }
+        .info-row { display:flex; justify-content:space-between; font-size:14px; margin-bottom:4px; }
+        .info-row:last-child { margin-bottom:0; }
+        .review-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin-top:12px; }
+        .r-item { aspect-ratio:1; background:var(--gray-light); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; }
+        .r-item.r-correct { background:#EDFAF2; color:var(--green); }
+        .r-item.r-wrong { background:#FFF0F0; color:var(--red); }
+        .rq { font-weight:700; }
+        .rs { font-size:14px; }
+        .log-entry { font-size:12px; padding:6px 0; border-bottom:1px solid #EEE; }
+        .log-entry:last-child { border:none; }
+        .log-time { color:var(--gray); font-family:monospace; }
+        .log-sus { color:var(--red); font-weight:700; }
+        .log-ok { color:var(--green); }
+
+        @media(max-width:768px){
+            body{padding:20px 12px;}
+            .quiz-inner{padding:24px 20px 32px;}
+            .timer{top:12px;right:12px;padding:8px 14px;font-size:15px;}
+            .breakdown{grid-template-columns:repeat(2,1fr);}
+            .review-grid{grid-template-columns:repeat(5,1fr);}
+            .student-info{grid-template-columns:1fr;}
+        }
+    </style>
+</head>
+<body>
+<div class="tab-overlay" id="tabOverlay">
+    <div class="icon">⚠️</div>
+    <h2>Tab Switch Detected</h2>
+    <p>Please remain on this page during the quiz. Tab switches are being monitored.</p>
+    <div class="vcount" id="violationCount">Violations: 0</div>
+</div>
+
+<div class="timer" id="timer">
+    <span class="timer-label">Time Elapsed</span>
+    <span id="timerDisplay">00:00</span>
+</div>
+
+<div class="school-band">
+    <div class="name">Maple Leaf World School Xiangyang</div>
+</div>
+
+<div class="quiz-wrap">
+    <div class="quiz-inner">
+        <div class="submitted-msg" id="submittedMsg">
+            ✓ Quiz submitted successfully! Results displayed below.
+        </div>
+
+        <div id="quizForm">
+            <div class="quiz-header">
+                <h1>Central Ideas &amp; Theme Quiz</h1>
+                <p class="sub">Total: 100 points (20 questions × 5 points each) + 2 reflection questions</p>
+                <div class="student-info">
+                    <div class="info-field">
+                        <label for="studentName">Student Name (English)</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="info-field">
+                        <label for="quizDate">Date</label>
+                        <input type="date" id="quizDate" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="integrity-notice">
+                <h3>📋 Academic Integrity Guidelines</h3>
+                <div class="rule">
+                    <span class="rule-icon">🚫</span>
+                    <span><strong>No external resources:</strong> This quiz must be completed using only your own knowledge.</span>
+                </div>
+                <div class="rule">
+                    <span class="rule-icon">👀</span>
+                    <span><strong>Stay on this page:</strong> Tab switches are monitored and recorded.</span>
+                </div>
+                <div class="rule">
+                    <span class="rule-icon">⏱️</span>
+                    <span><strong>Time tracking:</strong> Your time and activity will be logged.</span>
+                </div>
+            </div>
+
+            <div class="unanswered-msg" id="unansweredMsg">
+                ⚠️ Please answer all questions before submitting. Unanswered questions are highlighted below.
+            </div>
+
+            <!-- PART 1: VOCABULARY -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 1: Vocabulary<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 1–5: Key terms from the Central Ideas &amp; Theme module</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q1: TRUE/FALSE -->
+                    <div class="q-card" data-q="1">
+                        <div class="q-num">Question 1 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A <strong>central idea</strong> is just the topic of a text — for example, "exercise" or "climate change."</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q1" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q1" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q2: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank1">
+                            <div class="chip" draggable="true" data-word="theme">theme</div>
+                            <div class="chip" draggable="true" data-word="topic">topic</div>
+                            <div class="chip" draggable="true" data-word="central idea">central idea</div>
+                            <div class="chip" draggable="true" data-word="summary">summary</div>
+                            <div class="chip" draggable="true" data-word="supporting detail">supporting detail</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="2">
+                        <div class="q-num">Question 2 (5 points)</div>
+                        <div class="dnd-sentence">
+                            A <span class="drop-zone" data-q="2">drop here</span> is a universal life lesson found in fiction — not a factual claim.
+                        </div>
+                    </div>
+
+                    <!-- Q3: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="3">
+                        <div class="q-num">Question 3 (5 points)</div>
+                        <div class="q-text">Which word means "specific evidence, facts, or examples that prove a central idea"?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q3" value="A"><span>Universal</span></label>
+                            <label class="opt"><input type="radio" name="q3" value="B"><span>Supporting detail</span></label>
+                            <label class="opt"><input type="radio" name="q3" value="C"><span>Theme</span></label>
+                            <label class="opt"><input type="radio" name="q3" value="D"><span>Topic</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q4: MULTIPLE CHOICE (match-style) -->
+                    <div class="q-card" data-q="4">
+                        <div class="q-num">Question 4 (5 points)</div>
+                        <div class="q-text">Match the word to its definition: <strong>Universal</strong></div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q4" value="A"><span>Stated directly and clearly by the author</span></label>
+                            <label class="opt"><input type="radio" name="q4" value="B"><span>Applies to all people, across cultures and time periods</span></label>
+                            <label class="opt"><input type="radio" name="q4" value="C"><span>The main events of a story listed in order</span></label>
+                            <label class="opt"><input type="radio" name="q4" value="D"><span>A fixed, oversimplified idea about a group</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q5: TRUE/FALSE -->
+                    <div class="q-card" data-q="5">
+                        <div class="q-num">Question 5 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A <strong>theme</strong> is a summary of what happened in the story.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q5" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q5" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 2: CENTRAL IDEAS (NON-FICTION) -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 2: Central Ideas<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 6–10: Read passages and identify central ideas</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q6: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank2">
+                            <div class="chip" draggable="true" data-word="claim">claim</div>
+                            <div class="chip" draggable="true" data-word="topic">topic</div>
+                            <div class="chip" draggable="true" data-word="theme">theme</div>
+                            <div class="chip" draggable="true" data-word="detail">detail</div>
+                            <div class="chip" draggable="true" data-word="opinion">opinion</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="6">
+                        <div class="q-num">Question 6 (5 points)</div>
+                        <div class="dnd-sentence">
+                            A central idea is NOT just a topic — it is a complete sentence that makes a specific <span class="drop-zone" data-q="6">drop here</span> about the topic.
+                        </div>
+                    </div>
+
+                    <!-- Q7: TRUE/FALSE -->
+                    <div class="q-card" data-q="7">
+                        <div class="q-num">Question 7 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A passage can have TWO central ideas if two points are equally important and do not support each other.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q7" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q7" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q8: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="8">
+                        <div class="q-num">Question 8 (5 points)</div>
+                        <div class="q-text">Match the term to its definition: <strong>Supporting detail</strong></div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q8" value="A"><span>The most important point the author wants to make about a topic</span></label>
+                            <label class="opt"><input type="radio" name="q8" value="B"><span>Specific evidence, examples, or facts that prove the central idea</span></label>
+                            <label class="opt"><input type="radio" name="q8" value="C"><span>A universal lesson found in fiction</span></label>
+                            <label class="opt"><input type="radio" name="q8" value="D"><span>A word or phrase with no complete sentence attached</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q9 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">PASSAGE — Read carefully</span>
+                        <div class="passage-title">📄 Social Media: Connection and Consequence</div>
+                        Social media has made it easier than ever to stay connected with friends and family across the world. At the same time, research consistently shows that heavy social media use is linked to increased rates of depression, anxiety, and loneliness among teenagers.
+                    </div>
+                    <div class="q-card" data-q="9">
+                        <div class="q-num">Question 9 (5 points)</div>
+                        <div class="q-text">How many central ideas does the passage above have?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q9" value="A"><span>One — social media is bad for teenagers</span></label>
+                            <label class="opt"><input type="radio" name="q9" value="B"><span>Two — connection benefits and mental health harm are two equal, opposite ideas</span></label>
+                            <label class="opt"><input type="radio" name="q9" value="C"><span>One — technology affects teenagers</span></label>
+                            <label class="opt"><input type="radio" name="q9" value="D"><span>Three — depression, anxiety, and loneliness are each a separate central idea</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q10: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="10">
+                        <div class="q-num">Question 10 (5 points)</div>
+                        <div class="q-text">Which of the following is a <strong>TOPIC</strong>, not a central idea?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q10" value="A"><span>"Lack of sleep reduces a student's ability to focus in class."</span></label>
+                            <label class="opt"><input type="radio" name="q10" value="B"><span>"Climate change and sea levels"</span></label>
+                            <label class="opt"><input type="radio" name="q10" value="C"><span>"Vaccines have eliminated diseases that once killed millions of people."</span></label>
+                            <label class="opt"><input type="radio" name="q10" value="D"><span>"The invention of the printing press changed how information spread across Europe."</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 3: THEME (FICTION) -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 3: Theme<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 11–15: Read fiction passages and identify themes</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q11 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">PASSAGE — Read carefully</span>
+                        <div class="passage-title">📄 The Recital</div>
+                        Mia spent years practicing piano alone in her room, refusing help from her teacher and ignoring her mother's advice. When the recital came, she froze on stage, her fingers forgetting every note. Walking home, she realized that every musician she admired had a mentor, a coach, someone who had pushed them past their limits.
+                    </div>
+                    <div class="q-card" data-q="11">
+                        <div class="q-num">Question 11 (5 points)</div>
+                        <div class="q-text">What is the theme of "The Recital"?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q11" value="A"><span>Mia is a bad piano student</span></label>
+                            <label class="opt"><input type="radio" name="q11" value="B"><span>Pride and isolation prevent growth; accepting help is essential to achieving your potential.</span></label>
+                            <label class="opt"><input type="radio" name="q11" value="C"><span>Piano recitals are stressful events</span></label>
+                            <label class="opt"><input type="radio" name="q11" value="D"><span>Students should practice more</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q12: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank3">
+                            <div class="chip" draggable="true" data-word="universal">universal</div>
+                            <div class="chip" draggable="true" data-word="specific">specific</div>
+                            <div class="chip" draggable="true" data-word="fictional">fictional</div>
+                            <div class="chip" draggable="true" data-word="proven">proven</div>
+                            <div class="chip" draggable="true" data-word="random">random</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="12">
+                        <div class="q-num">Question 12 (5 points)</div>
+                        <div class="dnd-sentence">
+                            A theme must be <span class="drop-zone" data-q="12">drop here</span> — it must apply to all people, not just the characters in the story.
+                        </div>
+                    </div>
+
+                    <!-- Q13 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">PASSAGE — Read carefully</span>
+                        <div class="passage-title">📄 The Garden</div>
+                        Grandmother always said, "A garden rewards patience, not impatience." Every spring, Yusuf pulled at seedlings to make them grow faster — and killed them. At 40, planting his daughter's first garden, he forced himself to water and wait. The seedlings grew into the tallest sunflowers the neighborhood had ever seen. He finally understood what his grandmother meant.
+                    </div>
+                    <div class="q-card" data-q="13">
+                        <div class="q-num">Question 13 (5 points)</div>
+                        <div class="q-text">What is the theme of "The Garden"?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q13" value="A"><span>Sunflowers are easy to grow</span></label>
+                            <label class="opt"><input type="radio" name="q13" value="B"><span>Wisdom is often only understood through lived experience — some lessons must be learned by doing, not by hearing.</span></label>
+                            <label class="opt"><input type="radio" name="q13" value="C"><span>Grandmothers know best</span></label>
+                            <label class="opt"><input type="radio" name="q13" value="D"><span>Gardening is a difficult hobby</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q14: TRUE/FALSE -->
+                    <div class="q-card" data-q="14">
+                        <div class="q-num">Question 14 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: "The boy lost his dog and felt sad" is a strong example of a theme statement.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q14" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q14" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q15: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="15">
+                        <div class="q-num">Question 15 (5 points)</div>
+                        <div class="q-text">Which question helps you BEST identify the theme of a story?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q15" value="A"><span>"What happened in the story?"</span></label>
+                            <label class="opt"><input type="radio" name="q15" value="B"><span>"What does the author want to prove with facts?"</span></label>
+                            <label class="opt"><input type="radio" name="q15" value="C"><span>"What does the character learn, and what does that reveal about life for all people?"</span></label>
+                            <label class="opt"><input type="radio" name="q15" value="D"><span>"Who is the main character and where do they live?"</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 4: IDENTIFY & APPLY -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 4: Identify &amp; Apply<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 16–20: Apply your knowledge of central ideas and theme</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q16: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank4">
+                            <div class="chip" draggable="true" data-word="fiction">fiction</div>
+                            <div class="chip" draggable="true" data-word="non-fiction">non-fiction</div>
+                            <div class="chip" draggable="true" data-word="poetry">poetry</div>
+                            <div class="chip" draggable="true" data-word="news">news</div>
+                            <div class="chip" draggable="true" data-word="drama">drama</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="16">
+                        <div class="q-num">Question 16 (5 points)</div>
+                        <div class="dnd-sentence">
+                            Central ideas are found in <span class="drop-zone" data-q="16">drop here</span> texts, while themes are found in fictional stories.
+                        </div>
+                    </div>
+
+                    <!-- Q17: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="17">
+                        <div class="q-num">Question 17 (5 points)</div>
+                        <div class="q-text">Which sentence is a <strong>theme</strong> — not a topic or summary?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q17" value="A"><span>A story about a girl who runs away from home.</span></label>
+                            <label class="opt"><input type="radio" name="q17" value="B"><span>Freedom gained through risk often reveals what we truly value.</span></label>
+                            <label class="opt"><input type="radio" name="q17" value="C"><span>The girl learns to be brave.</span></label>
+                            <label class="opt"><input type="radio" name="q17" value="D"><span>Running away causes problems.</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q18: TRUE/FALSE -->
+                    <div class="q-card" data-q="18">
+                        <div class="q-num">Question 18 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: Theme and central idea mean exactly the same thing and can be used in any text.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q18" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q18" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q19 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">PASSAGE — Read carefully</span>
+                        <div class="passage-title">📄 The Wolf</div>
+                        The wolf had lived alone for three years after being driven from the pack. He was faster, stronger, and more cunning alone — but he ate less. He slept restlessly. One winter, a young wolf approached him, injured and starving. The old wolf fed her. By spring, they led a pack of seven. He was no longer the fastest — but he was never hungry again.
+                    </div>
+                    <div class="q-card" data-q="19">
+                        <div class="q-num">Question 19 (5 points)</div>
+                        <div class="q-text">What is the theme of "The Wolf"?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q19" value="A"><span>Wolves are dangerous predators</span></label>
+                            <label class="opt"><input type="radio" name="q19" value="B"><span>Individual strength alone cannot provide what community and connection offer — belonging multiplies what we are capable of.</span></label>
+                            <label class="opt"><input type="radio" name="q19" value="C"><span>It is better to be fast and strong than to belong to a group</span></label>
+                            <label class="opt"><input type="radio" name="q19" value="D"><span>Injured animals should always be helped</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q20: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="20">
+                        <div class="q-num">Question 20 (5 points)</div>
+                        <div class="q-text">Theme is best described as:</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q20" value="A"><span>The main events of a story listed in order</span></label>
+                            <label class="opt"><input type="radio" name="q20" value="B"><span>A universal insight about human nature or life, communicated through a fictional story</span></label>
+                            <label class="opt"><input type="radio" name="q20" value="C"><span>A fact that the author proves with evidence from a non-fiction source</span></label>
+                            <label class="opt"><input type="radio" name="q20" value="D"><span>The setting and time period of the story</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- REFLECTION QUESTIONS -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Reflection Questions<span>Required</span></div>
+                    <div class="sec-desc">Questions 21–22: Share your thoughts (required but not scored)</div>
+                </div>
+                <div class="section-body">
+
+                    <div class="q-card" data-q="21">
+                        <div class="q-num">Reflection Question 1</div>
+                        <div class="q-text">In your own words, what is the difference between a central idea and a theme? Give one example of each.</div>
+                        <textarea id="q21" class="reflection-area" placeholder="Type your response here..."></textarea>
+                    </div>
+
+                    <div class="q-card" data-q="22">
+                        <div class="q-num">Reflection Question 2</div>
+                        <div class="q-text">Which question type (multiple choice, true/false, fill-in-blank) did you find most challenging on this quiz, and why?</div>
+                        <textarea id="q22" class="reflection-area" placeholder="Type your response here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="submit-area">
+                <button type="button" class="submit-btn" id="submitBtn">Submit Quiz</button>
+            </div>
+        </div>
+
+        <!-- RESULTS MODAL -->
+        <div class="results-modal" id="resultsModal">
+            <div class="results-content">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <div class="results-header">
+                    <h2>Quiz Results</h2>
+                    <p class="sub" id="scoreName"></p>
+                    <p class="sub" id="scoreDate"></p>
+                    <button onclick="downloadResults()" style="margin-top:16px; background:var(--green); color:white; padding:12px 32px; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:16px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(27,77,46,.3);">📥 Download Results as TXT</button>
+                    <div style="margin-top:16px; background:#FFF8F0; border:2px solid var(--red); border-radius:8px; padding:14px 18px; text-align:left;">
+                        <div style="font-family:'Playfair Display',serif; color:var(--red); font-size:14px; font-weight:700; margin-bottom:6px;">📤 Submission Instructions</div>
+                        <div style="font-size:13.5px; color:#333; line-height:1.6;"><strong>Upload the downloaded TXT file to Schoology.</strong> Do <strong>not</strong> submit a screenshot of your results — TXT files only. Screenshots will not be accepted.</div>
+                    </div>
+                </div>
+
+                <div class="score-display">
+                    <div class="score-num" id="scoreNum">0</div>
+                    <div class="score-label">out of 100 points</div>
+                </div>
+
+                <div class="breakdown">
+                    <div class="bd-item">
+                        <div class="bd-label">Vocabulary</div>
+                        <div class="bd-score"><span id="scoreA">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Central Ideas</div>
+                        <div class="bd-score"><span id="scoreB">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Theme</div>
+                        <div class="bd-score"><span id="scoreC">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Identify &amp; Apply</div>
+                        <div class="bd-score"><span id="scoreD">0</span>/25</div>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Activity Monitoring</h4>
+                    <div class="info-row"><span>Tab switches:</span><strong id="actTabs">0</strong></div>
+                    <div class="info-row"><span>Total time away:</span><strong id="actTotal">0s</strong></div>
+                    <div class="info-row"><span>Average time per switch:</span><strong id="actAvg">0s</strong></div>
+                    <div id="actLog" style="margin-top:12px; max-height:120px; overflow-y:auto;"></div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Question Review</h4>
+                    <p id="reviewSum" style="margin-bottom:12px;"></p>
+                    <div class="review-grid" id="reviewGrid"></div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Your Reflections</h4>
+                    <div style="margin-bottom:10px;">
+                        <strong>Central idea vs. theme (your explanation):</strong>
+                        <p style="margin-top:4px; font-size:14px;" id="displayQ21"></p>
+                    </div>
+                    <div>
+                        <strong>Most challenging question type:</strong>
+                        <p style="margin-top:4px; font-size:14px;" id="displayQ22"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// === SHUFFLE ===
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.options').forEach(container => {
+        const options = Array.from(container.children);
+        const shuffled = shuffle(options);
+        container.innerHTML = '';
+        shuffled.forEach(opt => container.appendChild(opt));
+    });
+    document.querySelectorAll('.dnd-chips').forEach(bank => {
+        const chips = Array.from(bank.children);
+        const shuffled = shuffle(chips);
+        bank.innerHTML = '';
+        shuffled.forEach(chip => bank.appendChild(chip));
+    });
+});
+
+// === DRAG AND DROP ===
+let draggedElement = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupDragAndDrop();
+});
+
+function setupDragAndDrop() {
+    document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('dragstart', function(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        chip.addEventListener('dragend', function() {
+            this.classList.remove('dragging');
+        });
+    });
+
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        zone.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+        zone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            if (draggedElement) {
+                const word = draggedElement.dataset.word;
+                if (this.dataset.value) {
+                    const oldWord = this.dataset.value;
+                    const parentBank = draggedElement.closest('.dnd-chips');
+                    const newChip = createChip(oldWord);
+                    parentBank.appendChild(newChip);
+                }
+                this.textContent = word;
+                this.dataset.value = word;
+                this.classList.add('filled');
+                draggedElement.remove();
+            }
+        });
+        zone.addEventListener('click', function() {
+            if (this.classList.contains('filled')) {
+                const word = this.dataset.value;
+                const qNum = this.dataset.q;
+                let bankId;
+                if (qNum == 2) bankId = 'bank1';
+                else if (qNum == 6) bankId = 'bank2';
+                else if (qNum == 12) bankId = 'bank3';
+                else if (qNum == 16) bankId = 'bank4';
+                const bank = document.getElementById(bankId);
+                const newChip = createChip(word);
+                bank.appendChild(newChip);
+                this.textContent = 'drop here';
+                delete this.dataset.value;
+                this.classList.remove('filled');
+            }
+        });
+    });
+}
+
+function createChip(word) {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.draggable = true;
+    chip.dataset.word = word;
+    chip.textContent = word;
+    chip.addEventListener('dragstart', function(e) {
+        draggedElement = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    });
+    chip.addEventListener('dragend', function() {
+        this.classList.remove('dragging');
+    });
+    return chip;
+}
+
+// === TIMER ===
+let startTime = Date.now(), timerInterval;
+function updateTimer() {
+    const sec = Math.floor((Date.now() - startTime) / 1000);
+    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+    const s = String(sec % 60).padStart(2, '0');
+    document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+}
+timerInterval = setInterval(updateTimer, 1000);
+
+// === TAB MONITORING ===
+let tabCount = 0, lastLeave = 0, totalAway = 0, tabLog = [];
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        lastLeave = Date.now();
+        document.getElementById('tabOverlay').classList.add('show');
+    } else {
+        if (lastLeave) {
+            const away = Math.floor((Date.now() - lastLeave) / 1000);
+            totalAway += away;
+            tabCount++;
+            const sus = (away > 10);
+            tabLog.push({ count: tabCount, time: new Date().toLocaleTimeString(), dur: away, sus });
+            document.getElementById('violationCount').textContent = `Violations: ${tabCount}`;
+        }
+        setTimeout(() => {
+            document.getElementById('tabOverlay').classList.remove('show');
+        }, 1500);
+    }
+});
+
+// === ANSWER KEY ===
+// Q1: FALSE (central idea is NOT just a topic)
+// Q2: theme (drag-drop)
+// Q3: B (supporting detail)
+// Q4: B (universal = applies to all people)
+// Q5: FALSE (theme is not a summary)
+// Q6: claim (drag-drop)
+// Q7: TRUE (passage can have two central ideas)
+// Q8: B (supporting detail = specific evidence...)
+// Q9: B (two central ideas)
+// Q10: B (topic, not central idea)
+// Q11: B (theme of The Recital)
+// Q12: universal (drag-drop)
+// Q13: B (theme of The Garden)
+// Q14: FALSE ("the boy lost his dog" is a plot summary)
+// Q15: C (best question to find theme)
+// Q16: non-fiction (drag-drop)
+// Q17: B (theme = freedom gained through risk...)
+// Q18: FALSE (theme and central idea are different)
+// Q19: B (theme of The Wolf)
+// Q20: B (definition of theme)
+
+const MC_CORRECT = {
+    1: 'FALSE', 2: 'theme', 3: 'B', 4: 'B', 5: 'FALSE',
+    6: 'claim', 7: 'TRUE', 8: 'B', 9: 'B', 10: 'B',
+    11: 'B', 12: 'universal', 13: 'B', 14: 'FALSE', 15: 'C',
+    16: 'non-fiction', 17: 'B', 18: 'FALSE', 19: 'B', 20: 'B'
+};
+
+function norm(s) { return String(s || '').trim().toLowerCase().replace(/[^a-z0-9]/g, ''); }
+
+document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', function() {
+        const parent = this.closest('.opt,.tf-opt');
+        if (parent) {
+            parent.parentElement.querySelectorAll('.opt,.tf-opt').forEach(o => o.classList.remove('selected'));
+            parent.classList.add('selected');
+        }
+    });
+});
+
+// === SUBMIT ===
+function fmtTime(s) { return s >= 60 ? `${Math.floor(s / 60)}m ${s % 60}s` : `${s}s`; }
+
+function getAnswer(qNum) {
+    if ([2, 6, 12, 16].includes(qNum)) {
+        const zone = document.querySelector(`.drop-zone[data-q="${qNum}"]`);
+        return zone ? zone.dataset.value || '' : '';
+    } else {
+        const el = document.querySelector(`input[name="q${qNum}"]:checked`);
+        return el ? el.value : '';
+    }
+}
+
+document.getElementById('submitBtn').addEventListener('click', function() {
+    const name = document.getElementById('studentName').value.trim();
+    if (!name) {
+        alert('Please enter your name.');
+        document.getElementById('studentName').focus();
+        return;
+    }
+
+    const missing = [];
+    for (let i = 1; i <= 20; i++) {
+        const ans = getAnswer(i);
+        if (!ans) missing.push(i);
+    }
+    const q21val = document.getElementById('q21').value.trim();
+    const q22val = document.getElementById('q22').value.trim();
+    if (!q21val) missing.push(21);
+    if (!q22val) missing.push(22);
+
+    document.querySelectorAll('.q-card.unanswered, .dnd-q-card.unanswered').forEach(el => el.classList.remove('unanswered'));
+
+    if (missing.length > 0) {
+        missing.forEach(i => {
+            let el = document.querySelector(`.q-card[data-q="${i}"]`);
+            if (!el) el = document.querySelector(`.dnd-q-card[data-q="${i}"]`);
+            if (el) {
+                el.classList.add('unanswered');
+                el.style.animation = 'none';
+                el.offsetHeight;
+                el.style.animation = '';
+            }
+        });
+        document.getElementById('unansweredMsg').style.display = 'block';
+        let first = document.querySelector(`.q-card[data-q="${missing[0]}"]`);
+        if (!first) first = document.querySelector(`.dnd-q-card[data-q="${missing[0]}"]`);
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
+    document.getElementById('unansweredMsg').style.display = 'none';
+
+    let sA = 0, sB = 0, sC = 0, sD = 0;
+    const results = [];
+
+    // Part 1: Vocabulary (Q1-5)
+    for (let i = 1; i <= 5; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sA += 5;
+    }
+    // Part 2: Central Ideas (Q6-10)
+    for (let i = 6; i <= 10; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sB += 5;
+    }
+    // Part 3: Theme (Q11-15)
+    for (let i = 11; i <= 15; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sC += 5;
+    }
+    // Part 4: Identify & Apply (Q16-20)
+    for (let i = 16; i <= 20; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sD += 5;
+    }
+
+    const autoTotal = sA + sB + sC + sD;
+
+    document.getElementById('displayQ21').textContent = q21val;
+    document.getElementById('displayQ22').textContent = q22val;
+
+    document.getElementById('quizForm').style.display = 'none';
+    document.getElementById('submittedMsg').style.display = 'block';
+    window.scrollTo(0, 0);
+    document.getElementById('scoreNum').textContent = autoTotal;
+    document.getElementById('scoreA').textContent = sA;
+    document.getElementById('scoreB').textContent = sB;
+    document.getElementById('scoreC').textContent = sC;
+    document.getElementById('scoreD').textContent = sD;
+    document.getElementById('scoreName').textContent = name;
+    document.getElementById('scoreDate').textContent = document.getElementById('quizDate').value || new Date().toLocaleDateString();
+    document.getElementById('actTabs').textContent = tabCount;
+    document.getElementById('actTotal').textContent = fmtTime(totalAway);
+    document.getElementById('actAvg').textContent = tabCount > 0 ? fmtTime(Math.floor(totalAway / tabCount)) : '0s';
+
+    const logEl = document.getElementById('actLog');
+    if (tabLog.length > 0) {
+        logEl.innerHTML = tabLog.map(l => `<div class="log-entry"><span class="log-time">[${l.time}]</span> Switch #${l.count} — away ${l.dur}s ${l.sus ? '<span class="log-sus">[SUSPICIOUS]</span>' : '<span class="log-ok">[Normal]</span>'}</div>`).join('');
+    }
+
+    const grid = document.getElementById('reviewGrid');
+    grid.innerHTML = '';
+    results.forEach(r => {
+        const d = document.createElement('div');
+        d.className = `r-item ${r.correct ? 'r-correct' : 'r-wrong'}`;
+        d.innerHTML = `<span class="rq">Q${r.q}</span><span class="rs">${r.correct ? '✓' : '✗'}</span>`;
+        grid.appendChild(d);
+    });
+    const nC = results.filter(r => r.correct === true).length;
+    const nW = results.filter(r => r.correct === false).length;
+    document.getElementById('reviewSum').innerHTML = `Auto-graded: <strong>${nC}</strong> correct and <strong>${nW}</strong> incorrect out of 20 questions.<br>Reflection questions (21–22) recorded for teacher review.`;
+    document.getElementById('resultsModal').style.display = 'flex';
+
+    console.log('%c=== QUIZ SUBMISSION ===', 'color:#CC0000;font-size:15px;font-weight:bold;');
+    console.log('Student:', name, '| Score:', autoTotal + '/100');
+    console.log('Sections:', { Vocabulary: sA + '/25', CentralIdeas: sB + '/25', Theme: sC + '/25', IdentifyApply: sD + '/25' });
+    console.log('Q21 (Reflection):', q21val);
+    console.log('Q22 (Reflection):', q22val);
+    console.log('Tab switches:', tabCount, '| Away:', totalAway + 's | Log:', tabLog);
+    console.log('Results:', results);
+});
+
+function closeModal() {
+    document.getElementById('resultsModal').style.display = 'none';
+}
+
+function downloadResults() {
+    try {
+        const name = document.getElementById('scoreName').textContent || 'Unknown';
+        const date = document.getElementById('scoreDate').textContent || new Date().toLocaleDateString();
+        const score = document.getElementById('scoreNum').textContent || '0';
+        const sA = document.getElementById('scoreA').textContent || '0';
+        const sB = document.getElementById('scoreB').textContent || '0';
+        const sC = document.getElementById('scoreC').textContent || '0';
+        const sD = document.getElementById('scoreD').textContent || '0';
+        const tabs = document.getElementById('actTabs').textContent || '0';
+        const totalAwayTxt = document.getElementById('actTotal').textContent || '0s';
+        const avgAway = document.getElementById('actAvg').textContent || '0s';
+        const q21 = document.getElementById('displayQ21').textContent || '(No response)';
+        const q22 = document.getElementById('displayQ22').textContent || '(No response)';
+
+        const lines = [];
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('         CENTRAL IDEAS & THEME QUIZ - RESULTS REPORT');
+        lines.push('               Maple Leaf World School Xiangyang');
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('');
+        lines.push('Student: ' + name);
+        lines.push('Date: ' + date);
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                        OVERALL SCORE');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('        ' + score + ' / 100 points');
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                      SECTION BREAKDOWN');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Part 1 - Vocabulary:         ' + sA + ' / 25 points');
+        lines.push('Part 2 - Central Ideas:      ' + sB + ' / 25 points');
+        lines.push('Part 3 - Theme:              ' + sC + ' / 25 points');
+        lines.push('Part 4 - Identify & Apply:   ' + sD + ' / 25 points');
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                    ACTIVITY MONITORING');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Tab Switches: ' + tabs);
+        lines.push('Total Time Away: ' + totalAwayTxt);
+        lines.push('Average Time Per Switch: ' + avgAway);
+        lines.push('');
+
+        const logEl = document.getElementById('actLog');
+        if (logEl && logEl.innerHTML.trim()) {
+            lines.push('DETAILED LOG:');
+            const logEntries = logEl.querySelectorAll('.log-entry');
+            logEntries.forEach(entry => {
+                const text = entry.textContent.replace(/\s+/g, ' ').trim();
+                lines.push('  ' + text);
+            });
+            lines.push('');
+        }
+
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                    QUESTION-BY-QUESTION');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+
+        const grid = document.getElementById('reviewGrid');
+        if (grid) {
+            const items = grid.querySelectorAll('.r-item');
+            let row = '';
+            items.forEach((item, idx) => {
+                const qNum = item.querySelector('.rq').textContent;
+                const result = item.classList.contains('r-correct') ? '✓' : '✗';
+                row += qNum + ':' + result + '  ';
+                if ((idx + 1) % 10 === 0) {
+                    lines.push(row);
+                    row = '';
+                }
+            });
+            if (row) lines.push(row);
+        }
+
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                   REFLECTION RESPONSES');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Question 21: In your own words, what is the difference between');
+        lines.push('a central idea and a theme? Give one example of each.');
+        lines.push('');
+        lines.push(q21);
+        lines.push('');
+        lines.push('Question 22: Which question type did you find most challenging,');
+        lines.push('and why?');
+        lines.push('');
+        lines.push(q22);
+        lines.push('');
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('                      END OF REPORT');
+        lines.push('═══════════════════════════════════════════════════════════════');
+
+        const txt = lines.join('\n');
+        const safeName = name.replace(/[^a-zA-Z0-9]/g, '_');
+        const safeDate = date.replace(/[^0-9-]/g, '-');
+        const filename = 'CentralIdeas_Theme_Quiz_' + safeName + '_' + safeDate + '.txt';
+        const encoded = encodeURIComponent(txt);
+        const a = document.createElement('a');
+        a.href = 'data:text/plain;charset=utf-8,' + encoded;
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { document.body.removeChild(a); }, 200);
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Error downloading results: ' + error.message);
+    }
+}
+
+// Set default date
+document.getElementById('quizDate').valueAsDate = new Date();
+</script>
+</body>
+</html>
