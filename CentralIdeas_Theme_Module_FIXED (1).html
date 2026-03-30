@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central Ideas & Theme | 中心思想与主题</title>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a2a1a;
+  --ink2: #2d3d2d;
+  --mist: #f2f5f2;
+  --mist2: #e6ede6;
+  --jade: #1a5c2e;
+  --jade-light: #d4edda;
+  --cobalt: #1a5c2e;
+  --cobalt-light: #d4edda;
+  --amber: #8b6914;
+  --amber-light: #fdf3d0;
+  --rose: #9b2020;
+  --rose-light: #fde8e8;
+  --ruby: #9b2020;
+  --ruby-light: #fde8e8;
+  --border: #c8d8c8;
+  --card: #ffffff;
+  --radius: 14px;
+  --ml-green: #1a5c2e;
+  --ml-green-dark: #0f3a1c;
+  --ml-red: #b22222;
+  --ml-red-dark: #8b1a1a;
+  --ml-gold: #c8a84b;
+  --ml-gold-light: #fdf3d0;
+  --ml-green-light: #d4edda;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans','Noto Sans SC',sans-serif;background:var(--mist);color:var(--ink);min-height:100vh;font-size:16px;line-height:1.65}
+
+.header{background:linear-gradient(135deg,#0f3a1c 0%,#1a5c2e 55%,#8b1a1a 100%);color:white;padding:32px 28px 24px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.header-title h1{font-family:'Literata',serif;font-size:1.9rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2}
+.header-title .sub{font-size:1rem;opacity:0.82;margin-top:6px;font-weight:400}
+.leave-badge{background:var(--ruby);color:white;padding:8px 16px;border-radius:50px;font-size:0.82rem;font-weight:700;display:none;align-items:center;gap:8px;animation:pulse 2s infinite}
+.leave-badge.show{display:flex}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
+.progress-wrap{margin-top:16px}
+.progress-track{background:rgba(255,255,255,0.2);height:6px;border-radius:3px;overflow:hidden}
+.progress-bar{background:white;height:100%;width:0%;transition:width .4s ease;border-radius:3px}
+.progress-label{text-align:right;font-size:0.82rem;margin-top:6px;opacity:.85}
+
+.notice{background:var(--ml-gold-light);border:2px solid var(--ml-gold);border-radius:var(--radius);padding:14px 18px;margin:20px 0;display:flex;gap:12px;align-items:flex-start;color:var(--amber)}
+.notice-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.notice strong{display:block;margin-bottom:2px}
+.notice .cn-note{font-size:0.88rem;opacity:.8;margin-top:4px}
+
+.tabs{display:flex;gap:6px;background:white;padding:8px;border-radius:var(--radius);box-shadow:0 2px 8px rgba(26,21,35,0.08);margin-bottom:24px;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:180px;padding:14px 12px;border:none;background:transparent;cursor:pointer;border-radius:10px;font-family:inherit;font-weight:700;font-size:0.95rem;color:#6b7280;transition:all .25s;line-height:1.3}
+.tab-btn .icon{font-size:1.3rem;display:block;margin-bottom:4px}
+.tab-btn .cn{display:block;font-size:0.78rem;font-weight:400;opacity:.8;margin-top:2px}
+.tab-btn:hover{background:var(--mist);color:var(--ml-green)}
+.tab-btn.active{background:var(--ml-green);color:white}
+.tab-content{display:none;animation:fadeUp .3s ease}
+.tab-content.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 8px rgba(26,21,35,0.07);margin-bottom:20px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:14px;padding:22px 24px 18px;border-bottom:2px solid var(--mist)}
+.card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.card-icon.cobalt{background:var(--cobalt-light);color:var(--cobalt)}
+.card-icon.jade{background:var(--jade-light);color:var(--jade)}
+.card-icon.amber{background:var(--amber-light);color:var(--amber)}
+.card-icon.rose{background:var(--rose-light);color:var(--rose)}
+.card-head h2{font-family:'Literata',serif;font-size:1.3rem;color:var(--ink);margin-bottom:2px}
+.card-head .cn-head{font-size:0.88rem;color:#6b7280}
+.card-body{padding:24px}
+
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.vocab-card{border:2px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all .25s;background:white;position:relative}
+.vocab-card:hover{border-color:var(--cobalt);transform:translateY(-2px);box-shadow:0 6px 16px rgba(35,71,166,0.12)}
+.vocab-card .word{font-family:'Literata',serif;font-size:1.15rem;font-weight:700;color:var(--cobalt);margin-bottom:8px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+.vocab-card .pos{font-size:0.75rem;background:var(--cobalt-light);color:var(--cobalt);padding:2px 8px;border-radius:20px;font-weight:600;font-family:'DM Sans',sans-serif}
+.vocab-card .defn{font-size:0.9rem;color:var(--ink2);line-height:1.55;border-top:1px dashed var(--border);padding-top:10px;margin-top:10px}
+.vocab-card .cn-def{font-size:0.85rem;color:#6b7280;margin-top:4px}
+.vocab-card .example{font-size:0.88rem;font-style:italic;color:var(--jade);margin-top:8px;border-left:3px solid var(--jade-light);padding-left:10px}
+.vocab-card .flip-hint{font-size:0.75rem;color:#9ca3af;margin-top:10px;display:flex;align-items:center;gap:5px}
+.speak-btn{background:none;border:none;cursor:pointer;color:var(--cobalt);padding:2px;font-size:1rem;transition:transform .2s}
+.speak-btn:hover{transform:scale(1.2)}
+
+.concept-box{background:linear-gradient(135deg,var(--cobalt-light),var(--mist2));border:2px solid #bfdbfe;border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.concept-box.jade-theme{background:linear-gradient(135deg,var(--jade-light),#ecfdf5);border-color:#6ee7b7}
+.concept-label{font-size:0.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cobalt);margin-bottom:10px}
+.concept-box.jade-theme .concept-label{color:var(--jade)}
+.concept-box h3{font-family:'Literata',serif;font-size:1.25rem;color:var(--ink);margin-bottom:10px}
+.concept-box p{font-size:0.97rem;line-height:1.7;color:var(--ink2)}
+.concept-box .cn-concept{font-size:0.88rem;color:#6b7280;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,0.1)}
+.key-rule{background:white;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:4px solid var(--cobalt);font-size:0.93rem}
+.key-rule.jade{border-left-color:var(--jade)}
+
+.practice-wrap{background:linear-gradient(to bottom right,#fffbeb,#fef9ee);border:2px solid #fbbf24;border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.practice-label{display:flex;align-items:center;gap:10px;margin-bottom:16px;color:var(--amber);font-weight:700;font-size:1rem}
+.q-num{background:var(--amber);color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0}
+.passage{background:white;border:1px solid var(--border);border-radius:10px;padding:18px 20px;line-height:1.9;font-size:0.97rem;margin-bottom:16px}
+.passage-title{font-family:'Literata',serif;font-weight:700;color:var(--cobalt);margin-bottom:10px;font-size:1.05rem}
+.passage .highlight{background:#fef9c3;border-radius:3px;padding:0 2px}
+.q-text{font-weight:700;color:var(--ink);margin-bottom:14px;font-size:1rem;line-height:1.55}
+.q-cn{font-size:0.85rem;color:#6b7280;margin-top:4px;margin-bottom:14px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{background:white;border:2px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;text-align:left;font-family:inherit;font-size:0.95rem;display:flex;align-items:flex-start;gap:12px;transition:all .2s;width:100%}
+.opt-btn:hover:not(.done){border-color:var(--cobalt);background:var(--cobalt-light)}
+.opt-lbl{background:var(--ink);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;transition:background .2s}
+.opt-btn.correct{background:var(--jade-light);border-color:var(--jade)!important}
+.opt-btn.correct .opt-lbl{background:var(--jade)}
+.opt-btn.wrong{background:var(--ruby-light);border-color:var(--ruby)!important}
+.opt-btn.wrong .opt-lbl{background:var(--ruby)}
+.opt-btn.done{pointer-events:none;opacity:.85}
+.opt-cn{display:block;font-size:0.82rem;color:#6b7280;margin-top:3px}
+
+.rationale{display:none;margin-top:14px;padding:16px;border-radius:10px;font-size:0.93rem;line-height:1.65;animation:fadeUp .3s ease}
+.rationale.show{display:block}
+.rationale.correct-r{background:#f0fdf4;border:1px solid #86efac}
+.rationale.wrong-r{background:#fff1f2;border:1px solid #fecdd3}
+.rationale-head{font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.95rem}
+.rationale-cn{font-size:0.85rem;color:#6b7280;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,0.1)}
+
+.exit-wrap{background:linear-gradient(135deg,#0f3a1c,#1a5c2e);border-radius:var(--radius);padding:28px;margin-top:28px;color:white}
+.exit-head{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.exit-icon{width:50px;height:50px;background:rgba(255,255,255,0.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.exit-head h3{font-family:'Literata',serif;font-size:1.4rem}
+.exit-head .cn-sub{font-size:0.88rem;opacity:.75;margin-top:3px}
+.et-question{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:18px;margin-bottom:14px}
+.et-q-text{font-weight:700;margin-bottom:14px;font-size:0.97rem;line-height:1.55}
+.et-opt{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:12px 14px;cursor:pointer;font-family:inherit;font-size:0.93rem;color:white;display:flex;align-items:center;gap:10px;margin-bottom:8px;width:100%;text-align:left;transition:all .2s}
+.et-opt:hover:not(.et-done){background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.5)}
+.et-opt.et-correct{background:rgba(30,123,92,0.5);border-color:#34d399}
+.et-opt.et-wrong{background:rgba(192,57,43,0.5);border-color:#f87171}
+.et-opt.et-done{pointer-events:none}
+.et-lbl{background:rgba(255,255,255,0.2);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0}
+.et-rat{display:none;font-size:0.88rem;opacity:.9;margin-top:10px;padding:10px 12px;background:rgba(255,255,255,0.1);border-radius:8px;line-height:1.6}
+.et-rat.show{display:block}
+
+.score-display{text-align:center;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.25);border-radius:14px;padding:28px;margin-top:24px;display:none}
+.score-display.show{display:block !important;animation:popIn .5s ease}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.score-num{font-family:'Literata',serif;font-size:3.5rem;font-weight:700;color:white}
+.score-denom{font-size:1.2rem;opacity:.7}
+.score-msg{font-size:1.05rem;margin-top:8px;opacity:.9}
+
+/* REFLECTION — inside exit-wrap (white-on-dark style) */
+.reflection-inner{margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,0.2)}
+.reflection-inner h4{font-family:'Literata',serif;font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.reflection-q{margin-bottom:16px}
+.reflection-q label{display:block;font-weight:600;margin-bottom:8px;font-size:0.95rem;line-height:1.5}
+.reflection-q .cn-lbl{font-size:0.82rem;opacity:.75;margin-top:3px;margin-bottom:8px;display:block}
+.reflection-q textarea{width:100%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.25);border-radius:8px;padding:12px 14px;color:white;font-family:inherit;font-size:0.93rem;resize:vertical;min-height:80px;transition:border-color .2s}
+.reflection-q textarea::placeholder{color:rgba(255,255,255,0.4)}
+.reflection-q textarea:focus{outline:none;border-color:rgba(255,255,255,0.6)}
+
+/* STANDALONE REFLECTION (Tuesday — kept as-is outside exit-wrap) */
+.reflection-wrap{background:linear-gradient(135deg,#6b1010,#9b2020);border-radius:var(--radius);padding:26px;margin-top:16px;color:white}
+.reflection-wrap h4{font-family:'Literata',serif;font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+
+.download-wrap{background:var(--jade-light);border:2px solid var(--jade);border-radius:var(--radius);padding:20px;text-align:center;margin-top:20px;display:none}
+.download-wrap.show{display:block !important}
+.dl-btn{background:var(--jade);color:white;border:none;padding:14px 28px;border-radius:8px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all .25s}
+.dl-btn:hover{background:#155e45;transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,123,92,0.3)}
+.dl-note{font-size:0.85rem;color:var(--jade);margin-top:10px}
+
+.wrap{max-width:960px;margin:0 auto;padding:20px}
+.sep{border:none;border-top:2px solid var(--mist2);margin:24px 0}
+.timer{position:fixed;bottom:20px;right:20px;background:white;border-radius:50px;padding:10px 18px;box-shadow:0 4px 16px rgba(26,21,35,0.15);display:flex;align-items:center;gap:8px;font-weight:700;color:var(--cobalt);font-size:0.9rem;z-index:999}
+
+@media(max-width:640px){
+  .header-title h1{font-size:1.4rem}
+  .tabs{flex-direction:column}
+  .tab-btn{min-width:unset}
+  .vocab-grid{grid-template-columns:1fr}
+  .timer{bottom:10px;right:10px;font-size:0.8rem;padding:8px 14px}
+}
+
+.status-pip{width:10px;height:10px;border-radius:50%;background:#e5e7eb;display:inline-block;margin-left:6px;transition:background .3s}
+.status-pip.done{background:#34d399}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="header-title" style="display:flex;align-items:center;gap:16px">
+        <div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:3rem;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))">🍁</div>
+        <div>
+          <div style="font-size:0.78rem;letter-spacing:.1em;text-transform:uppercase;opacity:.75;margin-bottom:4px;font-weight:600">Maple Leaf World School · Xiangyang</div>
+          <h1 style="font-family:'Literata',serif;font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2">📖 Central Ideas &amp; Theme</h1>
+          <div class="sub">中心思想与主题模块 &nbsp;|&nbsp; Grade 11 English &nbsp;|&nbsp; 60–75 min</div>
+        </div>
+      </div>
+      <div class="leave-badge" id="leaveBadge">
+        ⚠️ Left page: <span id="leaveCount">0</span>x &nbsp;|&nbsp; 离开: <span id="leaveCountCN">0</span>次
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-label"><span id="progressText">0%</span> complete | 完成</div>
+    </div>
+  </div>
+
+  <!-- NOTICE -->
+  <div class="notice" id="navNotice">
+    <div class="notice-icon">ℹ️</div>
+    <div>
+      <strong>Do not leave this page during the lesson — navigation away is tracked and recorded.</strong>
+      <div class="cn-note">重要：课程期间请勿离开此页面。如果导航离开，将被记录。</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('vocab',this)">
+      <span class="icon">📚</span>
+      Vocabulary | 词汇
+      <span class="cn">10 Key Terms <span class="status-pip" id="pip-vocab"></span></span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('tuesday',this)">
+      <span class="icon">💡</span>
+      Tuesday | 周二
+      <span class="cn">Central Ideas <span class="status-pip" id="pip-tuesday"></span></span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('wednesday',this)">
+      <span class="icon">🎨</span>
+      Wednesday | 周三
+      <span class="cn">Theme 主题 <span class="status-pip" id="pip-wednesday"></span></span>
+    </button>
+  </div>
+
+  <!-- ==================== TAB 1: VOCABULARY ==================== -->
+  <div id="tab-vocab" class="tab-content active">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon cobalt">📚</div>
+        <div>
+          <h2>Academic Vocabulary | 学术词汇</h2>
+          <div class="cn-head">10 key terms for Central Ideas &amp; Theme | 中心思想与主题的10个关键术语</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="concept-box" style="margin-bottom:20px">
+          <div class="concept-label">How to use these cards | 如何使用这些卡片</div>
+          <p>Click <strong>▶ Hear it</strong> to hear pronunciation. Read the definition, Chinese translation, and example sentence. Use these words in your writing this week. | 点击▶收听发音。阅读定义、中文翻译和例句。本周在写作中使用这些词。</p>
+        </div>
+        <div class="vocab-grid" id="vocabGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 2: TUESDAY ==================== -->
+  <div id="tab-tuesday" class="tab-content">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon cobalt">💡</div>
+        <div>
+          <h2>Central Idea(s) | 中心思想</h2>
+          <div class="cn-head">Non-fiction | 非虚构文本</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="concept-box">
+          <div class="concept-label">Core Concept | 核心概念</div>
+          <h3>What is a Central Idea? | 什么是中心思想？</h3>
+          <p>A <strong>central idea</strong> is the most important point an author wants to communicate about a topic in a <em>non-fiction</em> text. It is NOT just the topic — it is what the author <em>says about</em> the topic.</p>
+          <div class="cn-concept">中心思想是作者在非虚构文本中最想传达的关于某个主题的最重要观点。它不仅仅是主题——而是作者对主题说了什么。</div>
+          <div class="key-rule">
+            🔑 <strong>Topic vs. Central Idea:</strong> Topic = "exercise." Central Idea = "Exercise helps students perform better in school." The central idea is a full sentence that makes a claim.
+            <br><span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">主题 = "锻炼"。中心思想 = "锻炼帮助学生在学校表现更好。"中心思想是一个完整的句子，表达一个主张。</span>
+          </div>
+        </div>
+        <div class="concept-box" style="margin-top:16px">
+          <div class="concept-label">One vs. Multiple Central Ideas | 一个还是多个中心思想？</div>
+          <h3>How to decide | 如何判断</h3>
+          <p>A passage has <strong>ONE central idea</strong> when all details/examples work together to prove a single main point. A passage has <strong>MULTIPLE central ideas</strong> when the author devotes equal attention to two or more points that do not support each other — they are parallel and independent.</p>
+          <div class="cn-concept">当所有细节/例子共同证明一个主要观点时，文章有一个中心思想。当作者对两个或更多相互不支持的观点给予同等关注时，文章有多个中心思想——它们是并列且独立的。</div>
+          <div class="key-rule">
+            🔑 <strong>The Test:</strong> Ask "Does idea A support idea B, or prove the same thing?" If YES → one central idea with supporting details. If NO (they are equal and separate) → multiple central ideas.
+            <br><span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">问："观点A是否支持观点B，或证明相同的事情？"如果是→一个中心思想加支持细节。如果否（它们是同等且独立的）→多个中心思想。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon amber">✏️</div>
+        <div>
+          <h2>Guided Practice | 练习</h2>
+          <div class="cn-head">10 passages — identify one or multiple central ideas | 10篇文章——识别一个或多个中心思想</div>
+        </div>
+      </div>
+      <div class="card-body" id="tuePracticeContainer"></div>
+    </div>
+
+    <!-- Tuesday Exit Ticket -->
+    <div class="exit-wrap" id="tueExitWrap">
+      <div class="exit-head">
+        <div class="exit-icon">🎯</div>
+        <div>
+          <h3>Exit Ticket | 课堂测验</h3>
+          <div class="cn-sub">10 questions — test your understanding | 10道题——测试你的理解</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border:2px solid rgba(200,168,75,0.6);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <label style="font-weight:700;font-size:0.95rem;white-space:nowrap;flex-shrink:0">👤 Student Name | 学生姓名:</label>
+        <input type="text" id="tueStudentName" placeholder="Enter your full name | 输入你的全名" style="flex:1;min-width:200px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:10px 14px;color:white;font-family:inherit;font-size:0.97rem;" />
+      </div>
+      <div id="tueExitContainer"></div>
+      <div class="score-display" id="tueScoreDisplay">
+        <div class="score-num" id="tueScoreNum">0</div>
+        <div class="score-denom">/ 10</div>
+        <div class="score-msg" id="tueScoreMsg"></div>
+      </div>
+    </div>
+
+    <!-- Tuesday Reflection (standalone, outside exit-wrap) -->
+    <div class="reflection-wrap" id="tueReflection" style="display:none">
+      <h4>🪞 Self-Reflection | 自我反思</h4>
+      <div class="reflection-q">
+        <label>1. In your own words, explain the difference between a supporting detail and a separate central idea. Give your own example.
+          <span class="cn-lbl">用你自己的话解释支持细节和独立中心思想之间的区别。给出你自己的例子。</span>
+        </label>
+        <textarea id="tueRef1" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+      </div>
+      <div class="reflection-q">
+        <label>2. Think about a book, article, or video you know. Does it have one central idea or multiple? Explain why.
+          <span class="cn-lbl">想想你知道的一本书、一篇文章或一个视频。它有一个中心思想还是多个？解释原因。</span>
+        </label>
+        <textarea id="tueRef2" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+      </div>
+    </div>
+
+    <!-- Tuesday Download -->
+    <div class="download-wrap" id="tueDownloadWrap">
+      <div style="font-size:1.1rem;font-weight:700;color:var(--jade);margin-bottom:12px">✅ Tuesday Work Complete | 周二作业完成</div>
+      <button class="dl-btn" onclick="downloadReport('tue')">⬇️ Download My Report | 下载我的报告</button>
+      <div class="dl-note" style="margin-top:10px">Includes: Student name, exit ticket score, navigation record, all answers &amp; reflections | 包括：学生姓名、测验分数、导航记录、所有答案和反思</div>
+      <div style="margin-top:16px;padding:14px 16px;background:#e8f5ec;border:2px solid var(--jade);border-radius:10px;text-align:left">
+        <div style="font-weight:700;color:var(--jade);margin-bottom:6px;font-size:0.97rem">📤 Next Step | 下一步</div>
+        <div style="font-size:0.93rem;color:#1a3a1a;line-height:1.65">
+          After downloading, upload your report file to <strong>Schoology</strong> under the Tuesday assignment submission box.<br>
+          <span style="color:#2d5a2d;font-size:0.88rem;margin-top:4px;display:block">下载后，请将报告文件上传至 <strong>Schoology</strong> 中周二作业的提交框。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 3: WEDNESDAY ==================== -->
+  <div id="tab-wednesday" class="tab-content">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon rose">🎨</div>
+        <div>
+          <h2>Theme | 主题</h2>
+          <div class="cn-head">Fiction &amp; Literature | 小说与文学</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="concept-box jade-theme">
+          <div class="concept-label">Core Concept | 核心概念</div>
+          <h3>What is Theme? | 什么是主题？</h3>
+          <p>A <strong>theme</strong> is the life lesson, message, or insight about human nature that an author communicates through a <em>literary/fictional</em> text. Theme is NOT a topic or a summary — it is a statement about life that applies beyond the story.</p>
+          <div class="cn-concept">主题是作者通过文学/虚构文本传达的人生教训、信息或对人性的洞察。主题不是话题或摘要——它是关于生活的陈述，适用于故事之外。</div>
+          <div class="key-rule jade">
+            🔑 <strong>Topic vs. Theme:</strong> Topic = "friendship." Theme = "True friendship requires honesty, even when it is painful." Always write theme as a complete sentence — a universal truth.
+            <br><span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">话题 = "友谊"。主题 = "真正的友谊需要诚实，即使诚实是痛苦的。"始终将主题写成完整的句子——一个普遍真理。</span>
+          </div>
+        </div>
+        <div class="concept-box jade-theme" style="margin-top:16px">
+          <div class="concept-label">How to Find Theme | 如何找到主题</div>
+          <h3>The TIPT Method | TIPT方法</h3>
+          <p><strong>T</strong>opic → <strong>I</strong>dentify what the character learns → <strong>P</strong>hrase it as a universal statement → <strong>T</strong>est: Does it apply to real life?</p>
+          <div class="cn-concept"><strong>T</strong>话题 → <strong>I</strong>识别角色学到了什么 → <strong>P</strong>将其表述为普遍陈述 → <strong>T</strong>测试：它适用于现实生活吗？</div>
+          <div class="key-rule jade">
+            🔑 <strong>Common Traps:</strong> "The story is about a boy who learns to be brave" = summary, not theme. "Courage grows when we face our fears" = theme ✓
+            <br><span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">"这个故事讲述了一个学会勇敢的男孩"=摘要，不是主题。"当我们面对恐惧时，勇气就会增长"=主题✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon amber">✏️</div>
+        <div>
+          <h2>Guided Practice | 练习</h2>
+          <div class="cn-head">10 passages — identify the theme | 10篇文章——识别主题</div>
+        </div>
+      </div>
+      <div class="card-body" id="wedPracticeContainer"></div>
+    </div>
+
+    <!-- Wednesday Exit Ticket — reflection NOW LIVES INSIDE this div -->
+    <div class="exit-wrap" id="wedExitWrap">
+      <div class="exit-head">
+        <div class="exit-icon">🎯</div>
+        <div>
+          <h3>Exit Ticket | 课堂测验</h3>
+          <div class="cn-sub">10 questions — test your understanding | 10道题——测试你的理解</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border:2px solid rgba(200,168,75,0.6);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <label style="font-weight:700;font-size:0.95rem;white-space:nowrap;flex-shrink:0">👤 Student Name | 学生姓名:</label>
+        <input type="text" id="wedStudentName" placeholder="Enter your full name | 输入你的全名" style="flex:1;min-width:200px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:10px 14px;color:white;font-family:inherit;font-size:0.97rem;" />
+      </div>
+      <div id="wedExitContainer"></div>
+      <div class="score-display" id="wedScoreDisplay">
+        <div class="score-num" id="wedScoreNum">0</div>
+        <div class="score-denom">/ 10</div>
+        <div class="score-msg" id="wedScoreMsg"></div>
+      </div>
+
+      <!-- *** WEDNESDAY REFLECTION — inside exit-wrap, hidden until exit complete *** -->
+      <div class="reflection-inner" id="wedReflection" style="display:none">
+        <h4>🪞 Self-Reflection | 自我反思</h4>
+        <div class="reflection-q">
+          <label>1. How is finding theme different from finding central idea? Which is harder for you, and why?
+            <span class="cn-lbl">找主题和找中心思想有什么不同？哪个对你来说更难，为什么？</span>
+          </label>
+          <textarea id="wedRef1" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+        </div>
+        <div class="reflection-q">
+          <label>2. Choose a story, movie, or TV show you know. What is its theme? Write a complete sentence. Explain how you identified it.
+            <span class="cn-lbl">选择一个你知道的故事、电影或电视节目。它的主题是什么？写一个完整的句子。解释你如何识别它。</span>
+          </label>
+          <textarea id="wedRef2" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wednesday Download -->
+    <div class="download-wrap" id="wedDownloadWrap">
+      <div style="font-size:1.1rem;font-weight:700;color:var(--jade);margin-bottom:12px">✅ Wednesday Work Complete | 周三作业完成</div>
+      <button class="dl-btn" onclick="downloadReport('wed')">⬇️ Download My Report | 下载我的报告</button>
+      <div class="dl-note" style="margin-top:10px">Includes: Student name, exit ticket score, navigation record, all answers &amp; reflections | 包括：学生姓名、测验分数、导航记录、所有答案和反思</div>
+      <div style="margin-top:16px;padding:14px 16px;background:#e8f5ec;border:2px solid var(--jade);border-radius:10px;text-align:left">
+        <div style="font-weight:700;color:var(--jade);margin-bottom:6px;font-size:0.97rem">📤 Next Step | 下一步</div>
+        <div style="font-size:0.93rem;color:#1a3a1a;line-height:1.65">
+          After downloading, upload your report file to <strong>Schoology</strong> under the Wednesday assignment submission box.<br>
+          <span style="color:#2d5a2d;font-size:0.88rem;margin-top:4px;display:block">下载后，请将报告文件上传至 <strong>Schoology</strong> 中周三作业的提交框。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end wrap -->
+
+<div class="timer" id="timerDisplay">⏱ 00:00</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const VOCAB = [
+  {word:"Central Idea",pos:"noun phrase",cn:"中心思想",def:"The most important point an author makes about a topic in non-fiction writing.",cn_def:"作者在非虚构写作中对一个主题所表达的最重要观点。",example:"The central idea of the article is that sleep deprivation damages memory."},
+  {word:"Theme",pos:"noun",cn:"主题",def:"A universal life lesson or message communicated through a fictional story.",cn_def:"通过虚构故事传达的普遍人生教训或信息。",example:"The theme of the novel is that perseverance leads to success."},
+  {word:"Supporting Detail",pos:"noun phrase",cn:"支持细节",def:"A specific fact, example, or evidence that explains or proves the central idea.",cn_def:"解释或证明中心思想的具体事实、例子或证据。",example:"Statistics about dropout rates are supporting details for a central idea about education."},
+  {word:"Non-fiction",pos:"noun",cn:"非虚构",def:"Writing based on real events, people, and facts, such as articles, essays, and news reports.",cn_def:"基于真实事件、人物和事实的写作，如文章、散文和新闻报道。",example:"A news article about climate change is non-fiction."},
+  {word:"Infer",pos:"verb",cn:"推断",def:"To reach a conclusion based on evidence and reasoning, even if it is not directly stated.",cn_def:"根据证据和推理得出结论，即使没有直接陈述。",example:"We can infer the theme from the character's choices, not just the author's words."},
+  {word:"Implicit",pos:"adjective",cn:"含蓄的/隐含的",def:"Suggested or understood without being directly stated.",cn_def:"暗示或理解，但没有直接陈述。",example:"The implicit theme of the poem is that love conquers fear."},
+  {word:"Explicit",pos:"adjective",cn:"明确的",def:"Clearly and directly stated in the text.",cn_def:"在文本中清楚直接地陈述。",example:"The author makes an explicit claim: 'Exercise reduces stress.'"},
+  {word:"Parallel",pos:"adjective",cn:"平行的/并列的",def:"Equal in importance; two ideas that exist alongside each other without one supporting the other.",cn_def:"在重要性上相等；两个并存的观点，互不支持。",example:"The two central ideas in the article are parallel — neither proves the other."},
+  {word:"Universal",pos:"adjective",cn:"普遍的",def:"Applying to all people and situations, across cultures and time.",cn_def:"适用于所有人和情况，跨越文化和时间。",example:"'Hard work brings reward' is a universal theme found in stories worldwide."},
+  {word:"Author's Purpose",pos:"noun phrase",cn:"作者意图",def:"The reason an author writes — to inform, to persuade, to entertain, or to explain.",cn_def:"作者写作的原因——告知、说服、娱乐或解释。",example:"The author's purpose in the editorial is to persuade readers to vote."}
+];
+
+const TUE_PRACTICES = [
+  {id:"tue1",passage:"Cities around the world are adopting electric buses to improve transportation. Seoul replaced 30% of its diesel fleet last year. Amsterdam added 100 new electric routes. Singapore offers tax incentives for transit companies to go electric. Air quality in all three cities has improved significantly since the switch.",title:"Electric Buses in World Cities",q:"How many central ideas does this passage have?",q_cn:"这篇文章有几个中心思想？",options:["A. One — cities adopt electric buses to improve transportation|一个——城市采用电动公交车改善交通","B. Multiple — Seoul, Amsterdam, and Singapore each have their own idea|多个——首尔、阿姆斯特丹和新加坡各有自己的观点","C. Multiple — electric buses and air quality are separate ideas|多个——电动公交车和空气质量是独立的观点","D. None — it only lists facts|无——只列举了事实"],correct:"A",rationale:"Correct! ONE central idea: cities are adopting electric buses to improve transportation. Seoul, Amsterdam, and Singapore are supporting details (examples) proving the same point.|正确！一个中心思想：城市正在采用电动公交车改善交通。首尔、阿姆斯特丹和新加坡是支持细节（例子），证明同一个观点。",rationale_wrong:{"B":"Incorrect. The three cities are examples (supporting details), not separate central ideas.|错误。三个城市是例子（支持细节），不是独立的中心思想。","C":"Incorrect. Air quality improvement is a result/detail that supports the one central idea about electric buses.|错误。空气质量改善是支持关于电动公交车的中心思想的结果/细节。","D":"Incorrect. Facts always serve a central idea.|错误。事实总是服务于中心思想。"}},
+  {id:"tue2",passage:"Tokyo's ramen culture is an art form — chefs train for years to perfect broth, study the chemistry of noodle texture, and serve in near-silence so diners can focus. In Paris, dining is theater: waiters debate philosophy, tables overflow with wine, and strangers become friends by the third course.",title:"Dining in Tokyo and Paris",q:"How many central ideas does this passage have?",q_cn:"这篇文章有几个中心思想？",options:["A. Multiple — Tokyo dining and Paris dining are two equal, separate ideas|多个——东京用餐和巴黎用餐是两个同等、独立的观点","B. One — Tokyo and Paris both have great food cultures|一个——东京和巴黎都有很棒的饮食文化","C. One — the world has many unique dining styles|一个——世界有许多独特的用餐风格","D. Multiple — chefs, waiters, and strangers are each a different idea|多个——厨师、服务员和陌生人各自是一个不同的观点"],correct:"A",rationale:"Correct! TWO central ideas: (1) Tokyo offers technical, silent, focused dining. (2) Paris offers social, theatrical dining.|正确！两个中心思想：(1)东京提供技术性、安静、专注的用餐。(2)巴黎提供社交性、戏剧性的用餐。",rationale_wrong:{"B":"Too vague. The passage argues they are fundamentally different experiences — that contrast is the point.|太模糊。文章认为它们是根本不同的体验。","C":"Too broad. The passage is specifically about Tokyo and Paris.|太宽泛。文章特别关于东京和巴黎。","D":"Chefs and waiters are supporting details within each city's idea, not separate central ideas.|厨师和服务员是每个城市观点中的支持细节，不是独立的中心思想。"}},
+  {id:"tue3",passage:"Exercise helps students succeed in school. Studies show students who exercise regularly score 20% higher on memory tests. Physical activity also reduces anxiety before exams. Additionally, students who participate in sports develop discipline that improves homework completion rates.",title:"Exercise and Student Success",q:"The three benefits (memory, anxiety, discipline) are:",q_cn:"三个好处（记忆、焦虑、纪律）是：",options:["A. Supporting details that prove ONE central idea|支持细节，证明一个中心思想","B. Three separate central ideas|三个独立的中心思想","C. The topic of the passage, not the central idea|文章的话题，不是中心思想","D. Not connected to any central idea|与任何中心思想无关"],correct:"A",rationale:"Correct! All three benefits work together to prove ONE central idea: exercise helps students succeed.|正确！所有三个好处共同证明一个中心思想：锻炼帮助学生成功。",rationale_wrong:{"B":"No. They all lead back to the same point. For them to be separate central ideas, each would need its own passage that could stand alone.|不。它们都回到同一个观点。","C":"The topic is 'exercise and students.' The central idea is the complete claim: 'Exercise helps students succeed.'|话题是'锻炼和学生'。中心思想是完整的主张。","D":"They are directly connected. Each benefit is evidence supporting the central idea stated in the first sentence.|它们直接相关。每个好处都是支持第一句话中陈述的中心思想的证据。"}},
+  {id:"tue4",passage:"Rising sea levels threaten coastal cities like Miami and Bangkok with permanent flooding. At the same time, increasing drought in inland regions like sub-Saharan Africa and the American Southwest is destroying farmland and forcing migration.",title:"Two Effects of Climate Change",q:"How many central ideas does this passage have?",q_cn:"这篇文章有几个中心思想？",options:["A. Multiple — coastal flooding and inland drought are equal, separate effects|多个——沿海洪水和内陆干旱是同等、独立的影响","B. One — climate change is bad|一个——气候变化很糟糕","C. One — the world is changing|一个——世界正在改变","D. None — it is only a list of locations|无——只是地点列表"],correct:"A",rationale:"Correct! TWO central ideas: (1) rising seas threaten coastal cities, and (2) drought threatens inland farmland. They are equal in length, and neither explains the other.|正确！两个中心思想：(1)海平面上升威胁沿海城市，(2)干旱威胁内陆农田。它们长度相等，互不解释。",rationale_wrong:{"B":"Too vague and incomplete. The passage makes two specific, equal claims.|太模糊和不完整。文章提出了两个具体、同等的主张。","C":"Far too broad. Always match your central idea to what the text actually argues.|太宽泛了。始终将中心思想与文本实际论证的内容相匹配。","D":"Cities and regions are supporting details, not the point of the passage.|城市和地区是支持细节，不是文章的重点。"}},
+  {id:"tue5",passage:"The Sahara Desert was once a green, fertile savannah. Scientists have found fossils of hippos, fish, and crocodiles in areas that are now completely dry. Cave paintings show people swimming and herding cattle. Approximately 5,000 years ago, gradual changes in Earth's orbit shifted monsoon rains away, turning grasslands to sand within centuries.",title:"The Green Sahara",q:"What is the ONE central idea of this passage?",q_cn:"这篇文章的一个中心思想是什么？",options:["A. The Sahara was once a wet, thriving environment — and climate change transformed it.|撒哈拉曾经是一个湿润、繁荣的环境——气候变化将其改变。","B. Hippos and crocodiles once lived in Africa.|河马和鳄鱼曾经生活在非洲。","C. Fossil evidence and cave paintings are two separate ideas.|化石证据和洞穴壁画是两个独立的观点。","D. Earth's orbit is the topic of this passage.|地球轨道是这篇文章的话题。"],correct:"A",rationale:"Correct! Every detail — fossils, cave paintings, orbital shift — works together to prove ONE idea: the Sahara was once green and climate change ended that era.|正确！每个细节共同证明一个观点：撒哈拉曾经是绿色的，气候变化结束了那个时代。",rationale_wrong:{"B":"This is a supporting detail, not the central idea. The passage uses animals as evidence for a much larger point.|这是支持细节，不是中心思想。","C":"No. Fossils and cave paintings are both types of evidence supporting the same central idea.|不。化石和洞穴壁画都是支持同一中心思想的证据类型。","D":"Earth's orbit is a detail that explains HOW the Sahara changed — it is a cause, not the main idea.|地球轨道是解释撒哈拉如何改变的细节——它是原因，不是主要观点。"}},
+  {id:"tue6",passage:"Japan has the world's longest life expectancy, largely due to diet. The traditional Japanese diet is high in fish, vegetables, fermented foods, and green tea — all linked to lower rates of heart disease and cancer. Portion sizes are smaller than in Western countries. Additionally, the Japanese concept of 'hara hachi bu' — eating until 80% full — prevents overeating.",title:"Longevity in Japan",q:"The phrase 'hara hachi bu' and small portion sizes are:",q_cn:"'腹八分'这个概念和小份量是：",options:["A. Supporting details that strengthen ONE central idea about diet and longevity|支持细节，加强关于饮食和长寿的一个中心思想","B. A second central idea separate from the discussion of fish and vegetables|与鱼类和蔬菜讨论分离的第二个中心思想","C. The topic of the passage|文章的话题","D. Unrelated to the central idea|与中心思想无关"],correct:"A",rationale:"Correct! Everything in the passage — fish, vegetables, portion size, hara hachi bu — supports ONE central idea: Japan's diet explains its long life expectancy.|正确！文章中的一切支持一个中心思想：日本的饮食解释了其长寿命预期。",rationale_wrong:{"B":"No. Portion sizes and food types both explain the SAME claim (Japanese diet = longevity).|不。份量和食物类型都解释了同一主张。","C":"The topic is 'Japanese diet and life expectancy.' Hara hachi bu is a detail within that argument.|话题是'日本饮食和预期寿命'。腹八分是该论点中的细节。","D":"Hara hachi bu is directly connected — it is a cultural behavior that prevents overeating.|腹八分直接相关——这是一种防止过度饮食的文化行为。"}},
+  {id:"tue7",passage:"Social media has made it easier than ever to stay connected with friends and family across the world. At the same time, research consistently shows that heavy social media use is linked to increased rates of depression, anxiety, and loneliness among teenagers.",title:"Social Media: Connection and Consequence",q:"How many central ideas does this passage have?",q_cn:"这篇文章有几个中心思想？",options:["A. Multiple — connection and mental health harm are TWO equal, opposite ideas|多个——联系和心理健康伤害是两个同等、相反的观点","B. One — social media is bad|一个——社交媒体很糟糕","C. One — technology affects teenagers|一个——技术影响青少年","D. Multiple — depression, anxiety, and loneliness are three separate ideas|多个——抑郁、焦虑和孤独是三个独立的观点"],correct:"A",rationale:"Correct! TWO central ideas: (1) social media helps connection, and (2) social media harms mental health. The word 'At the same time' signals two parallel ideas.|正确！两个中心思想：(1)社交媒体帮助联系，(2)社交媒体伤害心理健康。",rationale_wrong:{"B":"Too simple. The passage also argues social media is good for connection — missing half the passage means missing the second central idea.|太简单。文章也论证社交媒体有助于联系。","C":"Too broad. A central idea must be specific and make a precise claim.|太宽泛。中心思想必须具体并提出精确主张。","D":"No. Depression, anxiety, and loneliness are all examples of mental health harm — supporting details within one idea.|不。它们都是心理健康伤害的例子——一个观点中的支持细节。"}},
+  {id:"tue8",passage:"Plastic pollution is choking the world's oceans. The Great Pacific Garbage Patch, twice the size of Texas, is filled with broken-down microplastics that marine animals mistake for food. Whales, sea turtles, and seabirds die from plastic ingestion each year. Scientists estimate that by 2050, there will be more plastic in the ocean than fish by weight.",title:"Ocean Plastic Crisis",q:"What is the central idea of this passage?",q_cn:"这篇文章的中心思想是什么？",options:["A. Plastic pollution is destroying marine ecosystems and threatens to surpass fish in the ocean.|塑料污染正在破坏海洋生态系统，并威胁将超过海洋中的鱼类。","B. The Great Pacific Garbage Patch and the 2050 prediction are two central ideas.|大太平洋垃圾带和2050年预测是两个中心思想。","C. Whales, turtles, and seabirds are the topic.|鲸鱼、海龟和海鸟是话题。","D. Ocean pollution started in 2050.|海洋污染始于2050年。"],correct:"A",rationale:"Correct! All details — the garbage patch, animal deaths, the 2050 statistic — prove ONE idea: plastic pollution is a severe, growing crisis for marine life.|正确！所有细节证明一个观点：塑料污染是海洋生物面临的严重、日益增长的危机。",rationale_wrong:{"B":"No. The Garbage Patch is an example proving the crisis is real. The 2050 statistic supports the same idea.|不。垃圾带是证明危机真实存在的例子。2050年统计数据支持同一观点。","C":"Animals are examples (supporting details) of who is harmed, not the topic or central idea.|动物是谁受到伤害的例子（支持细节），不是话题或中心思想。","D":"Factually incorrect. 2050 is a future prediction, not when pollution started.|事实上不正确。2050年是未来预测，不是污染开始的时间。"}},
+  {id:"tue9",passage:"Learning a second language before age 10 rewires the brain for better multitasking and problem-solving. Meanwhile, bilingual adults show symptoms of Alzheimer's disease up to 5 years later than monolingual adults, suggesting that managing two languages builds cognitive reserve that protects the brain against aging.",title:"Bilingualism and the Brain",q:"How many central ideas does this passage have?",q_cn:"这篇文章有几个中心思想？",options:["A. Multiple — early bilingualism benefits and late-life brain protection are TWO equal ideas|多个——早期双语能力好处和晚年大脑保护是两个同等的观点","B. One — bilingualism is good for you|一个——双语能力对你有益","C. One — Alzheimer's disease is the central idea|一个——阿尔茨海默症是中心思想","D. Multiple — multitasking, problem-solving, and Alzheimer's are three ideas|多个——多任务处理、解决问题和阿尔茨海默症是三个观点"],correct:"A",rationale:"Correct! TWO central ideas: (1) early bilingualism improves brain function in children, and (2) bilingualism delays Alzheimer's in adults. 'Meanwhile' signals a shift to an equal, separate idea.|正确！两个中心思想：(1)早期双语能力改善儿童大脑功能，(2)双语能力延迟成人阿尔茨海默症。",rationale_wrong:{"B":"Too vague. The passage makes two specific, different claims — one about children's brains, one about aging brains.|太模糊。文章提出两个具体、不同的主张。","C":"Alzheimer's is only mentioned in the second half. It is a topic within the second central idea.|阿尔茨海默症只在后半部分提到。它是第二个中心思想中的话题。","D":"Multitasking and problem-solving are both benefits within the FIRST central idea — they are supporting details.|多任务处理和解决问题都是第一个中心思想中的好处——它们是支持细节。"}},
+  {id:"tue10",passage:"NASA's Artemis program aims to return humans to the Moon by 2026 and establish a permanent lunar base. The program prioritizes landing the first woman and first person of color on the Moon. Scientists hope the base will serve as a staging point for future missions to Mars.",title:"NASA's Artemis Program",q:"What is the ONE central idea of this passage?",q_cn:"这篇文章的一个中心思想是什么？",options:["A. NASA's Artemis program plans to return humans to the Moon and use it as a stepping stone to Mars.|NASA的阿耳忒弥斯计划打算让人类重返月球并以此为跳板前往火星。","B. NASA and Mars are two separate central ideas.|NASA和火星是两个独立的中心思想。","C. The first woman on the Moon is the central idea.|月球上第一位女性是中心思想。","D. Space programs cost too much money.|太空计划花费太多钱。"],correct:"A",rationale:"Correct! ONE central idea: the Artemis program is an ambitious plan to return to the Moon and eventually reach Mars. All details describe different aspects of the SAME program.|正确！一个中心思想：阿耳忒弥斯计划是一个宏伟的计划，要重返月球并最终到达火星。",rationale_wrong:{"B":"NASA is the organization; Mars is a future destination. Both are details within ONE program described in ONE central idea.|NASA是组织；火星是未来目的地。两者都是一个中心思想中的细节。","C":"The diversity goal is a supporting detail — it explains one priority of the program, not the whole central idea.|多样性目标是支持细节——它解释了该计划的一个优先事项。","D":"This is not in the passage at all. Never choose a central idea that the text does not actually support.|这在文章中根本没有提到。"}}
+];
+
+const TUE_EXIT = [
+  {q:"A passage discusses deforestation in Brazil, Indonesia, and Canada. All three examples show how logging reduces biodiversity. How many central ideas does this passage have?",q_cn:"一篇文章讨论巴西、印度尼西亚和加拿大的森林砍伐。所有三个例子都显示伐木如何减少生物多样性。这篇文章有几个中心思想？",opts:["A. One — deforestation reduces biodiversity|一个","B. Multiple — three countries = three ideas|多个","C. Multiple — logging and biodiversity are separate|多个","D. None|无"],correct:"A",rat:"ONE idea. The three countries are supporting examples — they all prove 'deforestation reduces biodiversity.'|一个观点。三个国家是支持例子——它们都证明'森林砍伐减少生物多样性'。"},
+  {q:"An article has one section arguing that remote work increases productivity and another arguing it harms collaboration. Each section has equal length. How many central ideas?",q_cn:"一篇文章有一节论证远程工作提高生产力，另一节论证它损害协作。每节长度相等。几个中心思想？",opts:["A. One — remote work is complex|一个","B. Multiple — productivity and collaboration harm are two equal ideas|多个","C. One — work habits are changing|一个","D. Multiple — productivity, collaboration, length are three ideas|多个"],correct:"B",rat:"TWO ideas. Productivity gain and collaboration harm are parallel — neither proves the other. The equal length confirms they share the spotlight.|两个观点。生产力提升和协作伤害是并列的——互不证明。"},
+  {q:"Which sentence is a central idea (NOT a supporting detail)?",q_cn:"哪个句子是中心思想（不是支持细节）？",opts:["A. Rivers in Arizona carry less water each year due to drought.|亚利桑那州的河流每年因干旱而水量减少。","B. Reduced river flow threatens farming in the American Southwest.|减少的河流流量威胁美国西南部的农业。","C. The Colorado River dropped to record lows in 2022.|科罗拉多河2022年降至历史低点。","D. Scientists measured salinity levels in Lake Mead.|科学家测量了米德湖的盐度水平。"],correct:"B",rat:"B is the central idea — it makes a broad claim about a cause and its effect. A, C, D are specific facts/details that support it.|B是中心思想——它对原因及其影响提出了广泛主张。A、C、D是具体的事实/细节。"},
+  {q:"A supporting detail does which of the following?",q_cn:"支持细节起什么作用？",opts:["A. Makes a broad claim about the topic|对话题提出广泛主张","B. Provides specific evidence, examples, or facts to prove the central idea|提供具体证据、例子或事实来证明中心思想","C. States a life lesson that applies to all people|陈述适用于所有人的人生教训","D. Introduces a new, separate topic|引入一个新的、独立的话题"],correct:"B",rat:"Supporting details are the HOW and WHY — the specific evidence that makes the central idea believable and provable.|支持细节是如何和为什么——使中心思想可信和可证明的具体证据。"},
+  {q:"An author writes: 'Meditation reduces workplace stress. Additionally, meditation improves sleep quality.' Are these one or two central ideas?",q_cn:"作者写道：'冥想减少工作场所压力。此外，冥想改善睡眠质量。'这是一个还是两个中心思想？",opts:["A. One — both are benefits of meditation|一个——两者都是冥想的好处","B. Two — stress and sleep are different topics|两个——压力和睡眠是不同的话题","C. Two — the author uses 'additionally,' which always signals a new central idea|两个——作者使用'此外'，这总是表示新的中心思想","D. None — it is only listing meditation benefits|无——只是列举冥想好处"],correct:"B",rat:"TWO central ideas. Stress reduction and sleep improvement are separate, equal claims — neither proves the other.|两个中心思想。压力减轻和睡眠改善是独立、同等的主张——互不证明。"},
+  {q:"A passage argues: 'Online learning gives students flexibility. Students can study at their own pace and choose their schedule.' The second sentence is:",q_cn:"一篇文章论证：'在线学习给学生灵活性。学生可以按自己的节奏学习并选择时间表。'第二句话是：",opts:["A. A second central idea|第二个中心思想","B. A supporting detail that explains the first sentence's claim|解释第一句主张的支持细节","C. The topic of the passage|文章的话题","D. Unrelated to the first sentence|与第一句无关"],correct:"B",rat:"The second sentence explains WHAT flexibility means — it is a supporting detail. It does not make a new, equal claim; it defines/expands the first idea.|第二句解释了灵活性的含义——它是支持细节。"},
+  {q:"Two central ideas are likely when:",q_cn:"两个中心思想可能出现在以下情况：",opts:["A. The author gives three or more examples of the same point|作者给出同一观点的三个或更多例子","B. The author gives equal attention to two points that do not support each other|作者对两个互不支持的观点给予同等关注","C. The passage uses many statistics|文章使用许多统计数据","D. The topic sentence is in the first paragraph|主题句在第一段"],correct:"B",rat:"Multiple central ideas occur when two points are parallel and independent — equal in importance, separate in argument.|当两个观点是并列且独立的时，会出现多个中心思想。"},
+  {q:"Which of the following is a TOPIC, not a central idea?",q_cn:"以下哪个是话题，不是中心思想？",opts:["A. 'The invention of the printing press changed how information spread across Europe.'|'印刷机的发明改变了信息在欧洲传播的方式。'","B. 'Climate change and sea levels'|'气候变化和海平面'","C. 'Lack of sleep reduces a student's ability to focus in class.'|'睡眠不足降低学生在课堂上集中注意力的能力。'","D. 'Vaccines have eliminated diseases that once killed millions of people.'|'疫苗消灭了曾经杀死数百万人的疾病。'"],correct:"B",rat:"B is a topic — just two nouns with no claim attached. Central ideas must be complete sentences that make a specific, arguable claim.|B是话题——只是两个名词，没有附加主张。"},
+  {q:"A passage about cooking says: 'Marinating meat overnight adds flavor. The best marinades contain acid, oil, and herbs.' How many central ideas?",q_cn:"一篇关于烹饪的文章说：'腌制肉类一夜可以增加风味。最好的腌料含有酸、油和香草。'几个中心思想？",opts:["A. One — the second sentence explains the first|一个——第二句解释第一句","B. Two — marinating and marinade ingredients are separate topics|两个——腌制和腌料成分是独立的话题","C. Two — each sentence is always a separate central idea|两个——每个句子总是独立的中心思想","D. None — these are only cooking tips|无——这些只是烹饪技巧"],correct:"A",rat:"ONE idea. The first sentence makes the claim; the second explains HOW. Sentence 2 is a supporting detail for sentence 1.|一个观点。第一句提出主张；第二句解释如何。第二句是第一句的支持细节。"},
+  {q:"Which word or phrase in a passage most strongly signals that a SECOND central idea is beginning?",q_cn:"文章中哪个词或短语最强烈地表明第二个中心思想正在开始？",opts:["A. 'For example' | '例如'","B. 'In addition' (followed by a detail) | '此外'（后跟细节）","C. 'At the same time, however' (followed by an equal but opposite claim) | '与此同时，然而'（后跟同等但相反的主张）","D. 'This shows that' | '这表明'"],correct:"C",rat:"'At the same time, however' introduces an equal but contrasting idea — a strong signal of a second central idea. 'For example' and 'This shows that' signal supporting details.|'与此同时，然而'引入一个同等但对比的观点——第二个中心思想的强烈信号。"}
+];
+
+const WED_PRACTICES = [
+  {id:"wed1",passage:"Mia spent years practicing piano alone in her room, refusing help from her teacher and ignoring her mother's advice. When the recital came, she froze on stage, her fingers forgetting every note. Walking home, she realized that every musician she admired had a mentor, a coach, someone who had pushed them past their limits.",title:"The Recital",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Mia is a bad piano student|米亚是个糟糕的钢琴学生","B. Pride and isolation prevent growth; accepting help is essential to achieving your potential.|骄傲和孤立阻碍成长；接受帮助对实现潜力至关重要。","C. Piano recitals are stressful events|钢琴独奏会是压力很大的活动","D. Students should practice more|学生应该多练习"],correct:"B",rationale:"Correct! Mia's journey — refusing help → public failure → realization — communicates a universal message: refusing guidance isolates us from growth.|正确！米亚的旅程——拒绝帮助→公开失败→意识——传达了一个普遍信息：拒绝指导使我们与成长隔离。",rationale_wrong:{"A":"This is a character judgment, not a theme. Theme is a universal lesson, not a description of one character's ability.|这是对角色的判断，不是主题。","C":"This is a plot detail, not a theme. Theme must be a lesson that applies to life broadly.|这是情节细节，不是主题。","D":"Too simple and prescriptive. A theme is a complex insight about human nature, not a piece of advice.|太简单和规范性。主题是关于人性的复杂洞察，不是建议。"}},
+  {id:"wed2",passage:"After his country was destroyed by war, Elias walked 400 miles to reach the border. At the refugee camp, strangers gave him food, a blanket, and later, a job recommendation. Twenty years later, Elias ran the camp's medical clinic, giving the same care to new arrivals that strangers had once given him.",title:"The Long Walk",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. War causes people to become refugees|战争导致人们成为难民","B. Kindness received inspires kindness given — compassion creates a cycle that outlasts suffering.|接受到的善意激励给予善意——同情创造了一个超越苦难的循环。","C. Medical clinics are important in refugee camps|医疗诊所在难民营中很重要","D. Elias worked very hard|伊莱亚斯非常努力工作"],correct:"B",rationale:"Correct! The story's structure mirrors the theme: Elias received care from strangers → later gave the same care to strangers. The cycle is the lesson.|正确！故事的结构反映了主题：伊莱亚斯从陌生人那里得到了关怀→后来给了陌生人同样的关怀。循环就是教训。",rationale_wrong:{"A":"This is background/context, not theme. Theme emerges from what characters DO and LEARN.|这是背景/环境，不是主题。主题来自角色做了什么和学到了什么。","C":"This is a plot detail. The clinic matters because of what it represents — Elias giving back.|这是情节细节。诊所很重要，因为它代表了伊莱亚斯的回馈。","D":"Hard work is mentioned nowhere in the text. Never choose a theme that isn't supported by the story's events.|文章中没有提到努力工作。永远不要选择故事事件不支持的主题。"}},
+  {id:"wed3",passage:"The old fisherman had caught thousands of fish in his life, but today he sat in his boat watching the sunset — not fishing at all. His grandson asked, 'Why don't you fish anymore, Grandpa?' The old man smiled. 'I used to catch fish to prove I could. Now I'm here to enjoy being alive.'",title:"The Fisherman's Wisdom",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Old fishermen are wise|老渔夫是智慧的","B. It is better to fish in the morning than the evening|早上钓鱼比晚上好","C. True fulfillment comes from presence and appreciation — not from achievement or proving oneself.|真正的满足来自当下和欣赏——而不是来自成就或证明自己。","D. Children should spend more time with their grandparents|孩子应该多花时间陪祖父母"],correct:"C",rationale:"Correct! The fisherman's shift — from proving himself → enjoying being alive — reveals the theme. Universal: we often chase achievement when the real reward is simply being present.|正确！渔夫的转变——从证明自己→享受活着——揭示了主题。普遍：我们经常追逐成就，而真正的回报只是活在当下。",rationale_wrong:{"A":"A character observation, not a theme. The story uses the fisherman's wisdom to teach a lesson about human purpose.|角色观察，不是主题。故事用渔夫的智慧教授关于人类目的的教训。","B":"Completely irrelevant. A theme must be strongly supported by the story's events.|完全不相关。主题必须得到故事事件的强烈支持。","D":"This is moral instruction (advice), not a theme. Theme describes a truth about life — it doesn't tell people what to do directly.|这是道德指令，不是主题。主题描述关于生活的真理。"}},
+  {id:"wed4",passage:"Lena had worked for 10 years to become head chef of a restaurant. The night before the inspector arrived, she fired her sous-chef for cutting corners. The restaurant failed the inspection due to understaffing. But every chef in the city heard what Lena had done, and six months later, she was offered a partnership at the most respected kitchen in the country.",title:"The Inspection",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Restaurant inspections are very important|餐厅检查非常重要","B. Integrity — doing what is right even at great personal cost — ultimately builds lasting respect.|诚信——即使付出巨大个人代价也要做正确的事——最终建立持久的尊重。","C. Lena should not have fired her employee|莱娜不应该解雇她的员工","D. Chefs who get inspected usually fail|接受检查的厨师通常会失败"],correct:"B",rationale:"Correct! Lena chose integrity over safety. The consequence was immediate failure — but ultimate reward. The theme: integrity costs something short-term but earns trust and opportunity long-term.|正确！莱娜选择了诚信而不是安全。结果是立即失败——但最终得到回报。",rationale_wrong:{"A":"An observation about the plot, not a theme. Inspections provide the conflict — the theme is what the conflict teaches us about character.|关于情节的观察，不是主题。","C":"A personal opinion about a character's choice, not a universal life lesson.|这是对角色选择的个人意见，不是普遍人生教训。","D":"A false generalization not supported by the text.|文本不支持的错误概括。"}},
+  {id:"wed5",passage:"Every time Amara started a new school, she kept her head down, made no friends, and waited for the year to end. In her seventh school, she sat next to a girl named Priya who talked non-stop about everything. Amara tried to ignore her — until Priya showed up at her door the next day with a pizza. By graduation, Amara had learned that walls built for protection become prisons.",title:"Seven Schools",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Making friends is easy when someone tries|当有人努力时，交朋友很容易","B. Some people talk too much|有些人说话太多","C. The defenses we build to protect ourselves can also trap us — real connection requires vulnerability.|我们为保护自己建立的防御也可以困住我们——真正的联系需要脆弱。","D. Moving schools is very difficult for students|转学对学生来说非常困难"],correct:"C",rationale:"Correct! Amara's walls = self-protection. Priya's persistence + Amara's eventual openness = connection. The final line is an explicit thematic statement: walls built for protection become prisons.|正确！阿马拉的墙壁=自我保护。普里亚的坚持+阿马拉最终的开放=联系。最后一行是明确的主题陈述。",rationale_wrong:{"A":"Too simple and does not capture the complexity of Amara's journey or the difficulty of opening up.|太简单，没有捕捉阿马拉旅程的复杂性。","B":"A surface-level observation about Priya, not a lesson about life.|关于普里亚的表面观察，不是关于生活的教训。","D":"A factual statement about a character's situation, not a universal insight about human nature.|关于角色情况的事实陈述，不是关于人性的普遍洞察。"}},
+  {id:"wed6",passage:"The twins grew up in the same house, went to the same schools, and even looked identical. But Marcus studied every night while Diego went out with friends. When Marcus was accepted to medical school, Diego was ashamed. Twenty years later, Marcus operated on Diego's son and saved his life. Diego never stopped thanking his brother — or himself, for raising such a good son who admired his uncle.",title:"The Twins",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Medical school is the best career choice|医学院是最好的职业选择","B. Discipline and consistent effort, even when invisible, shape a life and can have consequences that extend beyond oneself.|纪律和持续努力，即使是看不见的，也会塑造生活，并可能产生超越自身的后果。","C. Brothers always help each other|兄弟总是互相帮助","D. Diego failed because he had bad friends|迭戈失败是因为他有坏朋友"],correct:"B",rationale:"Correct! Marcus's quiet discipline led to a moment that saved his nephew's life decades later. The theme captures the long, invisible arc of effort: choices made when no one is watching ripple outward in ways we cannot predict.|正确！马库斯安静的纪律导致了几十年后拯救侄子生命的时刻。主题捕捉了努力的漫长、无形的弧线。",rationale_wrong:{"A":"An opinion not supported by the story. Diego also had a successful life — he raised a child who admired good values.|故事不支持的意见。迭戈也有成功的生活。","C":"Too simple and not always true. The story is about what discipline makes possible.|太简单，不总是正确。","D":"Diego is not portrayed as a failure. He raised a good son. This is a simplistic, unsupported reading.|迭戈不被描绘为失败者。他养育了一个好儿子。"}},
+  {id:"wed7",passage:"The astronaut floated above Earth, watching hurricanes spin like slow wheels and seeing no national borders at all — just one blue sphere wrapped in cloud. When she returned, reporters asked what it was like. She said, 'I couldn't find where one country ended and another began. I only found one planet.'",title:"The Overview Effect",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Space travel is exciting and dangerous|太空旅行令人兴奋且危险","B. Seeing Earth from a distance reveals our shared humanity and the artificial nature of the divisions we create.|从远处看地球揭示了我们共同的人性和我们创造的分裂的人为性质。","C. Weather patterns are visible from space|天气模式在太空中可见","D. Astronauts get famous because of interviews|宇航员因采访而出名"],correct:"B",rationale:"Correct! The astronaut's shift in perspective — seeing no borders, only one planet — is the story's core. Human-made divisions disappear when we see the bigger picture.|正确！宇航员视角的转变——看不到边界，只有一个星球——是故事的核心。当我们看到更大的图景时，人为分裂消失了。",rationale_wrong:{"A":"Background context, not theme. The danger and excitement of space travel are not what this story is teaching.|背景环境，不是主题。","C":"A factual detail that sets up the thematic moment. The hurricanes are metaphors — the lesson is about borders, not meteorology.|建立主题时刻的事实细节。飓风是隐喻——教训是关于边界。","D":"Not in the text. Never add information the passage doesn't contain when identifying theme.|不在文本中。识别主题时永远不要添加文章不包含的信息。"}},
+  {id:"wed8",passage:"Grandmother always said, 'A garden rewards patience, not impatience.' Every spring, Yusuf pulled at seedlings to make them grow faster — and killed them. At 40, planting his daughter's first garden, he forced himself to water and wait. The seedlings grew into the tallest sunflowers the neighborhood had ever seen. He finally understood what his grandmother meant.",title:"The Garden",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Sunflowers are easy to grow|向日葵很容易种植","B. Wisdom is often only understood through lived experience — some lessons must be learned by doing, not by hearing.|智慧往往只能通过亲身经历来理解——有些教训必须通过实践来学习，而不是通过聆听。","C. Grandmothers know best|祖母最了解","D. Gardening is a difficult hobby|园艺是一种困难的爱好"],correct:"B",rationale:"Correct! Yusuf HEARD the wisdom for decades but could not understand it until he experienced it at 40. Being told something is not the same as knowing it — applies universally.|正确！尤素福听了几十年的智慧，但直到40岁经历了它才能理解。被告知某事不等于知道它——普遍适用。",rationale_wrong:{"A":"A factual statement that contradicts the story (the seedlings died multiple times). Not a theme.|与故事矛盾的事实陈述（幼苗多次死亡）。不是主题。","C":"A character observation, not a universal theme. The story argues we cannot understand wisdom until we are ready to.|角色观察，不是普遍主题。故事论证我们在准备好之前无法理解智慧。","D":"A surface reaction to the plot, not a thematic insight. Theme is about what the character learns about LIFE.|对情节的表面反应，不是主题洞察。"}},
+  {id:"wed9",passage:"The wolf had lived alone for three years after being driven from the pack. He was faster, stronger, and more cunning alone — but he ate less. He slept restlessly. One winter, a young wolf approached him, injured and starving. The old wolf fed her. By spring, they led a pack of seven. He was no longer the fastest — but he was never hungry again.",title:"The Wolf",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Wolves are dangerous predators|狼是危险的捕食者","B. Individual strength alone cannot provide what community and connection offer — belonging multiplies what we are capable of.|单独的个人力量无法提供社区和联系所能提供的——归属感使我们的能力倍增。","C. It is better to be fast and strong than to belong to a group|速度和力量比属于一个群体更好","D. Injured animals should be helped|受伤的动物应该得到帮助"],correct:"B",rationale:"Correct! The wolf's journey: alone = strong but empty → pack = less individually powerful but fulfilled. The trade-off is the lesson. Humans (like wolves) are social creatures; individual achievement without belonging leaves us restless.|正确！狼的旅程：独自=强大但空虚→狼群=个人力量较小但满足。权衡就是教训。",rationale_wrong:{"A":"A factual category statement with no connection to the story's theme. Theme comes from the character's change.|与故事主题没有联系的事实类别陈述。","C":"This is the OPPOSITE of the theme. The story shows being the fastest isn't enough — community provides what individual strength cannot.|这是主题的对立面。故事表明，成为最快的是不够的。","D":"A plot event, not a theme. Theme is the lesson behind the event, not the event itself.|情节事件，不是主题。主题是事件背后的教训。"}},
+  {id:"wed10",passage:"Every year, the students in Room 12 left a drawing of themselves for the next year's class to find. After twenty years, the teacher opened a drawer and spread all the drawings on the floor — 480 faces, all slightly different, all slightly the same. 'Look,' she told her new students. 'You are never as alone as you think.'",title:"Room 12",q:"What is the theme of this story?",q_cn:"这个故事的主题是什么？",options:["A. Teachers should keep artwork|教师应该保存艺术作品","B. Human experience is deeply shared — across time and difference, we are connected by the universal feeling of not being alone.|人类经历是深深共享的——跨越时间和差异，我们被不孤单的普遍感受联系在一起。","C. Drawing is a good activity for students|绘画对学生来说是一项好活动","D. Room 12 was a very special classroom|12号房间是一个非常特别的教室"],correct:"B",rationale:"Correct! The 480 drawings — all different, all the same — and the teacher's words make the theme explicit. Across generations, humans share the same core experiences and emotions.|正确！480幅画——都不同，都相同——以及老师的话使主题明确。跨越几代人，人类分享相同的核心经历和情感。",rationale_wrong:{"A":"A practical suggestion, not a theme. Theme is about what the story reveals about the human condition.|实际建议，不是主题。","C":"Too narrow. The drawing is a vehicle for the theme — the lesson is about connection, not the activity itself.|太狭窄。绘画是主题的载体——教训是关于联系。","D":"A description of the setting, not a theme. A theme must transcend the specific story and apply to all people.|对环境的描述，不是主题。主题必须超越特定故事，适用于所有人。"}}
+];
+
+const WED_EXIT = [
+  {q:"Which sentence is a theme (not a topic or summary)?",q_cn:"哪个句子是主题（不是话题或摘要）？",opts:["A. A story about a girl who runs away from home.|一个关于离家出走的女孩的故事","B. Freedom gained through risk often reveals what we truly value.|通过冒险获得的自由往往揭示我们真正重视的东西","C. The girl learns to be brave.|女孩学会了勇敢","D. Running away causes problems.|离家出走会导致问题"],correct:"B",rat:"B is a theme — a complete, universal statement about life. A is a topic; C is a summary; D is too simple.|B是主题——关于生活的完整、普遍陈述。A是话题；C是摘要；D太简单。"},
+  {q:"Theme is different from central idea because theme:",q_cn:"主题与中心思想不同，因为主题：",opts:["A. Only appears in non-fiction texts|只出现在非虚构文本中","B. Is always stated directly in the first sentence|总是直接在第一句话中陈述","C. Is a universal life lesson found in fiction — not a factual claim|是在小说中发现的普遍人生教训——不是事实主张","D. Uses statistics and evidence|使用统计数据和证据"],correct:"C",rat:"Theme = universal life lesson in fiction (implied). Central idea = factual claim in non-fiction (explicit or implicit). Different texts, different purposes.|主题=小说中的普遍人生教训（暗示的）。中心思想=非虚构中的事实主张。"},
+  {q:"A story ends: 'She finally stopped running and turned to face what she feared. It was smaller than she remembered.' What is the most likely theme?",q_cn:"故事结尾：'她终于停止奔跑，转身面对她所恐惧的。它比她记忆中的要小。'最可能的主题是什么？",opts:["A. Running is good exercise|跑步是很好的锻炼","B. Fear grows in avoidance — facing what frightens us diminishes its power over us.|恐惧在回避中增长——面对让我们恐惧的事情会削弱它对我们的控制力","C. Small things are not scary|小事不可怕","D. The character is athletic|这个角色很有运动天赋"],correct:"B",rat:"The metaphor (fear appears smaller when faced) and the action (she stopped running) point to a theme about confronting fear. B captures this as a universal truth.|隐喻（恐惧在面对时显得更小）和行动（她停止奔跑）指向关于面对恐惧的主题。"},
+  {q:"Which of the following is NOT a theme?",q_cn:"以下哪个不是主题？",opts:["A. 'Courage grows when we act despite our fear.'|'当我们尽管恐惧仍然行动时，勇气就会增长。'","B. 'The boy lost his dog and felt sad.'|'男孩失去了他的狗，感到悲伤。'","C. 'Betrayal destroys trust more completely than failure ever could.'|'背叛比失败更彻底地摧毁信任。'","D. 'Belonging to a community gives life meaning that solitude cannot provide.'|'属于一个社区给生活带来孤独无法提供的意义。'"],correct:"B",rat:"B is a plot summary — it tells what happened, not what it means. A, C, D are all complete thematic statements that express universal truths.|B是情节摘要——它告诉发生了什么，而不是它意味着什么。A、C、D都表达关于生活的普遍真理。"},
+  {q:"A character spends the whole story trying to win a race. When he finally wins, he realizes the friendships he ignored during training were more important than any trophy. What is the theme?",q_cn:"一个角色花了整个故事试图赢得比赛。当他最终赢得比赛时，他意识到他在训练期间忽视的友谊比任何奖杯都更重要。主题是什么？",opts:["A. Running races is a great sport|跑步比赛是一项很好的运动","B. Winning is the most important goal in life|赢得比赛是生活中最重要的目标","C. The pursuit of achievement can blind us to what truly matters — relationships.|对成就的追求可能使我们对真正重要的事情视而不见——关系。","D. Friends make good training partners|朋友是好的训练伙伴"],correct:"C",rat:"The character's realization (winning wasn't worth losing friendships) is the theme. Universal: how often do we sacrifice connection for achievement?|角色的认识（赢得比赛不值得失去友谊）是主题。普遍适用：我们多久为成就牺牲联系？"},
+  {q:"What does 'universal' mean when describing a theme?",q_cn:"在描述主题时，'普遍'是什么意思？",opts:["A. The theme only applies to the main character|主题只适用于主角","B. The theme applies to all people, across cultures and time periods|主题适用于所有人，跨越文化和时间","C. The theme is stated in every paragraph|主题在每段中都有陈述","D. The theme uses scientific language|主题使用科学语言"],correct:"B",rat:"A theme is universal when it speaks to common human experiences — loss, love, courage, identity — that any person in any culture could recognize and relate to.|当主题涉及任何文化中任何人都能认识和联系的共同人类经验时，主题是普遍的。"},
+  {q:"An author writes a story where a greedy merchant loses everything but gains the respect of his community by helping others at the end. What is the theme?",q_cn:"作者写了一个故事，贪婪的商人失去了一切，但最终通过帮助他人获得了社区的尊重。主题是什么？",opts:["A. Merchants should be more careful with money|商人应该对金钱更谨慎","B. True wealth is measured in the lives we improve, not the money we accumulate.|真正的财富用我们改善的生活来衡量，而不是我们积累的金钱。","C. Greed causes financial problems|贪婪导致财务问题","D. Communities are supportive|社区是支持性的"],correct:"B",rat:"The merchant's arc (greed → loss → giving → respect) teaches a universal lesson about what real richness means. B captures this as a full thematic statement.|商人的弧线（贪婪→失去→给予→尊重）教授了关于真正财富意味着什么的普遍教训。"},
+  {q:"Theme is best described as:",q_cn:"主题最好描述为：",opts:["A. The main events of a story listed in order|按顺序列出的故事主要事件","B. A universal insight about human nature or life, communicated through a fictional story|通过虚构故事传达的关于人性或生活的普遍洞察","C. A fact that the author proves with evidence|作者用证据证明的事实","D. The setting and time period of the story|故事的背景和时间段"],correct:"B",rat:"This is the definition of theme. It is not a summary (A), not a factual claim (C), not a setting description (D) — it is a universal insight emerging from fiction.|这是主题的定义。它不是摘要（A），不是事实主张（C），不是背景描述（D）。"},
+  {q:"A story shows a character who tells small lies to protect people's feelings, but each lie leads to bigger problems until relationships are destroyed. What is the theme?",q_cn:"一个故事展示了一个为了保护人们的感情而说小谎的角色，但每个谎言都导致了更大的问题，直到关系被摧毁。主题是什么？",opts:["A. Lying is always wrong|撒谎总是错的","B. Honesty, even when painful, builds stronger and more lasting relationships than comfortable deception.|诚实，即使是痛苦的，也能建立比舒适欺骗更强大、更持久的关系","C. Small problems become big problems|小问题变成大问题","D. The character should have asked for advice|角色应该寻求建议"],correct:"B",rat:"The story shows that protecting feelings through lies ultimately destroys relationships. The theme is the inverse truth: honesty hurts short-term but preserves connection long-term.|故事表明，通过谎言保护感情最终摧毁了关系。主题是反向真理：诚实短期内会伤害，但长期保留联系。"},
+  {q:"Which question helps you BEST identify the theme of a story?",q_cn:"哪个问题最能帮助你识别故事的主题？",opts:["A. 'What happened in the story?'|'故事中发生了什么？'","B. 'What does the author want to prove with facts?'|'作者想用事实证明什么？'","C. 'What does the character learn, and what does that reveal about life for all people?'|'角色学到了什么，这揭示了对所有人的生活有什么意义？'","D. 'Who is the main character and where do they live?'|'主角是谁，他们住在哪里？'"],correct:"C",rat:"Theme lives in what the character learns AND what that learning means universally. A gives plot; B gives central idea; D gives basic story information. C targets theme precisely.|主题存在于角色学到了什么以及那个学习普遍意味着什么。C精确地针对主题。"}
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let leaveCount = 0;
+let sessionStart = new Date();
+let secondsElapsed = 0;
+let progressPoints = 0;
+const totalPoints = 45;
+
+const tueAnswers = {};
+const tueExitAnswers = {};
+const wedAnswers = {};
+const wedExitAnswers = {};
+let tueScore = 0;
+let wedScore = 0;
+
+// ============================================================
+// INIT
+// ============================================================
+window.onload = () => {
+  buildVocab();
+  buildPractices('tue', TUE_PRACTICES, 'tuePracticeContainer');
+  buildExitTicket('tue', TUE_EXIT, 'tueExitContainer', 'tueScoreDisplay','tueScoreNum','tueScoreMsg','tueReflection','tueDownloadWrap');
+  buildPractices('wed', WED_PRACTICES, 'wedPracticeContainer');
+  buildExitTicket('wed', WED_EXIT, 'wedExitContainer', 'wedScoreDisplay','wedScoreNum','wedScoreMsg','wedReflection','wedDownloadWrap');
+  startTimer();
+  trackNavigation();
+};
+
+// ============================================================
+// VOCAB
+// ============================================================
+function buildVocab(){
+  const grid = document.getElementById('vocabGrid');
+  VOCAB.forEach((v,i)=>{
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <div class="word">
+        <span>${i+1}. ${v.word}</span>
+        <span class="pos">${v.pos}</span>
+      </div>
+      <div class="defn">
+        ${v.def}
+        <div class="cn-def">${v.cn} — ${v.cn_def}</div>
+        <div class="example">"${v.example}"</div>
+        <div class="flip-hint" style="margin-top:8px">
+          <button class="speak-btn" data-word="${v.word.replace(/"/g,'&quot;')}">🔊 Hear it</button>
+        </div>
+      </div>
+    `;
+    // Attach speak handler via addEventListener to avoid apostrophe/quote issues
+    const speakBtn = card.querySelector('.speak-btn');
+    speakBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      speakWord(this.getAttribute('data-word'));
+    });
+    grid.appendChild(card);
+  });
+}
+
+function speakWord(word){
+  if('speechSynthesis' in window){
+    const utt = new SpeechSynthesisUtterance(word);
+    utt.lang='en-US';utt.rate=0.85;
+    window.speechSynthesis.speak(utt);
+  }
+}
+
+// ============================================================
+// PRACTICES
+// ============================================================
+function buildPractices(day, data, containerId){
+  const container = document.getElementById(containerId);
+  data.forEach((p,i)=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'practice-wrap';
+    wrap.id = `${p.id}-wrap`;
+
+    const optHtml = p.options.map((opt,j)=>{
+      const lbl = ['A','B','C','D'][j];
+      const parts = opt.split('|');
+      const txt0 = parts[0].replace(/^[A-D]\.\s*/,'');
+      const txt1 = parts[1] ? parts[1].replace(/^[A-D]\.\s*/,'') : '';
+      return `<button class="opt-btn" id="${p.id}-opt-${lbl}" onclick="selectAnswer('${day}','${p.id}','${lbl}',this,'${p.correct}')">
+        <div class="opt-lbl">${lbl}</div>
+        <div><span>${txt0}</span>${txt1?`<span class="opt-cn">${txt1}</span>`:''}
+        </div>
+      </button>`;
+    }).join('');
+
+    const wrongKeys = Object.keys(p.rationale_wrong||{});
+    const wrongDataAttr = wrongKeys.map(k=>`data-wrong-${k}="${encodeURIComponent(p.rationale_wrong[k])}"`).join(' ');
+
+    wrap.innerHTML = `
+      <div class="practice-label">
+        <div class="q-num">${i+1}</div>
+        <div><strong>Practice ${i+1} | 练习${i+1}</strong></div>
+      </div>
+      <div class="passage">
+        <div class="passage-title">📄 ${p.title}</div>
+        ${p.passage}
+      </div>
+      <div class="question-container" id="${p.id}-qblock" ${wrongDataAttr}>
+        <div class="q-text">${p.q}</div>
+        <div class="q-cn">${p.q_cn}</div>
+        <div class="options">${optHtml}</div>
+        <div class="rationale" id="${p.id}-rat"></div>
+      </div>
+    `;
+    container.appendChild(wrap);
+  });
+}
+
+function selectAnswer(day, qid, selected, btn, correct){
+  const qblock = document.getElementById(`${qid}-qblock`);
+  const allOpts = qblock.querySelectorAll('.opt-btn');
+  allOpts.forEach(b=>b.classList.add('done'));
+
+  const isCorrect = selected === correct;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if(!isCorrect){
+    const correctBtn = document.getElementById(`${qid}-opt-${correct}`);
+    if(correctBtn) correctBtn.classList.add('correct');
+  }
+
+  const ratDiv = document.getElementById(`${qid}-rat`);
+  let ratText = '';
+  if(isCorrect){
+    const parts = (day==='tue'?TUE_PRACTICES:WED_PRACTICES).find(p=>p.id===qid)?.rationale.split('|');
+    ratText = `<div class="rationale-head">✅ ${parts?parts[0]:'Correct!'}</div>${parts&&parts[1]?`<div class="rationale-cn">${parts[1]}</div>`:''}`;
+    ratDiv.className = 'rationale show correct-r';
+  } else {
+    const wrongRat = qblock.getAttribute(`data-wrong-${selected}`);
+    const decoded = wrongRat ? decodeURIComponent(wrongRat) : 'Incorrect. Review and try again.|错误，请复习再试。';
+    const parts = decoded.split('|');
+    ratText = `<div class="rationale-head">❌ ${parts[0]}</div>${parts[1]?`<div class="rationale-cn">${parts[1]}</div>`:''}`;
+    ratDiv.className = 'rationale show wrong-r';
+  }
+  ratDiv.innerHTML = ratText;
+
+  if(day==='tue') tueAnswers[qid] = {selected, correct:selected===correct};
+  else wedAnswers[qid] = {selected, correct:selected===correct};
+
+  addProgress(1);
+}
+
+// ============================================================
+// EXIT TICKET
+// ============================================================
+function buildExitTicket(day, data, containerId, scoreId, numId, msgId, reflId, dlId){
+  const container = document.getElementById(containerId);
+
+  data.forEach((q,i)=>{
+    const block = document.createElement('div');
+    block.className = 'et-question';
+    block.id = `${day}-et-${i}`;
+
+    const optsHtml = q.opts.map((opt,j)=>{
+      const lbl=['A','B','C','D'][j];
+      const parts=opt.split('|');
+      const txt0 = parts[0].replace(/^[A-D]\.\s*/,'');
+      const txt1 = parts[1] ? parts[1].replace(/^[A-D]\.\s*/,'') : '';
+      return `<button class="et-opt" id="${day}-et-${i}-${lbl}" onclick="selectExit('${day}',${i},'${lbl}',this,'${q.correct}','${scoreId}','${numId}','${msgId}','${reflId}','${dlId}')">
+        <span class="et-lbl">${lbl}</span>
+        <span>${txt0}${txt1?` | ${txt1}`:''}
+        </span>
+      </button>`;
+    }).join('');
+
+    const parts = q.rat.split('|');
+    block.innerHTML = `
+      <div class="et-q-text"><span style="background:rgba(255,255,255,0.2);border-radius:4px;padding:2px 8px;margin-right:8px;font-size:.85rem">Q${i+1}</span>${q.q}
+        <div style="font-size:.83rem;opacity:.7;margin-top:5px">${q.q_cn}</div>
+      </div>
+      ${optsHtml}
+      <div class="et-rat" id="${day}-et-rat-${i}">
+        <strong>${parts[0]}</strong>${parts[1]?`<br><span style="opacity:.75">${parts[1]}</span>`:''}
+      </div>
+    `;
+    container.appendChild(block);
+  });
+}
+
+function selectExit(day,idx,selected,btn,correct,scoreId,numId,msgId,reflId,dlId){
+  const block = document.getElementById(`${day}-et-${idx}`);
+  block.querySelectorAll('.et-opt').forEach(b=>b.classList.add('et-done'));
+  const isCorrect = selected===correct;
+  btn.classList.add(isCorrect?'et-correct':'et-wrong');
+  if(!isCorrect){
+    const cb=document.getElementById(`${day}-et-${idx}-${correct}`);
+    if(cb) cb.classList.add('et-correct');
+  }
+  document.getElementById(`${day}-et-rat-${idx}`).classList.add('show');
+
+  if(day==='tue'){
+    tueExitAnswers[idx]={selected,isCorrect};
+    tueScore = Object.values(tueExitAnswers).filter(v=>v.isCorrect).length;
+  } else {
+    wedExitAnswers[idx]={selected,isCorrect};
+    wedScore = Object.values(wedExitAnswers).filter(v=>v.isCorrect).length;
+  }
+  addProgress(1);
+  checkExitComplete(day, scoreId, numId, msgId, reflId, dlId);
+}
+
+function checkExitComplete(day, scoreId, numId, msgId, reflId, dlId){
+  const answers = day==='tue'?tueExitAnswers:wedExitAnswers;
+  if(Object.keys(answers).length===10){
+    const score = day==='tue'?tueScore:wedScore;
+    const sd = document.getElementById(scoreId);
+    document.getElementById(numId).textContent = score;
+    let msg = score>=9?'🌟 Excellent! | 优秀！':score>=7?'✅ Good work! | 做得好！':score>=5?'📚 Keep reviewing | 继续复习':'💪 Study more | 需要更多学习';
+    document.getElementById(msgId).textContent = msg;
+    sd.style.display = 'block';
+    sd.classList.add('show');
+    // Show reflection
+    const reflEl = document.getElementById(reflId);
+    if(reflEl){ reflEl.style.display = 'block'; }
+    // Show download
+    const dlEl = document.getElementById(dlId);
+    if(dlEl){ dlEl.style.display = 'block'; dlEl.classList.add('show'); }
+    if(day==='tue') document.getElementById('pip-tuesday').classList.add('done');
+    else document.getElementById('pip-wednesday').classList.add('done');
+  }
+}
+
+// ============================================================
+// DOWNLOAD REPORT
+// ============================================================
+function downloadReport(day){
+  const now = new Date();
+  const data = day==='tue' ? TUE_PRACTICES : WED_PRACTICES;
+  const exitData = day==='tue' ? TUE_EXIT : WED_EXIT;
+  const answers = day==='tue' ? tueAnswers : wedAnswers;
+  const exitAnswers = day==='tue' ? tueExitAnswers : wedExitAnswers;
+  const score = day==='tue' ? tueScore : wedScore;
+  const label = day==='tue'?'TUESDAY | 周二':'WEDNESDAY | 周三';
+  const ref1 = document.getElementById(`${day}Ref1`)?.value?.trim()||'(no response)';
+  const ref2 = document.getElementById(`${day}Ref2`)?.value?.trim()||'(no response)';
+  const studentName = document.getElementById(`${day}StudentName`)?.value?.trim() || '(not entered)';
+
+  let txt = `=====================================\n`;
+  txt += `ESL MODULE REPORT - ${label}\n`;
+  txt += `中心思想与主题模块报告\n`;
+  txt += `=====================================\n\n`;
+  txt += `Student Name | 学生姓名: ${studentName}\n`;
+  txt += `Generated: ${now.toLocaleString()}\n`;
+  txt += `Session Start: ${sessionStart.toISOString()}\n`;
+  txt += `Time in Module: ${formatTime(secondsElapsed)}\n`;
+  txt += `Times Left Module: ${leaveCount}\n`;
+  txt += `Exit Ticket Score: ${score}/10\n\n`;
+
+  txt += `-------------------------------------\n`;
+  txt += `PRACTICE ANSWERS | 练习答案\n`;
+  txt += `-------------------------------------\n\n`;
+  data.forEach((p,i)=>{
+    const ans = answers[p.id];
+    txt += `Question ${i+1}: ${p.title}\n`;
+    txt += `Selected: ${ans?ans.selected:'Not answered'}\n`;
+    txt += `Result: ${ans?(ans.correct?'CORRECT ✓':'INCORRECT ✗'):'N/A'}\n`;
+    txt += `Correct Answer: ${p.correct}\n\n`;
+  });
+
+  txt += `-------------------------------------\n`;
+  txt += `EXIT TICKET DETAILS | 测验详情\n`;
+  txt += `-------------------------------------\n\n`;
+  txt += `Total Score: ${score}/10\n\n`;
+  exitData.forEach((q,i)=>{
+    const ans = exitAnswers[i];
+    txt += `Exit Q${i+1}: ${q.q}\n`;
+    txt += `Selected: ${ans?ans.selected:'Not answered'}\n`;
+    txt += `Result: ${ans?(ans.isCorrect?'CORRECT ✓':'INCORRECT ✗'):'N/A'}\n`;
+    txt += `Correct Answer: ${q.correct}\n\n`;
+  });
+
+  txt += `-------------------------------------\n`;
+  txt += `SELF-REFLECTION | 自我反思\n`;
+  txt += `-------------------------------------\n\n`;
+  if(day==='tue'){
+    txt += `Q1: In your own words, explain the difference between a supporting detail and a separate central idea.\n`;
+  } else {
+    txt += `Q1: How is finding theme different from finding central idea? Which is harder for you, and why?\n`;
+  }
+  txt += `Response: ${ref1}\n\n`;
+  if(day==='tue'){
+    txt += `Q2: Think about a book, article, or video you know. Does it have one central idea or multiple? Explain why.\n`;
+  } else {
+    txt += `Q2: Choose a story, movie, or TV show you know. What is its theme? Write a complete sentence. Explain how you identified it.\n`;
+  }
+  txt += `Response: ${ref2}\n\n`;
+
+  txt += `=====================================\n`;
+  txt += `END OF REPORT\n`;
+  txt += `=====================================\n`;
+
+  const blob = new Blob([txt],{type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const safeName = studentName.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g,'_').substring(0,30);
+  a.download = `ESL_Module_${day.toUpperCase()}_${safeName}_${now.toLocaleDateString().replace(/\//g,'-')}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function addProgress(pts){
+  progressPoints = Math.min(progressPoints+pts, totalPoints);
+  const pct = Math.round((progressPoints/totalPoints)*100);
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('progressText').textContent = pct+'%';
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function startTimer(){
+  setInterval(()=>{
+    secondsElapsed++;
+    document.getElementById('timerDisplay').textContent = '⏱ '+formatTime(secondsElapsed);
+  },1000);
+}
+
+function formatTime(s){
+  const m=Math.floor(s/60);
+  const sec=s%60;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+// ============================================================
+// NAVIGATION TRACKING
+// ============================================================
+function trackNavigation(){
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      leaveCount++;
+      document.getElementById('leaveCount').textContent = leaveCount;
+      document.getElementById('leaveCountCN').textContent = leaveCount;
+      document.getElementById('leaveBadge').classList.add('show');
+    }
+  });
+}
+</script>
+</body>
+</html>
