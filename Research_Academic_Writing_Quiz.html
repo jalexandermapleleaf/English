@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research &amp; Academic Writing Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #CC0000; --red-dark: #990000; --green: #1B4D2E;
+            --green-mid: #2D6E47; --gold: #C9A84C; --cream: #FAF7F2;
+            --gray-light: #F0EDE8; --gray: #8A8580; --text: #1A1A1A;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Source Serif 4',Georgia,serif; background:var(--green); min-height:100vh; padding:30px 20px; color:var(--text); user-select:none; -webkit-user-select:none; }
+        .timer { position:fixed; top:20px; right:20px; background:var(--green); color:white; padding:10px 20px; border-radius:8px; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; border:2px solid var(--gold); box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:100; text-align:center; }
+        .timer-label { display:block; font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:2px; font-family:'Source Serif 4',serif; }
+        .tab-overlay { display:none; position:fixed; inset:0; background:rgba(10,5,5,.96); z-index:9000; justify-content:center; align-items:center; flex-direction:column; gap:16px; color:white; text-align:center; padding:20px; }
+        .tab-overlay.show { display:flex; }
+        .tab-overlay .icon { font-size:56px; animation:pulse 1s infinite; }
+        .tab-overlay h2 { font-family:'Playfair Display',serif; font-size:26px; color:#FF4444; }
+        .tab-overlay p { font-size:15px; color:rgba(255,255,255,.8); max-width:340px; }
+        .tab-overlay .vcount { background:var(--red); padding:7px 22px; border-radius:20px; font-weight:700; }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .warning-banner { display:none; background:var(--red); color:white; padding:12px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; text-align:center; }
+        .submitted-msg { display:none; background:#EDFAF2; border:2px solid var(--green); color:var(--green); padding:13px; border-radius:8px; font-weight:600; text-align:center; margin-bottom:20px; }
+        .unanswered-msg { display:none; background:#FFF0F0; border:2px solid var(--red); color:var(--red-dark); padding:13px 18px; border-radius:8px; font-weight:600; font-size:14px; margin-bottom:18px; }
+        .school-band { max-width:860px; margin:0 auto; background:var(--red); border-radius:12px 12px 0 0; padding:13px 28px; display:flex; align-items:center; justify-content:space-between; }
+        .school-band .name { font-family:'Playfair Display',serif; color:white; font-size:16px; font-weight:700; }
+        .quiz-wrap { max-width:860px; margin:0 auto; background:white; border-radius:0 0 16px 16px; box-shadow:0 12px 48px rgba(0,0,0,.2); overflow:hidden; }
+        .quiz-inner { padding:36px 44px 48px; }
+        .quiz-header { text-align:center; margin-bottom:32px; }
+        .quiz-header h1 { font-family:'Playfair Display',serif; color:var(--green); font-size:28px; margin-bottom:6px; }
+        .quiz-header .sub { font-size:13px; color:var(--gray); font-style:italic; }
+        .divider { display:flex; align-items:center; gap:12px; margin:14px 0; }
+        .divider::before { content:''; flex:1; height:2px; background:linear-gradient(to right,transparent,var(--red)); }
+        .divider::after  { content:''; flex:1; height:2px; background:linear-gradient(to left,transparent,var(--red)); }
+        .student-info { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; padding-top:18px; border-top:2px solid var(--gray-light); }
+        .info-field label { display:block; font-size:11px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .info-field input { width:100%; padding:9px 13px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:15px; background:var(--cream); user-select:text; -webkit-user-select:text; }
+        .info-field input:focus { outline:none; border-color:var(--red); }
+        .integrity-notice { background:#FFF8F0; border:2px solid var(--red); border-radius:10px; padding:20px 22px; margin-bottom:28px; }
+        .integrity-notice h3 { font-family:'Playfair Display',serif; color:var(--red); font-size:16px; margin-bottom:12px; }
+        .rule { display:flex; gap:11px; align-items:flex-start; font-size:13.5px; color:#333; line-height:1.5; margin-bottom:8px; }
+        .rule:last-child { margin-bottom:0; }
+        .rule-icon { font-size:16px; flex-shrink:0; margin-top:1px; }
+        .section { margin-bottom:32px; }
+        .section-head { background:var(--green); border-radius:10px 10px 0 0; padding:13px 22px; }
+        .sec-title { font-family:'Playfair Display',serif; color:white; font-size:18px; font-weight:700; }
+        .sec-title span { background:var(--red); font-family:'Source Serif 4',serif; font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; padding:2px 9px; border-radius:20px; margin-left:8px; vertical-align:middle; }
+        .sec-desc { color:rgba(255,255,255,.82); font-size:13px; font-style:italic; margin-top:3px; }
+        .section-body { background:var(--cream); border:2px solid var(--green); border-top:none; border-radius:0 0 10px 10px; padding:20px; display:flex; flex-direction:column; gap:14px; }
+
+        /* MC */
+        .q-card { background:white; border-radius:8px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .q-card.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; animation:shake .4s ease; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+        .q-num { font-size:12px; font-weight:700; color:var(--red); text-transform:uppercase; letter-spacing:1px; margin-bottom:5px; }
+        .q-text { font-size:15px; line-height:1.6; margin-bottom:13px; }
+        .options { display:flex; flex-direction:column; gap:7px; }
+        .opt { display:flex; align-items:center; gap:11px; padding:10px 14px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; transition:all .15s; }
+        .opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .opt input { accent-color:var(--red); cursor:pointer; flex-shrink:0; }
+
+        /* T/F */
+        .tf-opts { display:flex; gap:14px; }
+        .tf-opt { display:flex; align-items:center; gap:9px; padding:10px 22px; background:var(--gray-light); border-radius:6px; cursor:pointer; border:2px solid transparent; font-size:14px; font-weight:600; transition:all .15s; }
+        .tf-opt:hover { background:#E8F0EB; border-color:var(--green-mid); }
+        .tf-opt.selected { background:#FFEAEA; border-color:var(--red); }
+        .tf-opt input { accent-color:var(--red); cursor:pointer; }
+
+        /* Drag & Drop - Word Bank */
+        .dnd-word-bank { background:#EDF5FF; border:2px solid #90B8E0; border-radius:10px; padding:16px 18px; }
+        .dnd-bank-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block; }
+        .dnd-chips { display:flex; flex-wrap:wrap; gap:8px; min-height:40px; padding:4px 0; }
+        .chip {
+            display:inline-flex; align-items:center;
+            padding:6px 16px; background:white;
+            border:2px solid #90B8E0; border-radius:20px;
+            font-size:13.5px; font-family:'Courier New',monospace; color:#1a3a5c;
+            cursor:grab; user-select:none; -webkit-user-select:none;
+            transition:transform .1s, box-shadow .1s, opacity .15s;
+            box-shadow:0 2px 6px rgba(0,0,0,.08);
+        }
+        .chip:active { cursor:grabbing; transform:scale(1.05); }
+        .chip.dragging { opacity:.4; }
+
+        .dnd-q-card { background:white; border-radius:8px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.07); border-left:4px solid var(--gold); }
+        .dnd-q-card.unanswered { border-left-color:var(--red)!important; background:#FFF5F5!important; animation:shake .4s ease; }
+        .dnd-sentence { font-size:15px; line-height:2.2; }
+        .drop-zone {
+            display:inline-flex; align-items:center; justify-content:center;
+            min-width:140px; height:34px; padding:0 12px;
+            border:2px dashed #90B8E0; border-radius:20px;
+            background:#F0F7FF; color:#999; font-size:13px; font-style:italic;
+            transition:border-color .15s, background .15s;
+            vertical-align:middle; cursor:default;
+        }
+        .drop-zone.drag-over { border-color:var(--green); background:#E8F5E9; color:var(--green); border-style:solid; }
+        .drop-zone.filled { border-style:solid; background:#E8F5E9; border-color:var(--green-mid); color:var(--green); font-style:normal; font-family:'Courier New',monospace; font-size:13.5px; cursor:pointer; font-weight:600; }
+        .drop-zone.filled:hover { background:#FFF0F0; border-color:var(--red); color:var(--red); }
+
+        .passage { background:#F8F9FA; border-left:4px solid var(--gold); padding:16px 20px; border-radius:6px; margin-bottom:16px; font-size:14px; line-height:1.7; color:#333; }
+        .passage-label { font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block; }
+        .passage-title { font-family:'Playfair Display',serif; color:var(--green); font-size:14px; font-weight:700; margin-bottom:8px; }
+
+        .reflection-area { width:100%; min-height:100px; padding:12px; border:2px solid #DDD; border-radius:6px; font-family:inherit; font-size:14px; background:var(--cream); resize:vertical; user-select:text; -webkit-user-select:text; }
+        .reflection-area:focus { outline:none; border-color:var(--red); }
+
+        .submit-area { text-align:center; margin-top:28px; padding-top:24px; border-top:2px solid var(--gray-light); }
+        .submit-btn { background:var(--red); color:white; padding:14px 48px; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:17px; font-weight:700; cursor:pointer; transition:background .2s; box-shadow:0 4px 12px rgba(204,0,0,.3); }
+        .submit-btn:hover { background:var(--red-dark); }
+        .submit-btn:active { transform:translateY(1px); }
+
+        .results-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:10000; justify-content:center; align-items:center; padding:20px; overflow-y:auto; }
+        .results-content { background:white; border-radius:16px; max-width:700px; width:100%; padding:36px; position:relative; max-height:90vh; overflow-y:auto; }
+        .close-btn { position:absolute; top:16px; right:20px; background:none; border:none; font-size:28px; color:var(--gray); cursor:pointer; line-height:1; }
+        .close-btn:hover { color:var(--red); }
+        .results-header { text-align:center; margin-bottom:28px; }
+        .results-header h2 { font-family:'Playfair Display',serif; color:var(--green); font-size:26px; margin-bottom:8px; }
+        .results-header .sub { color:var(--gray); font-size:14px; }
+        .score-display { background:linear-gradient(135deg,var(--green),var(--green-mid)); color:white; border-radius:12px; padding:24px; text-align:center; margin-bottom:24px; }
+        .score-num { font-family:'Playfair Display',serif; font-size:52px; font-weight:700; line-height:1; }
+        .score-label { font-size:13px; text-transform:uppercase; letter-spacing:2px; margin-top:6px; opacity:.9; }
+        .breakdown { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+        .bd-item { background:var(--cream); border-radius:8px; padding:14px; text-align:center; }
+        .bd-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--gray); margin-bottom:6px; }
+        .bd-score { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--green); }
+        .info-block { background:#F8F9FA; border-radius:8px; padding:16px; margin-bottom:16px; }
+        .info-block h4 { font-size:13px; text-transform:uppercase; letter-spacing:1px; color:var(--green); margin-bottom:8px; }
+        .info-row { display:flex; justify-content:space-between; font-size:14px; margin-bottom:4px; }
+        .info-row:last-child { margin-bottom:0; }
+        .review-grid { display:grid; grid-template-columns:repeat(10,1fr); gap:6px; margin-top:12px; }
+        .r-item { aspect-ratio:1; background:var(--gray-light); border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:10px; }
+        .r-item.r-correct { background:#EDFAF2; color:var(--green); }
+        .r-item.r-wrong { background:#FFF0F0; color:var(--red); }
+        .rq { font-weight:700; }
+        .rs { font-size:14px; }
+        .log-entry { font-size:12px; padding:6px 0; border-bottom:1px solid #EEE; }
+        .log-entry:last-child { border:none; }
+        .log-time { color:var(--gray); font-family:monospace; }
+        .log-sus { color:var(--red); font-weight:700; }
+        .log-ok { color:var(--green); }
+
+        @media(max-width:768px){
+            body{padding:20px 12px;}
+            .quiz-inner{padding:24px 20px 32px;}
+            .timer{top:12px;right:12px;padding:8px 14px;font-size:15px;}
+            .breakdown{grid-template-columns:repeat(2,1fr);}
+            .review-grid{grid-template-columns:repeat(5,1fr);}
+            .student-info{grid-template-columns:1fr;}
+        }
+    </style>
+</head>
+<body>
+<div class="tab-overlay" id="tabOverlay">
+    <div class="icon">⚠️</div>
+    <h2>Tab Switch Detected</h2>
+    <p>Please remain on this page during the quiz. Tab switches are being monitored.</p>
+    <div class="vcount" id="violationCount">Violations: 0</div>
+</div>
+
+<div class="timer" id="timer">
+    <span class="timer-label">Time Elapsed</span>
+    <span id="timerDisplay">00:00</span>
+</div>
+
+<div class="school-band">
+    <div class="name">Maple Leaf World School Xiangyang</div>
+</div>
+
+<div class="quiz-wrap">
+    <div class="quiz-inner">
+        <div class="submitted-msg" id="submittedMsg">
+            ✓ Quiz submitted successfully! Results displayed below.
+        </div>
+
+        <div id="quizForm">
+            <div class="quiz-header">
+                <h1>Research &amp; Academic Writing Quiz</h1>
+                <p class="sub">Total: 100 points (20 questions × 5 points each) + 2 reflection questions</p>
+                <div class="student-info">
+                    <div class="info-field">
+                        <label for="studentName">Student Name (English)</label>
+                        <input type="text" id="studentName" required>
+                    </div>
+                    <div class="info-field">
+                        <label for="quizDate">Date</label>
+                        <input type="date" id="quizDate" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="integrity-notice">
+                <h3>📋 Academic Integrity Guidelines</h3>
+                <div class="rule">
+                    <span class="rule-icon">🚫</span>
+                    <span><strong>No external resources:</strong> This quiz must be completed using only your own knowledge.</span>
+                </div>
+                <div class="rule">
+                    <span class="rule-icon">👀</span>
+                    <span><strong>Stay on this page:</strong> Tab switches are monitored and recorded.</span>
+                </div>
+                <div class="rule">
+                    <span class="rule-icon">⏱️</span>
+                    <span><strong>Time tracking:</strong> Your time and activity will be logged.</span>
+                </div>
+            </div>
+
+            <div class="unanswered-msg" id="unansweredMsg">
+                ⚠️ Please answer all questions before submitting. Unanswered questions are highlighted below.
+            </div>
+
+            <!-- PART 1: VOCABULARY -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 1: Academic Vocabulary<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 1–5: Key terms from Research Essays &amp; Academic Writing</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q1: TRUE/FALSE -->
+                    <div class="q-card" data-q="1">
+                        <div class="q-num">Question 1 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A <strong>thesis statement</strong> is just a topic or subject of your essay, such as "social media" or "climate change."</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q1" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q1" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q2: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank1">
+                            <div class="chip" draggable="true" data-word="plagiarism">plagiarism</div>
+                            <div class="chip" draggable="true" data-word="thesis">thesis</div>
+                            <div class="chip" draggable="true" data-word="evidence">evidence</div>
+                            <div class="chip" draggable="true" data-word="bibliography">bibliography</div>
+                            <div class="chip" draggable="true" data-word="citation">citation</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="2">
+                        <div class="q-num">Question 2 (5 points)</div>
+                        <div class="dnd-sentence">
+                            <span class="drop-zone" data-q="2">drop here</span> is the act of using someone else's work without giving them credit, which is considered academic dishonesty.
+                        </div>
+                    </div>
+
+                    <!-- Q3: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="3">
+                        <div class="q-num">Question 3 (5 points)</div>
+                        <div class="q-text">Which word means "facts, data, or quotes that support your argument"?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q3" value="A"><span>Analysis</span></label>
+                            <label class="opt"><input type="radio" name="q3" value="B"><span>Evidence</span></label>
+                            <label class="opt"><input type="radio" name="q3" value="C"><span>Paraphrase</span></label>
+                            <label class="opt"><input type="radio" name="q3" value="D"><span>Bibliography</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q4: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="4">
+                        <div class="q-num">Question 4 (5 points)</div>
+                        <div class="q-text">Match the word to its definition: <strong>Paraphrase</strong></div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q4" value="A"><span>To copy text exactly as it appears in the original source</span></label>
+                            <label class="opt"><input type="radio" name="q4" value="B"><span>To rewrite someone else's ideas in your own words</span></label>
+                            <label class="opt"><input type="radio" name="q4" value="C"><span>To list all sources at the end of your essay</span></label>
+                            <label class="opt"><input type="radio" name="q4" value="D"><span>To examine something in detail to understand it better</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q5: TRUE/FALSE -->
+                    <div class="q-card" data-q="5">
+                        <div class="q-num">Question 5 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A <strong>citation</strong> is a formal note that tells where you found information, and it is required even when you paraphrase.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q5" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q5" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 2: RESEARCH & SOURCES -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 2: Research &amp; Sources<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 6–10: Primary vs. Secondary Sources &amp; Source Credibility</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q6: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank2">
+                            <div class="chip" draggable="true" data-word="primary source">primary source</div>
+                            <div class="chip" draggable="true" data-word="secondary source">secondary source</div>
+                            <div class="chip" draggable="true" data-word="bibliography">bibliography</div>
+                            <div class="chip" draggable="true" data-word="citation">citation</div>
+                            <div class="chip" draggable="true" data-word="thesis">thesis</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="6">
+                        <div class="q-num">Question 6 (5 points)</div>
+                        <div class="dnd-sentence">
+                            A diary written by a soldier during World War II is an example of a <span class="drop-zone" data-q="6">drop here</span> because it provides firsthand information from someone who experienced the event.
+                        </div>
+                    </div>
+
+                    <!-- Q7: TRUE/FALSE -->
+                    <div class="q-card" data-q="7">
+                        <div class="q-num">Question 7 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A website ending in .edu (educational institution) is generally considered more credible for academic research than a commercial website ending in .com.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q7" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q7" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q8: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="8">
+                        <div class="q-num">Question 8 (5 points)</div>
+                        <div class="q-text">Which of the following is a <strong>SECONDARY</strong> source?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q8" value="A"><span>A photograph taken during the 2008 Olympics</span></label>
+                            <label class="opt"><input type="radio" name="q8" value="B"><span>An interview with your grandmother about her childhood</span></label>
+                            <label class="opt"><input type="radio" name="q8" value="C"><span>A textbook chapter analyzing the causes of World War II</span></label>
+                            <label class="opt"><input type="radio" name="q8" value="D"><span>The original Declaration of Independence</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q9 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">SCENARIO — Read carefully</span>
+                        <div class="passage-title">📄 Maria's Research Project</div>
+                        Maria is writing about World War II. She finds a letter written by a soldier in 1943. She also reads a textbook chapter about the war written in 2020. Her teacher says she needs both types of sources.
+                    </div>
+                    <div class="q-card" data-q="9">
+                        <div class="q-num">Question 9 (5 points)</div>
+                        <div class="q-text">Which statement best describes the textbook chapter from 2020?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q9" value="A"><span>It is a primary source because it is about history</span></label>
+                            <label class="opt"><input type="radio" name="q9" value="B"><span>It is a secondary source because it analyzes and explains primary sources</span></label>
+                            <label class="opt"><input type="radio" name="q9" value="C"><span>It is not a credible source because it was written long after the war</span></label>
+                            <label class="opt"><input type="radio" name="q9" value="D"><span>It is a bibliography because it lists all the books about the war</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q10: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="10">
+                        <div class="q-num">Question 10 (5 points)</div>
+                        <div class="q-text">Which factor is <strong>LEAST</strong> important when evaluating if a source is credible?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q10" value="A"><span>The author's expertise and qualifications</span></label>
+                            <label class="opt"><input type="radio" name="q10" value="B"><span>The website's design and color scheme</span></label>
+                            <label class="opt"><input type="radio" name="q10" value="C"><span>Whether the information is current and up-to-date</span></label>
+                            <label class="opt"><input type="radio" name="q10" value="D"><span>If the source includes citations to other research</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 3: ESSAY STRUCTURE -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 3: Essay Structure<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 11–15: MEAT Rule, Thesis, Body Paragraphs &amp; Conclusions</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q11 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">PARAGRAPH — Read carefully</span>
+                        <div class="passage-title">📄 Introduction Paragraph</div>
+                        Imagine starting your day with energy and focus. Many students skip breakfast because they wake up late. However, eating breakfast improves memory and test scores by 20%. Schools should serve free breakfast to all students to help them learn better.
+                    </div>
+                    <div class="q-card" data-q="11">
+                        <div class="q-num">Question 11 (5 points)</div>
+                        <div class="q-text">Which sentence in this introduction is the <strong>THESIS STATEMENT</strong>?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q11" value="A"><span>"Imagine starting your day with energy and focus."</span></label>
+                            <label class="opt"><input type="radio" name="q11" value="B"><span>"Many students skip breakfast because they wake up late."</span></label>
+                            <label class="opt"><input type="radio" name="q11" value="C"><span>"However, eating breakfast improves memory and test scores by 20%."</span></label>
+                            <label class="opt"><input type="radio" name="q11" value="D"><span>"Schools should serve free breakfast to all students to help them learn better."</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q12: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank (MEAT Components)</span>
+                        <div class="dnd-chips" id="bank3">
+                            <div class="chip" draggable="true" data-word="Main Idea">Main Idea</div>
+                            <div class="chip" draggable="true" data-word="Evidence">Evidence</div>
+                            <div class="chip" draggable="true" data-word="Analysis">Analysis</div>
+                            <div class="chip" draggable="true" data-word="Transition">Transition</div>
+                            <div class="chip" draggable="true" data-word="Thesis">Thesis</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="12">
+                        <div class="q-num">Question 12 (5 points)</div>
+                        <div class="dnd-sentence">
+                            In the MEAT rule for body paragraphs, the "E" stands for <span class="drop-zone" data-q="12">drop here</span>, which includes facts, quotes, or data that support your argument.
+                        </div>
+                    </div>
+
+                    <!-- Q13 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">BODY PARAGRAPH — Read carefully</span>
+                        <div class="passage-title">📄 Body Paragraph Example</div>
+                        Social media connects students around the world. For example, a student in China can discuss science projects with a student in Brazil through video calls. This connection helps both students learn about different cultures while studying the same subjects. Therefore, social media is a useful tool for global education.
+                    </div>
+                    <div class="q-card" data-q="13">
+                        <div class="q-num">Question 13 (5 points)</div>
+                        <div class="q-text">Which sentence provides the <strong>ANALYSIS</strong> in this paragraph?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q13" value="A"><span>"Social media connects students around the world."</span></label>
+                            <label class="opt"><input type="radio" name="q13" value="B"><span>"For example, a student in China can discuss science projects with a student in Brazil..."</span></label>
+                            <label class="opt"><input type="radio" name="q13" value="C"><span>"This connection helps both students learn about different cultures while studying the same subjects."</span></label>
+                            <label class="opt"><input type="radio" name="q13" value="D"><span>"Therefore, social media is a useful tool for global education."</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q14: TRUE/FALSE -->
+                    <div class="q-card" data-q="14">
+                        <div class="q-num">Question 14 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A conclusion paragraph should introduce new evidence and arguments that were not discussed in the body of the essay.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q14" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q14" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q15: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="15">
+                        <div class="q-num">Question 15 (5 points)</div>
+                        <div class="q-text">Which transition word best shows <strong>ADDITION</strong> between two body paragraphs?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q15" value="A"><span>However</span></label>
+                            <label class="opt"><input type="radio" name="q15" value="B"><span>Therefore</span></label>
+                            <label class="opt"><input type="radio" name="q15" value="C"><span>Furthermore</span></label>
+                            <label class="opt"><input type="radio" name="q15" value="D"><span>In contrast</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- PART 4: IDENTIFY & APPLY -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Part 4: Identify &amp; Apply<span>25 Points</span></div>
+                    <div class="sec-desc">Questions 16–20: Apply your knowledge of plagiarism, paraphrasing, and academic writing</div>
+                </div>
+                <div class="section-body">
+
+                    <!-- Q16: DRAG AND DROP -->
+                    <div class="dnd-word-bank">
+                        <span class="dnd-bank-label">Word Bank</span>
+                        <div class="dnd-chips" id="bank4">
+                            <div class="chip" draggable="true" data-word="objective">objective</div>
+                            <div class="chip" draggable="true" data-word="credible">credible</div>
+                            <div class="chip" draggable="true" data-word="biased">biased</div>
+                            <div class="chip" draggable="true" data-word="analyzed">analyzed</div>
+                            <div class="chip" draggable="true" data-word="paraphrased">paraphrased</div>
+                        </div>
+                    </div>
+                    <div class="dnd-q-card" data-q="16">
+                        <div class="q-num">Question 16 (5 points)</div>
+                        <div class="dnd-sentence">
+                            Academic writing should be <span class="drop-zone" data-q="16">drop here</span>, meaning it is based on facts rather than personal feelings or opinions.
+                        </div>
+                    </div>
+
+                    <!-- Q17: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="17">
+                        <div class="q-num">Question 17 (5 points)</div>
+                        <div class="q-text">Which action would be considered <strong>PLAGIARISM</strong>?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q17" value="A"><span>Copying a paragraph exactly and citing the source correctly</span></label>
+                            <label class="opt"><input type="radio" name="q17" value="B"><span>Rewriting an author's ideas in your own words and adding a citation</span></label>
+                            <label class="opt"><input type="radio" name="q17" value="C"><span>Changing two words in a sentence and presenting it as your own idea without citation</span></label>
+                            <label class="opt"><input type="radio" name="q17" value="D"><span>Using a direct quote with quotation marks and a proper citation</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q18: TRUE/FALSE -->
+                    <div class="q-card" data-q="18">
+                        <div class="q-num">Question 18 (5 points)</div>
+                        <div class="q-text">TRUE or FALSE: A blog post written by a marketing company promoting its own health products is likely to be objective and unbiased.</div>
+                        <div class="tf-opts">
+                            <label class="tf-opt"><input type="radio" name="q18" value="TRUE"><span>TRUE</span></label>
+                            <label class="tf-opt"><input type="radio" name="q18" value="FALSE"><span>FALSE</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q19 PASSAGE + MC -->
+                    <div class="passage">
+                        <span class="passage-label">SCENARIO — Read carefully</span>
+                        <div class="passage-title">📄 Chen's Source Problem</div>
+                        Chen needs to find information about climate change. He finds a blog post by an unknown writer with no credentials. Then he finds a research paper from a university science department that includes data from weather stations and lists references to other studies.
+                    </div>
+                    <div class="q-card" data-q="19">
+                        <div class="q-num">Question 19 (5 points)</div>
+                        <div class="q-text">Why is the university paper more credible than the blog post?</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q19" value="A"><span>It is longer than the blog post</span></label>
+                            <label class="opt"><input type="radio" name="q19" value="B"><span>It is easier to read than the blog post</span></label>
+                            <label class="opt"><input type="radio" name="q19" value="C"><span>It is written by experts and includes verifiable data and references</span></label>
+                            <label class="opt"><input type="radio" name="q19" value="D"><span>It agrees with Chen's personal opinion</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Q20: MULTIPLE CHOICE -->
+                    <div class="q-card" data-q="20">
+                        <div class="q-num">Question 20 (5 points)</div>
+                        <div class="q-text">A bibliography is best described as:</div>
+                        <div class="options">
+                            <label class="opt"><input type="radio" name="q20" value="A"><span>The first paragraph of your essay that introduces the topic</span></label>
+                            <label class="opt"><input type="radio" name="q20" value="B"><span>A list of all sources used in your research, placed at the end of your essay</span></label>
+                            <label class="opt"><input type="radio" name="q20" value="C"><span>A type of primary source found in archives</span></label>
+                            <label class="opt"><input type="radio" name="q20" value="D"><span>A method for analyzing data in a research paper</span></label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- REFLECTION QUESTIONS -->
+            <div class="section">
+                <div class="section-head">
+                    <div class="sec-title">Reflection Questions<span>Required</span></div>
+                    <div class="sec-desc">Questions 21–22: Share your thoughts (required but not scored)</div>
+                </div>
+                <div class="section-body">
+
+                    <div class="q-card" data-q="21">
+                        <div class="q-num">Reflection Question 1</div>
+                        <div class="q-text">Explain the difference between a primary source and a secondary source. Give one specific example of each type from your own life or studies.</div>
+                        <textarea id="q21" class="reflection-area" placeholder="Type your response here..."></textarea>
+                    </div>
+
+                    <div class="q-card" data-q="22">
+                        <div class="q-num">Reflection Question 2</div>
+                        <div class="q-text">Describe a situation where you might accidentally plagiarize if you are not careful. How can you avoid this mistake?</div>
+                        <textarea id="q22" class="reflection-area" placeholder="Type your response here..."></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="submit-area">
+                <button type="button" class="submit-btn" id="submitBtn">Submit Quiz</button>
+            </div>
+        </div>
+
+        <!-- RESULTS MODAL -->
+        <div class="results-modal" id="resultsModal">
+            <div class="results-content">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <div class="results-header">
+                    <h2>Quiz Results</h2>
+                    <p class="sub" id="scoreName"></p>
+                    <p class="sub" id="scoreDate"></p>
+                    <button onclick="downloadResults()" style="margin-top:16px; background:var(--green); color:white; padding:12px 32px; border:none; border-radius:8px; font-family:'Playfair Display',serif; font-size:16px; font-weight:700; cursor:pointer; box-shadow:0 4px 12px rgba(27,77,46,.3);">📥 Download Results as TXT</button>
+                    <div style="margin-top:16px; background:#FFF8F0; border:2px solid var(--red); border-radius:8px; padding:14px 18px; text-align:left;">
+                        <div style="font-family:'Playfair Display',serif; color:var(--red); font-size:14px; font-weight:700; margin-bottom:6px;">📤 Submission Instructions</div>
+                        <div style="font-size:13.5px; color:#333; line-height:1.6;"><strong>Upload the downloaded TXT file to Schoology.</strong> Do <strong>not</strong> submit a screenshot of your results — TXT files only. Screenshots will not be accepted.</div>
+                    </div>
+                </div>
+
+                <div class="score-display">
+                    <div class="score-num" id="scoreNum">0</div>
+                    <div class="score-label">out of 100 points</div>
+                </div>
+
+                <div class="breakdown">
+                    <div class="bd-item">
+                        <div class="bd-label">Vocabulary</div>
+                        <div class="bd-score"><span id="scoreA">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Research &amp; Sources</div>
+                        <div class="bd-score"><span id="scoreB">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Essay Structure</div>
+                        <div class="bd-score"><span id="scoreC">0</span>/25</div>
+                    </div>
+                    <div class="bd-item">
+                        <div class="bd-label">Identify &amp; Apply</div>
+                        <div class="bd-score"><span id="scoreD">0</span>/25</div>
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Activity Monitoring</h4>
+                    <div class="info-row"><span>Tab switches:</span><strong id="actTabs">0</strong></div>
+                    <div class="info-row"><span>Total time away:</span><strong id="actTotal">0s</strong></div>
+                    <div class="info-row"><span>Average time per switch:</span><strong id="actAvg">0s</strong></div>
+                    <div id="actLog" style="margin-top:12px; max-height:120px; overflow-y:auto;"></div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Question Review</h4>
+                    <p id="reviewSum" style="margin-bottom:12px;"></p>
+                    <div class="review-grid" id="reviewGrid"></div>
+                </div>
+
+                <div class="info-block">
+                    <h4>Your Reflections</h4>
+                    <div style="margin-bottom:10px;">
+                        <strong>Primary vs. Secondary Sources (your explanation):</strong>
+                        <p style="margin-top:4px; font-size:14px;" id="displayQ21"></p>
+                    </div>
+                    <div>
+                        <strong>Avoiding plagiarism (your strategy):</strong>
+                        <p style="margin-top:4px; font-size:14px;" id="displayQ22"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// === SHUFFLE ===
+function shuffle(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.options').forEach(container => {
+        const options = Array.from(container.children);
+        const shuffled = shuffle(options);
+        container.innerHTML = '';
+        shuffled.forEach(opt => container.appendChild(opt));
+    });
+    document.querySelectorAll('.dnd-chips').forEach(bank => {
+        const chips = Array.from(bank.children);
+        const shuffled = shuffle(chips);
+        bank.innerHTML = '';
+        shuffled.forEach(chip => bank.appendChild(chip));
+    });
+});
+
+// === DRAG AND DROP ===
+let draggedElement = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupDragAndDrop();
+});
+
+function setupDragAndDrop() {
+    document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('dragstart', function(e) {
+            draggedElement = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        chip.addEventListener('dragend', function() {
+            this.classList.remove('dragging');
+        });
+    });
+
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        zone.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+        zone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            if (draggedElement) {
+                const word = draggedElement.dataset.word;
+                if (this.dataset.value) {
+                    const oldWord = this.dataset.value;
+                    const parentBank = draggedElement.closest('.dnd-chips');
+                    const newChip = createChip(oldWord);
+                    parentBank.appendChild(newChip);
+                }
+                this.textContent = word;
+                this.dataset.value = word;
+                this.classList.add('filled');
+                draggedElement.remove();
+            }
+        });
+        zone.addEventListener('click', function() {
+            if (this.classList.contains('filled')) {
+                const word = this.dataset.value;
+                const qNum = this.dataset.q;
+                let bankId;
+                if (qNum == 2) bankId = 'bank1';
+                else if (qNum == 6) bankId = 'bank2';
+                else if (qNum == 12) bankId = 'bank3';
+                else if (qNum == 16) bankId = 'bank4';
+                const bank = document.getElementById(bankId);
+                const newChip = createChip(word);
+                bank.appendChild(newChip);
+                this.textContent = 'drop here';
+                delete this.dataset.value;
+                this.classList.remove('filled');
+            }
+        });
+    });
+}
+
+function createChip(word) {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.draggable = true;
+    chip.dataset.word = word;
+    chip.textContent = word;
+    chip.addEventListener('dragstart', function(e) {
+        draggedElement = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    });
+    chip.addEventListener('dragend', function() {
+        this.classList.remove('dragging');
+    });
+    return chip;
+}
+
+// === TIMER ===
+let startTime = Date.now(), timerInterval;
+function updateTimer() {
+    const sec = Math.floor((Date.now() - startTime) / 1000);
+    const m = String(Math.floor(sec / 60)).padStart(2, '0');
+    const s = String(sec % 60).padStart(2, '0');
+    document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+}
+timerInterval = setInterval(updateTimer, 1000);
+
+// === TAB MONITORING ===
+let tabCount = 0, lastLeave = 0, totalAway = 0, tabLog = [];
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        lastLeave = Date.now();
+        document.getElementById('tabOverlay').classList.add('show');
+    } else {
+        if (lastLeave) {
+            const away = Math.floor((Date.now() - lastLeave) / 1000);
+            totalAway += away;
+            tabCount++;
+            const sus = (away > 10);
+            tabLog.push({ count: tabCount, time: new Date().toLocaleTimeString(), dur: away, sus });
+            document.getElementById('violationCount').textContent = `Violations: ${tabCount}`;
+        }
+        setTimeout(() => {
+            document.getElementById('tabOverlay').classList.remove('show');
+        }, 1500);
+    }
+});
+
+// === ANSWER KEY ===
+// Q1: FALSE (thesis is not just a topic)
+// Q2: plagiarism
+// Q3: B (evidence)
+// Q4: B (rewrite in own words)
+// Q5: TRUE (citation required for paraphrasing)
+// Q6: primary source
+// Q7: TRUE (.edu more credible)
+// Q8: C (textbook = secondary)
+// Q9: B (textbook analyzes primary sources)
+// Q10: B (design not important for credibility)
+// Q11: D (last sentence is thesis)
+// Q12: Evidence
+// Q13: C (sentence explaining evidence)
+// Q14: FALSE (no new info in conclusion)
+// Q15: C (Furthermore)
+// Q16: objective
+// Q17: C (changing two words without citation)
+// Q18: FALSE (marketing blog is biased)
+// Q19: C (experts + verifiable data)
+// Q20: B (list of sources)
+
+const MC_CORRECT = {
+    1: 'FALSE', 2: 'plagiarism', 3: 'B', 4: 'B', 5: 'TRUE',
+    6: 'primary source', 7: 'TRUE', 8: 'C', 9: 'B', 10: 'B',
+    11: 'D', 12: 'Evidence', 13: 'C', 14: 'FALSE', 15: 'C',
+    16: 'objective', 17: 'C', 18: 'FALSE', 19: 'C', 20: 'B'
+};
+
+function norm(s) { return String(s || '').trim().toLowerCase().replace(/[^a-z0-9]/g, ''); }
+
+document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', function() {
+        const parent = this.closest('.opt,.tf-opt');
+        if (parent) {
+            parent.parentElement.querySelectorAll('.opt,.tf-opt').forEach(o => o.classList.remove('selected'));
+            parent.classList.add('selected');
+        }
+    });
+});
+
+// === SUBMIT ===
+function fmtTime(s) { return s >= 60 ? `${Math.floor(s / 60)}m ${s % 60}s` : `${s}s`; }
+
+function getAnswer(qNum) {
+    if ([2, 6, 12, 16].includes(qNum)) {
+        const zone = document.querySelector(`.drop-zone[data-q="${qNum}"]`);
+        return zone ? zone.dataset.value || '' : '';
+    } else {
+        const el = document.querySelector(`input[name="q${qNum}"]:checked`);
+        return el ? el.value : '';
+    }
+}
+
+document.getElementById('submitBtn').addEventListener('click', function() {
+    const name = document.getElementById('studentName').value.trim();
+    if (!name) {
+        alert('Please enter your name.');
+        document.getElementById('studentName').focus();
+        return;
+    }
+
+    const missing = [];
+    for (let i = 1; i <= 20; i++) {
+        const ans = getAnswer(i);
+        if (!ans) missing.push(i);
+    }
+    const q21val = document.getElementById('q21').value.trim();
+    const q22val = document.getElementById('q22').value.trim();
+    if (!q21val) missing.push(21);
+    if (!q22val) missing.push(22);
+
+    document.querySelectorAll('.q-card.unanswered, .dnd-q-card.unanswered').forEach(el => el.classList.remove('unanswered'));
+
+    if (missing.length > 0) {
+        missing.forEach(i => {
+            let el = document.querySelector(`.q-card[data-q="${i}"]`);
+            if (!el) el = document.querySelector(`.dnd-q-card[data-q="${i}"]`);
+            if (el) {
+                el.classList.add('unanswered');
+                el.style.animation = 'none';
+                el.offsetHeight;
+                el.style.animation = '';
+            }
+        });
+        document.getElementById('unansweredMsg').style.display = 'block';
+        let first = document.querySelector(`.q-card[data-q="${missing[0]}"]`);
+        if (!first) first = document.querySelector(`.dnd-q-card[data-q="${missing[0]}"]`);
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
+    document.getElementById('unansweredMsg').style.display = 'none';
+
+    let sA = 0, sB = 0, sC = 0, sD = 0;
+    const results = [];
+
+    // Part 1: Vocabulary (Q1-5)
+    for (let i = 1; i <= 5; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sA += 5;
+    }
+    // Part 2: Research & Sources (Q6-10)
+    for (let i = 6; i <= 10; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sB += 5;
+    }
+    // Part 3: Essay Structure (Q11-15)
+    for (let i = 11; i <= 15; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sC += 5;
+    }
+    // Part 4: Identify & Apply (Q16-20)
+    for (let i = 16; i <= 20; i++) {
+        const ans = getAnswer(i);
+        const correct = (norm(ans) === norm(MC_CORRECT[i]));
+        results.push({ q: i, correct });
+        if (correct) sD += 5;
+    }
+
+    const autoTotal = sA + sB + sC + sD;
+
+    document.getElementById('displayQ21').textContent = q21val;
+    document.getElementById('displayQ22').textContent = q22val;
+
+    document.getElementById('quizForm').style.display = 'none';
+    document.getElementById('submittedMsg').style.display = 'block';
+    window.scrollTo(0, 0);
+    document.getElementById('scoreNum').textContent = autoTotal;
+    document.getElementById('scoreA').textContent = sA;
+    document.getElementById('scoreB').textContent = sB;
+    document.getElementById('scoreC').textContent = sC;
+    document.getElementById('scoreD').textContent = sD;
+    document.getElementById('scoreName').textContent = name;
+    document.getElementById('scoreDate').textContent = document.getElementById('quizDate').value || new Date().toLocaleDateString();
+    document.getElementById('actTabs').textContent = tabCount;
+    document.getElementById('actTotal').textContent = fmtTime(totalAway);
+    document.getElementById('actAvg').textContent = tabCount > 0 ? fmtTime(Math.floor(totalAway / tabCount)) : '0s';
+
+    const logEl = document.getElementById('actLog');
+    if (tabLog.length > 0) {
+        logEl.innerHTML = tabLog.map(l => `<div class="log-entry"><span class="log-time">[${l.time}]</span> Switch #${l.count} — away ${l.dur}s ${l.sus ? '<span class="log-sus">[SUSPICIOUS]</span>' : '<span class="log-ok">[Normal]</span>'}</div>`).join('');
+    }
+
+    const grid = document.getElementById('reviewGrid');
+    grid.innerHTML = '';
+    results.forEach(r => {
+        const d = document.createElement('div');
+        d.className = `r-item ${r.correct ? 'r-correct' : 'r-wrong'}`;
+        d.innerHTML = `<span class="rq">Q${r.q}</span><span class="rs">${r.correct ? '✓' : '✗'}</span>`;
+        grid.appendChild(d);
+    });
+    const nC = results.filter(r => r.correct === true).length;
+    const nW = results.filter(r => r.correct === false).length;
+    document.getElementById('reviewSum').innerHTML = `Auto-graded: <strong>${nC}</strong> correct and <strong>${nW}</strong> incorrect out of 20 questions.<br>Reflection questions (21–22) recorded for teacher review.`;
+    document.getElementById('resultsModal').style.display = 'flex';
+
+    console.log('%c=== QUIZ SUBMISSION ===', 'color:#CC0000;font-size:15px;font-weight:bold;');
+    console.log('Student:', name, '| Score:', autoTotal + '/100');
+    console.log('Sections:', { Vocabulary: sA + '/25', ResearchSources: sB + '/25', EssayStructure: sC + '/25', IdentifyApply: sD + '/25' });
+    console.log('Q21 (Reflection):', q21val);
+    console.log('Q22 (Reflection):', q22val);
+    console.log('Tab switches:', tabCount, '| Away:', totalAway + 's | Log:', tabLog);
+    console.log('Results:', results);
+});
+
+function closeModal() {
+    document.getElementById('resultsModal').style.display = 'none';
+}
+
+function downloadResults() {
+    try {
+        const name = document.getElementById('scoreName').textContent || 'Unknown';
+        const date = document.getElementById('scoreDate').textContent || new Date().toLocaleDateString();
+        const score = document.getElementById('scoreNum').textContent || '0';
+        const sA = document.getElementById('scoreA').textContent || '0';
+        const sB = document.getElementById('scoreB').textContent || '0';
+        const sC = document.getElementById('scoreC').textContent || '0';
+        const sD = document.getElementById('scoreD').textContent || '0';
+        const tabs = document.getElementById('actTabs').textContent || '0';
+        const totalAwayTxt = document.getElementById('actTotal').textContent || '0s';
+        const avgAway = document.getElementById('actAvg').textContent || '0s';
+        const q21 = document.getElementById('displayQ21').textContent || '(No response)';
+        const q22 = document.getElementById('displayQ22').textContent || '(No response)';
+
+        const lines = [];
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('         RESEARCH & ACADEMIC WRITING QUIZ - RESULTS REPORT');
+        lines.push('               Maple Leaf World School Xiangyang');
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('');
+        lines.push('Student: ' + name);
+        lines.push('Date: ' + date);
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                        OVERALL SCORE');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('        ' + score + ' / 100 points');
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                      SECTION BREAKDOWN');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Part 1 - Vocabulary:           ' + sA + ' / 25 points');
+        lines.push('Part 2 - Research & Sources:   ' + sB + ' / 25 points');
+        lines.push('Part 3 - Essay Structure:      ' + sC + ' / 25 points');
+        lines.push('Part 4 - Identify & Apply:     ' + sD + ' / 25 points');
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                    ACTIVITY MONITORING');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Tab Switches: ' + tabs);
+        lines.push('Total Time Away: ' + totalAwayTxt);
+        lines.push('Average Time Per Switch: ' + avgAway);
+        lines.push('');
+
+        const logEl = document.getElementById('actLog');
+        if (logEl && logEl.innerHTML.trim()) {
+            lines.push('DETAILED LOG:');
+            const logEntries = logEl.querySelectorAll('.log-entry');
+            logEntries.forEach(entry => {
+                const text = entry.textContent.replace(/\s+/g, ' ').trim();
+                lines.push('  ' + text);
+            });
+            lines.push('');
+        }
+
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                    QUESTION-BY-QUESTION');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+
+        const grid = document.getElementById('reviewGrid');
+        if (grid) {
+            const items = grid.querySelectorAll('.r-item');
+            let row = '';
+            items.forEach((item, idx) => {
+                const qNum = item.querySelector('.rq').textContent;
+                const result = item.classList.contains('r-correct') ? '✓' : '✗';
+                row += qNum + ':' + result + '  ';
+                if ((idx + 1) % 10 === 0) {
+                    lines.push(row);
+                    row = '';
+                }
+            });
+            if (row) lines.push(row);
+        }
+
+        lines.push('');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('                   REFLECTION RESPONSES');
+        lines.push('───────────────────────────────────────────────────────────────');
+        lines.push('');
+        lines.push('Question 21: Explain the difference between a primary source');
+        lines.push('and a secondary source. Give one specific example of each.');
+        lines.push('');
+        lines.push(q21);
+        lines.push('');
+        lines.push('Question 22: Describe a situation where you might accidentally');
+        lines.push('plagiarize if you are not careful. How can you avoid this?');
+        lines.push('');
+        lines.push(q22);
+        lines.push('');
+        lines.push('═══════════════════════════════════════════════════════════════');
+        lines.push('                      END OF REPORT');
+        lines.push('═══════════════════════════════════════════════════════════════');
+
+        const txt = lines.join('\n');
+        const safeName = name.replace(/[^a-zA-Z0-9]/g, '_');
+        const safeDate = date.replace(/[^0-9-]/g, '-');
+        const filename = 'Research_AcademicWriting_Quiz_' + safeName + '_' + safeDate + '.txt';
+        const encoded = encodeURIComponent(txt);
+        const a = document.createElement('a');
+        a.href = 'data:text/plain;charset=utf-8,' + encoded;
+        a.download = filename;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { document.body.removeChild(a); }, 200);
+    } catch (error) {
+        console.error('Download error:', error);
+        alert('Error downloading results: ' + error.message);
+    }
+}
+
+// Set default date
+document.getElementById('quizDate').valueAsDate = new Date();
+</script>
+</body>
+</html>
