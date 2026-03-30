@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Module: Research Essays & Academic Writing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #1a5c2e;
+            --dark-green: #0f3a1c;
+            --red: #9b2020;
+            --gold: #c8a84b;
+            --light-bg: #f2f5f2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+            background: var(--light-bg);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f3a1c 0%, #1a5c2e 50%, #8b1a1a 100%);
+            color: white;
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .school-brand { display: flex; align-items: center; gap: 0.75rem; }
+        .logo { font-size: 2rem; }
+        .school-name { font-family: 'Literata', serif; font-size: 1.25rem; font-weight: 600; }
+        .module-title { font-family: 'Literata', serif; font-size: 1.5rem; font-weight: 700; text-align: center; flex: 1; }
+        .meta-info { text-align: right; font-size: 0.9rem; opacity: 0.9; }
+
+        .cheat-notice {
+            background: rgba(200, 168, 75, 0.2);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 0.5rem 1rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: white;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: var(--dark-green);
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .nav-tab:hover { color: white; background: rgba(255,255,255,0.1); }
+        .nav-tab.active { color: white; background: var(--primary-green); }
+
+        .status-pip {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666;
+            margin-left: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .status-pip.completed { background: #4ade80; }
+
+        .tab-content {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .vocab-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--primary-green);
+        }
+
+        .vocab-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+        .vocab-word { font-family: 'Literata', serif; font-size: 1.5rem; font-weight: 700; color: var(--dark-green); }
+        .part-of-speech { background: var(--light-bg); color: var(--primary-green); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .vocab-def { font-size: 0.95rem; margin-bottom: 0.5rem; color: #444; }
+        .vocab-cn { font-family: 'Noto Sans SC', sans-serif; color: #666; font-size: 0.9rem; margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px dashed #ddd; }
+        .vocab-example { font-style: italic; color: #555; font-size: 0.9rem; margin-bottom: 1rem; }
+
+        .audio-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .concept-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .concept-header { background: var(--primary-green); color: white; padding: 1.25rem; display: flex; align-items: center; gap: 0.75rem; }
+        .concept-icon { font-size: 1.5rem; }
+        .concept-title { font-family: 'Literata', serif; font-size: 1.25rem; font-weight: 700; }
+        .concept-body { padding: 1.5rem; }
+        .concept-box { background: var(--light-bg); border-left: 4px solid var(--primary-green); padding: 1.25rem; margin-bottom: 1.5rem; border-radius: 0 8px 8px 0; }
+        .concept-text { font-size: 1rem; line-height: 1.7; margin-bottom: 0.75rem; }
+        .concept-cn { font-family: 'Noto Sans SC', sans-serif; color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+        .key-rule { background: white; border: 2px solid var(--gold); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        .key-rule-header { color: var(--gold); font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        .practice-container { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 3rem; }
+
+        .practice-card {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .practice-number { background: #f59e0b; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-bottom: 1rem; }
+        .passage-box { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.25rem; }
+        .passage-title { font-family: 'Literata', serif; font-weight: 700; color: var(--dark-green); margin-bottom: 0.75rem; font-size: 1.1rem; }
+        .passage-text { font-size: 0.95rem; line-height: 1.7; color: #374151; }
+        .question-text { font-weight: 600; font-size: 1rem; margin-bottom: 1rem; color: #1f2937; }
+        .question-cn { font-family: 'Noto Sans SC', sans-serif; color: #6b7280; font-size: 0.9rem; margin-bottom: 1rem; }
+
+        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            padding: 0.875rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .option-btn:hover:not(.locked) { border-color: var(--primary-green); background: #f0fdf4; }
+        .option-btn.correct { border-color: #22c55e; background: #f0fdf4; }
+        .option-btn.wrong { border-color: #ef4444; background: #fef2f2; }
+        .option-btn.locked { cursor: not-allowed; opacity: 0.8; }
+        .option-letter { width: 28px; height: 28px; border-radius: 50%; background: #e5e7eb; color: #374151; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.875rem; flex-shrink: 0; }
+        .option-btn.correct .option-letter { background: #22c55e; color: white; }
+        .option-btn.wrong .option-letter { background: #ef4444; color: white; }
+        .option-content { flex: 1; }
+        .option-text { font-size: 0.9rem; color: #374151; }
+        .option-cn { font-family: 'Noto Sans SC', sans-serif; font-size: 0.8rem; color: #9ca3af; margin-top: 0.25rem; }
+
+        .rationale {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f3f4f6;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-green);
+        }
+        .rationale.show { display: block; }
+        .rationale-title { font-weight: 700; color: var(--dark-green); margin-bottom: 0.5rem; }
+        .rationale-text { font-size: 0.9rem; color: #4b5563; }
+        .rationale-cn { font-family: 'Noto Sans SC', sans-serif; font-size: 0.85rem; color: #6b7280; margin-top: 0.5rem; }
+
+        .exit-wrap {
+            background: linear-gradient(135deg, #0f3a1c 0%, #1a5c2e 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .exit-header { text-align: center; margin-bottom: 2rem; }
+        .exit-title { font-family: 'Literata', serif; font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .student-input { max-width: 300px; margin: 1rem auto; }
+        .student-input input { width: 100%; padding: 0.75rem; border: 2px solid var(--gold); border-radius: 6px; font-size: 1rem; text-align: center; }
+
+        .exit-question { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+        .exit-question-text { font-weight: 600; margin-bottom: 0.75rem; font-size: 0.95rem; }
+        .exit-question-cn { font-family: 'Noto Sans SC', sans-serif; opacity: 0.8; font-size: 0.85rem; margin-bottom: 1rem; }
+        .exit-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+        .exit-option-btn { background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; border-radius: 6px; padding: 0.75rem; cursor: pointer; text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+        .exit-option-btn:hover:not(.locked) { background: rgba(255,255,255,0.2); border-color: white; }
+        .exit-option-btn.correct { background: rgba(34, 197, 94, 0.3); border-color: #4ade80; }
+        .exit-option-btn.wrong { background: rgba(239, 68, 68, 0.3); border-color: #f87171; }
+
+        .score-display {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            margin: 2rem 0;
+            animation: popIn 0.5s ease;
+        }
+
+        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .score-number { font-size: 3rem; font-weight: 700; color: var(--gold); margin-bottom: 0.5rem; }
+        .score-label { font-size: 1.1rem; opacity: 0.9; }
+
+        .reflection-section {
+            display: none;
+            margin-top: 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .reflection-title { font-size: 1.1rem; margin-bottom: 1rem; color: var(--gold); }
+        .reflection-question { margin-bottom: 1.5rem; }
+        .reflection-q-text { font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .reflection-q-cn { font-family: 'Noto Sans SC', sans-serif; font-size: 0.85rem; opacity: 0.7; margin-bottom: 0.5rem; }
+        .reflection-textarea { width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; background: rgba(0,0,0,0.2); color: white; font-family: 'DM Sans', sans-serif; resize: vertical; min-height: 80px; }
+        .reflection-textarea::placeholder { color: rgba(255,255,255,0.5); }
+
+        .download-wrap {
+            display: none;
+            background: var(--primary-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .download-btn { background: var(--gold); color: var(--dark-green); border: none; padding: 1rem 2rem; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin: 1rem 0; }
+        .schoology-note { font-size: 0.85rem; color: #fbbf24; font-weight: 600; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 0.5rem; margin-top: 0.5rem; }
+
+        .fixed-tools { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 0.5rem; z-index: 999; }
+        .tool-badge { background: var(--dark-green); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .leave-counter { background: var(--red); }
+        .leave-counter.active { animation: pulse 1s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+        @media (max-width: 768px) {
+            .options-grid, .exit-options { grid-template-columns: 1fr; }
+            .header-content { flex-direction: column; text-align: center; }
+            .vocab-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="school-brand">
+                <span class="logo">🍁</span>
+                <span class="school-name">Maple Leaf World School · Xiangyang</span>
+            </div>
+            <div class="module-title">
+                <div>Research Essays & Academic Writing</div>
+                <div style="font-family: 'Noto Sans SC', sans-serif; font-size: 0.7em; opacity: 0.9;">研究性论文与学术写作</div>
+            </div>
+            <div class="meta-info">
+                <div>Grade 11 English | 60–75 min</div>
+                <div style="font-family: 'Noto Sans SC', sans-serif;">高中一年级英语 | 60-75分钟</div>
+            </div>
+        </div>
+        <div class="cheat-notice">⚠️ Do not leave this page during the lesson | 上课期间请勿离开此页面</div>
+        <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    </header>
+
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('vocab')">📚 Vocabulary | 词汇<span class="status-pip" id="pip-vocab"></span></button>
+        <button class="nav-tab" onclick="switchTab('tuesday')">💡 Tuesday | 周二 — Research & Sources<span class="status-pip" id="pip-tuesday"></span></button>
+        <button class="nav-tab" onclick="switchTab('wednesday')">🎨 Wednesday | 周三 — Essay Structure<span class="status-pip" id="pip-wednesday"></span></button>
+    </nav>
+
+    <div id="tab-vocab" class="tab-content active">
+        <div class="vocab-grid" id="vocabGrid"></div>
+    </div>
+
+    <div id="tab-tuesday" class="tab-content">
+        <div class="concept-card">
+            <div class="concept-header"><span class="concept-icon">🔍</span><span class="concept-title">Research & Sources | 研究与资料来源</span></div>
+            <div class="concept-body">
+                <div class="concept-box">
+                    <div class="concept-text"><strong>Primary sources</strong> give firsthand information. They come from people who saw or made something. Examples: diaries, photos, interviews, original data.</div>
+                    <div class="concept-cn"><strong>一手资料</strong>提供第一手信息。它们来自亲眼见证或创造某事的人。例如：日记、照片、采访、原始数据。</div>
+                </div>
+                <div class="concept-box">
+                    <div class="concept-text"><strong>Secondary sources</strong> analyze or explain primary sources. They come from people who study the topic later. Examples: textbooks, articles, reviews.</div>
+                    <div class="concept-cn"><strong>二手资料</strong>分析或解释一手资料。它们来自后来研究该主题的人。例如：教科书、文章、评论。</div>
+                </div>
+                <div class="key-rule">
+                    <div class="key-rule-header">🔑 The Credible Source Test | 可信来源测试</div>
+                    <div style="font-size: 0.95rem;">
+                        <div style="margin-bottom: 0.5rem;">✓ Who wrote it? Are they an expert? | 谁写的？他们是专家吗？</div>
+                        <div style="margin-bottom: 0.5rem;">✓ When was it published? Is it current? | 何时出版？是否最新？</div>
+                        <div>✓ Where did it come from? (.edu, .gov, journals) | 来源何处？</div>
+                        <div>✓ Why was it made? Is it objective or biased? | 制作目的是什么？</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="font-family: 'Literata', serif; color: var(--dark-green); margin-bottom: 1.5rem;">Guided Practice | 引导练习</h2>
+        <div class="practice-container" id="tuesdayPractice"></div>
+
+        <div class="exit-wrap">
+            <div class="exit-header">
+                <h2 class="exit-title">Exit Ticket | 出门票</h2>
+                <p style="opacity: 0.8; font-family: 'Noto Sans SC', sans-serif;">完成这10道题以结束今天的课程</p>
+            </div>
+            <div class="student-input"><input type="text" id="tueStudentName" placeholder="Type your name here | 在此输入姓名"></div>
+            <div id="tuesdayExit"></div>
+
+            <div class="score-display" id="tueScoreDisplay" style="display: none;">
+                <div class="score-number" id="tueScore">0/10</div>
+                <div class="score-label">Score | 得分</div>
+            </div>
+
+            <div class="reflection-section" id="tueReflection" style="display: none;">
+                <div class="reflection-title">Self-Reflection | 自我反思</div>
+                <div class="reflection-question">
+                    <div class="reflection-q-text">1. What was the most important thing you learned about research today? How will you use it in your next essay?</div>
+                    <div class="reflection-q-cn">今天关于研究，你学到的最重要的一点是什么？你将如何在下一篇论文中运用它？</div>
+                    <textarea class="reflection-textarea" id="tueReflect1" placeholder="Type your answer here..."></textarea>
+                </div>
+                <div class="reflection-question">
+                    <div class="reflection-q-text">2. Why is it dangerous to use non-credible sources in academic writing? Give one example.</div>
+                    <div class="reflection-q-cn">为什么在学术写作中使用不可信来源是有风险的？请举一个例子。</div>
+                    <textarea class="reflection-textarea" id="tueReflect2" placeholder="Type your answer here..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-wrap" id="tueDownload" style="display: none;">
+            <h3 style="margin-bottom: 0.5rem;">Download Tuesday Results | 下载周二结果</h3>
+            <button class="download-btn" onclick="downloadReport('tuesday')">📥 Download Results as TXT | 下载结果为TXT</button>
+            <p class="schoology-note">⚠️ DISCLAIMER: Upload this file to Schoology to submit your work.<br><span style="font-family: 'Noto Sans SC', sans-serif;">免责声明：请将此文件上传至Schoology提交作业。</span></p>
+        </div>
+    </div>
+
+    <div id="tab-wednesday" class="tab-content">
+        <div class="concept-card">
+            <div class="concept-header"><span class="concept-icon">📝</span><span class="concept-title">Essay Structure | 文章结构</span></div>
+            <div class="concept-body">
+                <div class="concept-box">
+                    <div class="concept-text"><strong>Introduction (Paragraph 1):</strong> Hook the reader. Give background. End with your <strong>thesis statement</strong> (main argument).</div>
+                    <div class="concept-cn"><strong>引言（第一段）：</strong>吸引读者。提供背景。以<strong>论点陈述</strong>（主要论证）结束。</div>
+                </div>
+                <div class="concept-box">
+                    <div class="concept-text"><strong>Body Paragraphs (2-4):</strong> Each paragraph needs: <strong>Topic sentence</strong> (main idea), <strong>Evidence</strong> (quotes/facts), <strong>Analysis</strong> (explain how evidence proves your point).</div>
+                    <div class="concept-cn"><strong>正文段落（2-4段）：</strong>每段需要：<strong>主题句</strong>（主要观点），<strong>证据</strong>（引用/事实），<strong>分析</strong>（解释证据如何证明你的观点）。</div>
+                </div>
+                <div class="concept-box">
+                    <div class="concept-text"><strong>Conclusion (Final paragraph):</strong> Restate thesis in new words. Summarize main points. End with final thought (why it matters).</div>
+                    <div class="concept-cn"><strong>结论（最后一段）：</strong>用新的话重述论点。总结要点。以最终思考结束（为什么重要）。</div>
+                </div>
+                <div class="key-rule">
+                    <div class="key-rule-header">🔑 The MEAT Rule | MEAT法则</div>
+                    <div style="font-size: 0.95rem;">
+                        <div><strong>M</strong>ain Idea | <strong>主</strong>要观点</div>
+                        <div><strong>E</strong>vidence | <strong>证</strong>据</div>
+                        <div><strong>A</strong>nalysis | <strong>分</strong>析</div>
+                        <div><strong>T</strong>ransition | <strong>过</strong>渡</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="font-family: 'Literata', serif; color: var(--dark-green); margin-bottom: 1.5rem;">Guided Practice | 引导练习</h2>
+        <div class="practice-container" id="wednesdayPractice"></div>
+
+        <div class="exit-wrap">
+            <div class="exit-header">
+                <h2 class="exit-title">Exit Ticket | 出门票</h2>
+                <p style="opacity: 0.8; font-family: 'Noto Sans SC', sans-serif;">完成这10道题以结束今天的课程</p>
+            </div>
+            <div class="student-input"><input type="text" id="wedStudentName" placeholder="Type your name here | 在此输入姓名"></div>
+            <div id="wednesdayExit"></div>
+
+            <div class="score-display" id="wedScoreDisplay" style="display: none;">
+                <div class="score-number" id="wedScore">0/10</div>
+                <div class="score-label">Score | 得分</div>
+            </div>
+
+            <div class="reflection-section" id="wedReflection" style="display: none;">
+                <div class="reflection-title">Self-Reflection | 自我反思</div>
+                <div class="reflection-question">
+                    <div class="reflection-q-text">1. Look at your last essay. Which part of MEAT was strongest? Which needs work?</div>
+                    <div class="reflection-q-cn">查看你上一篇论文。MEAT的哪个部分最强？哪个需要改进？</div>
+                    <textarea class="reflection-textarea" id="wedReflect1" placeholder="Type your answer here..."></textarea>
+                </div>
+                <div class="reflection-question">
+                    <div class="reflection-q-text">2. How does a strong thesis statement help the reader? How does it help the writer?</div>
+                    <div class="reflection-q-cn">强有力的论点陈述如何帮助读者？它如何帮助作者？</div>
+                    <textarea class="reflection-textarea" id="wedReflect2" placeholder="Type your answer here..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-wrap" id="wedDownload" style="display: none;">
+            <h3 style="margin-bottom: 0.5rem;">Download Wednesday Results | 下载周三结果</h3>
+            <button class="download-btn" onclick="downloadReport('wednesday')">📥 Download Results as TXT | 下载结果为TXT</button>
+            <p class="schoology-note">⚠️ DISCLAIMER: Upload this file to Schoology to submit your work.<br><span style="font-family: 'Noto Sans SC', sans-serif;">免责声明：请将此文件上传至Schoology提交作业。</span></p>
+        </div>
+    </div>
+
+    <div class="fixed-tools">
+        <div class="tool-badge" id="timer">00:00</div>
+        <div class="tool-badge leave-counter" id="leaveCounter">Leaves: 0</div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            { word: "thesis", pos: "noun", def: "The main argument or central claim of an essay", defCn: "文章的主要论点或中心主张", example: "The student's thesis was that social media helps students learn." },
+            { word: "evidence", pos: "noun", def: "Facts, data, or quotes that support your argument", defCn: "支持你的论点的事实、数据或引用", example: "She used statistics from government websites as evidence." },
+            { word: "source", pos: "noun", def: "A book, website, or person that gives you information", defCn: "为你提供信息的书籍、网站或个人", example: "Academic journals are strong sources for research papers." },
+            { word: "citation", pos: "noun", def: "A formal note that tells where you found information", defCn: "正式注明你从哪里找到信息的标记", example: "Always include a citation when you use someone else's idea." },
+            { word: "plagiarism", pos: "noun", def: "Using someone else's work without giving them credit", defCn: "使用他人的作品而不注明出处", example: "Copying text without citations is plagiarism and is not allowed." },
+            { word: "analyze", pos: "verb", def: "To examine something in detail to understand it better", defCn: "详细检查某事物以更好地理解它", example: "We need to analyze the data before we can draw conclusions." },
+            { word: "objective", pos: "adjective", def: "Based on facts rather than personal feelings", defCn: "基于事实而非个人感受的", example: "Academic writing should be objective and unbiased." },
+            { word: "credible", pos: "adjective", def: "Trustworthy and reliable; believable", defCn: "值得信赖且可靠的；可信的", example: "University websites are usually more credible than blogs." },
+            { word: "paraphrase", pos: "verb", def: "To rewrite someone else's ideas in your own words", defCn: "用自己的话重写他人的观点", example: "When you paraphrase, you show that you understand the material." },
+            { word: "bibliography", pos: "noun", def: "A list of all sources used in your research", defCn: "研究中使用的所有来源的列表", example: "The bibliography at the end shows all the books she read." }
+        ];
+
+        const tuesdayPractice = [
+            { title: "Maria's History Project", passage: "Maria is writing about World War II. She finds a letter written by a soldier in 1943. She also reads a textbook chapter about the war written in 2020. Her teacher says she needs both types of sources.", question: "What type of source is the soldier's letter from 1943?", questionCn: "1943年士兵的信件属于什么类型的资料？", options: [{ text: "Secondary source because it is very old", textCn: "二手资料，因为它很古老", correct: false, rationale: "Age does not determine source type. | 年代不能决定资料类型。" }, { text: "Primary source because it is a firsthand account", textCn: "一手资料，因为它是第一手记述", correct: true, rationale: "Letters from people who lived through events are primary sources. | 经历过事件的人写的信属于一手资料。" }, { text: "Not a credible source because it is personal", textCn: "不可信的资料，因为它是私人文件", correct: false, rationale: "Personal letters can be credible primary sources. | 私人信件可以是可信的一手资料。" }, { text: "Bibliography because it lists sources", textCn: "参考书目，因为它列出了来源", correct: false, rationale: "A single letter is not a bibliography. | 单封信件不是参考书目。" }] },
+            { title: "Online Research", passage: "Chen needs to find information about climate change. He finds a blog post by an unknown writer. Then he finds a research paper from a university science department. The paper includes data from weather stations.", question: "Which source is more credible for Chen's essay?", questionCn: "对于Chen的论文，哪个来源更可信？", options: [{ text: "The blog post because it is easier to read", textCn: "博客文章，因为它更容易阅读", correct: false, rationale: "Easy reading does not mean academic credibility. | 易读不等于学术可信。" }, { text: "Both sources are equally credible", textCn: "两个来源同样可信", correct: false, rationale: "University research is more credible than unknown blogs. | 大学研究比无名博客更可信。" }, { text: "The university paper because it has expert data", textCn: "大学论文，因为它有专家数据", correct: true, rationale: "University research with data from experts is highly credible. | 带有专家数据的大学研究可信度很高。" }, { text: "Neither source is allowed in academic writing", textCn: "学术写作中不允许使用任何来源", correct: false, rationale: "Academic writing requires sources, but credible ones. | 学术写作需要资料来源，但必须是可信的。" }] },
+            { title: "Using Evidence", passage: "Jin is writing that exercise helps students get better grades. He finds this fact: 'Students who exercise 3 times per week get 15% higher grades on average' from a medical journal. He wants to use this in his essay.", question: "What should Jin do with this information?", questionCn: "Jin应该如何处理这条信息？", options: [{ text: "Copy it exactly and say he found it online", textCn: "完全复制并说他是在网上找到的", correct: false, rationale: "This lacks proper citation and may be plagiarism. | 这缺少适当的引用，可能属于抄袭。" }, { text: "Change a few words and not cite it", textCn: "改几个词且不引用", correct: false, rationale: "Changing words without citation is still plagiarism. | 不改词不引用仍然是抄袭。" }, { text: "Use a proper citation to the medical journal", textCn: "正确引用医学期刊", correct: true, rationale: "Always cite credible sources properly. | 总是要正确引用可信来源。" }, { text: "Ignore it because it is a number", textCn: "忽略它，因为它是个数字", correct: false, rationale: "Statistics are strong evidence when cited properly. | 统计数据在正确引用时是强有力的证据。" }] },
+            { title: "Source Check", passage: "Lily finds a website about healthy eating. She checks the author's name. The author has a PhD in nutrition from a well-known university. The article was published last year and includes references to other studies.", question: "Why is this source credible?", questionCn: "为什么这个来源是可信的？", options: [{ text: "It is the first source she found", textCn: "这是她找到的第一个来源", correct: false, rationale: "Order of finding does not affect credibility. | 找到的顺序不影响可信度。" }, { text: "The author has expertise and includes references", textCn: "作者有专业知识并包含参考文献", correct: true, rationale: "Expert authors with citations make sources credible. | 有参考文献的专家作者使来源可信。" }, { text: "It is about a popular topic", textCn: "它是关于热门话题的", correct: false, rationale: "Popular topics do not guarantee accuracy. | 热门话题不能保证准确性。" }, { text: "It has a colorful design", textCn: "它有丰富多彩的设计", correct: false, rationale: "Design does not indicate academic quality. | " }] },
+            { title: "Primary or Secondary?", passage: "A student is researching the 2008 Olympics. She watches a video of the opening ceremony that she finds on YouTube. She also reads a sports magazine article from 2023 analyzing why those Games were important.", question: "Which is the secondary source?", questionCn: "哪个是二手资料？", options: [{ text: "The YouTube video of the ceremony", textCn: "开幕式的YouTube视频", correct: false, rationale: "Videos of actual events are primary sources. | 实际活动的视频是一手资料。" }, { text: "The 2023 magazine article analyzing the Games", textCn: "2023年分析该届奥运会的杂志文章", correct: true, rationale: "Articles that analyze past events are secondary sources. | 分析过去事件的文章是二手资料。" }, { text: "Both are primary sources", textCn: "两者都是一手资料", correct: false, rationale: "The analysis article is secondary, not primary. | 分析文章是二手的，不是一手的。" }, { text: "Neither is a valid source", textCn: "两者都不是有效来源", correct: false, rationale: "Both can be valid if used correctly. | 如果正确使用，两者都可以是有效的。" }] },
+            { title: "Avoiding Plagiarism", passage: "Wang wants to include this idea from a book: 'Reading for 20 minutes daily improves vocabulary growth.' He understands the idea but needs to put it in his essay.", question: "What is the best way for Wang to use this idea?", questionCn: "Wang使用这个观点的最佳方式是什么？", options: [{ text: "Copy the exact words and hope nobody notices", textCn: "复制原话并希望没人注意到", correct: false, rationale: "This is plagiarism and is academically dishonest. | 这是抄袭，是学术不诚实的。" }, { text: "Paraphrase it in his own words and cite the book", textCn: "用自己的话改述并引用该书", correct: true, rationale: "Paraphrasing with citation shows understanding and honesty. | 改述并引用显示出理解和诚实。" }, { text: "Change one word and use it as his own idea", textCn: "改一个词并作为自己的观点使用", correct: false, rationale: "Changing one word is still plagiarism. | 改一个词仍然是抄袭。" }, { text: "Do not include the idea at all", textCn: "完全不包含这个观点", correct: false, rationale: "You can use others' ideas if you cite them properly. | 如果正确引用，你可以使用他人的观点。" }] },
+            { title: "Evaluating Websites", passage: "Zhang finds two websites about space exploration. Website A ends with .com and sells telescopes. Website B ends with .edu and is written by NASA scientists. Both have information about Mars.", question: "Which website is more credible for academic research?", questionCn: "对于学术研究，哪个网站更可信？", options: [{ text: "Website A because it is commercial", textCn: "网站A，因为它是商业网站", correct: false, rationale: "Commercial sites may have bias to sell products. | 商业网站可能有销售产品的偏见。" }, { text: "Website B because it is from an educational institution", textCn: "网站B，因为它来自教育机构", correct: true, rationale: "Educational and government sites (.edu, .gov) are more credible. | 教育和政府网站（.edu、.gov）更可信。" }, { text: "Both are equally good for school", textCn: "两者对学校作业同样好", correct: false, rationale: "Educational institution sources are preferred for academic work. | 学术工作更喜欢教育机构来源。" }, { text: "Neither can be used in essays", textCn: "两者都不能用于论文", correct: false, rationale: "NASA/educational sources are excellent for essays. | NASA/教育来源对论文来说是极好的。" }] },
+            { title: "Interview Data", passage: "For a project on local history, Mei interviews her grandmother who lived through the 1970s in their town. Mei also reads a history book about that decade written by a professor.", question: "How should Mei classify her grandmother's interview?", questionCn: "Mei应该如何归类她祖母的采访？", options: [{ text: "As a secondary source like the history book", textCn: "像历史书一样作为二手资料", correct: false, rationale: "Interviews with witnesses are primary, not secondary. | 对见证人的采访是一手的，不是二手的。" }, { text: "As a primary source because it is firsthand testimony", textCn: "作为一手资料，因为它是第一手证词", correct: true, rationale: "Firsthand accounts from people who lived through events are primary sources. | 经历过事件的人的第一手记述是一手资料。" }, { text: "As not credible because it is personal memory", textCn: "不可信，因为它是个人记忆", correct: false, rationale: "Personal memories are valid primary sources for history. | 个人记忆是有效的历史一手资料。" }, { text: "As a bibliography entry", textCn: "作为参考书目条目", correct: false, rationale: "An interview is a source, not a list of sources. | 采访是来源，不是来源列表。" }] },
+            { title: "Objective vs. Biased", passage: "Liu finds an article titled 'Why Sugar is Poison' on a health food company website. The article says all sugar is bad and only natural foods from their company are safe.", question: "What is the problem with this source?", questionCn: "这个来源的问题是什么？", options: [{ text: "It is too short to be useful", textCn: "它太短了，没用", correct: false, rationale: "Length is not the main issue here. | 长度不是这里的主要问题。" }, { text: "It is not objective because it tries to sell products", textCn: "它不客观，因为它试图销售产品", correct: true, rationale: "Sources that sell products may be biased and not objective. | 销售产品的来源可能有偏见且不客观。" }, { text: "It uses scientific language", textCn: "它使用了科学语言", correct: false, rationale: "Scientific language alone does not indicate bias. | 单独的科学语言不能表明偏见。" }, { text: "It is a primary source", textCn: "它是一手资料", correct: false, rationale: "The classification as primary/secondary is not the issue here. | 归类为一手/二手不是这里的问题。" }] },
+            { title: "Building a Bibliography", passage: "Xiao has finished her research. She used three books, two journal articles, and one interview. She needs to create a bibliography page at the end of her essay.", question: "What must be true about Xiao's bibliography?", questionCn: "关于小晓的参考书目，以下哪项必须正确？", options: [{ text: "It only lists the books she liked best", textCn: "它只列出她最喜欢的书", correct: false, rationale: "Bibliographies must list ALL sources used, not just favorites. | 参考书目必须列出所有使用的来源，不只是最喜欢的。" }, { text: "It includes every source she used in her essay", textCn: "它包含她在论文中使用的每一个来源", correct: true, rationale: "A complete bibliography lists all sources cited in the work. | 完整的参考书目列出作品中引用的所有来源。" }, { text: "It lists sources she read but did not cite", textCn: "它列出她读过但没有引用的来源", correct: false, rationale: "Only cited sources go in the bibliography, not background reading. | 参考书目只放引用的来源，不是背景阅读。" }, { text: "It should be at the beginning of the essay", textCn: "它应该在论文开头", correct: false, rationale: "Bibliographies go at the end of essays. | 参考书目放在论文末尾。" }] }
+        ];
+
+        const tuesdayExit = [
+            { q: "What is a primary source?", qCn: "什么是一手资料？", options: ["A firsthand account from someone who experienced an event", "An article analyzing an event from 50 years later", "A bibliography of all sources", "A website with advertisements"], correct: 0 },
+            { q: "Why is citation important?", qCn: "为什么引用很重要？", options: ["It makes the essay longer", "It gives credit to original authors and avoids plagiarism", "It shows you used many books", "It is required only for weak arguments"], correct: 1 },
+            { q: "Which URL ending suggests higher credibility?", qCn: "哪个网址结尾表明可信度更高？", options: [".com", ".net", ".edu", ".shop"], correct: 2 },
+            { q: "What is paraphrasing?", qCn: "什么是改述？", options: ["Copying text exactly", "Rewriting ideas in your own words", "Adding pictures to your essay", "Making a bibliography"], correct: 1 },
+            { q: "Which is a secondary source?", qCn: "哪个是二手资料？", options: ["A diary from 1945", "A textbook analyzing World War II", "A photograph of a protest", "An interview with a witness"], correct: 1 },
+            { q: "What makes a source objective?", qCn: "什么使来源客观？", options: ["It is based on facts, not personal feelings", "It is written by a famous person", "It has many colors and photos", "It agrees with your opinion"], correct: 0 },
+            { q: "When is plagiarism happening?", qCn: "何时发生抄袭？", options: ["When you use your own ideas", "When you use others' ideas without citation", "When you paraphrase with proper citation", "When you write a bibliography"], correct: 1 },
+            { q: "Why use credible sources?", qCn: "为什么要使用可信来源？", options: ["They make your argument stronger and trustworthy", "They are easier to find online", "They are always free to use", "They do not need citations"], correct: 0 },
+            { q: "What is a bibliography?", qCn: "什么是参考书目？", options: ["A type of primary source", "A list of all sources used in research", "A method for analyzing data", "A part of the thesis statement"], correct: 1 },
+            { q: "Which factor LEAST affects source credibility?", qCn: "哪个因素对来源可信度影响最小？", options: ["Author's expertise", "Website design and colors", "Publication date", "Presence of citations"], correct: 1 }
+        ];
+
+        const wednesdayPractice = [
+            { title: "Finding the Thesis", passage: "Students should have longer lunch periods at school. Currently, students only have 30 minutes to eat. This is not enough time to eat healthy food and relax. With 45 minutes, students would be healthier and more ready to learn in afternoon classes. Schools should extend lunch time to 45 minutes.", question: "What is the thesis statement in this paragraph?", questionCn: "这段文字的论点陈述是什么？", options: [{ text: "Students currently have 30 minutes for lunch", textCn: "学生们目前有30分钟午餐时间", correct: false, rationale: "This is background information, not the main argument. | 这是背景信息，不是主要论点。" }, { text: "Schools should extend lunch time to 45 minutes", textCn: "学校应该将午餐时间延长到45分钟", correct: true, rationale: "This is the main argument that the rest of the paragraph supports. | 这是段落其余部分支持的主要论点。" }, { text: "Students would be healthier", textCn: "学生们会更健康", correct: false, rationale: "This is a supporting point, not the main thesis. | 这是支持点，不是主要论点。" }, { text: "Afternoon classes are important", textCn: "下午的课很重要", correct: false, rationale: "This is mentioned but is not the central claim. | 这被提及但不是中心主张。" }] },
+            { title: "Body Paragraph Parts", passage: "Social media connects students around the world. For example, a student in China can discuss science projects with a student in Brazil through video calls. This connection helps both students learn about different cultures while studying the same subjects. Therefore, social media is a useful tool for global education.", question: "Which sentence provides the EVIDENCE in this paragraph?", questionCn: "这段文字中哪句话提供了证据？", options: [{ text: "Social media connects students around the world", textCn: "社交媒体连接世界各地的学生", correct: false, rationale: "This is the topic sentence (Main Idea), not evidence. | 这是主题句（主要观点），不是证据。" }, { text: "Therefore, social media is a useful tool...", textCn: "因此，社交媒体是有用的工具...", correct: false, rationale: "This is the concluding sentence, not evidence. | 这是结论句，不是证据。" }, { text: "For example, a student in China can discuss...", textCn: "例如，中国的学生可以与...讨论", correct: true, rationale: "The 'for example' sentence provides specific evidence. | " }, { text: "This connection helps both students learn...", textCn: "这种联系帮助两个学生学习...", correct: false, rationale: "This is analysis explaining the evidence, not the evidence itself. | 这是分析解释证据，不是证据本身。" }] },
+            { title: "Introduction Elements", passage: "Imagine starting your day with energy and focus. Many students skip breakfast because they wake up late. However, eating breakfast improves memory and test scores by 20%. Schools should serve free breakfast to all students to help them learn better.", question: "Which part is the HOOK in this introduction?", questionCn: "这段引言中哪部分是钩子？", options: [{ text: "Schools should serve free breakfast...", textCn: "学校应该提供免费早餐...", correct: false, rationale: "This is the thesis statement, not the hook. | 这是论点陈述，不是钩子。" }, { text: "However, eating breakfast improves...", textCn: "然而，吃早餐提高...", correct: false, rationale: "This is background information leading to the thesis. | 这是通向论点的背景信息。" }, { text: "Imagine starting your day with energy...", textCn: "想象以精力充沛开始你的一天...", correct: true, rationale: "The opening that grabs attention is the hook. | 吸引注意力的开头是钩子。" }, { text: "Many students skip breakfast...", textCn: "许多学生不吃早餐...", correct: false, rationale: "This is background context, not the attention-grabbing hook. | 这是背景，不是吸引注意力的钩子。" }] },
+            { title: "Conclusion Purpose", passage: "In conclusion, recycling programs in schools are necessary. They reduce waste by 40% and teach students responsibility. When students recycle daily, they build habits that protect the environment for the future. Every school should start a recycling program this year.", question: "What does this conclusion do correctly?", questionCn: "这段结论正确地做了什么？", options: [{ text: "Introduces new facts about ocean pollution", textCn: "引入关于海洋污染的新事实", correct: false, rationale: "Conclusions should not introduce new information. | 结论不应该引入新信息。" }, { text: "Restates the thesis and adds a final thought", textCn: "重述论点并添加最终思考", correct: true, rationale: "The conclusion restates the thesis and ends with significance. | 结论重述论点并以意义结束。" }, { text: "Copies the introduction word for word", textCn: "逐字复制引言", correct: false, rationale: "Conclusions should restate in new words, not copy exactly. | 结论应该用新的话重述，不是完全复制。" }, { text: "Lists all sources used in the essay", textCn: "列出论文中使用的所有来源", correct: false, rationale: "Sources belong in the bibliography, not the conclusion. | 来源属于参考书目，不是结论。" }] },
+            { title: "Topic Sentences", passage: "Student A's essay has this paragraph: 'First, uniforms save money. Families spend $500 yearly on trendy clothes. With uniforms, they buy only basic items. This saves about $300 per year.' Student B's paragraph starts: 'Many people have different opinions about school rules.'", question: "Which paragraph has a stronger topic sentence?", questionCn: "哪段的段落主题句更强？", options: [{ text: "Student A because it states a specific main idea", textCn: "学生A，因为它陈述了具体的主题", correct: true, rationale: "Specific topic sentences guide the reader better. | 具体的主题句更好地引导读者。" }, { text: "Student B because it is more general", textCn: "学生B，因为它更笼统", correct: false, rationale: "General topic sentences do not give clear direction. | 笼统的主题句不能给出明确方向。" }, { text: "Both are equally good topic sentences", textCn: "两者同样好", correct: false, rationale: "Specific is better than vague in academic writing. | 学术写作中具体比模糊好。" }, { text: "Neither has a proper topic sentence", textCn: "两者都没有适当的主题句", correct: false, rationale: "Student A has a clear topic sentence. | 学生A有清晰的主题句。" }] },
+            { title: "Transitions", passage: "The first body paragraph discusses cost savings. [Blank] the second paragraph discusses how uniforms reduce bullying. Additionally, the third paragraph will examine how uniforms improve morning routines.", question: "Which transition word fits best in the blank?", questionCn: "哪个过渡词最适合填入空白？", options: [{ text: "However", textCn: "然而", correct: false, rationale: "'However' shows contrast, but these paragraphs show sequence/addition. | '然而'表示对比，但这些段落表示顺序/补充。" }, { text: "In conclusion", textCn: "总之", correct: false, rationale: "This ends an essay, not connects body paragraphs. | 这结束论文，不是连接正文段落。" }, { text: "Furthermore", textCn: "此外", correct: true, rationale: "'Furthermore' adds another related point, which fits here. | '此外'添加另一个相关观点，适合这里。" }, { text: "For example", textCn: "例如", correct: false, rationale: "The second paragraph is not an example of the first. | 第二段不是第一段的例子。" }] },
+            { title: "Analysis vs. Evidence", passage: "In her essay about reading, Lin includes this: 'Studies show students who read daily score 25% higher on vocabulary tests. This proves that regular reading builds language skills better than just studying word lists.'", question: "Which part is the ANALYSIS?", questionCn: "哪部分是分析？", options: [{ text: "Studies show students who read daily...", textCn: "研究表明每天阅读的学生...", correct: false, rationale: "This is the evidence/data from the study. | 这是来自研究的证据/数据。" }, { text: "In her essay about reading...", textCn: "在她关于阅读的论文中...", correct: false, rationale: "This is context about the essay. | 这是关于论文的背景。" }, { text: "This proves that regular reading builds...", textCn: "这证明定期阅读建立...", correct: true, rationale: "This explains what the evidence means and proves. | 这解释了证据的含义和证明。" }, { text: "25% higher on vocabulary tests", textCn: "词汇测试高25%", correct: false, rationale: "This is the data/statistic, not analysis. | 这是数据/统计，不是分析。" }] },
+            { title: "Thesis Placement", passage: "Essay 1: The thesis is in the last sentence of the introduction. Essay 2: The thesis is in the first sentence of the introduction. Essay 3: The thesis is in the conclusion paragraph only.", question: "Which essay follows standard academic structure?", questionCn: "哪篇论文遵循标准学术结构？", options: [{ text: "Essay 1 (thesis at end of introduction)", textCn: "论文1（论点在引言末尾）", correct: true, rationale: "The thesis typically comes at the end of the introduction. | 论点通常出现在引言末尾。" }, { text: "Essay 2 (thesis at beginning)", textCn: "论文2（论点在开头）", correct: false, rationale: "Thesis usually comes after background/hook, not immediately. | 论点通常在背景/钩子之后，不是立即出现。" }, { text: "Essay 3 (thesis only in conclusion)", textCn: "论文3（论点只在结论中）", correct: false, rationale: "The conclusion restates the thesis, not introduces it. | 结论重述论点，不是介绍它。" }, { text: "All three are equally correct", textCn: "三个都同样正确", correct: false, rationale: "Standard structure places thesis at end of introduction. | 标准结构将论点放在引言末尾。" }] },
+            { title: "Body Paragraph Unity", passage: "A student writes a body paragraph about the benefits of exercise. The paragraph includes: how running improves heart health, how swimming builds muscle, and how video games improve hand-eye coordination.", question: "What is the problem with this paragraph?", questionCn: "这段文字的问题是什么？", options: [{ text: "It lacks a topic sentence", textCn: "它缺少主题句", correct: false, rationale: "The paragraph may have a topic sentence; the issue is unity. | 段落可能有主题句；问题是统一性。" }, { text: "The last sentence does not fit the main topic", textCn: "最后一句话不符合主题", correct: true, rationale: "Video games are not exercise; this breaks paragraph unity. | 电子游戏不是锻炼；这破坏了段落统一性。" }, { text: "It has too many examples", textCn: "例子太多", correct: false, rationale: "Multiple examples are fine if they all support the topic. | 如果都支持主题，多个例子是可以的。" }, { text: "The evidence is not cited", textCn: "证据没有引用", correct: false, rationale: "While citation is important, unity is the main issue here. | 虽然引用很重要，统一性是这里的主要问题。" }] },
+            { title: "Essay Organization", passage: "A five-paragraph essay about protecting oceans has these main points: 1) Stop plastic pollution, 2) Protect coral reefs, 3) Reduce overfishing. The introduction lists these in this order.", question: "How should the body paragraphs be organized?", questionCn: "正文段落应该如何组织？", options: [{ text: "In the same order as the introduction thesis", textCn: "按照引言论点陈述中的相同顺序", correct: true, rationale: "Body paragraphs should follow the order set in the thesis. | 正文段落应该遵循论点陈述中设定的顺序。" }, { text: "In reverse order starting with overfishing", textCn: "从过度捕捞开始倒序排列", correct: false, rationale: "Reversing order without reason confuses readers. | 无缘无故倒序会迷惑读者。" }, { text: "Mixed randomly for interest", textCn: "随机混合以增加趣味", correct: false, rationale: "Essays need logical order, not random arrangement. | 论文需要逻辑顺序，不是随机排列。" }, { text: "All three points in one long paragraph", textCn: "所有三个观点在一个长段落中", correct: false, rationale: "Each main point needs its own body paragraph. | 每个主要观点需要自己的正文段落。" }] }
+        ];
+
+        const wednesdayExit = [
+            { q: "Where should the thesis statement usually appear?", qCn: "论点陈述通常应该出现在哪里？", options: ["At the beginning of the conclusion", "At the end of the introduction", "In the middle of body paragraphs", "In the bibliography"], correct: 1 },
+            { q: "What does MEAT stand for in body paragraphs?", qCn: "正文段落中MEAT代表什么？", options: ["Main Idea, Evidence, Analysis, Transition", "Make, Eat, Ask, Tell", "Main Essay, Argument, Thesis", "Method, Evidence, Answer, Text"], correct: 0 },
+            { q: "What is the purpose of a hook?", qCn: "钩子的目的是什么？", options: ["To list all sources", "To grab the reader's attention", "To restate the thesis", "To analyze evidence"], correct: 1 },
+            { q: "What should NOT be in a conclusion?", qCn: "结论中不应该有什么？", options: ["Restated thesis", "Summary of main points", "New information not discussed before", "Final thought on importance"], correct: 2 },
+            { q: "Which is an example of evidence?", qCn: "以下哪个是证据的例子？", options: ["I think exercise is good", "Studies show 30 minutes of exercise reduces stress by 40%", "In my opinion, everyone should exercise", "Exercise is important for many reasons"], correct: 1 },
+            { q: "What is analysis in a body paragraph?", qCn: "正文段落中的分析是什么？", options: ["Copying a quote exactly", "Explaining how evidence proves your point", "Writing the topic sentence", "Listing the bibliography"], correct: 1 },
+            { q: "Which transition shows addition?", qCn: "哪个过渡词表示添加？", options: ["However", "Therefore", "Furthermore", "In contrast"], correct: 2 },
+            { q: "How many main ideas should one body paragraph have?", qCn: "一个正文段落应该有几个主要观点？", options: ["As many as possible", "One main idea per paragraph", "Exactly three ideas", "No main ideas"], correct: 1 },
+            { q: "What makes a strong topic sentence?", qCn: "什么构成强有力的主题句？", options: ["It is very general", "It states one specific main idea", "It asks a question", "It cites a source"], correct: 1 },
+            { q: "What is the last step in writing a body paragraph?", qCn: "写正文段落的最后一步是什么？", options: ["Add the hook", "Provide transition to next paragraph", "Write the thesis", "Make the bibliography"], correct: 1 }
+        ];
+
+        let currentTab = 'vocab';
+        let answeredItems = 0;
+        const totalItems = 45;
+        let leaveCount = 0;
+        let tueAnswers = {};
+        let wedAnswers = {};
+        let tueExitAnswers = {};
+        let wedExitAnswers = {};
+
+        function init() {
+            renderVocab();
+            renderPractice('tuesday', tuesdayPractice);
+            renderPractice('wednesday', wednesdayPractice);
+            renderExit('tuesday', tuesdayExit);
+            renderExit('wednesday', wednesdayExit);
+            startTimer();
+            setupVisibilityTracking();
+        }
+
+        function renderVocab() {
+            const grid = document.getElementById('vocabGrid');
+            vocabulary.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'vocab-card';
+                card.innerHTML = `
+                    <div class="vocab-header">
+                        <span class="vocab-word">${item.word}</span>
+                        <span class="part-of-speech">${item.pos}</span>
+                    </div>
+                    <div class="vocab-def">${item.def}</div>
+                    <div class="vocab-cn">${item.defCn}</div>
+                    <div class="vocab-example">"${item.example}"</div>
+                    <button class="audio-btn" data-word="${item.word}">🔊 Hear it | 听发音</button>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.querySelectorAll('.audio-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    speak(this.getAttribute('data-word'));
+                    if (!this.classList.contains('played')) {
+                        this.classList.add('played');
+                        updateProgress();
+                    }
+                });
+            });
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function renderPractice(day, questions) {
+            const container = document.getElementById(day + 'Practice');
+            questions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'practice-card';
+                let optionsHtml = '';
+                q.options.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(65 + optIdx);
+                    const cleanText = opt.text.replace(/^[A-D]\.\s*/, '');
+                    optionsHtml += `<button class="option-btn" onclick="selectPractice('${day}', ${idx}, ${optIdx}, this)"><span class="option-letter">${letter}</span><div class="option-content"><div class="option-text">${cleanText}</div><div class="option-cn">${opt.textCn}</div></div></button>`;
+                });
+                card.innerHTML = `
+                    <div class="practice-number">${idx + 1}</div>
+                    <div class="passage-box"><div class="passage-title">${q.title}</div><div class="passage-text">${q.passage}</div></div>
+                    <div class="question-text">${q.question}</div>
+                    <div class="question-cn">${q.questionCn}</div>
+                    <div class="options-grid">${optionsHtml}</div>
+                    <div class="rationale" id="rationale-${day}-${idx}"><div class="rationale-title">Explanation | 解释</div><div class="rationale-text" id="rat-text-${day}-${idx}"></div><div class="rationale-cn" id="rat-cn-${day}-${idx}"></div></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderExit(day, questions) {
+            const container = document.getElementById(day + 'Exit');
+            questions.forEach((q, idx) => {
+                const div = document.createElement('div');
+                div.className = 'exit-question';
+                let optionsHtml = '';
+                q.options.forEach((opt, optIdx) => {
+                    const letter = String.fromCharCode(65 + optIdx);
+                    const cleanOpt = opt.replace(/^[A-D]\.\s*/, '');
+                    optionsHtml += `<button class="exit-option-btn" onclick="selectExit('${day}', ${idx}, ${optIdx}, this)"><span class="option-letter" style="background: rgba(255,255,255,0.2); color: white;">${letter}</span><div>${cleanOpt}</div></button>`;
+                });
+                div.innerHTML = `<div class="exit-question-text">${idx + 1}. ${q.q}</div><div class="exit-question-cn">${q.qCn}</div><div class="exit-options">${optionsHtml}</div>`;
+                container.appendChild(div);
+            });
+        }
+
+        function selectPractice(day, qIdx, optIdx, btn) {
+            const storage = day === 'tuesday' ? tueAnswers : wedAnswers;
+            const key = `${day}-${qIdx}`;
+            if (storage[key]) return;
+            storage[key] = { selected: optIdx };
+            const card = btn.closest('.practice-card');
+            const buttons = card.querySelectorAll('.option-btn');
+            const questions = day === 'tuesday' ? tuesdayPractice : wednesdayPractice;
+            const question = questions[qIdx];
+            buttons.forEach((b, i) => {
+                b.classList.add('locked');
+                if (i === optIdx) {
+                    if (question.options[i].correct) b.classList.add('correct');
+                    else b.classList.add('wrong');
+                } else if (question.options[i].correct) b.classList.add('correct');
+            });
+            const rationale = document.getElementById(`rationale-${day}-${qIdx}`);
+            document.getElementById(`rat-text-${day}-${qIdx}`).textContent = question.options[optIdx].rationale.split(' | ')[0];
+            document.getElementById(`rat-cn-${day}-${qIdx}`).textContent = question.options[optIdx].rationale.split(' | ')[1] || '';
+            rationale.classList.add('show');
+            updateProgress();
+        }
+
+        function selectExit(day, qIdx, optIdx, btn) {
+            const storage = day === 'tuesday' ? tueExitAnswers : wedExitAnswers;
+            if (storage[qIdx] !== undefined) return;
+            storage[qIdx] = optIdx;
+            const questionDiv = btn.closest('.exit-question');
+            const buttons = questionDiv.querySelectorAll('.exit-option-btn');
+            const questions = day === 'tuesday' ? tuesdayExit : wednesdayExit;
+            const correct = questions[qIdx].correct;
+            buttons.forEach((b, i) => {
+                b.classList.add('locked');
+                b.style.opacity = '0.6';
+                if (i === correct) { b.classList.add('correct'); b.style.opacity = '1'; }
+                else if (i === optIdx && i !== correct) b.classList.add('wrong');
+            });
+            updateProgress();
+            checkExitComplete(day);
+        }
+
+        function checkExitComplete(day) {
+            const storage = day === 'tuesday' ? tueExitAnswers : wedExitAnswers;
+            if (Object.keys(storage).length === 10) {
+                const questions = day === 'tuesday' ? tuesdayExit : wednesdayExit;
+                let score = 0;
+                Object.keys(storage).forEach(key => { if (storage[key] === questions[key].correct) score++; });
+
+                document.getElementById(`${day === 'tuesday' ? 'tue' : 'wed'}Score`).textContent = `${score}/10`;
+
+                // Show score, reflection, and download sections by setting display to block
+                document.getElementById(`${day === 'tuesday' ? 'tue' : 'wed'}ScoreDisplay`).style.display = 'block';
+                document.getElementById(`${day === 'tuesday' ? 'tue' : 'wed'}Reflection`).style.display = 'block';
+                document.getElementById(`${day === 'tuesday' ? 'tue' : 'wed'}Download`).style.display = 'block';
+
+                document.getElementById(`pip-${day}`).classList.add('completed');
+            }
+        }
+
+        function updateProgress() {
+            answeredItems++;
+            const pct = Math.min((answeredItems / totalItems) * 100, 100);
+            document.getElementById('progressBar').style.width = pct + '%';
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.closest('.nav-tab').classList.add('active');
+        }
+
+        function startTimer() {
+            let seconds = 0;
+            setInterval(() => {
+                seconds++;
+                const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+                const secs = (seconds % 60).toString().padStart(2, '0');
+                document.getElementById('timer').textContent = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function setupVisibilityTracking() {
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    leaveCount++;
+                    const counter = document.getElementById('leaveCounter');
+                    counter.textContent = `Leaves: ${leaveCount}`;
+                    counter.classList.add('active');
+                    setTimeout(() => counter.classList.remove('active'), 1000);
+                }
+            });
+        }
+
+        // Day-specific download report - only downloads data for the specific day
+        function downloadReport(day) {
+            const studentName = document.getElementById(`${day === 'tuesday' ? 'tue' : 'wed'}StudentName`).value || 'Unknown';
+            const date = new Date().toLocaleDateString();
+            const time = document.getElementById('timer').textContent;
+            const dayLabel = day === 'tuesday' ? 'TUESDAY - RESEARCH & SOURCES' : 'WEDNESDAY - ESSAY STRUCTURE';
+            const practiceStorage = day === 'tuesday' ? tueAnswers : wedAnswers;
+            const exitStorage = day === 'tuesday' ? tueExitAnswers : wedExitAnswers;
+            const exitQuestions = day === 'tuesday' ? tuesdayExit : wednesdayExit;
+            const practiceQuestions = day === 'tuesday' ? tuesdayPractice : wednesdayPractice;
+
+            let score = 0;
+            Object.keys(exitStorage).forEach(key => { if (exitStorage[key] === exitQuestions[key].correct) score++; });
+
+            const reflect1 = document.getElementById(`${day === 'tuesday' ? 'tue' : 'wed'}Reflect1`)?.value || '';
+            const reflect2 = document.getElementById(`${day === 'tuesday' ? 'tue' : 'wed'}Reflect2`)?.value || '';
+
+            let content = `=====================================================\n`;
+            content += `ESL MODULE RESULTS - ${day.toUpperCase()}\n`;
+            content += `=====================================================\n\n`;
+            content += `School: Maple Leaf World School · Xiangyang\n`;
+            content += `Module: Research Essays & Academic Writing\n`;
+            content += `Day: ${dayLabel}\n`;
+            content += `Student Name: ${studentName}\n`;
+            content += `Date: ${date}\n`;
+            content += `Session Time: ${time}\n`;
+            content += `Times Left Page: ${leaveCount}\n`;
+            content += `Exit Ticket Score: ${score}/10\n`;
+            content += `\n=====================================================\n`;
+            content += `PRACTICE ANSWERS (10 Questions)\n`;
+            content += `=====================================================\n\n`;
+            for (let i = 0; i < 10; i++) {
+                const key = `${day}-${i}`;
+                if (practiceStorage[key]) {
+                    const selected = practiceStorage[key].selected;
+                    const correct = practiceQuestions[i].options[selected].correct;
+                    content += `Q${i+1}: Option ${String.fromCharCode(65 + selected)} - ${correct ? 'CORRECT' : 'INCORRECT'}\n`;
+                } else { content += `Q${i+1}: Not answered\n`; }
+            }
+            content += `\n=====================================================\n`;
+            content += `EXIT TICKET ANSWERS (10 Questions)\n`;
+            content += `=====================================================\n\n`;
+            for (let i = 0; i < 10; i++) {
+                if (exitStorage[i] !== undefined) {
+                    const correct = exitStorage[i] === exitQuestions[i].correct;
+                    content += `Q${i+1}: Option ${String.fromCharCode(65 + exitStorage[i])} - ${correct ? 'CORRECT' : 'INCORRECT'}\n`;
+                } else { content += `Q${i+1}: Not answered\n`; }
+            }
+            content += `\n=====================================================\n`;
+            content += `SELF-REFLECTION RESPONSES\n`;
+            content += `=====================================================\n\n`;
+            content += `Q1: ${day === 'tuesday' ? 'What was the most important thing you learned about research today? How will you use it in your next essay?' : 'Look at your last essay. Which part of MEAT was strongest? Which needs work?'}\n`;
+            content += `A1: ${reflect1 || 'No response'}\n\n`;
+            content += `Q2: ${day === 'tuesday' ? 'Why is it dangerous to use non-credible sources in academic writing? Give one example.' : 'How does a strong thesis statement help the reader? How does it help the writer?'}\n`;
+            content += `A2: ${reflect2 || 'No response'}\n`;
+            content += `\n=====================================================\n`;
+            content += `END OF ${day.toUpperCase()} REPORT\n`;
+            content += `=====================================================\n\n`;
+            content += `DISCLAIMER: Upload this file to Schoology to submit your work.\n`;
+            content += `免责声明：请将此文件上传至Schoology提交作业。\n`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ESL_Module_${day}_${studentName}_${date.replace(/\//g, '-')}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        init();
+    </script>
+</body>
+</html>
