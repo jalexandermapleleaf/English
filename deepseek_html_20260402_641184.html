@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inferences & Figurative Language | 推理与修辞语言</title>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a2a1a;
+  --ink2: #2d3d2d;
+  --mist: #f2f5f2;
+  --mist2: #e6ede6;
+  --jade: #1a5c2e;
+  --jade-light: #d4edda;
+  --cobalt: #1a5c2e;
+  --cobalt-light: #d4edda;
+  --amber: #8b6914;
+  --amber-light: #fdf3d0;
+  --rose: #9b2020;
+  --rose-light: #fde8e8;
+  --ruby: #9b2020;
+  --ruby-light: #fde8e8;
+  --border: #c8d8c8;
+  --card: #ffffff;
+  --radius: 14px;
+  --ml-green: #1a5c2e;
+  --ml-green-dark: #0f3a1c;
+  --ml-red: #b22222;
+  --ml-red-dark: #8b1a1a;
+  --ml-gold: #c8a84b;
+  --ml-gold-light: #fdf3d0;
+  --ml-green-light: #d4edda;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans','Noto Sans SC',sans-serif;background:var(--mist);color:var(--ink);min-height:100vh;font-size:16px;line-height:1.65}
+
+.header{background:linear-gradient(135deg,#0f3a1c 0%,#1a5c2e 55%,#8b1a1a 100%);color:white;padding:32px 28px 24px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.header-title h1{font-family:'Literata',serif;font-size:1.9rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2}
+.header-title .sub{font-size:1rem;opacity:0.82;margin-top:6px;font-weight:400}
+.leave-badge{background:var(--ruby);color:white;padding:8px 16px;border-radius:50px;font-size:0.82rem;font-weight:700;display:none;align-items:center;gap:8px;animation:pulse 2s infinite}
+.leave-badge.show{display:flex}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.65}}
+.progress-wrap{margin-top:16px}
+.progress-track{background:rgba(255,255,255,0.2);height:6px;border-radius:3px;overflow:hidden}
+.progress-bar{background:white;height:100%;width:0%;transition:width .4s ease;border-radius:3px}
+.progress-label{text-align:right;font-size:0.82rem;margin-top:6px;opacity:.85}
+
+.notice{background:var(--ml-gold-light);border:2px solid var(--ml-gold);border-radius:var(--radius);padding:14px 18px;margin:20px 0;display:flex;gap:12px;align-items:flex-start;color:var(--amber)}
+.notice-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.notice strong{display:block;margin-bottom:2px}
+.notice .cn-note{font-size:0.88rem;opacity:.8;margin-top:4px}
+
+.tabs{display:flex;gap:6px;background:white;padding:8px;border-radius:var(--radius);box-shadow:0 2px 8px rgba(26,21,35,0.08);margin-bottom:24px;flex-wrap:wrap}
+.tab-btn{flex:1;min-width:180px;padding:14px 12px;border:none;background:transparent;cursor:pointer;border-radius:10px;font-family:inherit;font-weight:700;font-size:0.95rem;color:#6b7280;transition:all .25s;line-height:1.3}
+.tab-btn .icon{font-size:1.3rem;display:block;margin-bottom:4px}
+.tab-btn .cn{display:block;font-size:0.78rem;font-weight:400;opacity:.8;margin-top:2px}
+.tab-btn:hover{background:var(--mist);color:var(--ml-green)}
+.tab-btn.active{background:var(--ml-green);color:white}
+.tab-content{display:none;animation:fadeUp .3s ease}
+.tab-content.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 2px 8px rgba(26,21,35,0.07);margin-bottom:20px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:14px;padding:22px 24px 18px;border-bottom:2px solid var(--mist)}
+.card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.card-icon.cobalt{background:var(--cobalt-light);color:var(--cobalt)}
+.card-icon.jade{background:var(--jade-light);color:var(--jade)}
+.card-icon.amber{background:var(--amber-light);color:var(--amber)}
+.card-icon.rose{background:var(--rose-light);color:var(--rose)}
+.card-head h2{font-family:'Literata',serif;font-size:1.3rem;color:var(--ink);margin-bottom:2px}
+.card-head .cn-head{font-size:0.88rem;color:#6b7280}
+.card-body{padding:24px}
+
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.vocab-card{border:2px solid var(--border);border-radius:12px;padding:18px;cursor:pointer;transition:all .25s;background:white;position:relative}
+.vocab-card:hover{border-color:var(--cobalt);transform:translateY(-2px);box-shadow:0 6px 16px rgba(35,71,166,0.12)}
+.vocab-card .word{font-family:'Literata',serif;font-size:1.15rem;font-weight:700;color:var(--cobalt);margin-bottom:8px;display:flex;align-items:center;gap:10px;justify-content:space-between}
+.vocab-card .pos{font-size:0.75rem;background:var(--cobalt-light);color:var(--cobalt);padding:2px 8px;border-radius:20px;font-weight:600;font-family:'DM Sans',sans-serif}
+.vocab-card .defn{font-size:0.9rem;color:var(--ink2);line-height:1.55;border-top:1px dashed var(--border);padding-top:10px;margin-top:10px}
+.vocab-card .cn-def{font-size:0.85rem;color:#6b7280;margin-top:4px}
+.vocab-card .example{font-size:0.88rem;font-style:italic;color:var(--jade);margin-top:8px;border-left:3px solid var(--jade-light);padding-left:10px}
+.vocab-card .flip-hint{font-size:0.75rem;color:#9ca3af;margin-top:10px;display:flex;align-items:center;gap:5px}
+.speak-btn{background:none;border:none;cursor:pointer;color:var(--cobalt);padding:2px;font-size:1rem;transition:transform .2s}
+.speak-btn:hover{transform:scale(1.2)}
+
+.concept-box{background:linear-gradient(135deg,var(--cobalt-light),var(--mist2));border:2px solid #bfdbfe;border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.concept-box.jade-theme{background:linear-gradient(135deg,var(--jade-light),#ecfdf5);border-color:#6ee7b7}
+.concept-label{font-size:0.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cobalt);margin-bottom:10px}
+.concept-box.jade-theme .concept-label{color:var(--jade)}
+.concept-box h3{font-family:'Literata',serif;font-size:1.25rem;color:var(--ink);margin-bottom:10px}
+.concept-box p{font-size:0.97rem;line-height:1.7;color:var(--ink2)}
+.concept-box .cn-concept{font-size:0.88rem;color:#6b7280;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,0.1)}
+.key-rule{background:white;border-radius:10px;padding:14px 16px;margin-top:14px;border-left:4px solid var(--cobalt);font-size:0.93rem}
+.key-rule.jade{border-left-color:var(--jade)}
+
+.practice-wrap{background:linear-gradient(to bottom right,#fffbeb,#fef9ee);border:2px solid #fbbf24;border-radius:var(--radius);padding:22px;margin-bottom:20px}
+.practice-label{display:flex;align-items:center;gap:10px;margin-bottom:16px;color:var(--amber);font-weight:700;font-size:1rem}
+.q-num{background:var(--amber);color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;flex-shrink:0}
+.passage{background:white;border:1px solid var(--border);border-radius:10px;padding:18px 20px;line-height:1.9;font-size:0.97rem;margin-bottom:16px}
+.passage-title{font-family:'Literata',serif;font-weight:700;color:var(--cobalt);margin-bottom:10px;font-size:1.05rem}
+.passage .highlight{background:#fef9c3;border-radius:3px;padding:0 2px}
+.q-text{font-weight:700;color:var(--ink);margin-bottom:14px;font-size:1rem;line-height:1.55}
+.q-cn{font-size:0.85rem;color:#6b7280;margin-top:4px;margin-bottom:14px}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{background:white;border:2px solid var(--border);border-radius:10px;padding:14px 16px;cursor:pointer;text-align:left;font-family:inherit;font-size:0.95rem;display:flex;align-items:flex-start;gap:12px;transition:all .2s;width:100%}
+.opt-btn:hover:not(.done){border-color:var(--cobalt);background:var(--cobalt-light)}
+.opt-lbl{background:var(--ink);color:white;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0;transition:background .2s}
+.opt-btn.correct{background:var(--jade-light);border-color:var(--jade)!important}
+.opt-btn.correct .opt-lbl{background:var(--jade)}
+.opt-btn.wrong{background:var(--ruby-light);border-color:var(--ruby)!important}
+.opt-btn.wrong .opt-lbl{background:var(--ruby)}
+.opt-btn.done{pointer-events:none;opacity:.85}
+.opt-cn{display:block;font-size:0.82rem;color:#6b7280;margin-top:3px}
+
+.rationale{display:none;margin-top:14px;padding:16px;border-radius:10px;font-size:0.93rem;line-height:1.65;animation:fadeUp .3s ease}
+.rationale.show{display:block}
+.rationale.correct-r{background:#f0fdf4;border:1px solid #86efac}
+.rationale.wrong-r{background:#fff1f2;border:1px solid #fecdd3}
+.rationale-head{font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:0.95rem}
+.rationale-cn{font-size:0.85rem;color:#6b7280;margin-top:8px;padding-top:8px;border-top:1px dashed rgba(0,0,0,0.1)}
+
+.exit-wrap{background:linear-gradient(135deg,#0f3a1c,#1a5c2e);border-radius:var(--radius);padding:28px;margin-top:28px;color:white}
+.exit-head{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.exit-icon{width:50px;height:50px;background:rgba(255,255,255,0.15);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+.exit-head h3{font-family:'Literata',serif;font-size:1.4rem}
+.exit-head .cn-sub{font-size:0.88rem;opacity:.75;margin-top:3px}
+.et-question{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:18px;margin-bottom:14px}
+.et-q-text{font-weight:700;margin-bottom:14px;font-size:0.97rem;line-height:1.55}
+.et-opt{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);border-radius:8px;padding:12px 14px;cursor:pointer;font-family:inherit;font-size:0.93rem;color:white;display:flex;align-items:center;gap:10px;margin-bottom:8px;width:100%;text-align:left;transition:all .2s}
+.et-opt:hover:not(.et-done){background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.5)}
+.et-opt.et-correct{background:rgba(30,123,92,0.5);border-color:#34d399}
+.et-opt.et-wrong{background:rgba(192,57,43,0.5);border-color:#f87171}
+.et-opt.et-done{pointer-events:none}
+.et-lbl{background:rgba(255,255,255,0.2);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;flex-shrink:0}
+.et-rat{display:none;font-size:0.88rem;opacity:.9;margin-top:10px;padding:10px 12px;background:rgba(255,255,255,0.1);border-radius:8px;line-height:1.6}
+.et-rat.show{display:block}
+
+.score-display{text-align:center;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.25);border-radius:14px;padding:28px;margin-top:24px;display:none}
+.score-display.show{display:block !important;animation:popIn .5s ease}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.score-num{font-family:'Literata',serif;font-size:3.5rem;font-weight:700;color:white}
+.score-denom{font-size:1.2rem;opacity:.7}
+.score-msg{font-size:1.05rem;margin-top:8px;opacity:.9}
+
+.reflection-inner{margin-top:24px;padding-top:24px;border-top:2px solid rgba(255,255,255,0.2)}
+.reflection-inner h4{font-family:'Literata',serif;font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.reflection-q{margin-bottom:16px}
+.reflection-q label{display:block;font-weight:600;margin-bottom:8px;font-size:0.95rem;line-height:1.5}
+.reflection-q .cn-lbl{font-size:0.82rem;opacity:.75;margin-top:3px;margin-bottom:8px;display:block}
+.reflection-q textarea{width:100%;background:rgba(255,255,255,0.1);border:2px solid rgba(255,255,255,0.25);border-radius:8px;padding:12px 14px;color:white;font-family:inherit;font-size:0.93rem;resize:vertical;min-height:80px;transition:border-color .2s}
+.reflection-q textarea::placeholder{color:rgba(255,255,255,0.4)}
+.reflection-q textarea:focus{outline:none;border-color:rgba(255,255,255,0.6)}
+
+.reflection-wrap{background:linear-gradient(135deg,#6b1010,#9b2020);border-radius:var(--radius);padding:26px;margin-top:16px;color:white}
+.reflection-wrap h4{font-family:'Literata',serif;font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+
+.download-wrap{background:var(--jade-light);border:2px solid var(--jade);border-radius:var(--radius);padding:20px;text-align:center;margin-top:20px;display:none}
+.download-wrap.show{display:block !important}
+.dl-btn{background:var(--jade);color:white;border:none;padding:14px 28px;border-radius:8px;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all .25s}
+.dl-btn:hover{background:#155e45;transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,123,92,0.3)}
+.dl-note{font-size:0.85rem;color:var(--jade);margin-top:10px}
+
+.wrap{max-width:960px;margin:0 auto;padding:20px}
+.sep{border:none;border-top:2px solid var(--mist2);margin:24px 0}
+.timer{position:fixed;bottom:20px;right:20px;background:white;border-radius:50px;padding:10px 18px;box-shadow:0 4px 16px rgba(26,21,35,0.15);display:flex;align-items:center;gap:8px;font-weight:700;color:var(--cobalt);font-size:0.9rem;z-index:999}
+
+@media(max-width:640px){
+  .header-title h1{font-size:1.4rem}
+  .tabs{flex-direction:column}
+  .tab-btn{min-width:unset}
+  .vocab-grid{grid-template-columns:1fr}
+  .timer{bottom:10px;right:10px;font-size:0.8rem;padding:8px 14px}
+}
+
+.status-pip{width:10px;height:10px;border-radius:50%;background:#e5e7eb;display:inline-block;margin-left:6px;transition:background .3s}
+.status-pip.done{background:#34d399}
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="header-title" style="display:flex;align-items:center;gap:16px">
+        <div style="width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:3rem;flex-shrink:0;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))">🔍</div>
+        <div>
+          <div style="font-size:0.78rem;letter-spacing:.1em;text-transform:uppercase;opacity:.75;margin-bottom:4px;font-weight:600">Maple Leaf World School · Xiangyang</div>
+          <h1 style="font-family:'Literata',serif;font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;line-height:1.2">🔎 Inferences & Figurative Language</h1>
+          <div class="sub">推理与修辞语言模块 &nbsp;|&nbsp; Grade 11 English &nbsp;|&nbsp; 60–75 min</div>
+        </div>
+      </div>
+      <div class="leave-badge" id="leaveBadge">
+        ⚠️ Left page: <span id="leaveCount">0</span>x &nbsp;|&nbsp; 离开: <span id="leaveCountCN">0</span>次
+      </div>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="progress-label"><span id="progressText">0%</span> complete | 完成</div>
+    </div>
+  </div>
+
+  <!-- NOTICE -->
+  <div class="notice" id="navNotice">
+    <div class="notice-icon">ℹ️</div>
+    <div>
+      <strong>Do not leave this page during the lesson — navigation away is tracked and recorded.</strong>
+      <div class="cn-note">重要：课程期间请勿离开此页面。如果导航离开，将被记录。</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('vocab',this)">
+      <span class="icon">📚</span>
+      Vocabulary | 词汇
+      <span class="cn">10 Key Terms <span class="status-pip" id="pip-vocab"></span></span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('tuesday',this)">
+      <span class="icon">🔍</span>
+      Tuesday | 周二
+      <span class="cn">Making Inferences <span class="status-pip" id="pip-tuesday"></span></span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('wednesday',this)">
+      <span class="icon">🎨</span>
+      Wednesday | 周三
+      <span class="cn">Figurative Language <span class="status-pip" id="pip-wednesday"></span></span>
+    </button>
+  </div>
+
+  <!-- ==================== TAB 1: VOCABULARY ==================== -->
+  <div id="tab-vocab" class="tab-content active">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon cobalt">📚</div>
+        <div>
+          <h2>Academic Vocabulary | 学术词汇</h2>
+          <div class="cn-head">10 key terms for Inferences & Figurative Language | 推理与修辞语言的10个关键术语</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="concept-box" style="margin-bottom:20px">
+          <div class="concept-label">How to use these cards | 如何使用这些卡片</div>
+          <p>Click <strong>▶ Hear it</strong> to hear pronunciation. Read the definition, Chinese translation, and example sentence. Use these words in your writing this week. | 点击▶收听发音。阅读定义、中文翻译和例句。本周在写作中使用这些词。</p>
+        </div>
+        <div class="vocab-grid" id="vocabGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 2: TUESDAY - INFERENCES ==================== -->
+  <div id="tab-tuesday" class="tab-content">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon cobalt">🔍</div>
+        <div>
+          <h2>Making Inferences | 推理判断</h2>
+          <div class="cn-head">Reading between the lines | 读懂字里行间的意思</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="concept-box">
+          <div class="concept-label">Core Concept | 核心概念</div>
+          <h3>What is an Inference? | 什么是推理？</h3>
+          <p>An <strong>inference</strong> is a logical conclusion you reach based on evidence from the text + your own knowledge and experience. Authors don't always tell us everything directly — we must <strong>read between the lines</strong> to understand the full meaning.</p>
+          <div class="cn-concept">推理是基于文本证据+你自己的知识和经验得出的逻辑结论。作者不总是直接告诉我们一切——我们必须读懂字里行间的意思才能理解完整含义。</div>
+          <div class="key-rule">
+            🔑 <strong>Text Evidence + Background Knowledge = Inference</strong><br>
+            Example: "Mia's hands shook as she opened the envelope. She took a deep breath and closed her eyes."<br>
+            Inference: Mia is nervous or anxious. We know this because shaking hands and closing eyes are signs of nervousness.
+            <br><span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">文本证据 + 背景知识 = 推理。例子："米亚打开信封时手在发抖。她深吸一口气，闭上眼睛。"推理：米亚紧张或焦虑。我们知道这是因为手抖和闭眼是紧张的迹象。</span>
+          </div>
+        </div>
+        <div class="concept-box" style="margin-top:16px">
+          <div class="concept-label">Inference vs. Observation | 推理 vs. 观察</div>
+          <h3>What's the difference? | 有什么区别？</h3>
+          <p><strong>Observation:</strong> Something you can see directly in the text. <strong>Inference:</strong> Something you figure out using clues. Good readers make inferences about characters' feelings, motivations, relationships, and what will happen next.</p>
+          <div class="cn-concept"><strong>观察：</strong>你可以在文本中直接看到的东西。<strong>推理：</strong>你利用线索推断出的东西。好的读者会对角色的感受、动机、关系和接下来会发生什么进行推理。</div>
+          <div class="key-rule">
+            🔑 <strong>Ask yourself:</strong> "What does the text <em>show</em> me? What does that <em>tell</em> me about what's really happening?"<br>
+            <span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">问自己："文本给我展示了什么？这告诉我关于真正发生的事情的什么信息？"</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon amber">✏️</div>
+        <div>
+          <h2>Guided Practice | 练习</h2>
+          <div class="cn-head">10 passages — make inferences | 10篇文章——进行推理</div>
+        </div>
+      </div>
+      <div class="card-body" id="tuePracticeContainer"></div>
+    </div>
+
+    <!-- Tuesday Exit Ticket -->
+    <div class="exit-wrap" id="tueExitWrap">
+      <div class="exit-head">
+        <div class="exit-icon">🎯</div>
+        <div>
+          <h3>Exit Ticket | 课堂测验</h3>
+          <div class="cn-sub">10 questions — test your inference skills | 10道题——测试你的推理能力</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border:2px solid rgba(200,168,75,0.6);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <label style="font-weight:700;font-size:0.95rem;white-space:nowrap;flex-shrink:0">👤 Student Name | 学生姓名:</label>
+        <input type="text" id="tueStudentName" placeholder="Enter your full name | 输入你的全名" style="flex:1;min-width:200px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:10px 14px;color:white;font-family:inherit;font-size:0.97rem;" />
+      </div>
+      <div id="tueExitContainer"></div>
+      <div class="score-display" id="tueScoreDisplay">
+        <div class="score-num" id="tueScoreNum">0</div>
+        <div class="score-denom">/ 10</div>
+        <div class="score-msg" id="tueScoreMsg"></div>
+      </div>
+    </div>
+
+    <!-- Tuesday Reflection -->
+    <div class="reflection-wrap" id="tueReflection" style="display:none">
+      <h4>🪞 Self-Reflection | 自我反思</h4>
+      <div class="reflection-q">
+        <label>1. What clues do you look for when making an inference about how a character is feeling? Give an example from today's practice.
+          <span class="cn-lbl">在推理角色的感受时，你会寻找什么线索？从今天的练习中举一个例子。</span>
+        </label>
+        <textarea id="tueRef1" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+      </div>
+      <div class="reflection-q">
+        <label>2. Why is it important to combine text evidence with your own knowledge when making inferences? How does this help you understand a text better?
+          <span class="cn-lbl">为什么在进行推理时，将文本证据与你自己的知识结合起来很重要？这对你更好地理解文本有什么帮助？</span>
+        </label>
+        <textarea id="tueRef2" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+      </div>
+    </div>
+
+    <!-- Tuesday Download -->
+    <div class="download-wrap" id="tueDownloadWrap">
+      <div style="font-size:1.1rem;font-weight:700;color:var(--jade);margin-bottom:12px">✅ Tuesday Work Complete | 周二作业完成</div>
+      <button class="dl-btn" onclick="downloadReport('tue')">⬇️ Download My Report | 下载我的报告</button>
+      <div class="dl-note" style="margin-top:10px">Includes: Student name, exit ticket score, navigation record, all answers &amp; reflections | 包括：学生姓名、测验分数、导航记录、所有答案和反思</div>
+      <div style="margin-top:16px;padding:14px 16px;background:#e8f5ec;border:2px solid var(--jade);border-radius:10px;text-align:left">
+        <div style="font-weight:700;color:var(--jade);margin-bottom:6px;font-size:0.97rem">📤 Next Step | 下一步</div>
+        <div style="font-size:0.93rem;color:#1a3a1a;line-height:1.65">
+          After downloading, upload your report file to <strong>Schoology</strong> under the Tuesday assignment submission box.<br>
+          <span style="color:#2d5a2d;font-size:0.88rem;margin-top:4px;display:block">下载后，请将报告文件上传至 <strong>Schoology</strong> 中周二作业的提交框。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TAB 3: WEDNESDAY - FIGURATIVE LANGUAGE ==================== -->
+  <div id="tab-wednesday" class="tab-content">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon rose">🎨</div>
+        <div>
+          <h2>Figurative Language | 修辞语言</h2>
+          <div class="cn-head">Simile, Metaphor, Personification & more | 明喻、暗喻、拟人等</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="concept-box jade-theme">
+          <div class="concept-label">Core Concept | 核心概念</div>
+          <h3>What is Figurative Language? | 什么是修辞语言？</h3>
+          <p><strong>Figurative language</strong> uses words in non-literal ways to create vivid images, emotions, and deeper meaning. Instead of saying something directly, authors use comparisons and imagery to help readers <strong>see, feel, and understand</strong> more powerfully.</p>
+          <div class="cn-concept">修辞语言以非字面的方式使用词语，创造生动的图像、情感和更深层的意义。作者不是直接说出某事，而是使用比较和意象来帮助读者更有力地看到、感受和理解。</div>
+          <div class="key-rule jade">
+            🔑 <strong>Literal vs. Figurative:</strong> Literal: "The rain was heavy." Figurative: "The rain was a waterfall crashing from the sky." The figurative version helps you <em>experience</em> the rain.
+            <br><span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">字面 vs. 修辞："雨下得很大。" vs. "雨像瀑布一样从天空倾泻而下。"</span>
+          </div>
+        </div>
+        <div class="concept-box jade-theme" style="margin-top:16px">
+          <div class="concept-label">Types of Figurative Language | 修辞语言类型</div>
+          <h3>Four Common Types | 四种常见类型</h3>
+          <p><strong>Simile (明喻):</strong> Compares using "like" or "as" — "Her smile was like sunshine."<br>
+          <strong>Metaphor (暗喻):</strong> Direct comparison — "Her smile was sunshine."<br>
+          <strong>Personification (拟人):</strong> Gives human qualities to objects — "The sun smiled down."<br>
+          <strong>Hyperbole (夸张):</strong> Exaggeration for effect — "I've told you a million times."</p>
+          <div class="cn-concept"><strong>明喻：</strong>使用"像"或"如"进行比较。<strong>暗喻：</strong>直接比较。<strong>拟人：</strong>赋予物体人的特质。<strong>夸张：</strong>为效果而夸张。</div>
+          <div class="key-rule jade">
+            🔑 <strong>Why authors use it:</strong> Figurative language creates emotion, builds imagery, and helps readers connect to characters and ideas on a deeper level.
+            <br><span style="font-size:.85rem;color:#6b7280;margin-top:4px;display:block">作者为什么使用它：修辞语言创造情感，建立意象，帮助读者在更深层次上连接角色和思想。</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon amber">✏️</div>
+        <div>
+          <h2>Guided Practice | 练习</h2>
+          <div class="cn-head">10 passages — identify figurative language | 10篇文章——识别修辞语言</div>
+        </div>
+      </div>
+      <div class="card-body" id="wedPracticeContainer"></div>
+    </div>
+
+    <!-- Wednesday Exit Ticket -->
+    <div class="exit-wrap" id="wedExitWrap">
+      <div class="exit-head">
+        <div class="exit-icon">🎯</div>
+        <div>
+          <h3>Exit Ticket | 课堂测验</h3>
+          <div class="cn-sub">10 questions — test your figurative language skills | 10道题——测试你的修辞语言能力</div>
+        </div>
+      </div>
+      <div style="background:rgba(255,255,255,0.1);border:2px solid rgba(200,168,75,0.6);border-radius:10px;padding:16px 18px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <label style="font-weight:700;font-size:0.95rem;white-space:nowrap;flex-shrink:0">👤 Student Name | 学生姓名:</label>
+        <input type="text" id="wedStudentName" placeholder="Enter your full name | 输入你的全名" style="flex:1;min-width:200px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:10px 14px;color:white;font-family:inherit;font-size:0.97rem;" />
+      </div>
+      <div id="wedExitContainer"></div>
+      <div class="score-display" id="wedScoreDisplay">
+        <div class="score-num" id="wedScoreNum">0</div>
+        <div class="score-denom">/ 10</div>
+        <div class="score-msg" id="wedScoreMsg"></div>
+      </div>
+
+      <!-- Wednesday Reflection -->
+      <div class="reflection-inner" id="wedReflection" style="display:none">
+        <h4>🪞 Self-Reflection | 自我反思</h4>
+        <div class="reflection-q">
+          <label>1. What is the difference between a simile and a metaphor? Give an original example of each.
+            <span class="cn-lbl">明喻和暗喻有什么区别？各举一个原创的例子。</span>
+          </label>
+          <textarea id="wedRef1" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+        </div>
+        <div class="reflection-q">
+          <label>2. Why do authors use figurative language instead of just saying things directly? How does it make writing more powerful?
+            <span class="cn-lbl">为什么作者使用修辞语言而不是直接陈述事物？它如何使写作更有力？</span>
+          </label>
+          <textarea id="wedRef2" placeholder="Write your response here... | 在这里写下你的回答..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wednesday Download -->
+    <div class="download-wrap" id="wedDownloadWrap">
+      <div style="font-size:1.1rem;font-weight:700;color:var(--jade);margin-bottom:12px">✅ Wednesday Work Complete | 周三作业完成</div>
+      <button class="dl-btn" onclick="downloadReport('wed')">⬇️ Download My Report | 下载我的报告</button>
+      <div class="dl-note" style="margin-top:10px">Includes: Student name, exit ticket score, navigation record, all answers &amp; reflections | 包括：学生姓名、测验分数、导航记录、所有答案和反思</div>
+      <div style="margin-top:16px;padding:14px 16px;background:#e8f5ec;border:2px solid var(--jade);border-radius:10px;text-align:left">
+        <div style="font-weight:700;color:var(--jade);margin-bottom:6px;font-size:0.97rem">📤 Next Step | 下一步</div>
+        <div style="font-size:0.93rem;color:#1a3a1a;line-height:1.65">
+          After downloading, upload your report file to <strong>Schoology</strong> under the Wednesday assignment submission box.<br>
+          <span style="color:#2d5a2d;font-size:0.88rem;margin-top:4px;display:block">下载后，请将报告文件上传至 <strong>Schoology</strong> 中周三作业的提交框。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end wrap -->
+
+<div class="timer" id="timerDisplay">⏱ 00:00</div>
+
+<script>
+// ============================================================
+// DATA - VOCABULARY
+// ============================================================
+const VOCAB = [
+  {word:"Inference",pos:"noun",cn:"推理",def:"A logical conclusion reached using text evidence + background knowledge.",cn_def:"使用文本证据+背景知识得出的逻辑结论。",example:"We can make an inference that the character is sad because she is crying and sitting alone."},
+  {word:"Figurative Language",pos:"noun phrase",cn:"修辞语言",def:"Words used in non-literal ways to create imagery and emotion.",cn_def:"以非字面方式使用的词语，创造意象和情感。",example:"'The wind whispered through the trees' is an example of figurative language."},
+  {word:"Simile",pos:"noun",cn:"明喻",def:"A comparison using 'like' or 'as'.",cn_def:"使用'像'或'如'进行比较。",example:"Her voice was like honey — sweet and smooth."},
+  {word:"Metaphor",pos:"noun",cn:"暗喻",def:"A direct comparison stating one thing IS another.",cn_def:"直接比较，说一物是另一物。",example:"Time is a thief that steals our moments."},
+  {word:"Personification",pos:"noun",cn:"拟人",def:"Giving human qualities to non-human things.",cn_def:"赋予非人类事物人的特质。",example:"The flowers danced in the spring breeze."},
+  {word:"Hyperbole",pos:"noun",cn:"夸张",def:"Extreme exaggeration used for effect, not meant literally.",cn_def:"为效果而使用的极端夸张，不是字面意思。",example:"I've been waiting for ages!"},
+  {word:"Implicit",pos:"adjective",cn:"含蓄的",def:"Suggested or understood without being directly stated.",cn_def:"暗示或理解，但没有直接陈述。",example:"The author's message was implicit — we had to infer it."},
+  {word:"Explicit",pos:"adjective",cn:"明确的",def:"Clearly and directly stated in the text.",cn_def:"在文本中清楚直接地陈述。",example:"The author explicitly states the theme in the final sentence."},
+  {word:"Imagery",pos:"noun",cn:"意象",def:"Language that creates vivid mental pictures using sensory details.",cn_def:"使用感官细节创造生动心理图像的语言。",example:"The description of the warm bread and salty butter created delicious imagery."},
+  {word:"Context Clues",pos:"noun phrase",cn:"上下文线索",def:"Words or sentences around an unknown word that help you figure out its meaning.",cn_def:"未知词周围的单词或句子，帮助你理解其含义。",example:"Using context clues, I inferred that 'benevolent' means kind and generous."}
+];
+
+// ============================================================
+// DATA - TUESDAY PRACTICE (INFERENCES)
+// ============================================================
+const TUE_PRACTICES = [
+  {id:"tue1",passage:"Mia gripped the edge of her chair. Her palms were sweaty, and she could feel her heart pounding in her chest. When they called her name, she took a shaky breath and walked slowly toward the stage.",title:"The Stage",q:"What can you infer about how Mia is feeling?",q_cn:"你可以推断出米亚的感受如何？",options:["A. She is excited and happy|她很兴奋和开心","B. She is nervous or anxious|她很紧张或焦虑","C. She is bored and tired|她很无聊和疲倦","D. She is angry at someone|她对某人生气"],correct:"B",rationale:"Correct! Gripping the chair, sweaty palms, pounding heart, and shaky breath are all physical signs of nervousness or anxiety.|正确！抓住椅子、手心出汗、心跳加速和颤抖的呼吸都是紧张或焦虑的身体迹象。",rationale_wrong:{"A":"These are not signs of excitement — excitement usually involves smiling, laughter, or energetic movement.|这些不是兴奋的迹象——兴奋通常涉及微笑、大笑或充满活力的动作。","C":"Boredom would show yawning, slouching, or looking away — not physical tension.|无聊会显示打哈欠、懒散或看向别处——不是身体紧张。","D":"Anger would show clenched fists, gritted teeth, or glaring — not shaking breath.|愤怒会显示握紧拳头、咬紧牙关或怒视——不是颤抖的呼吸。"}},
+  {id:"tue2",passage:"Leo's backpack was ripped open on the floor. Papers were scattered everywhere. A muddy footprint marked the wall. Leo stood in the doorway, his face red and his fists clenched.",title:"The Room",q:"What can you infer happened?",q_cn:"你可以推断出发生了什么？",options:["A. Leo had a party|利奥开了一个派对","B. Someone broke in or caused damage|有人闯进来或造成了破坏","C. Leo was doing his homework|利奥在做作业","D. A pet made a mess|宠物弄得一团糟"],correct:"B",rationale:"Correct! The ripped backpack, scattered papers, muddy footprint, and Leo's angry reaction suggest someone caused damage.|正确！撕裂的书包、散落的纸张、泥脚印和利奥愤怒的反应表明有人造成了破坏。",rationale_wrong:{"A":"A party would have more people, music, or decorations — not just damage.|派对会有更多人、音乐或装饰——不只是破坏。","C":"Doing homework wouldn't cause a ripped backpack and muddy footprint.|做作业不会造成撕裂的书包和泥脚印。","D":"A pet might make a mess, but the muddy footprint suggests a person, and Leo's angry reaction suggests intentional damage.|宠物可能会弄得一团糟，但泥脚印表明是一个人，利奥愤怒的反应表明是故意的破坏。"}},
+  {id:"tue3",passage:"Grandma set a plate of cookies on the table. 'I made these just for you,' she said with a warm smile. The boy's eyes lit up. He grabbed two cookies and hugged her tightly.",title:"Cookies",q:"What can you infer about the relationship between the boy and Grandma?",q_cn:"你可以推断出男孩和祖母之间的关系？",options:["A. They have a close, loving relationship|他们有亲密、充满爱的关系","B. They just met each other|他们刚刚认识","C. They are angry with each other|他们对彼此生气","D. They are strangers|他们是陌生人"],correct:"A",rationale:"Correct! Grandma made cookies just for him and smiled warmly. The boy's eyes lit up with joy and he hugged her tightly — all signs of a loving relationship.|正确！祖母专门为他做了饼干并温暖地微笑。男孩的眼睛亮了起来，紧紧拥抱她——都是充满爱的关系的迹象。",rationale_wrong:{"B":"They show familiarity and comfort — not the awkwardness of a new relationship.|他们表现出熟悉和舒适——不是新关系的尴尬。","C":"There is no anger — smiles and hugs show the opposite.|没有愤怒——微笑和拥抱显示相反。","D":"Strangers don't make special cookies or exchange warm hugs.|陌生人不会制作特别的饼干或交换温暖的拥抱。"}},
+  {id:"tue4",passage:"The classroom was completely silent. Students stared at their desks. The teacher stood at the front, holding a stack of graded papers, her expression unreadable. No one moved.",title:"The Test Results",q:"What can you infer about how the students are feeling?",q_cn:"你可以推断出学生们的感受？",options:["A. Excited and celebrating|兴奋和庆祝","B. Nervous and anxious about their grades|对成绩紧张和焦虑","C. Bored with the lesson|对课程感到无聊","D. Angry at the teacher|对老师生气"],correct:"B",rationale:"Correct! Complete silence, staring at desks, and no one moving are signs of tension and nervousness before receiving important news.|正确！完全的沉默、盯着桌子、没有人动，都是收到重要消息前紧张和焦虑的迹象。",rationale_wrong:{"A":"Celebration would involve cheering, smiles, or movement — not silence.|庆祝会涉及欢呼、微笑或动作——不是沉默。","C":"Boredom might involve yawning, looking around, or fidgeting — not frozen stillness.|无聊可能涉及打哈欠、四处看或坐立不安——不是僵住不动。","D":"Anger would show glaring, crossed arms, or whispered complaints — not complete silence.|愤怒会显示怒视、交叉双臂或低声抱怨——不是完全的沉默。"}},
+  {id:"tue5",passage:"For the fifth time this week, Sam walked past the empty lot where the old community garden used to be. He remembered his grandmother's hands in the soil, the smell of fresh tomatoes, and the way she'd call his name at sunset. He kicked a stone and kept walking.",title:"The Empty Lot",q:"What can you infer about how Sam feels about the garden?",q_cn:"你可以推断出萨姆对花园的感受？",options:["A. He is happy it's gone|他很高兴它消失了","B. He doesn't remember it|他不记得它","C. He feels sadness or loss|他感到悲伤或失落","D. He wants to build something new|他想建些新东西"],correct:"C",rationale:"Correct! He walks past it multiple times, remembers happy memories with his grandmother, and kicks a stone — all signs of sadness about something that is now gone.|正确！他多次走过它，记得与祖母的美好回忆，踢一块石头——都是对现在已经消失的东西感到悲伤的迹象。",rationale_wrong:{"A":"If he were happy, he wouldn't keep visiting or remember fond memories.|如果他高兴，他不会反复拜访或记住美好的回忆。","B":"He clearly remembers the garden in detail — he's thinking about it.|他清楚地记得花园的细节——他在想着它。","D":"There's no evidence he wants to build something — he's just remembering the past.|没有证据表明他想建什么东西——他只是在回忆过去。"}},
+  {id:"tue6",passage:"The package arrived on a Tuesday. Elena didn't order anything. She stared at the label — her name, her address, but no return address. She looked around, as if someone might be watching, then carefully opened the box.",title:"The Package",q:"What can you infer about how Elena feels about the package?",q_cn:"你可以推断出埃琳娜对包裹的感受？",options:["A. Excited and eager|兴奋和渴望","B. Confused and cautious|困惑和谨慎","C. Angry and annoyed|生气和恼怒","D. Uninterested|不感兴趣"],correct:"B",rationale:"Correct! She didn't order it, there's no return address, and she looks around before opening it — all signs of confusion and caution.|正确！她没有订购，没有回信地址，她在打开前四处看——都是困惑和谨慎的迹象。",rationale_wrong:{"A":"Excitement would involve smiling, rushing to open it, or calling someone — not looking around suspiciously.|兴奋会涉及微笑、匆忙打开或打电话——不是怀疑地四处看。","C":"There's no evidence of anger — no clenched fists, yelling, or frustration.|没有愤怒的证据——没有握紧拳头、大喊或沮丧。","D":"If uninterested, she wouldn't stare at the label or carefully open it.|如果不感兴趣，她不会盯着标签或小心地打开它。"}},
+  {id:"tue7",passage:"Mr. Chen had taught math for forty years. He knew every trick, every shortcut, every way a student might get confused. On his last day, a former student walked in — now a doctor, now a parent — and thanked him. Mr. Chen looked out the window for a long time before answering.",title:"The Teacher",q:"What can you infer about Mr. Chen's feelings on his last day?",q_cn:"你可以推断出陈老师在最后一天的感受？",options:["A. He is angry at leaving|他对离开感到生气","B. He is relieved to retire|他对退休感到如释重负","C. He feels reflective and emotional|他感到沉思和感伤","D. He doesn't care|他不关心"],correct:"C",rationale:"Correct! Forty years is a long career. A former student thanks him, and he looks out the window for a long time — suggesting he is thinking deeply about his impact and feeling emotional.|正确！四十年是一段很长的职业生涯。一位以前的学生感谢他，他长时间看着窗外——暗示他在深思自己的影响并感到感伤。",rationale_wrong:{"A":"There is no evidence of anger — he doesn't yell or express frustration.|没有愤怒的证据——他没有大喊或表达沮丧。","B":"While he may be ready to retire, the reflective moment suggests mixed emotions, not just relief.|虽然他可能准备好退休，但沉思的时刻表明复杂的情绪，不只是如释重负。","D":"He clearly cares — he remembers his student and takes time to reflect.|他显然在乎——他记得他的学生并花时间反思。"}},
+  {id:"tue8",passage:"The little girl held her mother's hand tightly as they walked through the crowded market. She pressed close to her mother's side, her eyes wide, watching the strangers pass by. Every few steps, she looked up to make sure her mother was still there.",title:"The Market",q:"What can you infer about the little girl?",q_cn:"你可以推断出小女孩？",options:["A. She is confident and independent|她很自信和独立","B. She is scared or nervous about the crowd|她对人群感到害怕或紧张","C. She wants to buy something|她想买东西","D. She is angry at her mother|她对母亲生气"],correct:"B",rationale:"Correct! Holding tightly, pressing close, wide eyes watching strangers, and constantly checking for her mother all suggest fear or nervousness in the crowded place.|正确！紧紧握住、贴近、睁大眼睛看着陌生人、不断检查母亲是否还在，都表明在拥挤的地方感到害怕或紧张。",rationale_wrong:{"A":"A confident child would walk ahead, not cling to her mother.|一个自信的孩子会走在前面，不会紧贴母亲。","C":"There is no evidence she wants anything — she's focused on staying close to her mother.|没有证据表明她想要什么——她专注于靠近母亲。","D":"She clings to her mother — that's not anger.|她紧贴母亲——那不是愤怒。"}},
+  {id:"tue9",passage:"The old house had been empty for years. When the new family moved in, neighbors watched from their windows. At night, lights flickered in rooms that had been dark for a decade. A dog barked at nothing. The next morning, the moving truck was gone.",title:"The New Neighbors",q:"What can you infer about how the neighbors feel?",q_cn:"你可以推断出邻居们的感受？",options:["A. Excited to meet them|兴奋地认识他们","B. Suspicious or uneasy about the new family|对新家庭怀疑或不安","C. Angry that they moved in|对他们搬进来感到生气","D. Completely uninterested|完全不感兴趣"],correct:"B",rationale:"Correct! Watching from windows, noting flickering lights and a dog barking, and the truck being gone quickly suggest the neighbors are watching closely and feel uneasy.|正确！从窗户观看、注意到闪烁的灯光和狗叫、以及卡车很快离开，都表明邻居们在密切观察并感到不安。",rationale_wrong:{"A":"Excitement would involve going to greet them, not watching from windows.|兴奋会涉及去迎接他们，而不是从窗户观看。","C":"There's no evidence of anger — no yelling, complaints, or confrontation.|没有愤怒的证据——没有大喊、抱怨或对抗。","D":"If uninterested, they wouldn't be watching and noticing details.|如果不感兴趣，他们不会观看和注意到细节。"}},
+  {id:"tue10",passage:"Jasmine practiced her speech for the third time that night. She crossed out words, wrote new ones, crossed them out again. Her trash can overflowed with crumpled paper. At 2 a.m., she sat back, sighed, and began again.",title:"The Speech",q:"What can you infer about Jasmine's speech preparation?",q_cn:"你可以推断出茉莉的演讲准备？",options:["A. It came easily and quickly|它来得容易又快","B. She is struggling to get it right|她正在努力把它做好","C. She is bored with the topic|她对话题感到无聊","D. She already finished|她已经完成了"],correct:"B",rationale:"Correct! Practicing three times, crossing out words repeatedly, overflowing trash of crumpled paper, and working until 2 a.m. all show she is working hard and struggling to perfect her speech.|正确！练习三次、反复划掉词语、装满废纸的垃圾桶、工作到凌晨2点，都表明她正在努力和完善她的演讲。",rationale_wrong:{"A":"The details show difficulty, not ease.|细节显示困难，不是容易。","C":"If bored, she wouldn't stay up until 2 a.m. working on it.|如果无聊，她不会熬夜到凌晨2点还在工作。","D":"She is still working — she begins again at 2 a.m.|她还在工作——她在凌晨2点重新开始。"}}
+];
+
+// ============================================================
+// DATA - TUESDAY EXIT (INFERENCES)
+// ============================================================
+const TUE_EXIT = [
+  {q:"A character is described as 'tapping her foot, glancing at the clock every few seconds, and drumming her fingers on the table.' What can you infer?",q_cn:"一个角色被描述为'用脚敲地，每隔几秒就看一次钟，用手指在桌子上敲打。'你可以推断出什么？",opts:["A. She is relaxed|她很放松","B. She is impatient or in a hurry|她不耐烦或很着急","C. She is sleeping|她在睡觉","D. She is happy|她很高兴"],correct:"B",rat:"Tapping, glancing at the clock, and drumming fingers are all signs of impatience or hurry.|敲打、看钟和敲手指都是不耐烦或着急的迹象。"},
+  {q:"A text says: 'He had not eaten in two days. His stomach growled loudly.' What can you infer?",q_cn:"文本说：'他已经两天没吃东西了。他的胃大声咕咕叫。'你可以推断出什么？",opts:["A. He is full|他很饱","B. He is hungry|他饿了","C. He is sick|他生病了","D. He just ate|他刚吃过"],correct:"B",rat:"Not eating for two days + stomach growling = hunger.|两天没吃+胃咕咕叫=饥饿。"},
+  {q:"What is the difference between an observation and an inference?",q_cn:"观察和推理有什么区别？",opts:["A. Observation is a guess; inference is a fact|观察是猜测；推理是事实","B. Observation is directly seen in text; inference is figured out using clues|观察是在文本中直接看到的；推理是利用线索推断出的","C. They mean the same thing|它们意思相同","D. Inference is always stated directly|推理总是直接陈述的"],correct:"B",rat:"Observation = what you see directly. Inference = what you figure out from clues.|观察=你直接看到的东西。推理=你从线索中推断出的东西。"},
+  {q:"A character 'looks at the ground and shuffles her feet' when someone asks her a question. What can you infer?",q_cn:"当有人问一个角色问题时，她'看着地面并挪动脚'。你可以推断出什么？",opts:["A. She is confident|她很自信","B. She is nervous or embarrassed|她很紧张或尴尬","C. She is excited|她很兴奋","D. She is angry|她很生气"],correct:"B",rat:"Looking down and shuffling feet are signs of nervousness or embarrassment — not confidence or excitement.|看下和挪动脚是紧张或尴尬的迹象——不是自信或兴奋。"},
+  {q:"Which of these requires an inference?",q_cn:"以下哪个需要推理？",opts:["A. 'The sky is blue today.'|'今天天空是蓝色的。'","B. 'She smiled when she saw her friend.'|'她看到朋友时笑了。'","C. 'The character must be happy because she smiled and her eyes lit up.'|'角色一定很开心，因为她笑了，眼睛亮了起来。'","D. 'The store opens at 9 a.m.'|'商店上午9点开门。'"],correct:"C",rat:"C combines evidence (smiled, eyes lit up) with a conclusion (happy) — that's an inference. A, B, and D are direct observations.|C结合了证据(笑,眼睛亮起)和结论(开心)——那是推理。A、B、D是直接观察。"},
+  {q:"A passage states: 'The roads were empty. Snow covered every surface. No lights shone from any windows.' What season or weather can you infer?",q_cn:"文章说：'道路空无一人。雪覆盖了每一个表面。没有任何窗户亮着灯。'你可以推断出什么季节或天气？",opts:["A. Summer heat|夏日炎热","B. Spring rain|春雨","C. Winter snowstorm|冬季暴风雪","D. Autumn leaves|秋叶"],correct:"C",rat:"Snow, empty roads, no lights — these suggest a winter snowstorm where people stay indoors.|雪、空路、没有灯——这些暗示冬季暴风雪，人们待在室内。"},
+  {q:"A character 'stares out the window without speaking' for a long time after receiving bad news. What can you infer?",q_cn:"一个角色在收到坏消息后'长时间看着窗外不说话'。你可以推断出什么？",opts:["A. She is thinking deeply or processing emotions|她在深思或处理情绪","B. She is excited to go outside|她兴奋地想出去","C. She is sleeping with her eyes open|她睁着眼睛睡觉","D. She is laughing at something|她在笑什么"],correct:"A",rat:"After bad news, silence and staring out a window often mean the person is thinking or processing emotions.|收到坏消息后，沉默和看窗外通常意味着人在思考或处理情绪。"},
+  {q:"The sentence 'Her heart was a drum beating faster and faster' contains which type of figurative language?",q_cn:"句子'她的心是一个越来越快的鼓'包含哪种修辞语言？",opts:["A. Simile|明喻","B. Personification|拟人","C. Metaphor|暗喻","D. Hyperbole|夸张"],correct:"C",rat:"It's a metaphor because it directly says her heart IS a drum, without using 'like' or 'as'.|这是暗喻，因为它直接说她的心是鼓，没有使用'像'或'如'。"},
+  {q:"What is the best inference based on this: 'The boy's hands were shaking as he handed the paper to his teacher. He couldn't look her in the eye.'",q_cn:"基于此的最佳推理是什么：'男孩把论文递给老师时手在发抖。他不敢看她的眼睛。'",opts:["A. He is confident|他很自信","B. He is nervous about his grade|他对成绩感到紧张","C. He is angry at the teacher|他对老师生气","D. He wants to leave class|他想离开课堂"],correct:"B",rat:"Shaking hands and avoiding eye contact are signs of nervousness, especially when submitting work.|手抖和避免眼神接触是紧张的迹象，特别是在提交作业时。"},
+  {q:"Which sentence is an inference, not an observation?",q_cn:"哪个句子是推理，不是观察？",opts:["A. 'The dog is barking.'|'狗在叫。'","B. 'The dog has brown fur.'|'狗有棕色毛。'","C. 'The dog must be hungry because it keeps looking at the food bowl.'|'狗一定饿了，因为它一直看着食物碗。'","D. 'The dog is sitting on the floor.'|'狗坐在地板上。'"],correct:"C",rat:"C uses evidence (looking at food bowl) to make a conclusion (hungry). That's an inference. The others are direct observations.|C使用证据(看着食物碗)得出结论(饿了)。那是推理。其他是直接观察。"}
+];
+
+// ============================================================
+// DATA - WEDNESDAY PRACTICE (FIGURATIVE LANGUAGE)
+// ============================================================
+const WED_PRACTICES = [
+  {id:"wed1",passage:"Her smile was like sunshine after a week of rain. Everyone in the room felt warmer just looking at her.",title:"Her Smile",q:"What type of figurative language is used in the first sentence?",q_cn:"第一句话使用了什么类型的修辞语言？",options:["A. Metaphor|暗喻","B. Simile|明喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"B",rationale:"Correct! 'Was like sunshine' uses 'like' to compare her smile to sunshine — that's a simile.|正确！'像阳光一样'使用'像'将她的微笑比作阳光——那是明喻。",rationale_wrong:{"A":"Metaphor would say 'Her smile was sunshine' without 'like' or 'as'.|暗喻会说'她的微笑是阳光'，没有'像'或'如'。","C":"Personification gives human qualities to non-human things — there's no non-human thing here.|拟人赋予非人类事物人的特质——这里没有非人类事物。","D":"Hyperbole is exaggeration — this is a direct comparison, not exaggeration.|夸张是夸张——这是直接比较，不是夸张。"}},
+  {id:"wed2",passage:"Time is a thief. It steals our moments while we aren't looking, taking our youth and leaving only memories behind.",title:"Time",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"B",rationale:"Correct! 'Time is a thief' directly states one thing IS another — that's a metaphor.|正确！'时间是贼'直接说一物是另一物——那是暗喻。",rationale_wrong:{"A":"Simile would use 'like' or 'as' — 'Time is like a thief.'|明喻会使用'像'或'如'——'时间像贼一样。'","C":"Personification would give human actions to time, but here it's a direct comparison.|拟人会赋予时间人的行为，但这里是直接比较。","D":"This is a metaphor, not exaggeration.|这是暗喻，不是夸张。"}},
+  {id:"wed3",passage:"The angry storm pounded against the windows. It roared and screamed all night, demanding to be let inside.",title:"The Storm",q:"What type of figurative language is used in this passage?",q_cn:"这段话使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"C",rationale:"Correct! The storm is described as 'angry,' 'roared,' 'screamed,' and 'demanding' — human qualities given to a non-human thing.|正确！风暴被描述为'愤怒'、'咆哮'、'尖叫'和'要求'——赋予非人类事物人的特质。",rationale_wrong:{"A":"There are no 'like' or 'as' comparisons.|没有'像'或'如'的比较。","B":"No direct statement that the storm IS something else.|没有直接说风暴是其他东西。","D":"While the language is vivid, it's personification, not exaggeration.|虽然语言生动，但这是拟人，不是夸张。"}},
+  {id:"wed4",passage:"I've told you a million times to clean your room! How many times does a parent have to say it before something changes?",title:"The Parent",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"D",rationale:"Correct! 'A million times' is an extreme exaggeration used for effect — that's hyperbole.|正确！'一百万次'是为效果而使用的极端夸张——那是夸张。",rationale_wrong:{"A":"No 'like' or 'as' comparison.|没有'像'或'如'的比较。","B":"No direct comparison between two things.|没有两个事物之间的直接比较。","C":"No human qualities given to non-human things.|没有赋予非人类事物人的特质。"}},
+  {id:"wed5",passage:"The city was a concrete jungle, full of steel trees and rivers of traffic that never stopped flowing.",title:"The City",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Both metaphor and personification|暗喻和拟人都有","D. Hyperbole|夸张"],correct:"C",rationale:"Correct! 'Concrete jungle' and 'steel trees' are metaphors. 'Rivers of traffic' and 'never stopped flowing' give human/river qualities to traffic.|正确！'混凝土丛林'和'钢铁树木'是暗喻。'交通河流'和'从未停止流动'赋予交通人的/河流的特质。",rationale_wrong:{"A":"There are no 'like' or 'as' comparisons.|没有'像'或'如'的比较。","B":"Yes metaphor, but personification is also present.|是的暗喻，但也存在拟人。","D":"While vivid, it's not extreme exaggeration.|虽然生动，但不是极端夸张。"}},
+  {id:"wed6",passage:"His voice was as cold as ice, sending shivers down everyone's spine when he spoke.",title:"The Voice",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"A",rationale:"Correct! 'As cold as ice' uses 'as' to compare his voice to ice — that's a simile.|正确！'像冰一样冷'使用'像'将他的声音比作冰——那是明喻。",rationale_wrong:{"B":"If it were a metaphor, it would say 'His voice was ice.'|如果是暗喻，会说'他的声音是冰。'","C":"No human qualities given to non-human things.|没有赋予非人类事物人的特质。","D":"This is a comparison, not exaggeration.|这是比较，不是夸张。"}},
+  {id:"wed7",passage:"The moon hid behind the clouds, shy and secretive, peeking out only when the wind whispered its name.",title:"The Moon",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"C",rationale:"Correct! The moon is described as 'hid,' 'shy,' 'secretive,' and 'peeking' — human qualities given to the moon.|正确！月亮被描述为'躲藏'、'害羞'、'神秘'和'偷看'——赋予月亮人的特质。",rationale_wrong:{"A":"No 'like' or 'as' comparisons.|没有'像'或'如'的比较。","B":"No direct statement that moon IS something else.|没有直接说月亮是其他东西。","D":"No exaggeration.|没有夸张。"}},
+  {id:"wed8",passage:"Her tears were a river, flowing down her cheeks without end, carrying all her sorrow with them.",title:"Tears",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"B",rationale:"Correct! 'Her tears were a river' directly states tears ARE a river — that's a metaphor.|正确！'她的眼泪是一条河'直接说眼泪是河——那是暗喻。",rationale_wrong:{"A":"No 'like' or 'as' — it's a direct statement.|没有'像'或'如'——这是直接陈述。","C":"Tears are not given human qualities — they are compared to a river.|眼泪没有被赋予人的特质——它们被比作河流。","D":"While 'flowing without end' suggests exaggeration, the main device is metaphor.|虽然'无休止地流淌'暗示夸张，但主要修辞是暗喻。"}},
+  {id:"wed9",passage:"The old couch groaned under his weight, complaining after years of loyal service. It had held generations of family movie nights, and now it was finally giving up.",title:"The Couch",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"C",rationale:"Correct! The couch is described as 'groaned,' 'complaining,' and giving 'loyal service' — human qualities given to furniture.|正确！沙发被描述为'呻吟'、'抱怨'和提供'忠诚服务'——赋予家具人的特质。",rationale_wrong:{"A":"No 'like' or 'as' comparisons.|没有'像'或'如'的比较。","B":"The couch is not directly said to BE something else.|沙发没有被直接说成是其他东西。","D":"No extreme exaggeration.|没有极端夸张。"}},
+  {id:"wed10",passage:"Life is a roller coaster — full of ups and downs, twists and turns. You never know what's coming next, but you hold on and enjoy the ride.",title:"Life",q:"What type of figurative language is used?",q_cn:"使用了什么类型的修辞语言？",options:["A. Simile|明喻","B. Metaphor|暗喻","C. Personification|拟人","D. Hyperbole|夸张"],correct:"B",rationale:"Correct! 'Life is a roller coaster' directly states one thing IS another — that's a metaphor.|正确！'生活是过山车'直接说一物是另一物——那是暗喻。",rationale_wrong:{"A":"Simile would use 'like' or 'as' — 'Life is like a roller coaster.'|明喻会使用'像'或'如'——'生活像过山车。'","C":"No human qualities given to non-human things.|没有赋予非人类事物人的特质。","D":"While it compares life's patterns, it's a metaphor, not exaggeration.|虽然比较了生活的模式，但这是暗喻，不是夸张。"}}
+];
+
+// ============================================================
+// DATA - WEDNESDAY EXIT (FIGURATIVE LANGUAGE)
+// ============================================================
+const WED_EXIT = [
+  {q:"What is a simile?",q_cn:"什么是明喻？",opts:["A. A comparison using 'like' or 'as'|使用'像'或'如'的比较","B. A direct comparison saying one thing IS another|直接比较说一物是另一物","C. Giving human qualities to non-human things|赋予非人类事物人的特质","D. Extreme exaggeration|极端夸张"],correct:"A",rat:"A simile compares using 'like' or 'as'. Examples: brave as a lion, runs like the wind.|明喻使用'像'或'如'进行比较。"},
+  {q:"Which sentence contains a metaphor?",q_cn:"哪个句子包含暗喻？",opts:["A. Her voice was like music.|她的声音像音乐一样。","B. She sang like an angel.|她像天使一样歌唱。","C. Her voice was music to his ears.|她的声音是他耳中的音乐。","D. Her voice was as sweet as honey.|她的声音像蜜一样甜。"],correct:"C",rat:"C directly states 'voice WAS music' — that's a metaphor. A, B, and D use 'like' or 'as' (similes).|C直接说'声音是音乐'——那是暗喻。A、B、D使用'像'或'如'(明喻)。"},
+  {q:"What is personification?",q_cn:"什么是拟人？",opts:["A. Comparing two things with 'like' or 'as'|用'像'或'如'比较两物","B. Direct comparison without 'like' or 'as'|没有'像'或'如'的直接比较","C. Giving human qualities to non-human things|赋予非人类事物人的特质","D. Extreme exaggeration|极端夸张"],correct:"C",rat:"Personification gives human traits to objects, animals, or ideas — like 'the wind whispered.'|拟人赋予物体、动物或思想人的特质——比如'风在低语。'"},
+  {q:"Which sentence uses hyperbole?",q_cn:"哪个句子使用了夸张？",opts:["A. The snow was a white blanket.|雪是白色的毯子。","B. The snow whispered as it fell.|雪落下时低语。","C. I've waited a million years for this moment!|我为这一刻等了一百万年！","D. The snow was like diamonds.|雪像钻石一样。"],correct:"C",rat:"'A million years' is extreme exaggeration for effect — that's hyperbole.|'一百万年'是为效果而使用的极端夸张——那是夸张。"},
+  {q:"What is the difference between simile and metaphor?",q_cn:"明喻和暗喻有什么区别？",opts:["A. Simile is for sounds; metaphor is for sights|明喻用于声音；暗喻用于视觉","B. Simile uses 'like' or 'as'; metaphor does not|明喻使用'像'或'如'；暗喻不使用","C. Simile is always longer than metaphor|明喻总是比暗喻长","D. They mean the same thing|它们意思相同"],correct:"B",rat:"Simile uses 'like' or 'as' for comparison. Metaphor states one thing IS another directly.|明喻使用'像'或'如'进行比较。暗喻直接说一物是另一物。"},
+  {q:"Which sentence uses personification?",q_cn:"哪个句子使用了拟人？",opts:["A. The sun smiled down on the children.|太阳向孩子们微笑。","B. The sun was like a yellow ball.|太阳像一个黄色的球。","C. The sun is a golden coin in the sky.|太阳是天空中的金币。","D. The sun was incredibly hot.|太阳非常热。"],correct:"A",rat:"'Smiled' gives a human action to the sun — that's personification.|'微笑'赋予太阳人的动作——那是拟人。"},
+  {q:"What is hyperbole?",q_cn:"什么是夸张？",opts:["A. A comparison using 'like' or 'as'|使用'像'或'如'的比较","B. A direct comparison|直接比较","C. Giving human qualities|赋予人的特质","D. Extreme exaggeration not meant literally|极端夸张，不是字面意思"],correct:"D",rat:"Hyperbole exaggerates for emphasis or humor — 'I'm so hungry I could eat a horse.'|夸张是为了强调或幽默而夸大——'我饿得能吃下一匹马。'"},
+  {q:"Which sentence contains a simile?",q_cn:"哪个句子包含明喻？",opts:["A. Her eyes were stars.|她的眼睛是星星。","B. Her eyes sparkled like stars.|她的眼睛像星星一样闪烁。","C. Her eyes danced with joy.|她的眼睛因喜悦而跳舞。","D. Her eyes were incredibly bright.|她的眼睛非常明亮。"],correct:"B",rat:"'Like stars' uses 'like' to compare — that's a simile.|'像星星'使用'像'进行比较——那是明喻。"},
+  {q:"What does figurative language help authors do?",q_cn:"修辞语言帮助作者做什么？",opts:["A. Write longer sentences|写更长的句子","B. Use more words|使用更多词语","C. Create vivid images and emotions|创造生动的图像和情感","D. Avoid using description|避免使用描述"],correct:"C",rat:"Figurative language creates imagery, emotion, and deeper meaning that literal language alone cannot achieve.|修辞语言创造意象、情感和更深层的意义，这是单独的字面语言无法实现的。"},
+  {q:"Which sentence uses metaphor?",q_cn:"哪个句子使用了暗喻？",opts:["A. He runs like the wind.|他跑得像风一样快。","B. He is as fast as lightning.|他像闪电一样快。","C. He is lightning on the field.|他是场上的闪电。","D. He runs incredibly fast.|他跑得极快。"],correct:"C",rat:"'He is lightning' directly states he IS lightning — a metaphor. A and B are similes.|'他是闪电'直接说他是闪电——暗喻。A和B是明喻。"}
+];
+
+// ============================================================
+// STATE AND INITIALIZATION (same as original, adapted for new topics)
+// ============================================================
+let leaveCount = 0;
+let sessionStart = new Date();
+let secondsElapsed = 0;
+let progressPoints = 0;
+const totalPoints = 45; // 10 vocab + 10 practice + 10 exit + 2 reflection = 32? Actually original had 45, we'll keep similar
+
+const tueAnswers = {};
+const tueExitAnswers = {};
+const wedAnswers = {};
+const wedExitAnswers = {};
+let tueScore = 0;
+let wedScore = 0;
+
+window.onload = () => {
+  buildVocab();
+  buildPractices('tue', TUE_PRACTICES, 'tuePracticeContainer');
+  buildExitTicket('tue', TUE_EXIT, 'tueExitContainer', 'tueScoreDisplay','tueScoreNum','tueScoreMsg','tueReflection','tueDownloadWrap');
+  buildPractices('wed', WED_PRACTICES, 'wedPracticeContainer');
+  buildExitTicket('wed', WED_EXIT, 'wedExitContainer', 'wedScoreDisplay','wedScoreNum','wedScoreMsg','wedReflection','wedDownloadWrap');
+  startTimer();
+  trackNavigation();
+};
+
+function buildVocab(){
+  const grid = document.getElementById('vocabGrid');
+  VOCAB.forEach((v,i)=>{
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <div class="word">
+        <span>${i+1}. ${v.word}</span>
+        <span class="pos">${v.pos}</span>
+      </div>
+      <div class="defn">
+        ${v.def}
+        <div class="cn-def">${v.cn} — ${v.cn_def}</div>
+        <div class="example">"${v.example}"</div>
+        <div class="flip-hint" style="margin-top:8px">
+          <button class="speak-btn" data-word="${v.word.replace(/"/g,'&quot;')}">🔊 Hear it</button>
+        </div>
+      </div>
+    `;
+    const speakBtn = card.querySelector('.speak-btn');
+    speakBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      speakWord(this.getAttribute('data-word'));
+    });
+    grid.appendChild(card);
+  });
+}
+
+function speakWord(word){
+  if('speechSynthesis' in window){
+    const utt = new SpeechSynthesisUtterance(word);
+    utt.lang='en-US';utt.rate=0.85;
+    window.speechSynthesis.speak(utt);
+  }
+}
+
+function buildPractices(day, data, containerId){
+  const container = document.getElementById(containerId);
+  data.forEach((p,i)=>{
+    const wrap = document.createElement('div');
+    wrap.className = 'practice-wrap';
+    wrap.id = `${p.id}-wrap`;
+
+    const optHtml = p.options.map((opt,j)=>{
+      const lbl = ['A','B','C','D'][j];
+      const parts = opt.split('|');
+      const txt0 = parts[0].replace(/^[A-D]\.\s*/,'');
+      const txt1 = parts[1] ? parts[1].replace(/^[A-D]\.\s*/,'') : '';
+      return `<button class="opt-btn" id="${p.id}-opt-${lbl}" onclick="selectAnswer('${day}','${p.id}','${lbl}',this,'${p.correct}')">
+        <div class="opt-lbl">${lbl}</div>
+        <div><span>${txt0}</span>${txt1?`<span class="opt-cn">${txt1}</span>`:''}
+        </div>
+      </button>`;
+    }).join('');
+
+    const wrongKeys = Object.keys(p.rationale_wrong||{});
+    const wrongDataAttr = wrongKeys.map(k=>`data-wrong-${k}="${encodeURIComponent(p.rationale_wrong[k])}"`).join(' ');
+
+    wrap.innerHTML = `
+      <div class="practice-label">
+        <div class="q-num">${i+1}</div>
+        <div><strong>Practice ${i+1} | 练习${i+1}</strong></div>
+      </div>
+      <div class="passage">
+        <div class="passage-title">📄 ${p.title}</div>
+        ${p.passage}
+      </div>
+      <div class="question-container" id="${p.id}-qblock" ${wrongDataAttr}>
+        <div class="q-text">${p.q}</div>
+        <div class="q-cn">${p.q_cn}</div>
+        <div class="options">${optHtml}</div>
+        <div class="rationale" id="${p.id}-rat"></div>
+      </div>
+    `;
+    container.appendChild(wrap);
+  });
+}
+
+function selectAnswer(day, qid, selected, btn, correct){
+  const qblock = document.getElementById(`${qid}-qblock`);
+  const allOpts = qblock.querySelectorAll('.opt-btn');
+  allOpts.forEach(b=>b.classList.add('done'));
+
+  const isCorrect = selected === correct;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if(!isCorrect){
+    const correctBtn = document.getElementById(`${qid}-opt-${correct}`);
+    if(correctBtn) correctBtn.classList.add('correct');
+  }
+
+  const ratDiv = document.getElementById(`${qid}-rat`);
+  let ratText = '';
+  if(isCorrect){
+    const parts = (day==='tue'?TUE_PRACTICES:WED_PRACTICES).find(p=>p.id===qid)?.rationale.split('|');
+    ratText = `<div class="rationale-head">✅ ${parts?parts[0]:'Correct!'}</div>${parts&&parts[1]?`<div class="rationale-cn">${parts[1]}</div>`:''}`;
+    ratDiv.className = 'rationale show correct-r';
+  } else {
+    const wrongRat = qblock.getAttribute(`data-wrong-${selected}`);
+    const decoded = wrongRat ? decodeURIComponent(wrongRat) : 'Incorrect. Review and try again.|错误，请复习再试。';
+    const parts = decoded.split('|');
+    ratText = `<div class="rationale-head">❌ ${parts[0]}</div>${parts[1]?`<div class="rationale-cn">${parts[1]}</div>`:''}`;
+    ratDiv.className = 'rationale show wrong-r';
+  }
+  ratDiv.innerHTML = ratText;
+
+  if(day==='tue') tueAnswers[qid] = {selected, correct:selected===correct};
+  else wedAnswers[qid] = {selected, correct:selected===correct};
+
+  addProgress(1);
+}
+
+function buildExitTicket(day, data, containerId, scoreId, numId, msgId, reflId, dlId){
+  const container = document.getElementById(containerId);
+
+  data.forEach((q,i)=>{
+    const block = document.createElement('div');
+    block.className = 'et-question';
+    block.id = `${day}-et-${i}`;
+
+    const optsHtml = q.opts.map((opt,j)=>{
+      const lbl=['A','B','C','D'][j];
+      const parts=opt.split('|');
+      const txt0 = parts[0].replace(/^[A-D]\.\s*/,'');
+      const txt1 = parts[1] ? parts[1].replace(/^[A-D]\.\s*/,'') : '';
+      return `<button class="et-opt" id="${day}-et-${i}-${lbl}" onclick="selectExit('${day}',${i},'${lbl}',this,'${q.correct}','${scoreId}','${numId}','${msgId}','${reflId}','${dlId}')">
+        <span class="et-lbl">${lbl}</span>
+        <span>${txt0}${txt1?` | ${txt1}`:''}
+        </span>
+      </button>`;
+    }).join('');
+
+    const parts = q.rat.split('|');
+    block.innerHTML = `
+      <div class="et-q-text"><span style="background:rgba(255,255,255,0.2);border-radius:4px;padding:2px 8px;margin-right:8px;font-size:.85rem">Q${i+1}</span>${q.q}
+        <div style="font-size:.83rem;opacity:.7;margin-top:5px">${q.q_cn}</div>
+      </div>
+      ${optsHtml}
+      <div class="et-rat" id="${day}-et-rat-${i}">
+        <strong>${parts[0]}</strong>${parts[1]?`<br><span style="opacity:.75">${parts[1]}</span>`:''}
+      </div>
+    `;
+    container.appendChild(block);
+  });
+}
+
+function selectExit(day,idx,selected,btn,correct,scoreId,numId,msgId,reflId,dlId){
+  const block = document.getElementById(`${day}-et-${idx}`);
+  block.querySelectorAll('.et-opt').forEach(b=>b.classList.add('et-done'));
+  const isCorrect = selected===correct;
+  btn.classList.add(isCorrect?'et-correct':'et-wrong');
+  if(!isCorrect){
+    const cb=document.getElementById(`${day}-et-${idx}-${correct}`);
+    if(cb) cb.classList.add('et-correct');
+  }
+  document.getElementById(`${day}-et-rat-${idx}`).classList.add('show');
+
+  if(day==='tue'){
+    tueExitAnswers[idx]={selected,isCorrect};
+    tueScore = Object.values(tueExitAnswers).filter(v=>v.isCorrect).length;
+  } else {
+    wedExitAnswers[idx]={selected,isCorrect};
+    wedScore = Object.values(wedExitAnswers).filter(v=>v.isCorrect).length;
+  }
+  addProgress(1);
+  checkExitComplete(day, scoreId, numId, msgId, reflId, dlId);
+}
+
+function checkExitComplete(day, scoreId, numId, msgId, reflId, dlId){
+  const answers = day==='tue'?tueExitAnswers:wedExitAnswers;
+  if(Object.keys(answers).length===10){
+    const score = day==='tue'?tueScore:wedScore;
+    const sd = document.getElementById(scoreId);
+    document.getElementById(numId).textContent = score;
+    let msg = score>=9?'🌟 Excellent! | 优秀！':score>=7?'✅ Good work! | 做得好！':score>=5?'📚 Keep reviewing | 继续复习':'💪 Study more | 需要更多学习';
+    document.getElementById(msgId).textContent = msg;
+    sd.style.display = 'block';
+    sd.classList.add('show');
+    const reflEl = document.getElementById(reflId);
+    if(reflEl){ reflEl.style.display = 'block'; }
+    const dlEl = document.getElementById(dlId);
+    if(dlEl){ dlEl.style.display = 'block'; dlEl.classList.add('show'); }
+    if(day==='tue') document.getElementById('pip-tuesday').classList.add('done');
+    else document.getElementById('pip-wednesday').classList.add('done');
+  }
+}
+
+function downloadReport(day){
+  const now = new Date();
+  const data = day==='tue' ? TUE_PRACTICES : WED_PRACTICES;
+  const exitData = day==='tue' ? TUE_EXIT : WED_EXIT;
+  const answers = day==='tue' ? tueAnswers : wedAnswers;
+  const exitAnswers = day==='tue' ? tueExitAnswers : wedExitAnswers;
+  const score = day==='tue' ? tueScore : wedScore;
+  const label = day==='tue'?'TUESDAY - INFERENCES | 周二 - 推理':'WEDNESDAY - FIGURATIVE LANGUAGE | 周三 - 修辞语言';
+  const ref1 = document.getElementById(`${day}Ref1`)?.value?.trim()||'(no response)';
+  const ref2 = document.getElementById(`${day}Ref2`)?.value?.trim()||'(no response)';
+  const studentName = document.getElementById(`${day}StudentName`)?.value?.trim() || '(not entered)';
+
+  let txt = `=====================================\n`;
+  txt += `ESL MODULE REPORT - ${label}\n`;
+  txt += `推理与修辞语言模块报告\n`;
+  txt += `=====================================\n\n`;
+  txt += `Student Name | 学生姓名: ${studentName}\n`;
+  txt += `Generated: ${now.toLocaleString()}\n`;
+  txt += `Session Start: ${sessionStart.toISOString()}\n`;
+  txt += `Time in Module: ${formatTime(secondsElapsed)}\n`;
+  txt += `Times Left Module: ${leaveCount}\n`;
+  txt += `Exit Ticket Score: ${score}/10\n\n`;
+
+  txt += `-------------------------------------\n`;
+  txt += `PRACTICE ANSWERS | 练习答案\n`;
+  txt += `-------------------------------------\n\n`;
+  data.forEach((p,i)=>{
+    const ans = answers[p.id];
+    txt += `Question ${i+1}: ${p.title}\n`;
+    txt += `Selected: ${ans?ans.selected:'Not answered'}\n`;
+    txt += `Result: ${ans?(ans.correct?'CORRECT ✓':'INCORRECT ✗'):'N/A'}\n`;
+    txt += `Correct Answer: ${p.correct}\n\n`;
+  });
+
+  txt += `-------------------------------------\n`;
+  txt += `EXIT TICKET DETAILS | 测验详情\n`;
+  txt += `-------------------------------------\n\n`;
+  txt += `Total Score: ${score}/10\n\n`;
+  exitData.forEach((q,i)=>{
+    const ans = exitAnswers[i];
+    txt += `Exit Q${i+1}: ${q.q}\n`;
+    txt += `Selected: ${ans?ans.selected:'Not answered'}\n`;
+    txt += `Result: ${ans?(ans.isCorrect?'CORRECT ✓':'INCORRECT ✗'):'N/A'}\n`;
+    txt += `Correct Answer: ${q.correct}\n\n`;
+  });
+
+  txt += `-------------------------------------\n`;
+  txt += `SELF-REFLECTION | 自我反思\n`;
+  txt += `-------------------------------------\n\n`;
+  txt += `Q1: ${day==='tue' ? 'What clues do you look for when making an inference about how a character is feeling?' : 'What is the difference between a simile and a metaphor?'}\n`;
+  txt += `Response: ${ref1}\n\n`;
+  txt += `Q2: ${day==='tue' ? 'Why is it important to combine text evidence with your own knowledge when making inferences?' : 'Why do authors use figurative language instead of just saying things directly?'}\n`;
+  txt += `Response: ${ref2}\n\n`;
+
+  txt += `=====================================\n`;
+  txt += `END OF REPORT\n`;
+  txt += `=====================================\n`;
+
+  const blob = new Blob([txt],{type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const safeName = studentName.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g,'_').substring(0,30);
+  a.download = `ESL_Module_${day.toUpperCase()}_${safeName}_${now.toLocaleDateString().replace(/\//g,'-')}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${name}`).classList.add('active');
+  btn.classList.add('active');
+}
+
+function addProgress(pts){
+  progressPoints = Math.min(progressPoints+pts, totalPoints);
+  const pct = Math.round((progressPoints/totalPoints)*100);
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('progressText').textContent = pct+'%';
+}
+
+function startTimer(){
+  setInterval(()=>{
+    secondsElapsed++;
+    document.getElementById('timerDisplay').textContent = '⏱ '+formatTime(secondsElapsed);
+  },1000);
+}
+
+function formatTime(s){
+  const m=Math.floor(s/60);
+  const sec=s%60;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function trackNavigation(){
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      leaveCount++;
+      document.getElementById('leaveCount').textContent = leaveCount;
+      document.getElementById('leaveCountCN').textContent = leaveCount;
+      document.getElementById('leaveBadge').classList.add('show');
+    }
+  });
+}
+</script>
+</body>
+</html>
