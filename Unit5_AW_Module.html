@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 5: Research Essay Writing | 研究性论文写作</title>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ml-green:       #2d6a4f;
+  --ml-green-dark:  #1b4332;
+  --ml-green-light: #d8f3dc;
+  --ml-red:         #c1121f;
+  --ml-gold:        #e9c46a;
+  --ink:            #1a2a1a;
+  --ink2:           #2d3748;
+  --mist:           #f8faf8;
+  --border:         #e2e8e2;
+  --cobalt:         #1e3a5f;
+  --amber:          #b45309;
+  --amber-light:    #fef3c7;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f0f4f0;color:var(--ink);min-height:100vh}
+.cn{font-family:'Noto Sans SC',sans-serif}
+
+/* HEADER */
+#header{background:linear-gradient(135deg,var(--ml-green-dark),var(--ml-green));color:#fff;padding:12px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.header-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header-title{font-family:'Literata',serif;font-size:1.1rem;font-weight:600;line-height:1.2}
+.header-title small{display:block;font-family:'Noto Sans SC',sans-serif;font-size:.75rem;opacity:.85;font-weight:400}
+.header-meta{display:flex;align-items:center;gap:10px;font-size:.8rem}
+#leavebadge{background:var(--ml-red);color:#fff;padding:2px 8px;border-radius:12px;font-weight:700;font-size:.75rem}
+.progress-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+#progressBar{flex:1;height:6px;background:rgba(255,255,255,.25);border-radius:3px;overflow:hidden}
+#progressFill{height:100%;width:0%;background:var(--ml-gold);transition:width .4s ease;border-radius:3px}
+#progressText{font-size:.75rem;white-space:nowrap;opacity:.9}
+.pips{display:flex;gap:6px;margin-top:6px}
+.pip{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);border:2px solid rgba(255,255,255,.5);transition:all .3s}
+.pip.done{background:var(--ml-gold);border-color:var(--ml-gold)}
+
+/* TABS */
+.tab-nav{display:flex;gap:4px;padding:12px 16px 0;background:#fff;border-bottom:2px solid var(--border);flex-wrap:wrap;overflow-x:auto}
+.tab-btn{padding:8px 16px;border:none;background:transparent;border-radius:8px 8px 0 0;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;color:var(--ink2);border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{background:var(--ml-green-light);color:var(--ml-green-dark)}
+.tab-btn.active{background:var(--ml-green-light);color:var(--ml-green-dark);border-bottom-color:var(--ml-green)}
+.tab-content{display:none;padding:20px 16px 100px;max-width:860px;margin:0 auto}
+.tab-content.active{display:block}
+
+/* NOTICE */
+.notice-bar{background:var(--amber-light);border-left:4px solid var(--amber);padding:8px 14px;font-size:.82rem;color:var(--amber);margin-bottom:16px;border-radius:0 6px 6px 0}
+
+/* CARDS */
+.card{background:#fff;border-radius:12px;border:1px solid var(--border);padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.card-title{font-family:'Literata',serif;font-size:1rem;font-weight:600;color:var(--ml-green-dark);margin-bottom:10px}
+
+/* VOCAB */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.vocab-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.vocab-word{font-family:'Literata',serif;font-size:1.15rem;font-weight:600;color:var(--ml-green-dark)}
+.vocab-pos{font-size:.75rem;color:var(--amber);font-style:italic;margin-bottom:4px}
+.vocab-cn{font-family:'Noto Sans SC',sans-serif;font-size:.95rem;color:var(--cobalt);margin-bottom:6px}
+.vocab-def{font-size:.85rem;color:var(--ink2);margin-bottom:6px;line-height:1.5}
+.vocab-def-cn{font-family:'Noto Sans SC',sans-serif;font-size:.82rem;color:#555;margin-bottom:8px;line-height:1.5}
+.vocab-example{font-size:.82rem;font-style:italic;color:#666;border-left:3px solid var(--ml-green-light);padding-left:8px}
+.speak-btn{background:var(--ml-green-light);border:none;color:var(--ml-green-dark);padding:4px 10px;border-radius:20px;cursor:pointer;font-size:.78rem;font-weight:600;margin-top:8px;transition:background .2s}
+.speak-btn:hover{background:var(--ml-green)}
+.speak-btn:hover{color:#fff}
+
+/* PASSAGE */
+.passage-box{background:var(--mist);border:1px solid var(--border);border-radius:8px;padding:16px;font-family:'Literata',serif;font-size:.92rem;line-height:1.8;color:var(--ink);margin-bottom:14px}
+.question-text{font-weight:600;font-size:.92rem;margin-bottom:6px}
+.question-cn{font-family:'Noto Sans SC',sans-serif;font-size:.85rem;color:var(--cobalt);margin-bottom:12px}
+.options{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.opt-btn{text-align:left;padding:10px 14px;border:2px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:.88rem;font-family:'DM Sans',sans-serif;transition:all .2s;line-height:1.4}
+.opt-btn:hover:not(:disabled){border-color:var(--ml-green);background:var(--ml-green-light)}
+.opt-btn.correct{border-color:#2d6a4f;background:#d8f3dc;color:#1b4332;font-weight:600}
+.opt-btn.wrong{border-color:var(--ml-red);background:#fee2e2;color:#7f1d1d}
+.opt-btn:disabled{cursor:default}
+.rationale{font-size:.82rem;padding:10px 14px;border-radius:8px;background:var(--mist);border:1px solid var(--border);line-height:1.5;margin-top:4px;display:none}
+.rationale.visible{display:block}
+.rationale.ok{border-color:#2d6a4f;background:#d8f3dc;color:#1b4332}
+.rationale.no{border-color:var(--ml-red);background:#fee2e2;color:#7f1d1d}
+.rationale-cn{font-family:'Noto Sans SC',sans-serif;display:block;margin-top:4px;font-size:.8rem;opacity:.85}
+.hint{font-size:.8rem;color:var(--amber);font-style:italic;margin-bottom:8px}
+
+/* PRACTICE HEADER */
+.practice-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.practice-num{font-size:.8rem;color:#888}
+.section-label{font-family:'Literata',serif;font-size:1.1rem;font-weight:600;color:var(--ml-green-dark);margin:20px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--ml-green-light)}
+.exit-label{font-family:'Literata',serif;font-size:1rem;font-weight:600;color:var(--cobalt);margin:24px 0 12px;padding-bottom:6px;border-bottom:2px solid #dbeafe}
+
+/* SCORE */
+.score-box{background:var(--ml-green-light);border:2px solid var(--ml-green);border-radius:12px;padding:16px;text-align:center;display:none;margin-top:16px}
+.score-num{font-size:2rem;font-weight:700;color:var(--ml-green-dark)}
+.score-label{font-size:.85rem;color:var(--ml-green-dark)}
+
+/* REFLECTION */
+.reflect-box{display:none;margin-top:16px}
+.reflect-label{font-size:.88rem;font-weight:600;color:var(--ink2);margin-bottom:6px}
+.reflect-label-cn{font-family:'Noto Sans SC',sans-serif;font-size:.82rem;color:#666;margin-bottom:8px}
+.reflect-input{width:100%;min-height:80px;border:2px solid var(--border);border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-size:.88rem;resize:vertical;margin-bottom:14px}
+.reflect-input:focus{outline:none;border-color:var(--ml-green)}
+
+/* TOPIC/THESIS BUILDER */
+.builder-section{background:#fff;border:2px solid var(--cobalt);border-radius:12px;padding:20px;margin-bottom:16px}
+.builder-title{font-family:'Literata',serif;font-size:1rem;font-weight:600;color:var(--cobalt);margin-bottom:12px}
+.builder-title .cn{font-size:.88rem;font-weight:400;opacity:.8;margin-left:6px}
+.builder-field{margin-bottom:14px}
+.builder-field label{display:block;font-size:.85rem;font-weight:600;color:var(--ink2);margin-bottom:4px}
+.builder-field .cn-label{font-family:'Noto Sans SC',sans-serif;font-size:.78rem;color:#666;display:block;margin-bottom:6px}
+.builder-input{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;transition:border-color .2s}
+.builder-input:focus{outline:none;border-color:var(--cobalt)}
+.builder-preview{background:var(--amber-light);border:1px solid var(--amber);border-radius:8px;padding:12px;margin-top:12px;font-size:.9rem;line-height:1.6;display:none}
+.builder-preview strong{color:var(--amber)}
+.check-btn{background:var(--cobalt);color:#fff;border:none;padding:9px 20px;border-radius:8px;cursor:pointer;font-size:.88rem;font-weight:600;margin-top:8px;transition:background .2s}
+.check-btn:hover{background:#162d4a}
+.builder-feedback{margin-top:10px;font-size:.85rem;line-height:1.5;display:none;padding:10px;border-radius:8px}
+.builder-feedback.good{background:#d8f3dc;border:1px solid var(--ml-green);color:#1b4332}
+.builder-feedback.needs-work{background:var(--amber-light);border:1px solid var(--amber);color:var(--amber)}
+
+/* NAME INPUT */
+.name-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.name-row label{font-size:.85rem;font-weight:600;white-space:nowrap}
+.name-input{padding:7px 12px;border:2px solid var(--border);border-radius:8px;font-size:.88rem;font-family:'DM Sans',sans-serif;flex:1;min-width:160px}
+.name-input:focus{outline:none;border-color:var(--ml-green)}
+
+/* DOWNLOAD BTN */
+.dl-btn{background:var(--ml-green-dark);color:#fff;border:none;padding:11px 22px;border-radius:8px;cursor:pointer;font-size:.9rem;font-weight:600;display:none;margin-top:12px;width:100%;transition:background .2s}
+.dl-btn:hover{background:var(--ml-green)}
+
+/* TIMER */
+#timer{position:fixed;bottom:18px;right:18px;background:var(--ml-green-dark);color:#fff;padding:8px 14px;border-radius:20px;font-size:.85rem;font-weight:600;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+
+/* STEP CARDS */
+.step-card{background:#fff;border-left:4px solid var(--ml-green);border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.step-card h4{font-family:'Literata',serif;font-size:.95rem;font-weight:600;color:var(--ml-green-dark);margin-bottom:4px}
+.step-card p{font-size:.85rem;color:var(--ink2);line-height:1.5}
+.step-card .cn{font-family:'Noto Sans SC',sans-serif;font-size:.82rem;color:#666;margin-top:4px}
+
+@media(max-width:600px){
+  .tab-btn{padding:6px 10px;font-size:.78rem}
+  .vocab-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="header-top">
+    <div class="header-title">
+      Unit 5: Research Essay Writing Process
+      <small class="cn">研究性论文写作过程</small>
+    </div>
+    <div class="header-meta">
+      <span>📖 AW Grade 11</span>
+      <span id="leaveband">🚨 Tab leaves: <strong id="leaveCount">0</strong></span>
+    </div>
+  </div>
+  <div class="progress-row">
+    <div id="progressBar"><div id="progressFill"></div></div>
+    <span id="progressText">0 / 85 pts</span>
+  </div>
+  <div class="pips">
+    <div class="pip" id="pip-vocab" title="Vocab"></div>
+    <div class="pip" id="pip-tuesday" title="Tuesday"></div>
+    <div class="pip" id="pip-wednesday" title="Wednesday"></div>
+    <div class="pip" id="pip-thursday" title="Thursday"></div>
+    <div class="pip" id="pip-friday" title="Friday"></div>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('vocab',this)">📚 Vocab <span class="cn">词汇</span></button>
+  <button class="tab-btn" onclick="switchTab('tuesday',this)">🚫 Tuesday <span class="cn">周二</span></button>
+  <button class="tab-btn" onclick="switchTab('wednesday',this)">📋 Wednesday <span class="cn">周三</span></button>
+  <button class="tab-btn" onclick="switchTab('thursday',this)">📅 Thursday <span class="cn">周四</span></button>
+  <button class="tab-btn" onclick="switchTab('friday',this)">✍️ Friday <span class="cn">周五</span></button>
+</div>
+
+<!-- ========== VOCAB TAB ========== -->
+<div id="tab-vocab" class="tab-content active">
+  <div class="notice-bar">📌 Learn the key vocabulary for Unit 5. Click 🔊 to hear the pronunciation. <span class="cn">学习第五单元关键词汇。点击🔊听发音。</span></div>
+  <div class="vocab-grid" id="vocabGrid"></div>
+</div>
+
+<!-- ========== TUESDAY TAB ========== -->
+<div id="tab-tuesday" class="tab-content">
+  <div class="notice-bar">⚠️ Staying on this tab is important. Switching tabs is recorded. <span class="cn">请保持在本标签页。切换标签会被记录。</span></div>
+  <div class="card">
+    <div class="card-title">Tuesday: Plagiarism &amp; Reliable Sources <DONE> — Steps 1–5 <span class="cn" style="font-size:.85rem;font-weight:400;color:#666">周二：研究过程 第1–5步</span></div>
+    <p style="font-size:.85rem;color:#555;line-height:1.6;margin-bottom:14px">Writing a research paper requires a clear process. Today we learn the first five steps: choosing a subject, narrowing your topic, writing a thesis statement, forming a bibliography, and creating a working outline. <span class="cn" style="font-size:.82rem">写研究论文需要清晰的流程。今天我们学习前五个步骤：选题、缩小主题、写论点、建立参考书目、制作工作提纲。</span></p>
+      </div>
+
+  <div class="name-row">
+    <label>Your Name / 你的名字:</label>
+    <input class="name-input" id="nameInputTuesday" placeholder="Type your name here...">
+  </div>
+
+  <div class="section-label">📖 Reading Practice — Steps 1–5 <span class="cn" style="font-size:.88rem;font-weight:400">阅读练习</span></div>
+  <div id="tuesdayPracticeContainer"></div>
+
+  <div class="exit-label">🎯 Exit Ticket — Tuesday <span class="cn" style="font-size:.88rem;font-weight:400">出口测验</span></div>
+  <div id="tuesdayExitContainer"></div>
+  <div class="score-box" id="tuesdayScoreBox">
+    <div class="score-num" id="tuesdayScoreNum">—</div>
+    <div class="score-label" id="tuesdayScoreMsg">Exit Ticket Score</div>
+  </div>
+  <div class="reflect-box" id="tuesdayReflect">
+    <div class="reflect-label">Reflection 1: In your own words, explain what plagiarism is and give ONE example.</div>
+    <div class="reflect-label-cn cn">用你自己的话解释什么是抄袍，并举一个例子。</div>
+    <textarea class="reflect-input" id="tuesdayR1" placeholder="Write your response here..."></textarea>
+    <div class="reflect-label">Reflection 2: How can you tell if a website is a reliable source? List two things to check.</div>
+    <div class="reflect-label-cn cn">你如何判断一个网站是否是可靠来源？列出两件需要检查的事情。</div>
+    <textarea class="reflect-input" id="tuesdayR2" placeholder="Write your response here..."></textarea>
+    <button class="dl-btn" id="tuesdayDL" onclick="downloadReport('tuesday')">⬇️ Download Tuesday Report / 下载周二报告</button>
+  </div>
+</div>
+
+<!-- ========== WEDNESDAY TAB ========== -->
+<div id="tab-wednesday" class="tab-content">
+  <div class="notice-bar">⚠️ Staying on this tab is important. Switching tabs is recorded. <span class="cn">请保持在本标签页。切换标签会被记录。</span></div>
+  <div class="card">
+    <div class="card-title">Wednesday: Outlines, Drafts &amp; Bibliographies <span class="cn" style="font-size:.85rem;font-weight:400;color:#666">周三：提纲、草稿与参考书目</span></div>
+    <p style="font-size:.85rem;color:#555;line-height:1.6;margin-bottom:10px">Today we review how to create an outline, write a rough draft, and format a bibliography in APA style. These are the final steps before submitting your research paper. <span class="cn" style="font-size:.82rem">论点是你文章中最重要的句子。它陈述你的主要论点，并告诉读者你的论文内容。共有三种类型：说明型、论证型和分析型。</span></p>
+  </div>
+
+  <div class="name-row">
+    <label>Your Name / 你的名字:</label>
+    <input class="name-input" id="nameInputWednesday" placeholder="Type your name here...">
+  </div>
+
+  <div class="section-label">📖 Reading Practice — Thesis Statements <span class="cn" style="font-size:.88rem;font-weight:400">阅读练习</span></div>
+  <div id="wednesdayPracticeContainer"></div>
+
+  <div class="exit-label">🎯 Exit Ticket — Wednesday <span class="cn" style="font-size:.88rem;font-weight:400">出口测验</span></div>
+  <div id="wednesdayExitContainer"></div>
+  <div class="score-box" id="wednesdayScoreBox">
+    <div class="score-num" id="wednesdayScoreNum">—</div>
+    <div class="score-label" id="wednesdayScoreMsg">Exit Ticket Score</div>
+  </div>
+  <div class="reflect-box" id="wednesdayReflect">
+    <div class="reflect-label">Reflection 1: Describe the PLAN → WRITE → REVISE process in your own words. What happens at each stage?</div>
+    <div class="reflect-label-cn cn">用你自己的话描述“计划→写作→修改”的过程。每个阶段发生了什么？</div>
+    <textarea class="reflect-input" id="wednesdayR1" placeholder="Write your response here..."></textarea>
+    <div class="reflect-label">Reflection 2: What is one thing you learned this week about the writing process that will help you write a better research essay?</div>
+    <div class="reflect-label-cn cn">本周关于写作过程你学到的哪一件事将帮助你写出更好的研究论文？</div>
+    <textarea class="reflect-input" id="wednesdayR2" placeholder="Write your response here..."></textarea>
+    <button class="dl-btn" id="wednesdayDL" onclick="downloadReport('wednesday')">⬇️ Download Wednesday Report / 下载周三报告</button>
+  </div>
+</div>
+
+<!-- ========== THURSDAY TAB ========== -->
+<div id="tab-thursday" class="tab-content">
+  <div class="notice-bar">⚠️ Staying on this tab is important. Switching tabs is recorded. <span class="cn">请保持在本标签页。切换标签会被记录。</span></div>
+  <div class="card">
+    <div class="card-title">Thursday: The Research Process — Steps 1–5 <span class="cn" style="font-size:.85rem;font-weight:400;color:#666">周四：研究过程 第1–5步</span></div>
+    <p style="font-size:.85rem;color:#555;line-height:1.6;margin-bottom:10px">Writing a research paper requires a clear process. Today we learn the first five steps: choosing a subject, narrowing your topic, writing a thesis statement, forming a bibliography, and creating a working outline. <span class="cn" style="font-size:.82rem">写研究论文需要清晰的流程。今天我们学习前五个步骤：选题、缩小主题、写论点、建立参考书目、制作工作提纲。</span></p>
+  </div>
+
+  <div id="step-cards-1"></div>
+  </div>
+
+  <!-- TOPIC BUILDER -->
+  <div class="builder-section">
+    <div class="builder-title">🎯 Topic Builder <span class="cn">主题构建器</span></div>
+    <p style="font-size:.85rem;color:#555;margin-bottom:14px">Use these steps to narrow your research topic from broad → specific. <span class="cn">用以下步骤将研究主题从宽泛缩小到具体。</span></p>
+    <div class="builder-field">
+      <label>1. Broad Subject <span style="font-weight:400;color:#888">(General idea — what do you want to write about?)</span></label>
+      <span class="cn-label">宽泛主题（大概念——你想写什么？）</span>
+      <input class="builder-input" id="topicBroad" placeholder="e.g. social media / 社交媒体" oninput="updateTopicPreview()">
+    </div>
+    <div class="builder-field">
+      <label>2. Narrow Focus <span style="font-weight:400;color:#888">(What specific angle or problem?)</span></label>
+      <span class="cn-label">具体角度（什么具体问题或方向？）</span>
+      <input class="builder-input" id="topicFocus" placeholder="e.g. effect on teenagers' sleep / 对青少年睡眠的影响" oninput="updateTopicPreview()">
+    </div>
+    <div class="builder-field">
+      <label>3. Your Opinion or Viewpoint <span style="font-weight:400;color:#888">(What do you think about it?)</span></label>
+      <span class="cn-label">你的观点（你对此有什么看法？）</span>
+      <input class="builder-input" id="topicViewpoint" placeholder="e.g. it is harmful / 它是有害的" oninput="updateTopicPreview()">
+    </div>
+    <div class="builder-preview" id="topicPreview">
+      <strong>📌 Your Research Topic:</strong><br>
+      <span id="topicOutput"></span><br>
+      <span class="cn" style="font-size:.82rem;color:#666">这是你的研究主题</span>
+    </div>
+
+
+  <div class="name-row">
+    <label>Your Name / 你的名字:</label>
+    <input class="name-input" id="nameInputThursday" placeholder="Type your name here...">
+  </div>
+
+  <div class="section-label">📖 Reading Practice — Plagiarism & Sources <span class="cn" style="font-size:.88rem;font-weight:400">阅读练习</span></div>
+  <div id="thursdayPracticeContainer"></div>
+
+  <div class="exit-label">🎯 Exit Ticket — Thursday <span class="cn" style="font-size:.88rem;font-weight:400">出口测验</span></div>
+  <div id="thursdayExitContainer"></div>
+  <div class="score-box" id="thursdayScoreBox">
+    <div class="score-num" id="thursdayScoreNum">—</div>
+    <div class="score-label" id="thursdayScoreMsg">Exit Ticket Score</div>
+  </div>
+  <div class="reflect-box" id="thursdayReflect">
+    <div class="reflect-label">Reflection 1: Why is Step 3 (Thesis Statement) so critical before you start taking notes? How does it guide your research?</div>
+    <div class="reflect-label-cn cn">为什么第3步（论点陈述）在开始记笔记之前如此重要？它如何引导你的研究？</div>
+    <textarea class="reflect-input" id="thursdayR1" placeholder="Write your response here..."></textarea>
+    <div class="reflect-label">Reflection 2: Describe the research topic you would choose for your paper. Use the Topic Builder fields (broad subject, narrow focus, viewpoint) to explain your thinking.</div>
+    <div class="reflect-label-cn cn">描述你会选择的研究主题。用主题构建器字段（宽泛主题、具体角度、观点）来解释你的思考。</div>
+    <textarea class="reflect-input" id="thursdayR2" placeholder="Write your response here..."></textarea>
+    <button class="dl-btn" id="thursdayDL" onclick="downloadReport('thursday')">⬇️ Download Thursday Report / 下载周四报告</button>
+  </div>
+</div>
+
+<!-- ========== FRIDAY TAB ========== -->
+<div id="tab-friday" class="tab-content">
+  <div class="notice-bar">⚠️ Staying on this tab is important. Switching tabs is recorded. <span class="cn">请保持在本标签页。切换标签会被记录。</span></div>
+  <div class="card">
+    <div class="card-title">Friday: Thesis Statements <span class="cn" style="font-size:.85rem;font-weight:400;color:#666">周五：论点陈述</span></div>
+    <p style="font-size:.85rem;color:#555;line-height:1.6;margin-bottom:10px">A thesis statement is the most important sentence in your essay. It states your main argument and tells the reader what your paper is about. There are three types: expository, argument, and analytical. <span class="cn" style="font-size:.82rem">论点是你文章中最重要的句子。它陈述你的主要论点，并告诉读者你的论文内容。共有三种类型：说明型、论证型和分析型。</span></p>
+  </div>
+
+  <!-- THESIS BUILDER -->
+  <div class="builder-section">
+    <div class="builder-title">✍️ Thesis Statement Builder <span class="cn">论点陈述构建器</span></div>
+    <p style="font-size:.85rem;color:#555;margin-bottom:14px">Build a strong thesis statement using your topic from Thursday. A good thesis is debatable, specific, and supportable with evidence. <span class="cn">用周四的主题构建有力的论点。好的论点可以辩论、具体，并且可以用证据支持。</span></p>
+    <div class="builder-field">
+      <label>1. Your Research Topic (from Thursday)</label>
+      <span class="cn-label">你的研究主题（来自周四）</span>
+      <input class="builder-input" id="thesisTopic" placeholder="Copy your topic from Thursday here...">
+    </div>
+    <div class="builder-field">
+      <label>2. Choose Thesis Type</label>
+      <span class="cn-label">选择论点类型</span>
+      <select class="builder-input" id="thesisType" onchange="updateThesisPreview()">
+        <option value="">-- Select type / 选择类型 --</option>
+        <option value="expository">Expository 说明型 — explains facts/information</option>
+        <option value="argument">Argument 论证型 — takes a strong position</option>
+        <option value="analytical">Analytical 分析型 — breaks down a topic</option>
+      </select>
+    </div>
+    <div class="builder-field">
+      <label>3. Your Main Claim / Position</label>
+      <span class="cn-label">你的主要论点或立场</span>
+      <input class="builder-input" id="thesisClaim" placeholder="e.g. Social media harms teenagers' sleep quality" oninput="updateThesisPreview()">
+    </div>
+    <div class="builder-field">
+      <label>4. Your Supporting Reason (because...)</label>
+      <span class="cn-label">你的支撑理由（因为……）</span>
+      <input class="builder-input" id="thesisReason" placeholder="e.g. because it increases screen time before bed" oninput="updateThesisPreview()">
+    </div>
+    <div class="builder-preview" id="thesisPreview">
+      <strong>📌 Your Thesis Statement:</strong><br>
+      <span id="thesisOutput"></span><br>
+      <span class="cn" style="font-size:.82rem;color:#666">这是你的论点陈述</span>
+    </div>
+    <button class="check-btn" onclick="checkThesis()">✅ Check My Thesis / 检查我的论点</button>
+    <div class="builder-feedback" id="thesisFeedback"></div>
+  </div>
+
+
+
+  <div class="name-row">
+    <label>Your Name / 你的名字:</label>
+    <input class="name-input" id="nameInputFriday" placeholder="Type your name here...">
+  </div>
+
+  <div class="section-label">📖 Reading Practice — Outlines & Drafts <span class="cn" style="font-size:.88rem;font-weight:400">阅读练习</span></div>
+  <div id="fridayPracticeContainer"></div>
+
+  <div class="exit-label">🎯 Exit Ticket — Friday / Week Review <span class="cn" style="font-size:.88rem;font-weight:400">出口测验 / 本周复习</span></div>
+  <div id="fridayExitContainer"></div>
+  <div class="score-box" id="fridayScoreBox">
+    <div class="score-num" id="fridayScoreNum">—</div>
+    <div class="score-label" id="fridayScoreMsg">Exit Ticket Score</div>
+  </div>
+  <div class="reflect-box" id="fridayReflect">
+    <div class="reflect-label">Reflection 1: Write your own thesis statement using the builder above. Label it as expository, argument, or analytical and explain your choice.</div>
+    <div class="reflect-label-cn cn">用上面的构建器写出你自己的论点陈述。标注它是说明型、论证型还是分析型，并解释你的选择。</div>
+    <textarea class="reflect-input" id="fridayR1" placeholder="Write your response here..."></textarea>
+    <div class="reflect-label">Reflection 2: Why is a thesis statement the most important sentence in a research essay? How does a strong thesis guide both the writer and the reader?</div>
+    <div class="reflect-label-cn cn">为什么论点是研究论文中最重要的句子？一个强有力的论点如何引导写作者和读者？</div>
+    <textarea class="reflect-input" id="fridayR2" placeholder="Write your response here..."></textarea>
+    <button class="dl-btn" id="fridayDL" onclick="downloadReport('friday')">⬇️ Download Friday Report / 下载周五报告</button>
+  </div>
+</div>
+
+<div id="timer">⏱ 00:00</div>
+
+<script>
+// ==================== STATE ====================
+let leaveCount = 0;
+let secondsElapsed = 0;
+const TOTAL_POINTS = 85; // 5 vocab + 4×(10 practice + 10 exit)
+let progressPoints = 0;
+
+const tuesdayAnswers = {}, tuesdayExitAnswers = {};
+const wednesdayAnswers = {}, wednesdayExitAnswers = {};
+const thursdayAnswers = {}, thursdayExitAnswers = {};
+const fridayAnswers = {}, fridayExitAnswers = {};
+
+let tuesdayExitScore = 0, wednesdayExitScore = 0, thursdayExitScore = 0, fridayExitScore = 0;
+let tuesdayExitDone = 0, wednesdayExitDone = 0, thursdayExitDone = 0, fridayExitDone = 0;
+let vocabInteracted = 0;
+
+// ==================== VOCAB DATA ====================
+const VOCAB = [
+  { word:"Research Paper", pos:"noun phrase", cn:"研究论文", def:"A long written document that investigates a specific topic using information from many sources.", cn_def:"一篇通过多种来源调查特定主题的长篇书面文件。", example:"She spent three weeks writing her research paper on climate change." },
+  { word:"Thesis Statement", pos:"noun phrase", cn:"论点陈述", def:"One or two sentences at the beginning of an essay that state the main argument or central idea.", cn_def:"文章开头一两句话，陈述主要论点或中心思想。", example:"Her thesis statement was clear: social media harms teenagers' mental health." },
+  { word:"Plagiarism", pos:"noun", cn:"抄袭", def:"Using another person's words, ideas, or work without giving them credit — it is academic dishonesty.", cn_def:"使用他人的文字、想法或作品而不注明出处——这是学术不诚信行为。", example:"Copying sentences from a website without citing it is plagiarism." },
+  { word:"Citation", pos:"noun", cn:"引用注释", def:"A reference that tells readers where you found a piece of information or a quotation.", cn_def:"告诉读者你在哪里找到某条信息或引文的参考说明。", example:"Each fact in her essay had a correct APA citation." },
+  { word:"Bibliography", pos:"noun", cn:"参考书目", def:"A list of all the sources — books, articles, websites — used in a research paper.", cn_def:"研究论文中使用的所有来源（书籍、文章、网站）的列表。", example:"The bibliography at the end of the paper listed eight sources." },
+  { word:"Reliable Source", pos:"noun phrase", cn:"可靠来源", def:"A source that provides accurate, well-reasoned information based on strong evidence, such as academic journals.", cn_def:"提供准确、有充分论据的信息的来源，例如学术期刊。", example:"Peer-reviewed articles are considered reliable sources." },
+  { word:"Outline", pos:"noun", cn:"提纲", def:"A structured plan that organizes the main points and sub-points of an essay before writing.", cn_def:"在写作前组织文章主要观点和次要观点的结构化计划。", example:"He created an outline before writing his rough draft." },
+  { word:"Narrow", pos:"verb", cn:"缩小范围", def:"To make a broad topic smaller and more specific so it is easier to research and write about.", cn_def:"将宽泛主题缩小并具体化，以便更容易研究和写作。", example:"She needed to narrow her topic from 'health' to 'teenage sleep habits'." },
+  { word:"Peer Review", pos:"noun phrase", cn:"同伴评审", def:"A process in which classmates read and give feedback on each other's writing to help improve it.", cn_def:"同学互相阅读并对彼此写作提供反馈以帮助改进的过程。", example:"During peer review, students exchanged essays and suggested improvements." },
+  { word:"Rough Draft", pos:"noun phrase", cn:"草稿", def:"The first complete version of a piece of writing, written before editing and revision.", cn_def:"在编辑和修改之前写出的第一个完整版本的写作。", example:"His rough draft was messy but contained all his main ideas." }
+];
+
+// ==================== TUESDAY PRACTICES ====================
+const TUE_PRACTICES = [
+  {
+    id:'tue_p1',
+    title:"Choosing a Subject",
+    passage:`Writing a research paper starts with choosing a subject. You should choose a subject that you are interested in and can form an opinion about. It will be easier to write a long paper if you care about the topic. Avoid subjects that are too technical, too controversial, or that cannot be researched using reliable sources. The best subjects allow you to explore a real question and develop a clear viewpoint.`,
+    q:"According to the passage, what makes a subject a good choice for a research paper?",
+    q_cn:"根据文章，什么使一个主题成为研究论文的好选择？",
+    hint:null,
+    options:["A. It is the most controversial topic in the news.|A. 它是新闻中最有争议的话题","B. The writer is interested in it and can form an opinion.|B. 写作者对它感兴趣并能形成观点","C. It has already been researched by many other students.|C. 已经有很多其他学生研究过它","D. It uses only one reliable source.|D. 它只使用一个可靠来源"],
+    correct:"B",
+    rationale:"Correct! The passage says writing is easier when you care about the topic and can form an opinion.|正确！文章说当你关心话题并能形成观点时，写作更容易。",
+    rationale_wrong:{A:"The passage warns against topics that are 'too controversial'.|文章警告避免'过于有争议'的话题。",C:"The passage does not mention this criterion.|文章没有提到这个标准。",D:"One source is not enough for research. The passage does not say this.|一个来源对于研究来说不够。文章没有这样说。"}
+  },
+  {
+    id:'tue_p2',
+    title:"Narrowing Your Topic",
+    passage:`After selecting a broad subject, you must narrow it down to a specific topic. To narrow your topic, read background articles in encyclopedias and general references. Ask yourself: Who are the important people involved? What are the major issues? What are my opinions about this subject? Narrowing helps you find a focused direction for your research and makes note-taking much easier.`,
+    q:"What is the PURPOSE of narrowing your topic?",
+    q_cn:"缩小主题的目的是什么？",
+    hint:null,
+    options:["A. To make your paper shorter and easier to finish.|A. 使你的论文更短，更容易完成","B. To find a focused direction that makes research easier.|B. 找到一个使研究更容易的重点方向","C. To avoid reading any background articles.|C. 避免阅读任何背景文章","D. To change your thesis statement every week.|D. 每周更改你的论点"],
+    correct:"B",
+    rationale:"Correct! Narrowing gives you a focused direction and makes note-taking easier, as the passage explains.|正确！如文章所说，缩小主题给你一个重点方向，使记笔记更容易。",
+    rationale_wrong:{A:"The goal is focus, not length. Making a paper shorter is not mentioned.|目标是专注，不是长度。没有提到使论文更短。",C:"The passage recommends reading background articles to help narrow your topic.|文章建议阅读背景文章来帮助缩小主题。",D:"This is not mentioned and is not the purpose of narrowing.|这没有被提及，也不是缩小主题的目的。"}
+  },
+  {
+    id:'tue_p3',
+    title:"The Thesis Statement Rule",
+    passage:`A thesis statement must not be an indisputable fact or an opinion that cannot be proven. For example, "The United States was the first nation to land on the moon" is an indisputable fact — you cannot argue against it. An insupportable opinion like "J.D. Salinger's Catcher in the Rye is the most fascinating novel ever written" also does not work. Your thesis must be a claim that can be supported with evidence from research.`,
+    q:"Which of the following is an example of a GOOD thesis statement?",
+    q_cn:"以下哪个是好论点的例子？",
+    hint:null,
+    options:["A. Water is made of hydrogen and oxygen.|A. 水由氢和氧组成","B. The moon is very beautiful at night.|B. 月亮在夜晚非常美丽","C. Schools should ban smartphones to improve student focus and academic performance.|C. 学校应该禁止智能手机，以提高学生的专注力和学业成绩","D. China is a country in Asia.|D. 中国是亚洲的一个国家"],
+    correct:"C",
+    rationale:"Correct! This statement takes a debatable position that can be supported with research and evidence.|正确！这个陈述采取了一个可以用研究和证据支持的可辩论立场。",
+    rationale_wrong:{A:"This is an indisputable scientific fact, not a thesis.|这是一个无可争辩的科学事实，不是论点。",B:"This is a vague personal opinion that cannot be proven with evidence.|这是一个模糊的个人观点，无法用证据证明。",D:"This is a basic fact, not a debatable argument.|这是一个基本事实，不是可辩论的论点。"}
+  },
+  {
+    id:'tue_p4',
+    title:"The Working Outline",
+    passage:`A working outline is an important early step in research writing. It gives order to your note-taking before you start reading sources. As you do your research, you may find that you need to review your plan if you lack information or have conflicting information. Nevertheless, the working outline provides a good starting point. The final outline will be more complex, with each topic divided into several subtopics.`,
+    q:"What is a WORKING OUTLINE used for?",
+    q_cn:"工作提纲用来做什么？",
+    hint:null,
+    options:["A. It is the final version of the essay structure.|A. 它是文章结构的最终版本","B. It gives order to note-taking before you read sources.|B. 它在你阅读来源之前为记笔记提供秩序","C. It replaces the need for a bibliography.|C. 它取代了参考书目的需要","D. It is only used after the rough draft is written.|D. 它只在草稿写完之后使用"],
+    correct:"B",
+    rationale:"Correct! The passage says a working outline gives order to your note-taking before you start reading sources.|正确！文章说工作提纲在你开始阅读来源之前为记笔记提供秩序。",
+    rationale_wrong:{A:"The final outline is more complex; the working outline is just a starting point.|最终提纲更复杂；工作提纲只是一个起点。",C:"A bibliography is still necessary — the outline does not replace it.|参考书目仍然必要——提纲不能取代它。",D:"The working outline comes early, before reading sources — not after drafting.|工作提纲在阅读来源之前很早就出现——不是在起草之后。"}
+  },
+  {
+    id:'tue_p5',
+    title:"Note-Taking Methods",
+    passage:`After gathering your materials and preparing a working outline, you can start to take notes. Take notes in any way that you find effective. Some methods of note-taking include using note cards, compiling all notes in a document, using a note-taking app like Evernote, or creating a spreadsheet database. Important: if you directly copy from a source, you must quote the source and be sure to add it to your bibliography to avoid plagiarism.`,
+    q:"Why must you add a source to your bibliography if you copy text directly from it?",
+    q_cn:"如果你直接从来源复制文本，为什么必须将其添加到参考书目中？",
+    hint:null,
+    options:["A. To make your essay look longer and more professional.|A. 使你的文章看起来更长、更专业","B. Because your teacher will check the number of sources.|B. 因为你的老师会检查来源数量","C. To avoid plagiarism by giving credit to the original author.|C. 通过向原作者致谢来避免抄袭","D. Because note cards are not reliable.|D. 因为卡片笔记不可靠"],
+    correct:"C",
+    rationale:"Correct! Adding the source to your bibliography gives credit to the original author and avoids plagiarism.|正确！将来源添加到参考书目中向原作者致谢，避免了抄袭。",
+    rationale_wrong:{A:"Length and professionalism are not the reason — honesty is.|长度和专业性不是原因——诚信才是。",B:"The passage does not say your teacher will count sources — it's about academic honesty.|文章没有说老师会数来源——这是关于学术诚信的。",D:"Note cards are listed as a valid method. Reliability is not the issue here.|卡片笔记被列为有效方法。可靠性不是这里的问题。"}
+  }
+];
+
+// ==================== TUESDAY EXIT ====================
+const TUE_EXIT = [
+  { q:"Step 3 of the research process is to:", q_cn:"研究过程的第3步是：", opts:["A. Start taking notes|A. 开始记笔记","B. State your thesis statement|B. 陈述你的论点","C. Write the rough draft|C. 写草稿","D. Create the final outline|D. 创建最终提纲"], correct:"B", rat:"Step 3 is to state your thesis statement — which gives direction to all your research.|第3步是陈述你的论点——它为你所有的研究提供方向。" },
+  { q:"The topic of a paper is best described as:", q_cn:"论文的主题最好描述为：", opts:["A. The list of sources used|A. 使用的来源列表","B. A personal opinion that cannot be proven|B. 无法证明的个人观点","C. What you want to say about your subject|C. 你想对你的主题说什么","D. The conclusion of your argument|D. 你的论点的结论"], correct:"C", rat:"The topic is what you want to say about your subject — it is narrower and more focused than the subject.|主题是你想对你的主题说什么——它比主题更窄、更集中。" },
+  { q:"Which of these is an example of a BAD thesis statement?", q_cn:"以下哪个是差论点的例子？", opts:["A. Social media use causes anxiety in high school students.|A. 使用社交媒体会导致高中生焦虑","B. Air pollution is a growing problem that governments must address immediately.|B. 空气污染是政府必须立即解决的日益严重的问题","C. Dogs are animals.|C. 狗是动物","D. School uniforms reduce social inequality among students.|D. 校服减少了学生之间的社会不平等"], correct:"C", rat:"'Dogs are animals' is an indisputable fact that cannot be argued. It is not a thesis.|'狗是动物'是无可争辩的事实，不能被辩论。它不是论点。" },
+  { q:"A preliminary bibliography is:", q_cn:"初步参考书目是：", opts:["A. A summary of the paper's main points|A. 论文主要观点的摘要","B. A list of potential sources of information|B. 潜在信息来源的列表","C. The title page of the research paper|C. 研究论文的标题页","D. The reflection questions at the end|D. 最后的反思问题"], correct:"B", rat:"A preliminary bibliography is a list of potential sources — it helps you organize what you might use before you start reading deeply.|初步参考书目是潜在来源的列表——它帮助你在开始深入阅读之前整理你可能使用的内容。" },
+  { q:"When narrowing a topic, you should NOT:", q_cn:"缩小主题时，你不应该：", opts:["A. Ask who the important people involved are|A. 询问涉及的重要人物是谁","B. Think about your opinions about the topic|B. 思考你对主题的看法","C. Take detailed notes at this stage|C. 在这个阶段做详细笔记","D. Read background articles in encyclopedias|D. 阅读百科全书中的背景文章"], correct:"C", rat:"The passage says: 'Do not take notes at this time other than to jot down possible main ideas.' Detailed note-taking comes later.|文章说：'除了记下可能的主要想法外，此时不要记笔记。'详细记笔记在后面进行。" },
+  { q:"Why is it helpful to choose a topic you already know something about?", q_cn:"为什么选择你已经了解一些的主题是有帮助的？", opts:["A. You will not need to do any research.|A. 你不需要做任何研究","B. It will be easier to narrow the topic later.|B. 以后更容易缩小主题","C. Your teacher will grade it more easily.|C. 你的老师会更容易给它打分","D. The bibliography will be shorter.|D. 参考书目会更短"], correct:"B", rat:"The passage states: 'It will be easier later on to narrow the topic if you choose a topic you already know something about.'|文章指出：'如果你选择一个你已经了解一些的主题，以后缩小主题会更容易。'" },
+  { q:"According to Step 8, the introduction of a research paper should:", q_cn:"根据第8步，研究论文的引言应该：", opts:["A. Include all the body paragraphs|A. 包括所有正文段落","B. Summarize the conclusion and restate findings|B. 总结结论并重申发现","C. State the thesis, summarize main ideas, and capture interest|C. 陈述论点、总结主要想法并吸引兴趣","D. List all the bibliography sources|D. 列出所有参考书目来源"], correct:"C", rat:"The passage says: 'The introduction should state the thesis, summarize the main ideas of the paper and capture the reader's interest.'|文章说：'引言应该陈述论点、总结论文的主要想法并吸引读者的兴趣。'" },
+  { q:"Step 9 (Edit your paper) focuses on:", q_cn:"第9步（编辑你的论文）的重点是：", opts:["A. Writing new body paragraphs|A. 写新的正文段落","B. Content and organization of the paper|B. 论文的内容和组织","C. Creating a new thesis statement|C. 创建新的论点","D. Deleting all weak arguments|D. 删除所有薄弱论点"], correct:"B", rat:"The passage says: 'Pay particular attention to the content and organization of the paper' during the editing step.|文章说：在编辑步骤中，'特别注意论文的内容和组织'。" },
+  { q:"Which note-taking method is NOT listed in Step 6?", q_cn:"第6步中没有列出哪种记笔记方法？", opts:["A. Note cards|A. 卡片笔记","B. A spreadsheet database|B. 电子表格数据库","C. Recording audio voice memos|C. 录制音频备忘录","D. Compiling notes in a document|D. 将笔记整理在文件中"], correct:"C", rat:"Audio voice memos are not listed. The methods listed are note cards, a document, a note-taking app like Evernote, and a spreadsheet database.|没有列出音频备忘录。列出的方法是卡片笔记、文件、Evernote等记笔记应用程序和电子表格数据库。" },
+  { q:"The FINAL draft of a research paper must include:", q_cn:"研究论文的最终稿必须包括：", opts:["A. Only the title page and thesis|A. 只有标题页和论点","B. Citations and a bibliography|B. 引用注释和参考书目","C. The teacher's comments and grade|C. 老师的评语和成绩","D. A personal diary entry|D. 个人日记条目"], correct:"B", rat:"Step 10 states: 'The final draft of your paper must include citations and a bibliography.'|第10步指出：'你论文的最终稿必须包括引用注释和参考书目。'" }
+];
+
+// ==================== WEDNESDAY PRACTICES ====================
+const WED_PRACTICES = [
+  {
+    id:'wed_p1',
+    title:"What is a Thesis Statement?",
+    passage:`A thesis statement provides the foundation for your entire research paper or essay. This statement is the central assertion that you want to express in your essay. A successful thesis statement is one that is made up of one or two sentences clearly laying out your central idea and expressing an informed, reasoned answer to your research question. Usually, the thesis statement will appear at the end of the first paragraph of your paper.`,
+    q:"Where should a thesis statement appear in a research essay?",
+    q_cn:"论点陈述应该出现在研究论文的哪里？",
+    hint:null,
+    options:["A. At the very beginning of the title page|A. 在标题页的最开始","B. In the middle of the body paragraph|B. 在正文段落的中间","C. At the end of the first paragraph|C. 在第一段的末尾","D. In the conclusion of the paper|D. 在论文的结论中"],
+    correct:"C",
+    rationale:"Correct! The passage clearly states that the thesis statement usually appears at the end of the first paragraph.|正确！文章明确指出论点通常出现在第一段的末尾。",
+    rationale_wrong:{A:"The thesis is in the first paragraph, not the title page.|论点在第一段，不是标题页。",B:"The thesis goes at the end of the first paragraph, not the middle of a body paragraph.|论点放在第一段末尾，不是正文段落的中间。",D:"The conclusion restates the thesis but is not where it first appears.|结论重申论点，但不是它第一次出现的地方。"}
+  },
+  {
+    id:'wed_p2',
+    title:"Expository Thesis Statements",
+    passage:`An expository essay "exposes" the reader to a new topic. It informs the reader with details, descriptions, or explanations of a subject. If you are writing an expository essay, your thesis statement should explain to the reader what they will learn in your essay. These statements provide a statement of fact about the topic but leave the door open to elaborate with plenty of details. You do not need to develop an argument or prove anything — you only need to understand your topic and present it logically.`,
+    q:"What is the main purpose of an EXPOSITORY essay?",
+    q_cn:"说明型文章的主要目的是什么？",
+    hint:null,
+    options:["A. To argue for a strong position on a controversial issue|A. 就有争议的问题提出强有力的立场","B. To inform the reader about a topic with details and explanations|B. 通过细节和解释向读者介绍一个主题","C. To analyze how a topic has changed over time|C. 分析一个主题如何随时间变化","D. To persuade the reader to change their behavior|D. 说服读者改变他们的行为"],
+    correct:"B",
+    rationale:"Correct! An expository essay 'exposes' the reader to a topic — it informs with details and explanations, not arguments.|正确！说明型文章向读者'揭示'一个主题——它通过细节和解释告知，而不是论证。",
+    rationale_wrong:{A:"Taking a strong position on a controversial issue is the purpose of an argument essay.|就有争议的问题采取强有力的立场是论证型文章的目的。",C:"Analyzing change over time is more typical of an analytical essay.|分析随时间的变化更典型于分析型文章。",D:"Persuasion is the goal of argument writing, not expository writing.|说服是论证写作的目标，不是说明写作。"}
+  },
+  {
+    id:'wed_p3',
+    title:"Argument Thesis Statements",
+    passage:`If you have been instructed to take a stance on one side of a controversial issue, you will need to write an argument essay. Your thesis statement should express the stance you are taking and may give the reader a preview or hint of your evidence. Argument thesis statements are effective because they offer opinions that can be supported by evidence. Examples include: "Self-driving cars are too dangerous and should be banned from the roadways" or "Street cameras have led to a total loss of privacy in the United States."`,
+    q:"What makes an argument thesis statement effective?",
+    q_cn:"什么使论证型论点有效？",
+    hint:null,
+    options:["A. It is based on facts that everyone already agrees with|A. 它基于每个人都已同意的事实","B. It offers an opinion that can be supported by evidence|B. 它提供了可以用证据支持的观点","C. It explains a topic without taking any position|C. 它解释了一个主题而不采取任何立场","D. It is longer than two sentences|D. 它比两句话长"],
+    correct:"B",
+    rationale:"Correct! The passage states they are 'effective because they offer opinions that can be supported by evidence.'|正确！文章指出它们'有效，因为它们提供了可以用证据支持的观点。'",
+    rationale_wrong:{A:"Facts everyone agrees with are not debatable — argument essays need debatable positions.|每个人都同意的事实不可辩论——论证型文章需要可辩论的立场。",C:"Taking a clear stance is required for argument essays — not explaining without a position.|论证型文章需要明确立场——不是没有立场地解释。",D:"Length is not mentioned as a factor. One or two sentences is the standard.|长度没有被提到作为因素。一两句话是标准。"}
+  },
+  {
+    id:'wed_p4',
+    title:"Analytical Thesis Statements",
+    passage:`In an analytical essay, you will be expected to break down a topic, process, or object in order to observe and analyze your subject piece by piece. Examples of an analytical thesis statement include: "The criminal justice reform bill aims to reduce prison sentences that disproportionately fall on non-white criminal defendants" and "The rise in populism in Europe has coincided with the decline of moderate and centrist parties." Because the role of the thesis statement is to state the central message, it is important to revisit and maybe rewrite your thesis statement after the paper is written.`,
+    q:"What should you do with your thesis statement AFTER writing your paper?",
+    q_cn:"写完论文后你应该对论点做什么？",
+    hint:null,
+    options:["A. Delete it and write a completely new paper|A. 删除它并写一篇全新的论文","B. Revisit it and possibly rewrite it to match your final ideas|B. 重新审视它，可能重写它以匹配你的最终想法","C. Move it from the introduction to the conclusion|C. 将它从引言移到结论","D. Copy it exactly into every paragraph|D. 将它完全复制到每个段落"],
+    correct:"B",
+    rationale:"Correct! The passage says 'it is important to revisit (and maybe rewrite) your thesis statement after the paper is written.'|正确！文章说'在论文写完后，重新审视（也许重写）你的论点是重要的。'",
+    rationale_wrong:{A:"You revise the thesis — you do not delete the whole paper.|你修改论点——你不会删除整篇论文。",C:"The thesis stays in the introduction. The conclusion restates it, but the thesis remains at the start.|论点保持在引言中。结论重申它，但论点仍然在开始处。",D:"Copying the thesis into every paragraph would be repetitive and incorrect.|将论点复制到每个段落会是重复的，这是不正确的。"}
+  },
+  {
+    id:'wed_p5',
+    title:"Before Creating a Thesis",
+    passage:`Before creating a thesis statement, it is important to ask yourself a few basic questions. First, are you defending a stance in a controversial essay? Second, are you giving an overview or describing an event, object, or process? Third, are you conducting an analysis of an event, object, or process? Your answer to these questions will determine the type of thesis statement you need to write. In every thesis statement, you will give the reader a preview of your paper's content, but the message will differ depending on the essay type.`,
+    q:"Which question helps you decide what TYPE of thesis to write?",
+    q_cn:"哪个问题帮助你决定写哪种类型的论点？",
+    hint:null,
+    options:["A. How many sources have I found so far?|A. 到目前为止我找到了多少来源？","B. Am I defending a stance, giving an overview, or conducting an analysis?|B. 我是在捍卫立场、提供概述还是进行分析？","C. How long does my essay need to be?|C. 我的文章需要多长？","D. Will my teacher agree with my opinion?|D. 我的老师会同意我的观点吗？"],
+    correct:"B",
+    rationale:"Correct! The passage lists these three questions — defending a stance, giving an overview, or conducting an analysis — to help identify the essay type and thesis type.|正确！文章列出了这三个问题——捍卫立场、提供概述或进行分析——以帮助识别文章类型和论点类型。",
+    rationale_wrong:{A:"The number of sources is not mentioned as a factor in choosing the thesis type.|来源数量没有被提到作为选择论点类型的因素。",C:"Essay length is not the key to deciding the thesis type.|文章长度不是决定论点类型的关键。",D:"Whether the teacher agrees is irrelevant to the type of thesis needed.|老师是否同意与所需论点类型无关。"}
+  }
+];
+
+// ==================== WEDNESDAY EXIT ====================
+const WED_EXIT = [
+  { q:"A thesis statement is best described as:", q_cn:"论点最好描述为：", opts:["A. A list of all sources used|A. 使用的所有来源的列表","B. The central assertion that expresses the main idea of the essay|B. 表达文章主要观点的中心论点","C. A summary of the conclusion|C. 结论的摘要","D. An interesting fact at the beginning of the paper|D. 论文开头的有趣事实"], correct:"B", rat:"A thesis statement is the central assertion — the main idea — of the essay.|论点是文章的中心论点——主要观点。" },
+  { q:"Which is an example of an ARGUMENT thesis statement?", q_cn:"以下哪个是论证型论点的例子？", opts:["A. Dogs can be trained to perform many helpful tasks.|A. 狗可以被训练执行许多有用的任务","B. World War II took place from 1939 to 1945.|B. 第二次世界大战发生在1939年至1945年","C. Governments must invest more in renewable energy to prevent climate disaster.|C. 政府必须在可再生能源上投入更多资金以防止气候灾难","D. The water cycle has four main stages.|D. 水循环有四个主要阶段"], correct:"C", rat:"This is an argument — it takes a debatable stance and calls for action that can be supported with evidence.|这是一个论证——它采取了一个可辩论的立场，并呼吁可以用证据支持的行动。" },
+  { q:"An expository essay thesis:", q_cn:"说明型文章的论点：", opts:["A. Takes a strong position on a controversial topic|A. 对有争议的话题采取强有力的立场","B. Breaks down a topic piece by piece to analyze it|B. 逐部分分析一个主题","C. Explains a topic so the reader learns new information|C. 解释一个主题，让读者学习新信息","D. Tries to change the reader's opinion|D. 试图改变读者的观点"], correct:"C", rat:"Expository writing informs — it explains a topic so the reader learns. It does not argue or analyze.|说明型写作告知——它解释一个主题，让读者学习。它不论证也不分析。" },
+  { q:"Which of these is NOT a question to ask before writing a thesis?", q_cn:"以下哪个不是写论点前要问的问题？", opts:["A. Am I defending a stance in a controversial essay?|A. 我是否在有争议的文章中捍卫立场？","B. Am I conducting an analysis of an object or process?|B. 我是否在对对象或过程进行分析？","C. What is the most popular opinion about this topic?|C. 关于这个主题最流行的观点是什么？","D. Am I giving an overview or describing an event?|D. 我是否在提供概述或描述事件？"], correct:"C", rat:"Popularity of an opinion is not a factor. The three questions are about stance, overview/description, or analysis.|观点的流行程度不是因素。三个问题是关于立场、概述/描述或分析的。" },
+  { q:"Why might you rewrite your thesis statement after finishing the paper?", q_cn:"为什么在完成论文后你可能会重写论点？", opts:["A. Because the teacher required three different thesis versions|A. 因为老师要求三个不同的论点版本","B. Because your message may have changed as you wrote|B. 因为你的信息可能随着写作而改变","C. Because the thesis must be in the conclusion|C. 因为论点必须在结论中","D. Because bibliography format changed|D. 因为参考书目格式改变了"], correct:"B", rat:"The passage explains: 'it is quite normal for your message to change as you construct your paper.'|文章解释说：'在你构建论文时，你的信息发生变化是很正常的。'" },
+  { q:"Which essay type requires you to 'break down a topic piece by piece'?", q_cn:"哪种文章类型要求你'逐部分分解主题'？", opts:["A. Expository|A. 说明型","B. Narrative|B. 叙事型","C. Argument|C. 论证型","D. Analytical|D. 分析型"], correct:"D", rat:"The passage states: 'In an analytical essay assignment, you will be expected to break down a topic, process, or object in order to observe and analyze your subject piece by piece.'|文章指出：'在分析型文章作业中，你需要分解主题、过程或对象，逐部分观察和分析你的主题。'" },
+  { q:"'Social media harms teenagers' sleep quality.' — What type of thesis is this?", q_cn:"'社交媒体损害青少年的睡眠质量。'——这是哪种类型的论点？", opts:["A. Expository — it explains facts|A. 说明型——它解释事实","B. Argument — it takes a debatable position|B. 论证型——它采取可辩论的立场","C. Analytical — it breaks down a process|C. 分析型——它分解一个过程","D. Narrative — it tells a personal story|D. 叙事型——它讲述个人故事"], correct:"B", rat:"This statement takes a debatable stance ('harms') that can be supported with research evidence — it is an argument thesis.|这个陈述采取了一个可辩论的立场（'损害'），可以用研究证据支持——这是一个论证型论点。" },
+  { q:"A thesis statement typically appears:", q_cn:"论点通常出现在：", opts:["A. In the middle of the paper's longest body paragraph|A. 论文最长正文段落的中间","B. At the end of the first paragraph|B. 第一段的末尾","C. At the very top of the title page|C. 标题页的最顶部","D. After the bibliography|D. 参考书目之后"], correct:"B", rat:"The passage states: 'Usually, the thesis statement will appear at the end of the first paragraph of your paper.'|文章指出：'通常，论点会出现在论文第一段的末尾。'" },
+  { q:"A thesis statement must express:", q_cn:"论点必须表达：", opts:["A. An indisputable fact everyone knows|A. 每个人都知道的无可争辩的事实","B. An opinion that cannot be proven with evidence|B. 无法用证据证明的观点","C. An informed, reasoned answer to your research question|C. 对你的研究问题的有根据的、有理由的回答","D. A question you want to leave unanswered|D. 你想不回答的问题"], correct:"C", rat:"The passage says a thesis states 'an informed, reasoned answer to your research question.'|文章说论点陈述'对你的研究问题的有根据的、有理由的回答。'" },
+  { q:"Which is the WEAKEST thesis statement?", q_cn:"哪个是最弱的论点陈述？", opts:["A. School lunch programs should be improved to reduce childhood obesity.|A. 应该改善学校午餐计划以减少儿童肥胖","B. Technology has changed the way people communicate.|B. 技术改变了人们的沟通方式","C. Exercise is good for you.|C. 锻炼对你有好处","D. Late school start times improve student academic performance and mental health.|D. 较晚的上学时间改善了学生的学业成绩和心理健康"], correct:"C", rat:"'Exercise is good for you' is too vague and general — it cannot be argued with evidence. Options A and D are specific and debatable.|'锻炼对你有好处'太模糊、太笼统——无法用证据论证。选项A和D是具体的且可辩论的。" }
+];
+
+// ==================== THURSDAY PRACTICES ====================
+const THU_PRACTICES = [
+  {
+    id:'thu_p1',
+    title:"What is Plagiarism?",
+    passage:`Plagiarism is the act of using resources other than your own thinking and learning to complete an assignment. It could include copying a paper from a classmate, buying a completed paper on the internet, copying whole passages or even words or sentences directly from a source you are reading without using quotation marks, or using online resources such as AI chatbots. Plagiarism is considered academic misconduct, and consequences can include expulsion from school.`,
+    q:"Which of the following is NOT an example of plagiarism?",
+    q_cn:"以下哪个不是抄袭的例子？",
+    hint:null,
+    options:["A. Copying sentences from a website without quotation marks|A. 从网站复制句子而不加引号","B. Using an AI chatbot to write your essay for you|B. 使用AI聊天机器人为你写文章","C. Reading three articles and writing your own summary in your own words|C. 阅读三篇文章并用自己的话写摘要","D. Buying a completed paper from the internet|D. 从网上购买已完成的论文"],
+    correct:"C",
+    rationale:"Correct! Reading sources and writing in your own words — without copying — is proper research. This is NOT plagiarism.|正确！阅读来源并用自己的话写作——不复制——是正确的研究方法。这不是抄袭。",
+    rationale_wrong:{A:"Copying without quotation marks is direct plagiarism.|没有引号的复制是直接抄袭。",B:"Using AI to write your assignment is listed as a form of plagiarism in the passage.|使用AI写你的作业在文章中被列为一种抄袭形式。",D:"Buying a paper is plagiarism — you are not doing your own thinking.|购买论文是抄袭——你没有做自己的思考。"}
+  },
+  {
+    id:'thu_p2',
+    title:"Why Plagiarism is Wrong",
+    passage:`Plagiarism is wrong for several reasons. First, it defeats the purpose of the assignment — when you use someone else's work, you miss the opportunity to practice reading, thinking, and writing for yourself. Second, it is a form of lying because your professor expects your words and thoughts. Third, it destroys relationships between students and teachers. Fourth, it is unoriginal — you are not creating new thoughts or knowledge. Fifth, it is serious academic misconduct and consequences can include expulsion from university.`,
+    q:"According to the passage, why does plagiarism 'defeat the purpose of the assignment'?",
+    q_cn:"根据文章，为什么抄袭'违背了作业的目的'？",
+    hint:null,
+    options:["A. Because assignments are designed to be very easy|A. 因为作业被设计得非常容易","B. Because you miss the chance to practice reading, thinking, and writing|B. 因为你错过了练习阅读、思考和写作的机会","C. Because teachers always know when students cheat|C. 因为老师总是知道学生什么时候作弊","D. Because other students will see your grade|D. 因为其他学生会看到你的成绩"],
+    correct:"B",
+    rationale:"Correct! The passage says: 'you miss the opportunity to practice reading, thinking, and writing for yourself.'|正确！文章说：'你错过了自己练习阅读、思考和写作的机会。'",
+    rationale_wrong:{A:"The passage does not say assignments are easy. The opposite is implied.|文章没有说作业容易。暗示的是相反的。",C:"Whether teachers know is not the reason given — the reason is the loss of learning.|老师是否知道不是给出的原因——原因是失去了学习机会。",D:"Other students seeing your grade is not mentioned in this context.|其他学生看到你的成绩在这个背景下没有被提及。"}
+  },
+  {
+    id:'thu_p3',
+    title:"How to Avoid Plagiarism",
+    passage:`To avoid plagiarism, follow four steps. First, Read/Research — you must read enough about your topic to generate good ideas. Second, Think — after reading, spend enough time thinking about the topic so you could explain it in your own words. Third, Write — generate your own words to express your thoughts. Fourth, Cite — use citations to identify any time you use someone else's words or ideas. Your professor will tell you what citation method to use.`,
+    q:"According to the four-step process, what should you do BEFORE writing?",
+    q_cn:"根据四步过程，在写作之前你应该做什么？",
+    hint:null,
+    options:["A. Submit the assignment immediately|A. 立即提交作业","B. Read and then think carefully about the topic|B. 阅读，然后仔细思考主题","C. Copy the main ideas from the first source you find|C. 从你找到的第一个来源复制主要想法","D. Ask a classmate to explain the topic|D. 请同学解释该主题"],
+    correct:"B",
+    rationale:"Correct! Steps 1 and 2 are Read/Research and Think — both happen before writing.|正确！步骤1和2是阅读/研究和思考——两者都在写作之前发生。",
+    rationale_wrong:{A:"Submitting without reading or thinking would likely result in plagiarism.|不阅读或思考就提交很可能导致抄袭。",C:"Copying ideas is exactly what plagiarism is — the opposite of what the steps recommend.|复制想法正是抄袭——与步骤建议的相反。",D:"While asking for help is acceptable, the passage's four steps are about your own research and thinking.|虽然寻求帮助是可以接受的，但文章的四个步骤是关于你自己的研究和思考。"}
+  },
+  {
+    id:'thu_p4',
+    title:"What is a Reliable Source?",
+    passage:`A reliable source is one that provides a thorough, well-reasoned theory, argument, or discussion based on strong evidence. Scholarly, peer-reviewed articles or books are written by researchers for students and researchers. These are found in academic databases such as ProQuest and Google Scholar. Wikipedia can be reliable or unreliable — some entries are well-written, but the authors are anonymous, so there is no way to determine their expertise. Online news sources can also be problematic because they are sometimes notorious for false information.`,
+    q:"Why is Wikipedia considered unreliable as a primary research source?",
+    q_cn:"为什么维基百科被认为是不可靠的主要研究来源？",
+    hint:null,
+    options:["A. It is too long and difficult to read|A. 它太长、太难阅读","B. It is not available online|B. 它在网上不可用","C. Its authors are anonymous, making expertise impossible to verify|C. 其作者是匿名的，无法验证其专业性","D. It only covers topics from one country|D. 它只涵盖一个国家的主题"],
+    correct:"C",
+    rationale:"Correct! The passage says: 'The authors are anonymous, so there's no way to determine their expertise.'|正确！文章说：'作者是匿名的，所以无法确定他们的专业性。'",
+    rationale_wrong:{A:"Length is not the issue — expertise verification is.|长度不是问题——专业性验证才是。",B:"Wikipedia is widely available online — that is not the problem.|维基百科在网上广泛可用——这不是问题。",D:"Wikipedia covers topics globally, not just one country.|维基百科涵盖全球主题，不仅仅是一个国家。"}
+  },
+  {
+    id:'thu_p5',
+    title:"Analyzing News Sources",
+    passage:`When reading news online, be careful about source quality. Avoid websites that end in ".lo" as they often mix accurate information with false facts. Watch out for website names that end in ".com.co" — these are often fake versions of real news sources. Check the "About Us" section of websites to learn about the organization. If the website makes you feel really angry, it might be trying to manipulate you. Always read multiple sources to verify information from different perspectives.`,
+    q:"What does the author suggest doing if a news story makes you REALLY ANGRY?",
+    q_cn:"作者建议如果一条新闻让你非常生气该怎么办？",
+    hint:null,
+    options:["A. Share it immediately on social media|A. 立即在社交媒体上分享","B. Stop reading news altogether|B. 完全停止阅读新闻","C. Read other sources to verify the information|C. 阅读其他来源来验证信息","D. Contact the website's author directly|D. 直接联系网站作者"],
+    correct:"C",
+    rationale:"Correct! The passage says if a story makes you 'REALLY ANGRY,' read other sources to make sure the story wasn't designed to manipulate you.|正确！文章说如果一个故事让你'非常生气'，阅读其他来源确保该故事不是为了操纵你而设计的。",
+    rationale_wrong:{A:"Sharing without verifying could spread false information.|在不验证的情况下分享可能传播虚假信息。",B:"The passage recommends reading multiple sources — not stopping news consumption entirely.|文章建议阅读多个来源——而不是完全停止阅读新闻。",D:"Contacting the author is not mentioned as a strategy.|联系作者没有被提及作为策略。"}
+  }
+];
+
+// ==================== THURSDAY EXIT ====================
+const THU_EXIT = [
+  { q:"Plagiarism includes all of the following EXCEPT:", q_cn:"抄袭包括以下所有内容，除了：", opts:["A. Copying sentences from a source without quotation marks|A. 从来源复制句子而不加引号","B. Paraphrasing a source and citing it correctly|B. 转述来源并正确引用","C. Buying a completed essay online|C. 在网上购买已完成的文章","D. Using an AI chatbot to complete your assignment|D. 使用AI聊天机器人完成你的作业"], correct:"B", rat:"Paraphrasing and citing correctly is exactly how to AVOID plagiarism — it gives credit to the original source.|转述并正确引用正是如何避免抄袭——它向原始来源致谢。" },
+  { q:"According to the plagiarism reading, the FOURTH step to avoid plagiarism is to:", q_cn:"根据抄袭阅读，避免抄袭的第四步是：", opts:["A. Research as many sources as possible|A. 研究尽可能多的来源","B. Ask a classmate for help|B. 向同学寻求帮助","C. Cite your sources using the required citation method|C. 使用要求的引用方法引用你的来源","D. Print out all your articles before reading|D. 在阅读前打印出所有文章"], correct:"C", rat:"Step 4 is Cite — use citations to identify any time you use someone else's words or ideas.|第4步是引用——每次使用他人的文字或想法时使用引用。" },
+  { q:"Which source type is MOST reliable for academic research?", q_cn:"哪种来源类型对学术研究最可靠？", opts:["A. A personal blog written by an anonymous user|A. 匿名用户写的个人博客","B. A social media post with many likes|B. 有很多点赞的社交媒体帖子","C. A peer-reviewed article from an academic database|C. 来自学术数据库的同行评审文章","D. A .com.co news website|D. 一个.com.co新闻网站"], correct:"C", rat:"Peer-reviewed articles are written by researchers, checked by experts, and found in reliable academic databases like ProQuest.|同行评审文章由研究人员撰写，经专家检查，在ProQuest等可靠的学术数据库中找到。" },
+  { q:"Why are '.com.co' websites often unreliable?", q_cn:"为什么'.com.co'网站通常不可靠？", opts:["A. They are only available in one country|A. 它们只在一个国家可用","B. They are often fake versions of well-known news sites|B. 它们通常是知名新闻网站的假版本","C. They charge money to read their articles|C. 他们收费阅读文章","D. They are too long and detailed|D. 它们太长且详细"], correct:"B", rat:"The passage warns that '.com.co' sites 'are often fake versions of real news sources.'|文章警告'.com.co'网站'通常是真实新闻来源的假版本。'" },
+  { q:"What is the SECOND step to avoid plagiarism?", q_cn:"避免抄袭的第二步是什么？", opts:["A. Write — generate your own words|A. 写作——生成你自己的词语","B. Cite — add references to your bibliography|B. 引用——在参考书目中添加参考文献","C. Think — spend time processing the topic so you can explain it in your own words|C. 思考——花时间处理主题，这样你就能用自己的话解释它","D. Research — find as many sources as possible|D. 研究——找到尽可能多的来源"], correct:"C", rat:"Step 2 is Think — after reading, spend enough time thinking so you could explain the topic in your own words.|第2步是思考——阅读后，花足够时间思考，这样你就能用自己的话解释该主题。" },
+  { q:"A peer-reviewed article is written by:", q_cn:"同行评审文章由谁撰写？", opts:["A. Anonymous internet users|A. 匿名互联网用户","B. Newspaper journalists for general audiences|B. 面向普通读者的报纸记者","C. Researchers for students and other researchers|C. 面向学生和其他研究人员的研究人员","D. Bloggers sharing personal opinions|D. 分享个人观点的博主"], correct:"C", rat:"The passage states peer-reviewed articles are 'written by researchers for students and researchers.'|文章指出同行评审文章'由研究人员为学生和研究人员撰写。'" },
+  { q:"Which of these would be a WARNING SIGN that a website is unreliable?", q_cn:"以下哪个是网站不可靠的警告信号？", opts:["A. It has an 'About Us' page|A. 它有'关于我们'页面","B. It uses very dramatic words like 'DESTROY' and 'WOW' in headlines|B. 它在标题中使用非常夸张的词语如'摧毁'和'哇'","C. It cites multiple academic sources|C. 它引用了多个学术来源","D. It requires you to log in to read|D. 它需要你登录才能阅读"], correct:"B", rat:"The passage says hyperbolic word choices like WOW!, SLAUGHTER!, DESTROY! are used to create emotional responses — a sign of unreliable sources.|文章说WOW!、SLAUGHTER!、DESTROY!等夸张词汇被用来制造情感反应——这是不可靠来源的标志。" },
+  { q:"Plagiarism is serious because it:", q_cn:"抄袭是严重的，因为它：", opts:["A. Makes essays easier to grade|A. 使文章更容易评分","B. Is considered a minor academic mistake|B. 被认为是轻微的学术错误","C. Is a form of lying and academic misconduct|C. 是一种撒谎和学术不诚信","D. Only affects students in university|D. 只影响大学生"], correct:"C", rat:"The passage says plagiarism 'is a form of lying' and 'serious academic misconduct' with consequences including expulsion.|文章说抄袭'是一种撒谎形式'和'严重的学术不诚信'，后果包括开除。" },
+  { q:"Which website analysis step involves checking if a site links to real studies?", q_cn:"哪个网站分析步骤涉及检查网站是否链接到真实研究？", opts:["A. Title/Domain Analysis|A. 标题/域名分析","B. About Us Analysis|B. '关于我们'分析","C. Source Analysis|C. 来源分析","D. Aesthetic Analysis|D. 美学分析"], correct:"C", rat:"Source Analysis (Step 3) involves checking if the website mentions or links to a study or source and verifying it is accurately reported.|来源分析（第3步）涉及检查网站是否提及或链接到研究或来源，并验证其报告是否准确。" },
+  { q:"A reliable source is defined as one that:", q_cn:"可靠来源的定义是：", opts:["A. Has been shared by many people on social media|A. 已被许多人在社交媒体上分享","B. Provides thorough, well-reasoned information based on strong evidence|B. 基于有力证据提供全面、有理有据的信息","C. Was published in the last 24 hours|C. 在过去24小时内发布","D. Has the most detailed website design|D. 拥有最详细的网站设计"], correct:"B", rat:"The passage defines a reliable source as 'one that provides a thorough, well-reasoned theory, argument, or discussion based on strong evidence.'|文章将可靠来源定义为'提供基于有力证据的全面、有理有据的理论、论点或讨论的来源。'" }
+];
+
+// ==================== FRIDAY PRACTICES ====================
+const FRI_PRACTICES = [
+  {
+    id:'fri_p1',
+    title:"Creating an Outline",
+    passage:`To create an outline, follow four steps. First, place your thesis statement at the beginning. Second, list the major points that support your thesis — label them with Roman numerals (I, II, III). Third, list supporting ideas or arguments for each major point, labeled with capital letters (A, B, C). Fourth, continue to sub-divide each supporting idea until your outline is fully developed, labeling them 1, 2, 3 and then a, b, c. The outline gives structure to your writing and keeps your ideas organized.`,
+    q:"In a research paper outline, major points are labeled with:",
+    q_cn:"在研究论文提纲中，主要观点标有：",
+    hint:null,
+    options:["A. Capital letters (A, B, C)|A. 大写字母（A、B、C）","B. Numbers (1, 2, 3)|B. 数字（1、2、3）","C. Roman numerals (I, II, III)|C. 罗马数字（I、II、III）","D. Bullet points|D. 项目符号"],
+    correct:"C",
+    rationale:"Correct! The passage states: 'List the major points that support your thesis. Label them in Roman Numerals (I, II, III, etc.).'|正确！文章指出：'列出支持你论点的主要观点。用罗马数字（I、II、III等）标注它们。'",
+    rationale_wrong:{A:"Capital letters (A, B, C) are for supporting ideas — the second level, not major points.|大写字母（A、B、C）用于支持想法——第二级，不是主要观点。",B:"Numbers (1, 2, 3) are used at the third level of the outline.|数字（1、2、3）用于提纲的第三级。",D:"Bullet points are not part of the formal outline system described.|项目符号不是所描述的正式提纲系统的一部分。"}
+  },
+  {
+    id:'fri_p2',
+    title:"Writing a Rough Draft",
+    passage:`After you have completed your final outline, you can begin to write your rough draft. It is important to remember that this rough draft will be revised. Therefore, at this time, you do not need to worry too much about spelling or punctuation. Instead, you should concentrate on the content of the paper, following your outline and expanding the ideas in it with information from your notes. The body should develop each section of the outline, and the conclusion should summarize your findings and restate the thesis.`,
+    q:"What should you focus on when writing a rough draft?",
+    q_cn:"写草稿时你应该关注什么？",
+    hint:null,
+    options:["A. Perfect spelling and punctuation|A. 完美的拼写和标点","B. Making the paper as short as possible|B. 使论文尽可能短","C. Content and expanding ideas from your outline|C. 内容和扩展提纲中的想法","D. Copying sections from your bibliography|D. 从参考书目复制章节"],
+    correct:"C",
+    rationale:"Correct! The passage says: 'concentrate on the content of the paper, following your outline and expanding the ideas in it.'|正确！文章说：'专注于论文的内容，遵循你的提纲并扩展其中的想法。'",
+    rationale_wrong:{A:"Spelling and punctuation matter in the final draft, but the passage says not to worry too much at this stage.|拼写和标点在最终稿中很重要，但文章说在这个阶段不要太担心。",B:"Making a paper short is not the goal of the rough draft — developing ideas is.|使论文简短不是草稿的目标——发展想法才是。",D:"Copying from the bibliography would be plagiarism.|从参考书目复制会是抄袭。"}
+  },
+  {
+    id:'fri_p3',
+    title:"The Final Draft Requirements",
+    passage:`The final draft of your paper should be typed and must include citations and a bibliography. Some papers might require a title page, depending on the formatting style and the professor. The title page should include the title of the paper, your name, the name of the course, the instructor's name, and the date the paper is due. The bibliography is simply a list of your sources — how it is arranged depends on the formatting style (MLA, APA, etc.). Before handing in your paper, be sure to proofread it for any mechanical errors.`,
+    q:"What is the LAST thing you should do before handing in your final draft?",
+    q_cn:"在提交最终稿前你应该做的最后一件事是什么？",
+    hint:null,
+    options:["A. Add more body paragraphs|A. 添加更多正文段落","B. Delete your thesis statement|B. 删除你的论点","C. Proofread for mechanical errors|C. 校对机械性错误","D. Change your topic|D. 更改你的主题"],
+    correct:"C",
+    rationale:"Correct! The passage ends with: 'Before handing in your paper, be sure to proofread it for any mechanical errors.'|正确！文章结尾说：'在提交论文之前，务必校对任何机械性错误。'",
+    rationale_wrong:{A:"Adding paragraphs should happen during drafting, not right before submission.|添加段落应该在起草时发生，不是在提交前。",B:"The thesis statement must remain in the paper.|论点必须留在论文中。",D:"Changing the topic at the final stage would require starting over entirely.|在最终阶段更改主题需要完全重新开始。"}
+  },
+  {
+    id:'fri_p4',
+    title:"APA vs. MLA Bibliography Format",
+    passage:`Research papers can use different citation formats. In MLA format, a magazine article is cited as: Jackson, Joe. "Unlock Your Full Potential." Men's Fitness 29 February 2013: 86-90. In APA format, the same article looks like: Jackson, J. (2013, February 29). Unlock Your Full Potential. Men's Fitness, pp. 86-90. Notice the differences: APA uses the year in parentheses after the author's name, uses initials instead of full first names, and italicizes the journal name differently. Both formats require the author's name, title, publication, and date.`,
+    q:"What is ONE difference between APA and MLA citation format?",
+    q_cn:"APA和MLA引用格式有什么区别？",
+    hint:null,
+    options:["A. APA uses the full first name; MLA uses only initials|A. APA使用全名；MLA只使用首字母","B. APA places the year in parentheses after the author's name|B. APA将年份放在作者名字后面的括号中","C. MLA requires a DOI number for every source|C. MLA要求每个来源都有DOI号","D. APA format is only used for science papers|D. APA格式只用于科学论文"],
+    correct:"B",
+    rationale:"Correct! In APA format, the year appears in parentheses directly after the author's name: Jackson, J. (2013, February 29).|正确！在APA格式中，年份出现在作者名字后面的括号中：Jackson, J. (2013年2月29日)。",
+    rationale_wrong:{A:"It is the opposite — APA uses initials (J.) and MLA uses the full first name (Joe).|相反——APA使用首字母（J.），MLA使用全名（Joe）。",C:"DOI numbers are not mentioned as a requirement in either format in this passage.|DOI号在这段文字中没有被提及作为任何格式的要求。",D:"APA is used across many academic disciplines, not just science.|APA用于许多学术学科，不仅仅是科学。"}
+  },
+  {
+    id:'fri_p5',
+    title:"The PLAN → WRITE → REVISE Process",
+    passage:`Research essay writing follows three major stages. During the PLAN stage, writers identify their purpose, conduct preliminary research, and organize their ideas into an outline. During the WRITE stage, writers focus on the actual writing — developing their phrasing and wording, organizing the layout and pages, and building each section of the paper. During the REVISE stage, writers check grammar, proofread carefully, and verify that the paper still meets its original purpose. This cyclical process often requires returning to earlier stages.`,
+    q:"During the WRITE stage, writers primarily focus on:",
+    q_cn:"在写作阶段，写作者主要关注：",
+    hint:null,
+    options:["A. Narrowing the topic and forming the thesis|A. 缩小主题和形成论点","B. Checking grammar and proofreading|B. 检查语法和校对","C. Developing wording and building each section of the paper|C. 发展措辞和构建论文的每个部分","D. Creating the bibliography and citations|D. 创建参考书目和引用"],
+    correct:"C",
+    rationale:"Correct! The WRITE stage focuses on actual writing — phrasing, wording, layout, and building each section.|正确！写作阶段专注于实际写作——措辞、布局和构建每个部分。",
+    rationale_wrong:{A:"Narrowing the topic and forming the thesis belong to the PLAN stage.|缩小主题和形成论点属于计划阶段。",B:"Checking grammar and proofreading are part of the REVISE stage.|检查语法和校对是修改阶段的一部分。",D:"Creating the bibliography happens throughout the process, but it is not the WRITE stage focus.|创建参考书目贯穿整个过程，但这不是写作阶段的重点。"}
+  }
+];
+
+// ==================== FRIDAY EXIT ====================
+const FRI_EXIT = [
+  { q:"In an outline, supporting ideas are labeled with:", q_cn:"在提纲中，支持想法标有：", opts:["A. Roman numerals (I, II, III)|A. 罗马数字（I、II、III）","B. Capital letters (A, B, C)|B. 大写字母（A、B、C）","C. Lowercase letters (a, b, c)|C. 小写字母（a、b、c）","D. Asterisks (*)|D. 星号（*）"], correct:"B", rat:"Capital letters (A, B, C) label supporting ideas or arguments for each major point — the second level of the outline.|大写字母（A、B、C）标注每个主要观点的支持想法或论点——提纲的第二级。" },
+  { q:"The REVISE stage of writing focuses on:", q_cn:"写作的修改阶段专注于：", opts:["A. Purpose, preliminary research, and outlining|A. 目的、初步研究和提纲","B. Phrasing, wording, and layout|B. 措辞和布局","C. Grammar, proofreading, and verifying purpose|C. 语法、校对和验证目的","D. Choosing a topic and narrowing it|D. 选择主题并缩小它"], correct:"C", rat:"REVISE = Grammar, Proofreading, Verify Purpose. These are listed in the passage under the REVISE stage.|修改 = 语法、校对、验证目的。这些在文章中列在修改阶段下。" },
+  { q:"In APA format, the author's name for 'Joe Jackson' would appear as:", q_cn:"在APA格式中，'Joe Jackson'的作者名字会显示为：", opts:["A. Jackson, Joe|A. Jackson, Joe","B. Joe Jackson|B. Joe Jackson","C. Jackson, J.|C. Jackson, J.","D. J. Joe Jackson|D. J. Joe Jackson"], correct:"C", rat:"APA uses last name, comma, then first initial: Jackson, J. MLA uses the full first name.|APA使用姓，逗号，然后名字首字母：Jackson, J. MLA使用全名。" },
+  { q:"Why is the rough draft NOT the time to worry about spelling?", q_cn:"为什么草稿不是担心拼写的时候？", opts:["A. Spelling rules do not apply to research papers|A. 拼写规则不适用于研究论文","B. The rough draft will be revised later — focus is on content now|B. 草稿之后会被修改——现在的重点是内容","C. The teacher grades content only, never mechanics|C. 老师只给内容评分，从不给机械性评分","D. Computers automatically fix all spelling errors|D. 计算机自动修复所有拼写错误"], correct:"B", rat:"The passage says: 'this rough draft will be revised. Therefore, you do not need to worry too much about spelling or punctuation.'|文章说：'这个草稿将被修改。因此，你不需要太担心拼写或标点。'" },
+  { q:"The conclusion of a research paper should:", q_cn:"研究论文的结论应该：", opts:["A. Introduce a completely new idea|A. 介绍一个全新的想法","B. List all the bibliography sources in order|B. 按顺序列出所有参考书目来源","C. Summarize findings and restate the thesis|C. 总结发现并重申论点","D. Copy the introduction word for word|D. 逐字复制引言"], correct:"C", rat:"The passage states: 'The conclusion should summarize your findings and restate the thesis.'|文章指出：'结论应该总结你的发现并重申论点。'" },
+  { q:"A title page in a research paper should include:", q_cn:"研究论文的标题页应该包括：", opts:["A. The thesis statement only|A. 只有论点","B. The bibliography and all sources|B. 参考书目和所有来源","C. The title, your name, course name, instructor's name, and due date|C. 标题、你的名字、课程名称、教师姓名和截止日期","D. The outline with Roman numerals|D. 带罗马数字的提纲"], correct:"C", rat:"The passage lists: 'the title of the paper, your name, the name of the course, the instructor's name, and the date the paper is due.'|文章列出：'论文标题、你的名字、课程名称、教师姓名和论文截止日期。'" },
+  { q:"Both MLA and APA citation formats require:", q_cn:"MLA和APA引用格式都需要：", opts:["A. DOI numbers and access dates for every source|A. 每个来源的DOI号和访问日期","B. The author's name, title, publication, and date|B. 作者姓名、标题、出版物和日期","C. Only the website URL and year|C. 只有网站URL和年份","D. The page count of the entire book|D. 整本书的页数"], correct:"B", rat:"The passage states: 'Both formats require the author's name, title, publication, and date.'|文章指出：'两种格式都需要作者姓名、标题、出版物和日期。'" },
+  { q:"Which stage of the writing process comes FIRST?", q_cn:"写作过程的哪个阶段最先进行？", opts:["A. REVISE — grammar and proofreading|A. 修改——语法和校对","B. WRITE — phrasing and building sections|B. 写作——措辞和构建部分","C. PLAN — purpose, research, and outline|C. 计划——目的、研究和提纲","D. PUBLISH — sharing and submitting|D. 发布——分享和提交"], correct:"C", rat:"PLAN comes first. Writers must identify purpose, conduct preliminary research, and organize an outline before writing.|计划最先进行。写作者必须在写作前确定目的、进行初步研究并组织提纲。" },
+  { q:"An annotated bibliography is different from a regular bibliography because it:", q_cn:"注释参考书目与普通参考书目不同，因为它：", opts:["A. Only lists online sources|A. 只列出网络来源","B. Includes a brief summary or evaluation of each source|B. 包括每个来源的简短摘要或评价","C. Uses a different citation format than APA or MLA|C. 使用与APA或MLA不同的引用格式","D. Must be handwritten, not typed|D. 必须手写，不能打字"], correct:"B", rat:"An annotated bibliography includes a citation AND a short description/evaluation of each source — as shown in the sample on pages 157-159.|注释参考书目包括引用以及每个来源的简短描述/评价——如第157-159页的示例所示。" },
+  { q:"What does it mean to 'proofread' a paper?", q_cn:"'校对'一篇论文是什么意思？", opts:["A. To add new body paragraphs and evidence|A. 添加新的正文段落和证据","B. To change the thesis statement and topic|B. 更改论点和主题","C. To carefully check for errors in grammar, spelling, and punctuation|C. 仔细检查语法、拼写和标点错误","D. To delete the bibliography and citations|D. 删除参考书目和引用"], correct:"C", rat:"Proofreading means carefully checking for 'mechanical errors' — grammar, spelling, and punctuation — before submitting.|校对意味着在提交前仔细检查'机械性错误'——语法、拼写和标点。" }
+];
+
+// ==================== STEP CARDS ====================
+const STEP_CARDS_DATA = [
+  { step:"Step 1", title:"Select a Subject", cn:"选择主题", desc:"Choose a topic you are interested in and can form an opinion about. Avoid topics that are too technical or controversial." },
+  { step:"Step 2", title:"Narrow the Topic", cn:"缩小主题", desc:"Read background articles and think about what specific angle you want to take. Ask: What are my opinions? Who is involved?" },
+  { step:"Step 3", title:"State Your Thesis Statement", cn:"陈述你的论点", desc:"Write one or two sentences that state the viewpoint you will express and support in your paper." },
+  { step:"Step 4", title:"Form a Preliminary Bibliography", cn:"建立初步参考书目", desc:"Make a list of potential sources. Evaluate how reliable, current, and relevant each source is." },
+  { step:"Step 5", title:"Prepare a Working Outline", cn:"准备工作提纲", desc:"Create an outline that gives order to your note-taking. This is your starting plan before detailed research begins." }
+];
+
+// ==================== INIT ====================
+window.onload = () => {
+  buildVocab();
+  buildStepCards();
+  buildPractices('tuesday', THU_PRACTICES, 'tuesdayPracticeContainer');
+  buildExitTicket('tuesday', THU_EXIT, 'tuesdayExitContainer');
+  buildPractices('wednesday', FRI_PRACTICES, 'wednesdayPracticeContainer');
+  buildExitTicket('wednesday', FRI_EXIT, 'wednesdayExitContainer');
+  buildPractices('thursday', TUE_PRACTICES, 'thursdayPracticeContainer');
+  buildExitTicket('thursday', TUE_EXIT, 'thursdayExitContainer');
+  buildPractices('friday', WED_PRACTICES, 'fridayPracticeContainer');
+  buildExitTicket('friday', WED_EXIT, 'fridayExitContainer');
+  startTimer();
+  trackNavigation();
+};
+
+// ==================== VOCAB ====================
+function buildVocab() {
+  const grid = document.getElementById('vocabGrid');
+  VOCAB.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <div class="vocab-word">${v.word}</div>
+      <div class="vocab-pos">${v.pos}</div>
+      <div class="vocab-cn">${v.cn}</div>
+      <div class="vocab-def">${v.def}</div>
+      <div class="vocab-def-cn">${v.cn_def}</div>
+      <div class="vocab-example">"${v.example}"</div>
+      <button class="speak-btn" onclick="speakWord('${v.word}')">🔊 Pronounce</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function speakWord(word) {
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang = 'en-US'; u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+    if (vocabInteracted < 5) { vocabInteracted++; addProgress(1); }
+    if (vocabInteracted === 5) {
+      document.getElementById('pip-vocab').classList.add('done');
+    }
+  }
+}
+
+// ==================== STEP CARDS ====================
+function buildStepCards() {
+  const container = document.getElementById('step-cards-1');
+  STEP_CARDS_DATA.forEach(s => {
+    const div = document.createElement('div');
+    div.className = 'step-card';
+    div.innerHTML = `<h4>${s.step}: ${s.title}</h4><div class="cn" style="font-size:.8rem;color:#666;margin-bottom:4px">${s.cn}</div><p>${s.desc}</p>`;
+    container.appendChild(div);
+  });
+}
+
+// ==================== TOPIC BUILDER ====================
+function updateTopicPreview() {
+  const broad = document.getElementById('topicBroad').value.trim();
+  const focus = document.getElementById('topicFocus').value.trim();
+  const viewpoint = document.getElementById('topicViewpoint').value.trim();
+  const preview = document.getElementById('topicPreview');
+  const output = document.getElementById('topicOutput');
+  if (broad || focus || viewpoint) {
+    preview.style.display = 'block';
+    let text = '';
+    if (broad) text += `<strong>Subject:</strong> ${broad}`;
+    if (focus) text += ` → <strong>Focus:</strong> ${focus}`;
+    if (viewpoint) text += ` → <strong>My view:</strong> ${viewpoint}`;
+    output.innerHTML = text;
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+// ==================== THESIS BUILDER ====================
+function updateThesisPreview() {
+  const topic = document.getElementById('thesisTopic').value.trim();
+  const type = document.getElementById('thesisType').value;
+  const claim = document.getElementById('thesisClaim').value.trim();
+  const reason = document.getElementById('thesisReason').value.trim();
+  const preview = document.getElementById('thesisPreview');
+  const output = document.getElementById('thesisOutput');
+  if (claim) {
+    preview.style.display = 'block';
+    let typeLabel = type ? `[${type.toUpperCase()}] ` : '';
+    let full = `${typeLabel}${claim}`;
+    if (reason) full += `, ${reason}.`;
+    output.innerHTML = full;
+  } else {
+    preview.style.display = 'none';
+  }
+}
+
+function checkThesis() {
+  const claim = document.getElementById('thesisClaim').value.trim();
+  const reason = document.getElementById('thesisReason').value.trim();
+  const type = document.getElementById('thesisType').value;
+  const fb = document.getElementById('thesisFeedback');
+  fb.style.display = 'block';
+
+  let issues = [];
+  if (!type) issues.push("Select a thesis type (expository, argument, or analytical). 请选择论点类型。");
+  if (!claim) issues.push("You need a main claim. 你需要一个主要论点。");
+  if (claim.length < 10) issues.push("Your claim is too short — be more specific. 你的论点太短——请更具体。");
+  if (!reason) issues.push("Add a supporting reason (because...). 添加支撑理由（因为……）。");
+  const badWords = ['good','bad','nice','interesting','important'];
+  if (badWords.some(w => claim.toLowerCase().includes(w))) {
+    issues.push("Avoid vague words like 'good', 'bad', 'interesting'. Be specific! 避免使用'好'、'坏'、'有趣'等模糊词语。");
+  }
+  if (issues.length === 0) {
+    fb.className = 'builder-feedback good';
+    fb.innerHTML = '✅ <strong>Looking strong!</strong> Your thesis has a clear claim and a supporting reason. Remember: it must be debatable and supportable with evidence. <br><span class="cn">看起来不错！你的论点有明确的论点和支撑理由。记住：它必须是可辩论的，并且可以用证据支持。</span>';
+  } else {
+    fb.className = 'builder-feedback needs-work';
+    fb.innerHTML = '🔧 <strong>Needs improvement:</strong><br>' + issues.map(i => `• ${i}`).join('<br>');
+  }
+}
+
+// ==================== PRACTICES ====================
+function buildPractices(tabKey, data, containerId) {
+  const container = document.getElementById(containerId);
+  data.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    const optHtml = item.options.map((opt, oi) => {
+      const letter = String.fromCharCode(65+oi);
+      const parts = opt.split('|');
+      const wrongData = item.rationale_wrong[letter] ? `data-wrong-${letter}="${encodeURIComponent(item.rationale_wrong[letter])}"` : '';
+      return `<button class="opt-btn" onclick="selectAnswer('${tabKey}','${item.id}','${letter}',this,'${item.correct}')" data-letter="${letter}" ${wrongData}>${parts[0]}<br><span class="cn" style="font-size:.82rem">${parts[1]||''}</span></button>`;
+    }).join('');
+    const ratParts = item.rationale.split('|');
+    div.innerHTML = `
+      <div class="practice-header">
+        <span class="card-title">${idx+1}. ${item.title}</span>
+        <span class="practice-num">${tabKey.charAt(0).toUpperCase()+tabKey.slice(1)} Practice ${idx+1}/5</span>
+      </div>
+      <div class="passage-box">${item.passage}</div>
+      ${item.hint ? `<div class="hint">💡 Hint: ${item.hint}</div>` : ''}
+      <div class="question-text">${item.q}</div>
+      <div class="question-cn">${item.q_cn}</div>
+      <div class="options" id="${item.id}_opts">${optHtml}</div>
+      <div class="rationale" id="${item.id}_rat">
+        <span class="en">${ratParts[0]}</span>
+        <span class="rationale-cn">${ratParts[1]||''}</span>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectAnswer(tabKey, qid, selected, btn, correct) {
+  const optsContainer = document.getElementById(qid+'_opts');
+  if (optsContainer.dataset.locked) return;
+  optsContainer.dataset.locked = '1';
+  const allBtns = optsContainer.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => { b.disabled = true; });
+  const rat = document.getElementById(qid+'_rat');
+  if (selected === correct) {
+    btn.classList.add('correct');
+    rat.classList.add('visible','ok');
+    addProgress(1);
+  } else {
+    btn.classList.add('wrong');
+    rat.classList.add('visible','no');
+    // Show wrong rationale
+    const key = `data-wrong-${selected}`;
+    const wrongText = btn.getAttribute(key);
+    if (wrongText) {
+      const decoded = decodeURIComponent(wrongText).split('|');
+      rat.innerHTML = `<span>${decoded[0]}</span><span class="rationale-cn">${decoded[1]||''}</span>`;
+    }
+    // Highlight correct
+    allBtns.forEach(b => { if(b.dataset.letter===correct) b.classList.add('correct'); });
+  }
+}
+
+// ==================== EXIT TICKET ====================
+const exitState = { tuesday:{done:0,score:0}, wednesday:{done:0,score:0}, thursday:{done:0,score:0}, friday:{done:0,score:0} };
+
+function buildExitTicket(tabKey, data, containerId) {
+  const container = document.getElementById(containerId);
+  data.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    const optHtml = item.opts.map((opt, oi) => {
+      const letter = String.fromCharCode(65+oi);
+      const parts = opt.split('|');
+      return `<button class="opt-btn" onclick="selectExit('${tabKey}',${idx},'${letter}',this,'${item.correct}')" data-letter="${letter}">${parts[0]}<br><span class="cn" style="font-size:.82rem">${parts[1]||''}</span></button>`;
+    }).join('');
+    const ratParts = item.rat.split('|');
+    div.innerHTML = `
+      <div class="question-text">Exit Q${idx+1}: ${item.q}</div>
+      <div class="question-cn">${item.q_cn}</div>
+      <div class="options" id="${tabKey}_exit_${idx}_opts">${optHtml}</div>
+      <div class="rationale" id="${tabKey}_exit_${idx}_rat">
+        <span>${ratParts[0]}</span>
+        <span class="rationale-cn">${ratParts[1]||''}</span>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectExit(tabKey, idx, selected, btn, correct) {
+  const optsContainer = document.getElementById(`${tabKey}_exit_${idx}_opts`);
+  if (optsContainer.dataset.locked) return;
+  optsContainer.dataset.locked = '1';
+  const allBtns = optsContainer.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => b.disabled = true);
+  const rat = document.getElementById(`${tabKey}_exit_${idx}_rat`);
+  if (selected === correct) {
+    btn.classList.add('correct');
+    rat.classList.add('visible','ok');
+    exitState[tabKey].score++;
+    addProgress(1);
+  } else {
+    btn.classList.add('wrong');
+    rat.classList.add('visible','no');
+    allBtns.forEach(b => { if(b.dataset.letter===correct) b.classList.add('correct'); });
+  }
+  exitState[tabKey].done++;
+  if (exitState[tabKey].done === 10) {
+    finishExit(tabKey);
+  }
+}
+
+function finishExit(tabKey) {
+  const score = exitState[tabKey].score;
+  const scoreBox = document.getElementById(tabKey+'ScoreBox');
+  const scoreNum = document.getElementById(tabKey+'ScoreNum');
+  const scoreMsg = document.getElementById(tabKey+'ScoreMsg');
+  scoreBox.style.display = 'block';
+  scoreNum.textContent = `${score}/10`;
+  const msgs = ['Keep practicing! 继续加油！','Good effort! 很努力！','Well done! 做得好！','Excellent! 太棒了！'];
+  scoreMsg.textContent = score <= 4 ? msgs[0] : score <= 6 ? msgs[1] : score <= 8 ? msgs[2] : msgs[3];
+  document.getElementById(tabKey+'Reflect').style.display = 'block';
+  document.getElementById(tabKey+'DL').style.display = 'block';
+  document.getElementById('pip-'+tabKey).classList.add('done');
+  addProgress(1);
+}
+
+// ==================== DOWNLOAD REPORT ====================
+function downloadReport(tabKey) {
+  const name = document.getElementById(`nameInput${tabKey.charAt(0).toUpperCase()+tabKey.slice(1)}`).value || 'Unknown';
+  const date = new Date().toLocaleDateString();
+  const time = formatTime(secondsElapsed);
+  const score = exitState[tabKey].score;
+  const r1 = document.getElementById(`${tabKey}R1`)?.value || '';
+  const r2 = document.getElementById(`${tabKey}R2`)?.value || '';
+
+  // Topic/Thesis builder data for Tuesday/Wednesday
+  let builderSection = '';
+  if (tabKey === 'thursday') {
+    const broad = document.getElementById('topicBroad')?.value || '';
+    const focus = document.getElementById('topicFocus')?.value || '';
+    const viewpoint = document.getElementById('topicViewpoint')?.value || '';
+    builderSection = `\nTOPIC BUILDER\n${'='.repeat(40)}\nBroad Subject: ${broad}\nNarrow Focus: ${focus}\nViewpoint: ${viewpoint}\n`;
+  }
+  if (tabKey === 'friday') {
+    const topic = document.getElementById('thesisTopic')?.value || '';
+    const type = document.getElementById('thesisType')?.value || '';
+    const claim = document.getElementById('thesisClaim')?.value || '';
+    const reason = document.getElementById('thesisReason')?.value || '';
+    builderSection = `\nTHESIS BUILDER\n${'='.repeat(40)}\nTopic: ${topic}\nType: ${type}\nClaim: ${claim}\nReason: ${reason}\n`;
+  }
+
+  let txt = `MLWS ACADEMIC WRITING — UNIT 5: RESEARCH ESSAY WRITING PROCESS
+${'='.repeat(60)}
+Tab: ${tabKey.charAt(0).toUpperCase()+tabKey.slice(1)}
+Student: ${name}
+Date: ${date}
+Session Time: ${time}
+Tab Leaves: ${leaveCount}
+Exit Ticket Score: ${score}/10
+${builderSection}
+REFLECTIONS
+${'='.repeat(40)}
+Reflection 1:
+${r1}
+
+Reflection 2:
+${r2}
+
+${'='.repeat(60)}
+MLWS Xiangyang — Academic Writing Grade 11
+`;
+  const blob = new Blob([txt], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `ESL_Unit5_${tabKey}_${name.replace(/\s+/g,'_')}_${date.replace(/\//g,'-')}.txt`;
+  a.click();
+}
+
+// ==================== UTILITIES ====================
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function addProgress(pts) {
+  progressPoints = Math.min(progressPoints + pts, TOTAL_POINTS);
+  document.getElementById('progressFill').style.width = (progressPoints/TOTAL_POINTS*100)+'%';
+  document.getElementById('progressText').textContent = `${progressPoints} / ${TOTAL_POINTS} pts`;
+}
+
+function startTimer() {
+  setInterval(() => {
+    secondsElapsed++;
+    document.getElementById('timer').textContent = '⏱ ' + formatTime(secondsElapsed);
+  }, 1000);
+}
+
+function formatTime(s) {
+  const m = Math.floor(s/60), sec = s%60;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function trackNavigation() {
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      leaveCount++;
+      document.getElementById('leaveCount').textContent = leaveCount;
+    }
+  });
+}
+</script>
+</body>
+</html>
