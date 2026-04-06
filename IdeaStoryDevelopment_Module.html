@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Analyzing Idea and Story Development | 第五课：分析思想与故事发展</title>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ml-green:#2d6a4f;--ml-green-dark:#1b4332;--ml-green-light:#d8f3dc;
+  --ml-red:#c1121f;--ml-gold:#e9c46a;--ink:#1a2a1a;--ink2:#2d3748;
+  --mist:#f8faf8;--border:#e2e8e2;--cobalt:#1e3a5f;--amber:#b45309;--amber-light:#fef3c7;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--mist);color:var(--ink);min-height:100vh;padding-bottom:80px;}
+.cn{font-family:'Noto Sans SC',sans-serif;}
+.site-header{background:var(--ml-green-dark);color:#fff;padding:14px 20px 10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.header-title{font-size:1.05rem;font-weight:700;line-height:1.3;}
+.header-sub{font-size:.78rem;opacity:.8;}
+.leave-badge{background:var(--ml-red);color:#fff;border-radius:999px;padding:3px 12px;font-size:.78rem;font-weight:700;white-space:nowrap;}
+.pip-row{display:flex;gap:6px;margin-top:8px;}
+.pip{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.3);transition:background .4s;}
+.pip.done{background:var(--ml-gold);}
+.progress-wrap{background:rgba(255,255,255,.2);border-radius:999px;height:6px;margin-top:8px;}
+.progress-bar{height:6px;border-radius:999px;background:var(--ml-gold);width:0%;transition:width .5s;}
+.progress-text{font-size:.7rem;opacity:.75;margin-top:3px;}
+.notice{background:var(--amber-light);border-left:4px solid var(--amber);padding:10px 18px;font-size:.82rem;color:var(--amber);line-height:1.5;}
+.tab-nav{display:flex;overflow-x:auto;background:#fff;border-bottom:2px solid var(--border);padding:0 12px;gap:2px;}
+.tab-btn{flex:none;padding:11px 18px;border:none;background:none;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;color:var(--ink2);cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+.tab-btn:hover{color:var(--ml-green);}
+.tab-btn.active{color:var(--ml-green-dark);border-bottom-color:var(--ml-green);}
+.tab-content{display:none;padding:24px 20px;max-width:820px;margin:0 auto;}
+.tab-content.active{display:block;}
+.section-tag{display:inline-block;background:var(--ml-green-light);color:var(--ml-green-dark);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:10px;}
+.section-tag.amber{background:var(--amber-light);color:var(--amber);}
+.section-tag.cobalt{background:#e8eef7;color:var(--cobalt);}
+.concept-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:24px;line-height:1.75;}
+.concept-box h2{font-family:'Literata',serif;font-size:1.15rem;color:var(--ml-green-dark);margin-bottom:10px;}
+.concept-box p{font-size:.93rem;margin-bottom:10px;}
+.cn-block{font-size:.87rem;color:var(--ink2);background:var(--mist);border-left:3px solid var(--ml-gold);padding:8px 14px;border-radius:0 6px 6px 0;margin-top:6px;}
+.key-rules{background:var(--ml-green-light);border-radius:8px;padding:14px 18px;margin-top:12px;}
+.key-rules h3{font-size:.85rem;font-weight:700;color:var(--ml-green-dark);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em;}
+.key-rules ul{padding-left:18px;}
+.key-rules li{font-size:.88rem;margin-bottom:5px;color:var(--ink2);}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px;margin-bottom:28px;}
+.vocab-card{background:#fff;border:2px solid var(--ml-green);border-radius:12px;overflow:hidden;position:relative;}
+.vocab-header{background:var(--ml-green-dark);color:#fff;padding:12px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.vocab-word{font-size:1.15rem;font-weight:700;}
+.vocab-pos{font-size:.75rem;opacity:.75;font-style:italic;}
+.vocab-cn-head{font-family:'Noto Sans SC',sans-serif;font-size:.88rem;opacity:.88;margin-top:2px;}
+.speak-btn{background:rgba(255,255,255,.2);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
+.speak-btn:hover{background:rgba(255,255,255,.4);}
+/* Frayer grid */
+.frayer-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;}
+.frayer-cell{padding:12px 14px;border:1px solid var(--border);}
+.frayer-cell:nth-child(1){border-left:none;border-top:none;border-right-color:var(--ml-green);}
+.frayer-cell:nth-child(2){border-right:none;border-top:none;}
+.frayer-cell:nth-child(3){border-left:none;border-bottom:none;border-right-color:var(--ml-green);}
+.frayer-cell:nth-child(4){border-right:none;border-bottom:none;}
+.frayer-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.frayer-label.def-lbl{color:var(--cobalt);}
+.frayer-label.char-lbl{color:var(--ml-green-dark);}
+.frayer-label.ex-lbl{color:var(--amber);}
+.frayer-label.nonex-lbl{color:var(--ml-red);}
+.frayer-cell ul{padding-left:16px;}
+.frayer-cell li{font-size:.82rem;color:var(--ink2);margin-bottom:3px;line-height:1.4;}
+.frayer-def{font-size:.85rem;color:var(--ink2);line-height:1.5;margin-bottom:6px;}
+.frayer-cn{font-family:'Noto Sans SC',sans-serif;font-size:.78rem;color:#666;line-height:1.45;}
+.vocab-sentence{background:var(--mist);border-top:2px solid var(--ml-gold);padding:10px 14px;font-size:.82rem;font-style:italic;color:var(--ink2);}
+.vocab-sentence strong{font-style:normal;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--amber);display:block;margin-bottom:3px;}
+.name-row{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.name-row label{font-size:.88rem;font-weight:600;color:var(--ink2);}
+.name-row input{border:1px solid var(--border);border-radius:6px;padding:7px 12px;font-family:'DM Sans',sans-serif;font-size:.9rem;width:220px;}
+.practice-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:20px;}
+.practice-num{font-size:.75rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.passage-title{font-family:'Literata',serif;font-size:1rem;font-weight:600;color:var(--ml-green-dark);margin-bottom:8px;}
+.passage-text{font-family:'Literata',serif;font-size:.92rem;line-height:1.8;color:var(--ink2);margin-bottom:14px;background:var(--mist);padding:12px 16px;border-radius:8px;border-left:3px solid var(--ml-gold);}
+.question-text{font-size:.93rem;font-weight:600;margin-bottom:4px;}
+.question-cn{font-family:'Noto Sans SC',sans-serif;font-size:.84rem;color:var(--ink2);margin-bottom:12px;}
+.hint-text{font-size:.8rem;color:var(--amber);background:var(--amber-light);padding:5px 10px;border-radius:5px;margin-bottom:10px;display:inline-block;}
+.options{display:flex;flex-direction:column;gap:8px;}
+.opt-btn{text-align:left;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;background:#fff;font-family:'DM Sans',sans-serif;font-size:.88rem;cursor:pointer;transition:all .2s;line-height:1.4;}
+.opt-btn:hover:not(:disabled){border-color:var(--ml-green);background:var(--ml-green-light);}
+.opt-btn.correct{background:#d8f3dc;border-color:var(--ml-green);color:var(--ml-green-dark);}
+.opt-btn.wrong{background:#fde8e8;border-color:var(--ml-red);color:var(--ml-red);}
+.opt-btn:disabled{cursor:default;}
+.rationale-box{margin-top:12px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none;}
+.rationale-box.show{display:block;}
+.rationale-box.correct-rat{background:#d8f3dc;border-left:3px solid var(--ml-green);color:var(--ml-green-dark);}
+.rationale-box.wrong-rat{background:#fde8e8;border-left:3px solid var(--ml-red);color:var(--ml-red);}
+.rat-cn{font-family:'Noto Sans SC',sans-serif;font-size:.82rem;margin-top:4px;opacity:.85;}
+.exit-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin-bottom:14px;}
+.exit-num{font-size:.72rem;font-weight:700;color:var(--cobalt);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.exit-q{font-size:.9rem;font-weight:600;margin-bottom:4px;}
+.exit-q-cn{font-family:'Noto Sans SC',sans-serif;font-size:.82rem;color:var(--ink2);margin-bottom:10px;}
+.score-box{background:var(--ml-green-light);border:1px solid var(--ml-green);border-radius:12px;padding:18px 22px;text-align:center;margin:20px 0;display:none;}
+.score-box.show{display:block;}
+.score-num{font-size:2rem;font-weight:700;color:var(--ml-green-dark);}
+.score-label{font-size:.88rem;color:var(--ml-green-dark);}
+.reflection-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;margin-bottom:16px;}
+.reflection-q{font-size:.9rem;font-weight:600;margin-bottom:4px;}
+.reflection-cn{font-family:'Noto Sans SC',sans-serif;font-size:.82rem;color:var(--ink2);margin-bottom:10px;}
+textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:.88rem;resize:vertical;min-height:90px;color:var(--ink);}
+textarea:focus{outline:none;border-color:var(--ml-green);}
+.dl-btn{background:#aaa;color:#fff;border:none;border-radius:8px;padding:11px 22px;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;cursor:not-allowed;margin-top:10px;transition:background .2s;opacity:.6;}
+.dl-btn.show{background:var(--ml-green-dark);cursor:pointer;opacity:1;}
+.dl-btn.show:hover{background:var(--ml-green);}
+.timer{position:fixed;bottom:20px;right:20px;background:var(--ml-green-dark);color:#fff;padding:8px 16px;border-radius:999px;font-size:.85rem;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.3);z-index:200;}
+.divider{border:none;border-top:1px solid var(--border);margin:28px 0;}
+@media(max-width:540px){
+  .tab-btn{padding:9px 12px;font-size:.82rem;}
+  .concept-box,.practice-card,.exit-card{padding:14px 14px;}
+  .tab-content{padding:16px 12px;}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">📖 Analyzing Idea and Story Development</div>
+      <div class="header-sub cn">分析思想与故事发展</div>
+    </div>
+    <span class="leave-badge" id="leaveBadge">🚪 Leaves: 0</span>
+  </div>
+  <div class="pip-row">
+    <div class="pip" id="pipTue" title="Tuesday"></div>
+    <div class="pip" id="pipWed" title="Wednesday"></div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="progress-text" id="progressText">Progress</div>
+</header>
+
+<div class="notice">
+  ⚠️ <strong>Academic Integrity Notice:</strong> This module tracks tab switches. Leaving this page will be recorded.&nbsp;|&nbsp;<span class="cn">本模块记录离页次数，请专注完成自己的作业。</span>
+</div>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('vocab',this)">📚 Vocabulary | 词汇</button>
+  <button class="tab-btn" onclick="switchTab('tue',this)">📅 Tuesday | 周二</button>
+  <button class="tab-btn" onclick="switchTab('wed',this)">📅 Wednesday | 周三</button>
+</nav>
+
+<!-- VOCAB TAB -->
+<div class="tab-content active" id="tab-vocab">
+  <div class="section-tag">Unit Vocabulary | 单元词汇</div>
+  <p style="font-size:.85rem;color:var(--ink2);margin-bottom:16px;">Click 🔊 to hear each word. Study before starting the lessons.<br><span class="cn" style="font-size:.82rem;">点击🔊听发音。开始课程前请先学习所有单词。</span></p>
+  <div class="vocab-grid" id="vocabGrid"></div>
+</div>
+
+<!-- TUESDAY TAB -->
+<div class="tab-content" id="tab-tue">
+  <div class="section-tag">Concept Explanation | 概念讲解</div>
+
+  <div class="concept-box">
+    <h2>Interactions Between Individuals, Events, and Ideas</h2>
+    <p>In nonfiction texts, nothing happens alone. <strong>Individuals</strong> (people), <strong>events</strong> (things that happen), and <strong>ideas</strong> (beliefs or arguments) are always connected to each other. When you read, ask yourself: How does one person's actions change another person? How does one event cause the next event? How does one idea support or challenge another idea?</p>
+    <p>These connections are called <strong>interactions</strong>. Understanding them helps you see the deeper meaning — not just <em>what</em> happened, but <em>why</em> it happened and what it means. Look for signal words: <em>because, as a result, therefore, however, this led to, influenced by.</em></p>
+    <div class="cn-block cn">在非虚构类文本中，人物（individuals）、事件（events）和思想（ideas）之间总是相互联系的。理解它们的互动关系有助于我们深入理解文本的含义。寻找信号词：because（因为）、as a result（结果）、therefore（因此）、however（然而）。</div>
+    <div class="key-rules">
+      <h3>Key Rules | 关键规则</h3>
+      <ul>
+        <li><strong>Individuals → Events:</strong> A person's decision can start or stop an event.</li>
+        <li><strong>Events → Individuals:</strong> Events change how people think, feel, or act.</li>
+        <li><strong>Ideas → Ideas:</strong> One idea can support, challenge, or replace another.</li>
+        <li>Look for <strong>cause and effect</strong> relationships between all three elements.</li>
+        <li>Signal words help you identify interactions: <em>because, therefore, as a result, however.</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="concept-box">
+    <h2>Analyzing Relationships in Informational Texts &amp; How Elements of a Story Interact</h2>
+    <p>In informational texts, you analyze <em>how</em> things connect — not just list facts. Ask: Does one event cause another? Does one person's idea influence a group? Does one event change the meaning of an earlier event?</p>
+    <p>In fiction, the key elements — <strong>character, setting, plot,</strong> and <strong>theme</strong> — push and pull on each other. The <strong>setting</strong> shapes what a character can do. A character's <strong>personality</strong> drives the plot forward. The <strong>conflict</strong> forces choices that reveal the <strong>theme</strong>. Removing any one element changes the entire story.</p>
+    <div class="cn-block cn">在信息性文本中，分析事物之间的联系方式。在小说中，人物（character）、环境（setting）、情节（plot）和主题（theme）相互作用：环境影响人物行为；人物性格推动情节；冲突迫使人物做决定，从而揭示主题。</div>
+    <div class="key-rules">
+      <h3>Key Rules | 关键规则</h3>
+      <ul>
+        <li><strong>Setting → Character:</strong> Time and place shape what characters can and cannot do.</li>
+        <li><strong>Character → Plot:</strong> A character's choices move the story forward.</li>
+        <li><strong>Conflict → Theme:</strong> How a character faces a problem reveals the story's message.</li>
+        <li><strong>Plot → Character:</strong> Events force characters to grow or change.</li>
+        <li>Ask: "How does this element affect the others?" to find interactions.</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-tag amber">Practice Passages | 阅读练习</div>
+  <div class="name-row">
+    <label for="nameInputTue">Your Name | 你的姓名:</label>
+    <input type="text" id="nameInputTue" placeholder="Type your name here...">
+  </div>
+  <div id="tuePracticeContainer"></div>
+
+  <hr class="divider">
+  <div class="section-tag cobalt">Exit Ticket | 课后测验</div>
+  <p style="font-size:.85rem;color:var(--ink2);margin-bottom:16px;">Answer all 10 questions to complete this lesson.<br><span class="cn" style="font-size:.82rem;">完成全部10道题以结束本课学习。</span></p>
+  <div id="tueExitContainer"></div>
+  <div class="score-box" id="tueScoreBox"><div class="score-num" id="tueScoreNum">—</div><div class="score-label cn">Tuesday Score | 周二得分</div></div>
+  <div class="reflection-block" id="tueReflection">
+    <div style="margin-bottom:16px;">
+      <div class="reflection-q">1. Think of a real event in history where one person's decision affected many others. How did the individual, the event, and an idea all interact?</div>
+      <div class="reflection-cn cn">想想历史上一个人的决定影响了许多人的真实事件。个人、事件和观点是如何相互作用的？</div>
+      <textarea id="tueRef1" placeholder="Write your response here... | 在这里写你的回答..."></textarea>
+    </div>
+    <div>
+      <div class="reflection-q">2. Choose a story you have read. How did the setting interact with the character's choices? Would the story be different in a different setting?</div>
+      <div class="reflection-cn cn">选择你读过的一个故事。环境如何与人物的选择互动？如果在不同的环境下，故事会有所不同吗？</div>
+      <textarea id="tueRef2" placeholder="Write your response here... | 在这里写你的回答..."></textarea>
+    </div>
+  </div>
+  <button class="dl-btn" id="tueDlBtn" onclick="downloadReport('tue')">⬇ Download Tuesday Report | 下载周二报告</button>
+  <p id="tueDlHint" style="font-size:.78rem;color:#888;margin-top:6px;">Complete the exit ticket to unlock the download. | 完成课后测验后解锁下载。</p>
+</div>
+
+<!-- WEDNESDAY TAB -->
+<div class="tab-content" id="tab-wed">
+  <div class="section-tag">Concept Explanation | 概念讲解</div>
+
+  <div class="concept-box">
+    <h2>The Elements of a Story</h2>
+    <p>Every work of fiction is built from the same basic parts, called <strong>story elements</strong>. Recognizing them helps you analyze any story you read.</p>
+    <p><strong>Character</strong> — the people or animals in the story. The main character is the <em>protagonist</em>. The one who creates conflict is the <em>antagonist</em>.</p>
+    <p><strong>Setting</strong> — where and when the story takes place. It creates mood and affects character behavior.</p>
+    <p><strong>Plot</strong> — the sequence of events: Exposition → Rising Action → Climax → Falling Action → Resolution.</p>
+    <p><strong>Conflict</strong> — the central problem. It can be <em>internal</em> (inside a character's mind) or <em>external</em> (character vs. person, nature, or society).</p>
+    <p><strong>Theme</strong> — the central message about life the author communicates through the story. It is a complete statement, not just a single word.</p>
+    <div class="cn-block cn">故事元素：人物（character）、环境（setting）、情节（plot）——故事开端→上升动作→高潮→下降动作→结局、冲突（conflict）——内部/外部、主题（theme）——作者传达的人生信息，是完整的陈述而非单个词语。</div>
+    <div class="key-rules">
+      <h3>Key Rules | 关键规则</h3>
+      <ul>
+        <li><strong>Protagonist:</strong> the main character the story follows.</li>
+        <li><strong>Antagonist:</strong> the character or force creating the main conflict.</li>
+        <li><strong>Internal conflict:</strong> character vs. their own thoughts or feelings.</li>
+        <li><strong>External conflict:</strong> character vs. another person, nature, or society.</li>
+        <li><strong>Theme ≠ Topic:</strong> "courage" is a topic; "Courage means acting despite fear" is a theme.</li>
+        <li><strong>Plot structure:</strong> Exposition → Rising Action → Climax → Falling Action → Resolution.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="concept-box">
+    <h2>The Elements of a Drama</h2>
+    <p>Drama is a special kind of story written to be <strong>performed</strong>. It shares elements with fiction but has unique features.</p>
+    <p><strong>Acts and Scenes</strong> — dramas are divided into <em>acts</em> (large sections) and <em>scenes</em> (smaller sections within acts), similar to chapters in a novel.</p>
+    <p><strong>Dialogue</strong> — in drama, the story is told almost entirely through what characters say. There is <em>no narrator.</em></p>
+    <p><strong>Stage Directions</strong> — instructions written by the author (in italics or brackets) that tell performers how to act or move. Readers use them to visualize the scene.</p>
+    <p><strong>Cast of Characters</strong> — a list of all characters, usually appearing at the beginning of the play.</p>
+    <p><strong>Soliloquy / Aside</strong> — a <em>soliloquy</em> is when a character speaks private thoughts aloud while alone on stage. An <em>aside</em> is a brief comment spoken directly to the audience when other characters cannot "hear."</p>
+    <div class="cn-block cn">戏剧特有元素：幕（acts）和场（scenes）类似小说章节；对话（dialogue）取代叙述者；舞台指示（stage directions）——括号内的表演说明；人物表（cast of characters）；独白（soliloquy）——角色独自说出内心；旁白（aside）——说给观众听的短评。</div>
+    <div class="key-rules">
+      <h3>Key Rules | 关键规则</h3>
+      <ul>
+        <li><strong>Acts</strong> are large sections; <strong>scenes</strong> are smaller parts within an act.</li>
+        <li><strong>Dialogue</strong> replaces narration — we learn everything from what characters say.</li>
+        <li><strong>Stage directions</strong> are NOT spoken; they guide actors and help readers visualize.</li>
+        <li><strong>Soliloquy:</strong> character is alone, speaking inner thoughts aloud.</li>
+        <li><strong>Aside:</strong> brief comment to the audience — other characters cannot "hear" it.</li>
+        <li>Both stories and dramas share character, conflict, plot, and theme.</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider">
+  <div class="section-tag amber">Practice Passages | 阅读练习</div>
+  <div class="name-row">
+    <label for="nameInputWed">Your Name | 你的姓名:</label>
+    <input type="text" id="nameInputWed" placeholder="Type your name here...">
+  </div>
+  <div id="wedPracticeContainer"></div>
+
+  <hr class="divider">
+  <div class="section-tag cobalt">Exit Ticket | 课后测验</div>
+  <p style="font-size:.85rem;color:var(--ink2);margin-bottom:16px;">Answer all 10 questions to complete this lesson.<br><span class="cn" style="font-size:.82rem;">完成全部10道题以结束本课学习。</span></p>
+  <div id="wedExitContainer"></div>
+  <div class="score-box" id="wedScoreBox"><div class="score-num" id="wedScoreNum">—</div><div class="score-label cn">Wednesday Score | 周三得分</div></div>
+  <div class="reflection-block" id="wedReflection">
+    <div style="margin-bottom:16px;">
+      <div class="reflection-q">1. Think of a story you have read or a movie you have seen. Name the protagonist, the main conflict, and the theme. How did those three elements work together?</div>
+      <div class="reflection-cn cn">想想你读过的故事或看过的电影。说出主人公、主要冲突和主题。这三个元素是如何共同发挥作用的？</div>
+      <textarea id="wedRef1" placeholder="Write your response here... | 在这里写你的回答..."></textarea>
+    </div>
+    <div>
+      <div class="reflection-q">2. What is the most important difference between reading a story and reading a drama? Which format do you prefer, and why?</div>
+      <div class="reflection-cn cn">阅读小说和阅读戏剧最重要的区别是什么？你更喜欢哪种形式？为什么？</div>
+      <textarea id="wedRef2" placeholder="Write your response here... | 在这里写你的回答..."></textarea>
+    </div>
+  </div>
+  <button class="dl-btn" id="wedDlBtn" onclick="downloadReport('wed')">⬇ Download Wednesday Report | 下载周三报告</button>
+  <p id="wedDlHint" style="font-size:.78rem;color:#888;margin-top:6px;">Complete the exit ticket to unlock the download. | 完成课后测验后解锁下载。</p>
+</div>
+
+<div class="timer" id="timerDisplay">⏱ 00:00</div>
+
+<script>
+// STATE
+let leaveCount=0,secondsElapsed=0,progressPoints=0;
+const totalPoints=45;
+const tueAnswers={},tueExitAnswers={};
+const wedAnswers={},wedExitAnswers={};
+let tueScore=0,wedScore=0,tueExitDone=0,wedExitDone=0;
+
+// VOCAB — full Frayer model data
+const VOCAB=[
+  {
+    word:"interaction",pos:"noun",cn:"互动 / 相互影响",
+    def:"The way two or more things affect each other — where each one influences or changes the other.",
+    cn_def:"两个或多个事物相互影响、彼此改变的方式。",
+    characteristics:["Involves two or more elements","Each part affects the other","Creates a change or response","Can be a chain of cause and effect"],
+    characteristics_cn:["涉及两个或多个元素","每个部分都影响另一个","产生变化或反应","可以是一系列因果关系"],
+    examples:["A flood forcing a village to rebuild (event → individuals)","A new idea replacing an old scientific belief (idea → idea)","A character's decision changing the plot (character → event)"],
+    examples_cn:["洪水迫使村庄重建（事件→个人）","新观点取代旧科学信念（观点→观点）","人物的决定改变情节（人物→事件）"],
+    non_examples:["Two characters who never meet or affect each other","A fact listed alone with no connection to anything else","Reading a word in a dictionary without using it"],
+    non_examples_cn:["两个从不相遇或相互影响的角色","单独列出的没有任何联系的事实","在字典中查看一个词但不使用它"],
+    example:"The interaction between the flood and Mr. Chen's decision affected every family in the village."
+  },
+  {
+    word:"individual",pos:"noun",cn:"个体 / 个人",
+    def:"A single person considered separately from a group — one specific human being with their own actions, choices, and effects.",
+    cn_def:"与群体分开考虑的单个人——一个有自己行动、选择和影响的具体人。",
+    characteristics:["One specific person, not a group","Has unique decisions and actions","Can influence events and ideas","Can be affected by events and ideas"],
+    characteristics_cn:["一个具体的人，而非群体","有独特的决定和行动","可以影响事件和观点","可以受到事件和观点的影响"],
+    examples:["Marie Curie challenging a scientific belief alone","A journalist whose articles started a protest","A village head making a decision that changed a community"],
+    examples_cn:["居里夫人独自挑战科学信念","一位记者的文章引发了抗议","一位村长的决定改变了整个社区"],
+    non_examples:["A crowd with no named person","'Society' as a whole with no specific person","A group of scientists (unless one specific scientist is named)"],
+    non_examples_cn:["没有具体人物的人群","整体'社会'而非具体的人","一群科学家（除非特指某一位）"],
+    example:"Each individual in the class had a different response to the story's ending."
+  },
+  {
+    word:"protagonist",pos:"noun",cn:"主人公 / 主角",
+    def:"The main character in a story — the person whose journey, problem, and growth the plot follows most closely.",
+    cn_def:"故事的主要人物——情节最密切跟随其旅程、问题和成长的人。",
+    characteristics:["Central to the plot","Faces the main conflict","Usually changes or grows by the end","The reader follows their point of view most closely"],
+    characteristics_cn:["是情节的核心","面临主要冲突","通常在结尾时有所改变或成长","读者最密切地跟随其视角"],
+    examples:["Harry Potter in the Harry Potter series","Mei who must learn to speak English despite her fear","Santiago in The Alchemist pursuing his Personal Legend"],
+    examples_cn:["《哈利·波特》系列中的哈利·波特","梅，尽管恐惧仍必须学会说英语","《牧羊少年奇幻之旅》中追求个人传奇的圣地亚哥"],
+    non_examples:["A minor character who appears in only one scene","The antagonist who creates the conflict","A narrator who observes but is not part of the main events"],
+    non_examples_cn:["只出现在一个场景中的次要角色","制造冲突的对立角色","旁观但不参与主要事件的叙述者"],
+    example:"Mei is the protagonist; the entire story follows her journey from silence to confidence."
+  },
+  {
+    word:"antagonist",pos:"noun",cn:"对立角色 / 反派",
+    def:"The character or force that creates the main conflict and stands in opposition to the protagonist.",
+    cn_def:"制造主要冲突并与主人公对立的角色或力量。",
+    characteristics:["Creates or worsens the central conflict","Opposes the protagonist's goals","Can be a person, a force of nature, or an internal emotion","Does not have to be 'evil' — just opposing"],
+    characteristics_cn:["制造或加剧中心冲突","阻碍主人公的目标","可以是一个人、自然力量或内心情感","不必是'邪恶的'——只需是对立的"],
+    examples:["A bully who threatens the main character","A mountain storm blocking a climber's path","A character's own fear preventing them from acting"],
+    examples_cn:["威胁主要角色的霸凌者","阻挡登山者道路的山地风暴","人物自身的恐惧阻止他们行动"],
+    non_examples:["The protagonist who faces challenges","A helpful mentor who supports the main character","A neutral character who neither helps nor hinders"],
+    non_examples_cn:["面临挑战的主人公","支持主要角色的导师","既不帮助也不阻碍的中立角色"],
+    example:"Lin's internal fear acted as an antagonist, blocking her from every leadership opportunity."
+  },
+  {
+    word:"conflict",pos:"noun",cn:"冲突 / 矛盾",
+    def:"The central problem or struggle in a story — either inside a character's mind (internal) or between a character and an outside force (external).",
+    cn_def:"故事中的核心问题或斗争——可以在人物内心（内部）或人物与外部力量之间（外部）。",
+    characteristics:["Drives the plot forward","Can be internal (character vs. self) or external (character vs. person/nature/society)","Creates tension and makes the story interesting","Is usually resolved by the end"],
+    characteristics_cn:["推动情节向前发展","可以是内部的（人物对自我）或外部的（人物对他人/自然/社会）","制造张力并使故事有趣","通常在结尾得到解决"],
+    examples:["A character deciding whether to lie to protect a friend (internal)","Two brothers competing for the same job (external: character vs. character)","A hiker trapped by a blizzard (external: character vs. nature)"],
+    examples_cn:["一个角色决定是否撒谎保护朋友（内部）","两兄弟竞争同一份工作（外部：人物对人物）","被暴风雪困住的徒步者（外部：人物对自然）"],
+    non_examples:["A character who has no problems","A perfectly smooth plot with no obstacles","A character who gets everything they want immediately"],
+    non_examples_cn:["没有任何问题的角色","没有任何障碍的顺利情节","立即得到所有想要东西的角色"],
+    example:"The conflict between Lin's dreams and her family's expectations drove the entire plot forward."
+  },
+  {
+    word:"stage direction",pos:"noun phrase",cn:"舞台指示",
+    def:"Written instructions in a drama — usually in italics or brackets — that tell actors how to move, speak, or behave, and help readers visualize the scene.",
+    cn_def:"戏剧中通常用斜体或括号写成的书面指示，告诉演员如何移动、说话或行动，帮助读者想象场景。",
+    characteristics:["Written in italics or inside brackets [ ]","Never spoken aloud by characters","Describes movement, emotion, setting, or physical actions","Used by both actors (to perform) and readers (to visualize)"],
+    characteristics_cn:["用斜体或方括号[ ]书写","角色从不大声朗读","描述动作、情感、环境或肢体行为","演员（用于表演）和读者（用于想象）都会使用"],
+    examples:["[LING enters slowly from stage left, wearing a torn coat]","(quietly, almost to herself)","[The lamp flickers and goes dark]"],
+    examples_cn:["[凌从舞台左侧缓慢入场，穿着一件破旧的外套]","（轻声，几乎是自言自语）","[灯光闪烁并熄灭]"],
+    non_examples:["A line of dialogue spoken by a character","The title of the play","The cast of characters list at the beginning"],
+    non_examples_cn:["角色说的一句对话","戏剧的标题","开头的人物表"],
+    example:"The stage direction [Chen enters slowly, looking afraid] told the actor exactly how to move."
+  },
+  {
+    word:"dialogue",pos:"noun",cn:"对话 / 台词",
+    def:"The words that characters speak to each other in a story or drama — the primary way characters reveal their thoughts, relationships, and personalities.",
+    cn_def:"故事或戏剧中角色相互说的话——人物揭示其想法、关系和性格的主要方式。",
+    characteristics:["Words actually spoken by characters","Reveals character personality and relationships","In drama, replaces the narrator entirely","Usually formatted with the speaker's name before their lines"],
+    characteristics_cn:["角色实际说出的话","揭示人物性格和关系","在戏剧中完全取代叙述者","通常在台词前注明说话者的名字"],
+    examples:["'We will try your way,' said the elder — a turning point spoken aloud","Characters arguing that reveals their values","Two friends' conversation that shows their history"],
+    examples_cn:["'我们将按你的方式来做，'长者说——一个大声说出的转折点","揭示人物价值观的角色争论","显示两位朋友历史的对话"],
+    non_examples:["A narrator's description of a scene","Stage directions in brackets","A character's private thoughts never spoken aloud (soliloquy is a special case)"],
+    non_examples_cn:["叙述者对场景的描述","方括号内的舞台指示","角色从未大声说出的私密想法（独白是特殊情况）"],
+    example:"Through their dialogue, we learned that the two brothers had not spoken to each other in ten years."
+  },
+  {
+    word:"soliloquy",pos:"noun",cn:"独白",
+    def:"A dramatic speech in which a character who is alone on stage speaks their private inner thoughts aloud — giving the audience direct access to what the character truly thinks or feels.",
+    cn_def:"戏剧中独自在台上的角色大声说出其内心私密想法的演讲——让观众直接了解角色真正的想法或感受。",
+    characteristics:["Character is alone on stage","Spoken aloud, but no other characters can hear","Reveals private thoughts, fears, or plans","Usually longer and more emotional than an aside"],
+    characteristics_cn:["角色独自在台上","大声说出，但其他角色听不到","揭示私密想法、恐惧或计划","通常比旁白更长、更有情感"],
+    examples:["Hamlet's 'To be or not to be' speech","Chen admitting he regrets his decision while alone on stage","A character confessing their guilt to the empty stage"],
+    examples_cn:["哈姆雷特的'生存还是毁灭'演讲","陈独自在台上承认他后悔自己的决定","一个角色向空舞台坦白他们的罪责"],
+    non_examples:["An aside (too short; audience present but other characters 'can't hear')","Dialogue between two or more characters","A narrator's description of a character's feelings"],
+    non_examples_cn:["旁白（太短；观众在场但其他角色'听不到'）","两个或多个角色之间的对话","叙述者对角色感受的描述"],
+    example:"In his soliloquy, Wang admitted that he deeply regretted the decision to leave his hometown."
+  },
+  {
+    word:"theme",pos:"noun",cn:"主题",
+    def:"The central message or life lesson that an author communicates through a story — expressed as a complete statement about life, not just a single word or topic.",
+    cn_def:"作者通过故事传达的核心信息或人生道理——以关于生活的完整陈述表达，而非单个词语或话题。",
+    characteristics:["A complete statement, not a single word","Applies to life beyond the story","Emerges from how characters face conflict","Can be stated directly or implied"],
+    characteristics_cn:["是完整的陈述，而非单个词语","适用于故事之外的生活","从人物面对冲突的方式中涌现","可以直接陈述或隐含"],
+    examples:["'Courage means acting despite fear, not the absence of it'","'Honest communication heals what silence cannot'","'Persistent effort, even through failure, leads to meaningful achievement'"],
+    examples_cn:["'勇气意味着尽管有恐惧仍然行动，而非没有恐惧'","'诚实的沟通能治愈沉默无法治愈的东西'","'坚持不懈的努力，即使经历失败，也会带来有意义的成就'"],
+    non_examples:["'Courage' (topic only, not a complete statement)","A plot summary of what happened","The name of the main character"],
+    non_examples_cn:["'勇气'（仅为话题，不是完整陈述）","对所发生事情的情节摘要","主角的名字"],
+    example:"The theme of the novel is that honesty, even when it is painful, is the path to true friendship."
+  },
+  {
+    word:"cause and effect",pos:"noun phrase",cn:"因果关系",
+    def:"A relationship between events where one action or event (the cause) directly produces another action or event (the effect).",
+    cn_def:"事件之间的关系，其中一个行动或事件（原因）直接产生另一个行动或事件（结果）。",
+    characteristics:["The cause comes first; the effect follows","Signal words: because, therefore, as a result, this led to","Can form a chain: one effect becomes the next cause","Found in both fiction and nonfiction texts"],
+    characteristics_cn:["原因在前，结果在后","信号词：because（因为）、therefore（因此）、as a result（结果）、this led to（这导致了）","可以形成链条：一个结果成为下一个原因","在虚构和非虚构文本中都有"],
+    examples:["Plague → fewer workers → labor shortage → workers gained power","Factory polluted river → fish died → community protested","Character failed exam → hid the truth → felt shame → finally confessed"],
+    examples_cn:["瘟疫→工人减少→劳动力短缺→工人获得权力","工厂污染河流→鱼死亡→社区抗议","人物考试不及格→隐瞒真相→感到羞耻→最终坦白"],
+    non_examples:["Two events that happen at the same time but don't influence each other","A list of facts with no connection","A coincidence where one thing follows another by accident"],
+    non_examples_cn:["同时发生但互不影响的两个事件","没有任何联系的事实列表","一件事偶然地在另一件事之后发生的巧合"],
+    example:"The passage showed clear cause and effect: the factory polluted the river, and as a result, all the fish died."
+  },
+  {
+    word:"exposition",pos:"noun",cn:"故事开端 / 铺垫",
+    def:"The opening section of a story where the author introduces the characters, setting, and background situation — setting up the world of the story before the main conflict begins.",
+    cn_def:"故事的开头部分，作者在此介绍人物、环境和背景情况——在主要冲突开始之前建立故事的世界。",
+    characteristics:["Appears at the very beginning of the story","Introduces main characters and setting","Provides background information","Ends when the inciting incident (the event that starts the conflict) occurs"],
+    characteristics_cn:["出现在故事的最开始","介绍主要人物和环境","提供背景信息","以触发事件（引发冲突的事件）的出现而结束"],
+    examples:["Ming's quiet daily life described before he finds the mysterious letter","Introducing a peaceful village before a conflict disrupts it","Describing a character's normal routine before a sudden change"],
+    examples_cn:["在明找到神秘信件之前描述他平静的日常生活","在冲突打破宁静之前介绍一个平静的村庄","在突然变化之前描述人物的日常生活"],
+    non_examples:["The climax — the most exciting, tense moment","The resolution — where the conflict ends","Rising action — when tension is building"],
+    non_examples_cn:["高潮——最激动人心、最紧张的时刻","结局——冲突结束的地方","上升动作——张力正在积累的时候"],
+    example:"In the exposition, we learned that Ling had grown up in a small fishing village near the sea."
+  },
+  {
+    word:"resolution",pos:"noun",cn:"结局 / 解决",
+    def:"The final section of a story where the central conflict is concluded or solved — and where the theme is often most clearly revealed.",
+    cn_def:"故事的最后部分，中心冲突在此结束或解决——主题通常在此最清晰地显现。",
+    characteristics:["Appears at the very end of the story","The conflict is settled (but not always happily)","Often reveals the theme","Follows the falling action"],
+    characteristics_cn:["出现在故事的最后","冲突得到解决（但不一定是快乐的结局）","通常揭示主题","在下降动作之后"],
+    examples:["Li confessing to his father and receiving calm forgiveness","Two rivals finally learning to respect each other","A character overcoming internal fear and succeeding at the debate"],
+    examples_cn:["李向父亲坦白并获得平静的原谅","两个对手最终学会相互尊重","一个角色克服内心恐惧并在辩论中成功"],
+    non_examples:["The exposition — the beginning of the story","The climax — when tension is at its peak","Rising action — when events are escalating"],
+    non_examples_cn:["故事开端——故事的开始","高潮——张力处于顶峰时","上升动作——事件正在升级时"],
+    example:"The resolution revealed that the two rivals had finally learned to respect each other."
+  }
+];
+
+// TUESDAY PRACTICES
+const TUE_PRACTICES=[
+  {id:'tq1',title:"The River Dam Decision",
+   passage:"In 1998, a severe flood threatened Xinhe Village. The village head, Mr. Chen, had to choose: open the old dam to save the lower farmland, or keep it closed to protect village homes. He chose to open the dam. The farmland survived, but forty homes were damaged. The villagers were furious at first. But the following harvest was the largest in twenty years. Mr. Chen's single decision had set off a chain of events that changed every family in the village.",
+   q:"What best describes the interaction between Mr. Chen's decision and the villagers?",q_cn:"哪个选项最能描述陈先生的决定与村民之间的互动关系？",
+   hint:"Think about what the decision caused immediately, and what it caused later. | 想想这个决定立即导致了什么，以及后来导致了什么。",
+   options:["A. Villagers supported his decision immediately.|A. 村民立刻支持了他的决定。","B. His decision caused short-term anger but long-term benefit for the villagers.|B. 他的决定短期引起愤怒，但长期来看使村民受益。","C. The villagers never forgave him for the damaged homes.|C. 村民永远无法原谅他房屋被损坏这件事。","D. The event had no lasting effect on the village.|D. 这一事件对村庄没有持久影响。"],
+   correct:"B",
+   rationale:"Correct! The decision caused anger first, but the record harvest shows long-term benefit. This is a clear cause-and-effect interaction: individual decision → short-term event → long-term community outcome.|正确！决定先引起愤怒，但丰收表明了长期利益。这是明确的因果互动：个人决定→短期事件→长期社区结果。",
+   rationale_wrong:{A:"The passage says villagers 'were furious at first' — not that they supported him immediately.|文章说村民'起初非常愤怒'——而非立刻支持他。",C:"The passage says they were angry 'at first,' suggesting the anger eventually passed.|文章说他们'起初'愤怒，暗示愤怒最终消散了。",D:"The passage clearly describes lasting effects: damaged homes and a record harvest.|文章明确描述了持久影响：受损的房屋和创纪录的丰收。"}},
+
+  {id:'tq2',title:"Marie Curie and a Century-Old Belief",
+   passage:"In the late 1800s, most scientists believed atoms could not change. Marie Curie's research on radioactivity challenged this directly. Her experiments showed that certain elements naturally transformed, releasing energy. At first, other scientists rejected her findings. But as more evidence appeared, her idea gradually changed the way the entire scientific community understood matter. One person's research had reshaped a belief held by thousands of scientists for over a century.",
+   q:"How did Marie Curie's idea interact with the existing scientific belief?",q_cn:"居里夫人的观点与现有科学信念是如何互动的？",
+   hint:"Look for words showing one idea challenging or changing another over time. | 寻找表示一个观点随时间挑战或改变另一个观点的词语。",
+   options:["A. Her idea confirmed what scientists already believed.|A. 她的观点证实了科学家已有的信念。","B. Scientists immediately accepted her new idea.|B. 科学家立刻接受了她的新观点。","C. Her idea eventually replaced the old belief after facing initial rejection.|C. 她的观点在最初遭到拒绝后，最终取代了旧信念。","D. Her research had no effect on scientific thinking.|D. 她的研究对科学思维没有任何影响。"],
+   correct:"C",
+   rationale:"Correct! The passage shows the idea was rejected first, but eventually changed the scientific community. This is how ideas interact — one challenges and replaces another over time.|正确！文章显示观点起初遭到拒绝，但最终改变了科学界。这就是观点互动的方式——一个挑战并最终取代另一个。",
+   rationale_wrong:{A:"The passage says her research 'challenged' the old belief, not confirmed it.|文章说她的研究'挑战'了旧信念，而非证实了它。",B:"The passage explicitly says 'at first, other scientists rejected her findings.'|文章明确指出'起初，其他科学家拒绝了她的发现'。",D:"The passage directly states her idea 'changed the way the entire scientific community understood matter.'|文章直接指出她的观点'改变了整个科学界理解物质的方式'。"}},
+
+  {id:'tq3',title:"The Articles That Changed a City",
+   passage:"In 1955, journalist Lin Wei published articles about pollution in Donghe City's river. She described how a chemical factory dumped waste into the water. Factory managers ignored her reports. Citizens, however, were alarmed. Protests spread through the city. The government, facing public pressure, ordered an investigation. Two years later, the factory was fined and required to clean its waste properly. Lin Wei's articles had created a chain linking public awareness, protest, and government action.",
+   q:"Which statement best describes how the idea in the articles interacted with events?",q_cn:"哪句话最能描述文章中的观点是如何与事件互动的？",
+   hint:"Trace the chain of events that started with the articles. | 追踪从文章开始的一系列事件链。",
+   options:["A. The articles caused the factory to stop polluting immediately.|A. 这些文章立刻使工厂停止了污染。","B. The factory managers supported the journalist's work.|B. 工厂管理层支持了这位记者的工作。","C. The articles influenced public opinion, which then triggered government action.|C. 文章影响了公众舆论，继而推动了政府行动。","D. The city government ignored the articles completely.|D. 市政府完全忽视了这些文章。"],
+   correct:"C",
+   rationale:"Correct! Articles → alarmed citizens → protests → government investigation → factory fined. The idea in the articles caused a chain of interactions between individuals and events.|正确！文章→市民警觉→抗议→政府调查→工厂被罚款。文章中的观点引发了个人与事件之间的一系列互动。",
+   rationale_wrong:{A:"Factory managers 'ignored the reports' at first. Change came two years later.|工厂管理层起初'忽视了报道'。变化是两年后才发生的。",B:"The passage says factory managers 'ignored the reports.'|文章说工厂管理层'忽视了这些报道'。",D:"The passage states the government 'ordered an investigation' after public protests.|文章指出政府在公众抗议后'命令进行调查'。"}},
+
+  {id:'tq4',title:"A Character Trapped by Setting",
+   passage:"Zhang lived in a remote mountain village with no road connecting it to the nearest town. He was intelligent and curious, with dreams of becoming a doctor. But every winter, heavy snow blocked the path for four months. Books were rare. The nearest school was twelve kilometers away. His setting — the isolated location and harsh seasons — controlled what he was able to do. His character wanted to grow, but his environment kept pulling him back.",
+   q:"How does the setting interact with Zhang's character in this passage?",q_cn:"在这段文字中，环境如何与张的人物性格互动？",
+   hint:"Does the setting help or limit what Zhang can do? | 环境是帮助还是限制了张所能做的事情？",
+   options:["A. The setting helps Zhang become a doctor quickly.|A. 环境帮助张迅速成为一名医生。","B. Zhang's intelligence allows him to easily overcome all obstacles.|B. 张的聪明才智让他轻松克服了所有障碍。","C. The setting limits Zhang's opportunities despite his strong character and dreams.|C. 尽管张有坚强的性格和梦想，环境还是限制了他的机会。","D. The setting has no effect on Zhang's life or choices.|D. 环境对张的生活或选择没有任何影响。"],
+   correct:"C",
+   rationale:"Correct! Zhang has dreams (character), but the isolated mountain setting prevents him from pursuing them. This is a direct setting → character interaction.|正确！张有梦想（人物性格），但偏远的山村环境阻止了他去追求。这是直接的环境→人物互动。",
+   rationale_wrong:{A:"There is no evidence Zhang becomes a doctor. The passage focuses on obstacles, not success.|没有证据表明张成为了医生。文章聚焦于障碍，而非成功。",B:"The passage says his environment 'kept pulling him back' — he does not overcome obstacles easily.|文章说环境'不断将他拉回'——他并没有轻松克服障碍。",D:"The entire passage describes how the mountain setting controls Zhang's options and limits his life.|整段文字描述了山村环境如何控制张的选择并限制他的生活。"}},
+
+  {id:'tq5',title:"The Book That Shifted Public Opinion",
+   passage:"In 1843, Charles Dickens published A Christmas Carol. The story argued that wealthy people had a responsibility to help the poor. Before its publication, many in England believed poverty was the fault of poor people themselves. Dickens's story showed sympathy for the poor and criticized the rich for their indifference. Over time, historians believe the book helped shift public opinion toward supporting social welfare programs established decades later.",
+   q:"This passage mainly shows how an idea in a book—",q_cn:"这段文字主要展示了书中的一个观点如何——",
+   hint:"Focus on the long-term result of the book's central idea. | 关注书中核心观点的长期结果。",
+   options:["A. proved that all wealthy people were always wrong.|A. 证明了所有富人总是错误的。","B. interacted with existing beliefs to gradually change public opinion over time.|B. 与现有信念互动，随时间推移逐渐改变了公众舆论。","C. had no effect because it was only a fictional story.|C. 因为只是虚构故事，所以没有任何影响。","D. created immediate laws to help the poor in 1843.|D. 于1843年立即创造了帮助穷人的法律。"],
+   correct:"B",
+   rationale:"Correct! Dickens's idea challenged old beliefs and helped shift public opinion toward welfare. This is a clear idea → belief → event interaction spanning decades.|正确！狄更斯的观点挑战了旧信念，并帮助公众舆论转向支持福利。这是跨越数十年的明确观点→信念→事件互动。",
+   rationale_wrong:{A:"The passage says Dickens 'criticized their indifference' — not that all wealthy people were wrong.|文章说狄更斯'批评了他们的冷漠'——而非所有富人都是错的。",C:"The passage says the book 'helped shift public opinion' — it clearly had an effect.|文章说这本书'帮助转变了公众舆论'——它显然产生了影响。",D:"The passage says welfare programs were 'established decades later,' not immediately in 1843.|文章说福利项目是'几十年后'才建立的，而非1843年立刻建立。"}},
+
+  {id:'tq6',title:"When Conflict Changes Character",
+   passage:"At the story's beginning, Mei refused to speak in class. She was afraid of making mistakes in English. Then her teacher introduced a debate competition. Mei was partnered with a student she disliked; they had no choice but to work together. The conflict — both the external problem with her partner and her internal fear — forced Mei to practice speaking every day. By competition day, Mei was not the same person. The conflict had reshaped her.",
+   q:"What type of conflict is Mei's fear of speaking English?",q_cn:"梅对用英语发言的恐惧属于哪种类型的冲突？",
+   hint:"Is this conflict happening inside Mei's mind, or between Mei and another person? | 这个冲突是发生在梅的内心，还是在梅与另一个人之间？",
+   options:["A. External conflict — Mei vs. her teacher.|A. 外部冲突——梅对老师。","B. External conflict — Mei vs. her debate partner.|B. 外部冲突——梅对辩论搭档。","C. Internal conflict — inside Mei's own thoughts and feelings.|C. 内部冲突——发生在梅自己的思想和感受之中。","D. There is no conflict in this passage.|D. 这段文字中没有冲突。"],
+   correct:"C",
+   rationale:"Correct! Fear exists inside Mei's mind — this is internal conflict. The passage calls it her 'internal fear.' Her conflict with her partner is separate and external.|正确！恐惧存在于梅的内心——这是内部冲突。文章称之为她的'内部恐惧'。她与搭档的冲突是独立的外部冲突。",
+   rationale_wrong:{A:"There is no conflict shown between Mei and her teacher. The teacher introduced the debate to help students.|文章中没有显示梅与老师之间的冲突。老师引入辩论是为了帮助学生。",B:"The conflict with her partner is external and separate. Her fear of speaking is a distinct internal conflict.|与搭档的冲突是外部的且独立的。她对发言的恐惧是独特的内部冲突。",D:"The passage explicitly mentions both 'external conflict with her partner' and 'internal fear.'|文章明确提到了'与搭档的外部冲突'和'内部恐惧'两者。"}},
+
+  {id:'tq7',title:"The Factory Town's Dilemma",
+   passage:"Ironvale was a factory town. The air smelled of smoke and the river ran gray from waste. Most residents worked at the factory — they depended on it for income but resented what it had done to their community. When the company announced it would close the factory to build a nature park, the town divided. Some cheered. Others feared unemployment. The setting — a polluted industrial town — made every decision about the future complicated and emotional.",
+   q:"How does the setting of Ironvale create conflict for the characters?",q_cn:"铁谷的环境如何为人物制造冲突？",
+   hint:"What does the setting give the characters and what does it take away from them? | 环境给了人物什么，又从他们那里拿走了什么？",
+   options:["A. The nature park makes all residents happy about the change.|A. 自然公园让所有居民对这一变化感到高兴。","B. The setting creates no complications — the decision is simple.|B. 环境没有造成任何复杂情况——决定很简单。","C. The polluted industrial setting forces characters into a difficult choice between economic survival and environmental health.|C. 被污染的工业环境迫使人物在经济生存与环境健康之间做出艰难选择。","D. All the characters decide to leave Ironvale immediately.|D. 所有人物立刻决定离开铁谷。"],
+   correct:"C",
+   rationale:"Correct! The factory setting creates a tension: people need income (economic need) but hate the pollution (environmental harm). The setting produces the conflict.|正确！工厂环境制造了紧张局势：人们需要收入（经济需求），但又憎恨污染（环境伤害）。环境产生了冲突。",
+   rationale_wrong:{A:"The passage says the town 'divided' — not all residents were happy.|文章说这个小镇'产生了分歧'——并非所有居民都高兴。",B:"The passage describes residents as experiencing 'complicated and emotional' reactions — the decision is clearly not simple.|文章描述居民经历'复杂而情绪化'的反应——这个决定显然并不简单。",D:"There is no evidence any character leaves Ironvale. The passage focuses on their divided opinions about the future.|没有证据表明任何人物离开了铁谷。文章聚焦于他们对未来的分歧意见。"}},
+
+  {id:'tq8',title:"Cause and Effect Across History",
+   passage:"In the 1300s, the Black Death plague spread across Europe, killing about one-third of the continent's population. Because so many workers died, the surviving workers could demand higher wages. Landowners who once had unlimited labor suddenly faced shortages. This shifted power from wealthy landowners to ordinary workers. A single event — a disease — had changed the economic relationship between two groups of people in ways that lasted for centuries.",
+   q:"What is the main cause-and-effect chain described in this passage?",q_cn:"文章中描述的主要因果链是什么？",
+   hint:"Find the first event in the chain, then trace what it caused step by step. | 找到这一链条中的第一个事件，然后逐步追踪它所导致的结果。",
+   options:["A. Higher wages caused the Black Death to spread.|A. 较高的工资导致了黑死病的蔓延。","B. The plague reduced the workforce, causing labor shortages, giving workers more power.|B. 瘟疫减少了劳动力，导致劳动力短缺，从而给了工人更多权力。","C. Landowners chose to give workers more power because they were generous.|C. 地主因为慷慨大方而选择给予工人更多权力。","D. Workers demanded higher wages before the plague began.|D. 工人在瘟疫开始前就要求了更高的工资。"],
+   correct:"B",
+   rationale:"Correct! The chain: plague → many deaths → fewer workers → labor shortage → workers gained power. This is a clear multi-step cause-and-effect interaction.|正确！这一链条：瘟疫→大量死亡→工人减少→劳动力短缺→工人获得权力。这是清晰的多步骤因果互动。",
+   rationale_wrong:{A:"The plague came first and caused workers to die — not the other way around.|瘟疫先发生并导致工人死亡——而非相反。",C:"The passage says workers 'could demand' higher wages due to the shortage, not because landowners were generous.|文章说工人因短缺而'能够要求'更高工资，而非因地主慷慨。",D:"The passage says surviving workers could demand higher wages after the plague, not before it.|文章说幸存工人能够在瘟疫之后要求更高工资，而非之前。"}},
+
+  {id:'tq9',title:"The Rumor and Its Ripple Effects",
+   passage:"A rumor spread through Westbrook High that a new student, Chen, had cheated on an important exam. Chen had not cheated. But within three days, the rumor had changed how others treated him. His former friends avoided him. His teacher watched him more closely. Chen himself became anxious and began performing worse in class. A false idea had affected real individuals, changed relationships, and altered behavior — all without any facts to support it.",
+   q:"This passage best illustrates which concept?",q_cn:"这段文字最能说明哪个概念？",
+   hint:"Think about what the rumor is (an idea) and what it caused to happen to real people. | 想想谣言是什么（一个观点），以及它对真实的人造成了什么影响。",
+   options:["A. The theme of the story about honesty.|A. 关于诚实的故事主题。","B. How an idea (the rumor) interacted with individuals and events to produce real consequences.|B. 一个观点（谣言）如何与个人和事件互动，产生真实后果。","C. External conflict between Chen and his teacher only.|C. 仅仅是陈与老师之间的外部冲突。","D. The resolution of Chen's problems by the end of the passage.|D. 文章结尾时陈的问题得到了解决。"],
+   correct:"B",
+   rationale:"Correct! The false idea (rumor) interacted with real people (friends, teacher, Chen) and caused real events (avoidance, monitoring, worse performance). This perfectly illustrates how ideas interact with individuals and events.|正确！虚假观点（谣言）与真实的人互动，导致了真实的事件。这完美地说明了观点如何与个人和事件互动。",
+   rationale_wrong:{A:"While honesty is a related topic, the passage focuses on the concept of interaction, not on stating a theme.|虽然诚实是相关话题，但文章聚焦于互动概念，而非陈述主题。",C:"Multiple individuals are affected — friends, the teacher, and Chen himself — not only Chen and his teacher.|多个个体受到影响——朋友、老师和陈本人——而非仅仅陈与老师。",D:"The passage ends with Chen performing worse — his problems are not resolved.|文章以陈的表现更差结束——他的问题没有得到解决。"}},
+
+  {id:'tq10',title:"When Plot Forces Character to Change",
+   passage:"At the beginning, Ling was content. She had a stable job, a small apartment, and a quiet life. Then the company she worked for suddenly went bankrupt. She lost her income. Within a month, she lost her apartment too. These events — external, unexpected, and painful — forced Ling to change. She began searching for new skills. She took night classes. She reached out to people she had avoided for years. By the end, the plot had made Ling into a completely different person.",
+   q:"What is the main interaction described in this passage?",q_cn:"这段文字中描述的主要互动是什么？",
+   hint:"What caused the change in Ling — her own choice, or events that happened to her? | 是什么导致了凌的改变——她自己的选择，还是发生在她身上的事件？",
+   options:["A. Ling's character changed the plot events that happened to her.|A. 凌的性格改变了发生在她身上的情节事件。","B. The setting of her apartment caused the company to go bankrupt.|B. 她公寓的环境导致了公司破产。","C. External plot events forced Ling's character to grow and change.|C. 外部情节事件迫使凌的性格成长和改变。","D. Ling chose to change before the company went bankrupt.|D. 凌在公司破产前就选择了改变。"],
+   correct:"C",
+   rationale:"Correct! The plot events (bankruptcy, lost apartment) are the cause. Ling's transformation is the effect. This is the plot → character interaction.|正确！情节事件（破产、失去公寓）是原因。凌的转变是结果。这是情节→人物互动。",
+   rationale_wrong:{A:"The passage describes events happening TO Ling — Ling is not controlling the events.|文章描述的是发生在凌身上的事件——凌没有控制这些事件。",B:"There is no connection made between her apartment and the company's bankruptcy in the passage.|文章中她的公寓与公司破产之间没有建立联系。",D:"The passage says Ling 'was content' before the bankruptcy — she changed because of it, not before it.|文章说凌在破产前'很满足'——她是因为破产而改变的，而非之前。"}}
+];
+
+// TUESDAY EXIT
+const TUE_EXIT=[
+  {q:"An individual's decision causing an event is an example of—",q_cn:"一个人的决定导致一件事是……的例子",opts:["A. theme|A. 主题","B. interaction|B. 互动","C. dialogue|C. 对话","D. resolution|D. 结局"],correct:"B",rat:"Interaction means two or more things affecting each other. An individual's decision causing an event is a direct example.|互动是指两个或多个事物相互影响。个人决定导致事件是一个直接例子。"},
+  {q:"Which signal word BEST shows a cause-and-effect relationship?",q_cn:"哪个信号词最能表示因果关系？",opts:["A. however|A. 然而","B. for example|B. 例如","C. therefore|C. 因此","D. in contrast|D. 相比之下"],correct:"C",rat:"'Therefore' signals that something resulted from a cause. 'However' shows contrast; 'for example' shows illustration; 'in contrast' shows difference.|'Therefore'（因此）表示某事是由原因产生的结果。其他词表示对比或举例。"},
+  {q:"Which of these is an INTERNAL conflict?",q_cn:"以下哪项是内部冲突？",opts:["A. A student argues with her teacher.|A. 一名学生与老师发生争执。","B. A hiker battles a snowstorm.|B. 一名徒步者与暴风雪搏斗。","C. A character struggles with whether to tell the truth.|C. 一个角色在是否说出真相之间挣扎。","D. Two brothers compete for the same job.|D. 两兄弟竞争同一份工作。"],correct:"C",rat:"Internal conflict exists inside a character's mind — struggling with a decision is internal. The others involve outside forces or other people.|内部冲突存在于角色的内心——在决定中挣扎是内部冲突。其他选项涉及外部力量或其他人。"},
+  {q:"In fiction, the setting primarily affects which other element?",q_cn:"在小说中，环境主要影响哪个其他元素？",opts:["A. The author's name|A. 作者的名字","B. The stage directions|B. 舞台指示","C. The character's opportunities and behavior|C. 人物的机会和行为","D. The story's title|D. 故事的标题"],correct:"C",rat:"Setting shapes what characters can do and how they behave. A character in a war zone behaves differently from one in a peaceful village.|环境决定了人物能做什么以及如何行动。战争地区的人物与和平村庄的人物行为不同。"},
+  {q:"Which statement BEST defines 'theme'?",q_cn:"哪句话最能定义'主题'？",opts:["A. The main character's name|A. 主角的名字","B. Where and when the story takes place|B. 故事发生的时间和地点","C. The central life message the author communicates through the story|C. 作者通过故事传达的核心人生信息","D. The list of characters at the beginning of a play|D. 戏剧开头的人物表"],correct:"C",rat:"Theme is the central life message that emerges from the story — not a topic, but a statement about that topic.|主题是从故事中涌现出的核心人生信息——不是话题，而是关于该话题的陈述。"},
+  {q:"Marie Curie's research replacing an old scientific belief is an example of—",q_cn:"居里夫人的研究取代旧科学信念是……的一个例子",opts:["A. setting affecting character|A. 环境影响人物","B. an idea interacting with another idea|B. 一个观点与另一个观点互动","C. stage directions in a drama|C. 戏剧中的舞台指示","D. a soliloquy|D. 独白"],correct:"B",rat:"Curie's new idea challenged and eventually replaced an old idea — this is how ideas interact: one displaces another.|居里夫人的新观点挑战并最终取代了旧观点——这就是观点互动的方式：一个取代另一个。"},
+  {q:"When a character's choice moves the plot forward, this shows—",q_cn:"当人物的选择推动情节向前发展时，这表明——",opts:["A. the resolution is complete|A. 结局已经完整","B. the setting is internal|B. 环境是内部的","C. character and plot interact with each other|C. 人物与情节相互作用","D. the antagonist has won|D. 反派获胜了"],correct:"C",rat:"When a character's choice changes what happens next, it shows the interaction between character and plot — each influences the other.|当人物的选择改变接下来发生的事时，显示了人物与情节之间的互动——每一个都影响另一个。"},
+  {q:"A false rumor affecting real people's behavior is primarily an example of—",q_cn:"虚假谣言影响真实人物行为，主要是……的一个例子",opts:["A. an idea interacting with individuals to produce real consequences|A. 观点与个人互动产生真实后果","B. the exposition of a drama|B. 戏剧的故事开端","C. a soliloquy expressing internal conflict|C. 表达内部冲突的独白","D. the falling action of a plot|D. 情节的下降动作"],correct:"A",rat:"The rumor is an idea. It spreads and affects individuals (Chen, his friends, his teacher) and events. This is the interaction between ideas and individuals.|谣言是一个观点。它传播并影响了个人（陈、他的朋友、他的老师）和事件。这是观点与个人之间的互动。"},
+  {q:"When plot events FORCE a character to change, the interaction goes from—",q_cn:"当情节事件迫使人物改变时，互动方向是从——",opts:["A. theme → setting|A. 主题→环境","B. character → author|B. 人物→作者","C. plot → character|C. 情节→人物","D. dialogue → stage direction|D. 对话→舞台指示"],correct:"C",rat:"When events (plot) cause a character to grow or change, the direction is: plot → character. Ling's story is a clear example.|当事件（情节）导致人物成长或改变时，方向是：情节→人物。凌的故事是一个清晰的例子。"},
+  {q:"Which question is MOST useful when analyzing interactions in a text?",q_cn:"在分析文本中的互动时，哪个问题最有用？",opts:["A. 'How many paragraphs does the text have?'|A. '文本有多少段落？'","B. 'How does this event affect the individuals or ideas in the text?'|B. '这一事件如何影响文本中的个人或观点？'","C. 'What font is the title written in?'|C. '标题用什么字体书写？'","D. 'How long did the author take to write this?'|D. '作者花了多长时间写这篇文章？'"],correct:"B",rat:"Asking how an event affects individuals or ideas directly targets the concept of interaction — tracing cause-and-effect in the text.|询问事件如何影响个人或观点，直接针对互动概念——追踪文本中的因果关系。"}
+];
+
+// WEDNESDAY PRACTICES
+const WED_PRACTICES=[
+  {id:'wq1',title:"The Hero's Ordinary World",
+   passage:"Ming had always been quiet and obedient. He lived with his grandmother in a small apartment above a noodle shop. Every day was the same: school, homework, dinner, sleep. Then one evening his grandmother handed him a worn leather box. Inside was a letter from his father, who had disappeared twelve years ago. The letter said: 'Find the lighthouse at the edge of the sea. I left something important there for you.' Ming's ordinary world ended that night. Something new was about to begin.",
+   q:"The passage describes which part of a story's plot structure?",q_cn:"这段文字描述了故事情节结构的哪个部分？",
+   hint:"Where is the character's life introduced, and what event starts the main action? | 在哪里介绍了人物的生活，以及哪个事件开始了主要行动？",
+   options:["A. Climax — the most exciting, tense moment.|A. 高潮——最激动人心、最紧张的时刻。","B. Resolution — the conflict is solved.|B. 结局——冲突得到解决。","C. Exposition — characters and setting are introduced, ending with an inciting incident.|C. 故事开端——人物和环境被介绍，以触发事件结束。","D. Falling action — events after the climax.|D. 下降动作——高潮之后的事件。"],
+   correct:"C",
+   rationale:"Correct! The passage introduces Ming's normal life (character + setting) and ends with the letter that starts the main action. This is exposition — the beginning of the plot.|正确！文章介绍了明的正常生活（人物+环境），以开始主要行动的信件结束。这是故事开端——情节的开始。",
+   rationale_wrong:{A:"The climax is the most tense moment. This passage is calm and introductory — no tension yet.|高潮是最紧张的时刻。这段文字平静而具有介绍性——还没有张力。",B:"The resolution solves the conflict. This passage is the beginning — no problem is solved yet.|结局解决冲突。这段文字是开头——还没有问题被解决。",D:"Falling action comes after the climax. This is the very beginning of the story, before any climax.|下降动作发生在高潮之后。这是故事的最开始，在任何高潮之前。"}},
+
+  {id:'wq2',title:"The Protagonist's Impossible Choice",
+   passage:"In the story, Xiao was the protagonist. She was kind, hardworking, and deeply loyal to her family. When she discovered that her brother had stolen money from their neighbor, she faced a terrible choice: report him or protect him and lie. Her brother's actions had created the central conflict. Xiao's character — her values and her love for family — made the decision far more painful than it would have been for someone who did not care so deeply.",
+   q:"What type of conflict does Xiao primarily experience?",q_cn:"小主要经历的是哪种类型的冲突？",
+   hint:"Is the main conflict happening inside Xiao's mind, or between Xiao and an outside force? | 主要冲突是发生在小的内心，还是在小与外部力量之间？",
+   options:["A. External conflict — Xiao vs. the neighbor.|A. 外部冲突——小对邻居。","B. External conflict — Xiao vs. the police.|B. 外部冲突——小对警察。","C. Both internal and external — she struggles inside herself AND her brother created an external problem.|C. 内部与外部兼有——她在内心挣扎，同时她哥哥制造了外部问题。","D. There is no conflict in this passage.|D. 这段文字中没有冲突。"],
+   correct:"C",
+   rationale:"Correct! Xiao has an internal conflict (her values vs. her family loyalty) AND the brother's theft is the external conflict that started everything. Both types are present.|正确！小既有内部冲突（她的价值观与家庭忠诚），又有由哥哥盗窃引发的外部冲突。两种类型都存在。",
+   rationale_wrong:{A:"The passage does not show conflict between Xiao and the neighbor. The neighbor is the victim.|文章没有显示小与邻居之间的冲突。邻居是受害者。",B:"The police are not mentioned as a source of conflict.|警察没有被提及为冲突的来源。",D:"The passage explicitly mentions 'the central conflict' and Xiao's 'terrible choice.'|文章明确提到了'中心冲突'和小的'艰难选择'。"}},
+
+  {id:'wq3',title:"Reading Stage Directions",
+   passage:"Act Two, Scene One\n[The stage is dark. A single lamp casts a yellow circle of light on a wooden chair. LING enters slowly from stage left, wearing a torn coat. She stops and looks around the empty room.]\nLING: (quietly, almost to herself) Is anyone still here?\n[Silence. LING sits in the chair and places her hands in her lap.]\nLING: Then I will wait. I have always been good at waiting.\n[The lamp flickers.]",
+   q:"What do the stage directions in brackets [ ] tell the reader?",q_cn:"方括号[ ]内的舞台指示告诉读者什么？",
+   hint:"Stage directions are the instructions inside [ ]. What kind of information do they give? | 舞台指示是[ ]内的指示。它们给出了什么样的信息？",
+   options:["A. They show what Ling is secretly thinking.|A. 它们显示了凌秘密的想法。","B. They are lines Ling speaks directly to the audience.|B. 它们是凌直接对观众说的台词。","C. They describe the setting, Ling's appearance, and physical actions for actors and readers.|C. 它们为演员和读者描述环境、凌的外貌和肢体动作。","D. They explain the drama's theme.|D. 它们解释了戏剧的主题。"],
+   correct:"C",
+   rationale:"Correct! Stage directions [in brackets] describe the dark stage, Ling's torn coat, her slow movement, and the flickering lamp — physical and visual information for actors and readers.|正确！方括号内的舞台指示描述了黑暗的舞台、破旧的外套、缓慢的移动和闪烁的灯光——为演员和读者提供物理和视觉信息。",
+   rationale_wrong:{A:"Inner thoughts in drama are revealed through soliloquy, not stage directions. Stage directions describe physical actions.|戏剧中的内心想法通过独白揭示，而非舞台指示。舞台指示描述肢体动作。",B:"Lines spoken directly to the audience are called 'asides.' Stage directions are never spoken aloud.|直接对观众说的台词称为'旁白'。舞台指示从不被大声朗读。",D:"Stage directions provide physical and visual information. Theme emerges from the whole play.|舞台指示提供物理和视觉信息。主题从整部戏剧中涌现出来。"}},
+
+  {id:'wq4',title:"The Turning Point",
+   passage:"The village had suffered through three years of drought. Crops had failed. Families had gone hungry. Wang, the young farmer who had organized the village's last water project, stood before the council of elders. If they rejected his plan, the village would have to be abandoned. The council argued for hours. Finally, the eldest member nodded slowly. 'We will try your way.' That single moment — the council's decision — was the point on which everything depended.",
+   q:"The moment the elder says 'We will try your way' is the story's—",q_cn:"长者说'我们将按你的方式来做'的那一刻是故事的——",
+   hint:"This is the moment of highest tension where everything is decided. What do we call this part of the plot? | 这是一切都被决定的最高张力时刻。我们称情节的这个部分为什么？",
+   options:["A. Exposition — the story's beginning.|A. 故事开端——故事的开始。","B. Resolution — the conflict is completely solved.|B. 结局——冲突完全解决。","C. Climax — the turning point of highest tension where the central decision is made.|C. 高潮——最高张力的转折点，中心决定在此做出。","D. Falling action — events are winding down.|D. 下降动作——事件正在平息。"],
+   correct:"C",
+   rationale:"Correct! The climax is the turning point of highest tension. The council's decision is the moment everything in the story depends on. This is the climax.|正确！高潮是最高张力的转折点。议会的决定是故事中一切所依赖的时刻。这就是高潮。",
+   rationale_wrong:{A:"The exposition introduces characters and setting. This passage is deep into the conflict — far past the introduction.|故事开端介绍人物和环境。这段文字深入冲突中——远超过了介绍阶段。",B:"The resolution fully solves the conflict. The elder's 'yes' is a turning point, but they are only going to 'try' — the outcome is still uncertain.|结局完全解决冲突。长者的'同意'是转折点，但他们只是要'尝试'——结果仍不确定。",D:"Falling action comes after the climax, when tension is decreasing. Here, tension is at its highest.|下降动作发生在高潮之后，张力正在减弱时。这里的张力处于最高点。"}},
+
+  {id:'wq5',title:"A Soliloquy in the Dark",
+   passage:"[CHEN stands alone at the edge of the stage. The other characters have left. He speaks quietly.]\nCHEN: They think I chose this easily. They think money made the decision simple. (pauses) But they do not know what I gave up. My brother's trust. My mother's respect. Every morning I wake and the ceiling stares back, and I wonder if I chose correctly. I wonder if I can undo what I did. (quietly) I do not think I can.",
+   q:"What dramatic technique is used in this passage?",q_cn:"这段文字使用了哪种戏剧技巧？",
+   hint:"Chen is alone on stage, speaking his inner thoughts aloud. Is this a soliloquy or an aside? | 陈独自在舞台上，大声说出他的内心想法。这是独白还是旁白？",
+   options:["A. An aside — Chen is making a brief comment to the audience.|A. 旁白——陈在向观众简短评论。","B. A soliloquy — Chen is alone and speaking his private inner thoughts aloud.|B. 独白——陈独自在台上，大声说出他私密的内心想法。","C. Stage directions — these are instructions for the actors.|C. 舞台指示——这些是给演员的指示。","D. Dialogue — Chen is speaking to another character.|D. 对话——陈在与另一个角色说话。"],
+   correct:"B",
+   rationale:"Correct! A soliloquy is when a character is alone and speaks private thoughts aloud. The stage direction confirms: 'The other characters have left.'|正确！独白是当一个角色独自在台上并大声说出私密想法时。舞台指示确认：'其他角色已经离开。'",
+   rationale_wrong:{A:"An aside is brief — usually one or two lines spoken quickly to the audience. This is a long, emotional private speech — a soliloquy.|旁白是简短的——通常只有一两行快速说给观众。这是一段长篇的、情感性的私密演讲——独白。",C:"Stage directions are the parts inside [ ] that guide actors. Chen's spoken words are not stage directions.|舞台指示是[ ]内指导演员的部分。陈说的话不是舞台指示。",D:"The stage direction says 'The other characters have left.' Chen is not speaking to anyone.|舞台指示说'其他角色已经离开'。陈没有在与任何人说话。"}},
+
+  {id:'wq6',title:"Story vs. Drama: Two Ways to Tell the Same Thing",
+   passage:"Imagine the same story told two ways. In a short story, the narrator writes: 'Mei walked slowly into the cold room. She felt afraid.' In the drama version, there is no narrator. Instead, the audience sees a stage direction: [MEI enters slowly, shivering.] Then Mei says: 'Something is wrong in here. I can feel it.' The information is the same — but in the drama, it comes through action and dialogue, not narration.",
+   q:"What is the MAIN difference between how the short story and the drama communicate information?",q_cn:"短篇故事和戏剧传达信息的主要区别是什么？",
+   hint:"Who is telling the story in each form? | 在每种形式中是谁在讲故事？",
+   options:["A. The drama has more characters than the short story.|A. 戏剧比短篇故事有更多的人物。","B. The short story uses a narrator; the drama uses dialogue and stage directions instead.|B. 短篇故事使用叙述者；戏剧则使用对话和舞台指示来代替。","C. The drama version has no conflict at all.|C. 戏剧版本完全没有冲突。","D. Short stories can only be about real events.|D. 短篇故事只能关于真实事件。"],
+   correct:"B",
+   rationale:"Correct! In the short story, a narrator tells us what Mei does and feels. In the drama, there is no narrator — stage directions show action and dialogue shows feeling.|正确！在短篇故事中，叙述者告诉我们梅做了什么和感受了什么。在戏剧中，没有叙述者——舞台指示展示动作，对话展示感受。",
+   rationale_wrong:{A:"The passage says 'the same story told two ways' — character count is not mentioned as different.|文章说'同一个故事用两种方式讲述'——人物数量没有被提及为不同。",C:"Mei says 'Something is wrong in here' — fear and potential conflict are clearly present in the drama.|梅说'这里有什么不对劲'——恐惧和潜在冲突在戏剧中清晰可见。",D:"Short stories can be about real or imaginary events — the passage does not make this distinction.|短篇故事可以关于真实或想象的事件——文章没有做出这种区分。"}},
+
+  {id:'wq7',title:"When Fear Is the Antagonist",
+   passage:"In Lin's story, her greatest enemy was not a person. It was fear itself. Every time she tried to speak in a meeting, her heart raced and her voice disappeared. Fear controlled her choices, silenced her ideas, and blocked her from leadership opportunities. Her manager was supportive. Her colleagues were friendly. But none of that helped when the real antagonist — her own internal fear — stepped forward and took control.",
+   q:"What is unusual about the antagonist in this story?",q_cn:"这个故事中的对立角色有什么特别之处？",
+   hint:"Is the antagonist a person in this story? If not, what is it? | 这个故事中的对立角色是一个人吗？如果不是，那是什么？",
+   options:["A. The antagonist is her unsupportive manager.|A. 对立角色是她不支持她的经理。","B. The antagonist is her colleagues who blocked her ideas.|B. 对立角色是阻止她想法的同事们。","C. The antagonist is an internal force — Lin's own fear, not another person.|C. 对立角色是一种内部力量——凌自己的恐惧，而非另一个人。","D. There is no antagonist in this passage.|D. 这段文字中没有对立角色。"],
+   correct:"C",
+   rationale:"Correct! The passage explicitly calls Lin's fear 'the real antagonist.' The antagonist does not have to be a person — it can be an internal force or emotion that creates conflict.|正确！文章明确将凌的恐惧称为'真正的对立角色'。对立角色不必是一个人——它可以是制造冲突的内部力量或情感。",
+   rationale_wrong:{A:"The passage says the manager 'was supportive' — not the antagonist.|文章说经理'是支持她的'——不是对立角色。",B:"The passage says colleagues 'were friendly' — they are not creating conflict.|文章说同事们'很友好'——他们没有制造冲突。",D:"The passage explicitly names the antagonist: 'her own internal fear.'|文章明确命名了对立角色：'她自己的内心恐惧'。"}},
+
+  {id:'wq8',title:"What a Theme Really Is",
+   passage:"A student read a story about a young musician named Zhang who practiced for years through many failures. Finally, he performed at a city concert and succeeded. After reading, the student wrote: 'The theme of this story is music.' Her teacher marked this incorrect and explained: 'Music is only the topic — what the story is about. Theme is a complete statement about that topic that expresses a message about life.' A better theme: 'Persistent practice, even through failure, leads to meaningful achievement.'",
+   q:"What is the difference between a TOPIC and a THEME?",q_cn:"话题（topic）和主题（theme）有什么区别？",
+   hint:"A topic is what the story is about. A theme is what the story SAYS about that topic. | 话题是故事关于什么。主题是故事对该话题说了什么。",
+   options:["A. Topic and theme mean exactly the same thing.|A. 话题和主题的意思完全相同。","B. A topic is a single word or phrase; a theme is a complete life statement about that topic.|B. 话题是一个单词或短语；主题是关于该话题的完整人生陈述。","C. A theme is always just one word, like 'love' or 'friendship.'|C. 主题总是只有一个词，比如'爱'或'友谊'。","D. Topic refers to the setting; theme refers to the characters.|D. 话题指环境；主题指人物。"],
+   correct:"B",
+   rationale:"Correct! 'Music' is the topic (what it is about). 'Persistent practice leads to achievement' is the theme (what the story says about that topic — a complete life statement).|正确！'音乐'是话题（关于什么）。'坚持练习带来成就'是主题（故事对该话题说了什么——完整的人生陈述）。",
+   rationale_wrong:{A:"The teacher explicitly corrects the student to show they are different.|老师明确纠正学生，表明它们是不同的。",C:"One-word responses like 'courage' are topics, not themes. Themes are complete statements.|'勇气'这样的单词是话题，而非主题。主题是完整的陈述。",D:"Setting and character are story elements, not the same as topic and theme.|环境和人物是故事元素，与话题和主题不同。"}},
+
+  {id:'wq9',title:"Acts, Scenes, and Structure",
+   passage:"Shakespeare's play Romeo and Juliet is divided into five acts. Each act contains several scenes. Act One, Scene One introduces the conflict between two rival families. By Act Two, Scene Two — the famous balcony scene — the young lovers have declared their love. The climax occurs in Act Three. The play ends with its resolution in Act Five. Dividing a drama into acts and scenes helps the audience track story development — similar to how chapters organize a novel.",
+   q:"How are acts and scenes in a drama similar to chapters in a novel?",q_cn:"戏剧中的幕和场与小说中的章节有什么相似之处？",
+   hint:"Think about the purpose chapters serve in a novel. What do they help the reader do? | 想想章节在小说中起什么作用。它们帮助读者做什么？",
+   options:["A. Both acts and chapters are spoken aloud by a narrator.|A. 幕和章节都是由叙述者大声朗读的。","B. Both organize the story into sections that help the reader follow its development.|B. 两者都将故事组织成帮助读者跟踪其发展的部分。","C. Both always contain exactly ten sections.|C. 两者总是恰好包含十个部分。","D. Acts are only used in nonfiction; chapters are only used in fiction.|D. 幕只用于非虚构类；章节只用于虚构类。"],
+   correct:"B",
+   rationale:"Correct! The passage directly states acts and scenes help track story development 'similar to how chapters organize a novel.' Both serve the same structural purpose.|正确！文章直接指出幕和场帮助追踪故事发展，'类似于章节组织小说的方式'。两者具有相同的结构目的。",
+   rationale_wrong:{A:"Drama has no narrator. Acts are not spoken aloud by anyone — they are structural divisions.|戏剧没有叙述者。幕不是由任何人大声朗读的——它们是结构划分。",C:"Romeo and Juliet has five acts with varying numbers of scenes — there is no fixed count.|《罗密欧与朱丽叶》有五幕，每幕场景数量不同——没有固定数量。",D:"Acts are features of drama, which is fiction. Chapters are also in fiction. Both are fictional structures.|幕是戏剧（虚构类）的特征。章节也在小说（虚构类）中。两者都是虚构结构。"}},
+
+  {id:'wq10',title:"The Resolution Reveals the Theme",
+   passage:"After weeks of conflict, Li finally admitted to his father that he had failed the university entrance exam. He had hidden the results, too afraid and ashamed to speak. When he finally confessed, he expected anger. Instead, his father put down his newspaper, looked at Li quietly, and said: 'Then we will find another way.' The conflict — Li's shame and the hidden truth — was resolved through honesty, not through success. The resolution revealed the story's theme: honest communication heals what silence and shame cannot.",
+   q:"What does the resolution of this story reveal?",q_cn:"这个故事的结局揭示了什么？",
+   hint:"The resolution ends the conflict. What does the WAY the conflict ends tell us about the story's message? | 结局结束了冲突。冲突结束的方式告诉我们关于故事信息的什么？",
+   options:["A. That Li was wrong and should be punished.|A. 李做错了，应该受到惩罚。","B. That the father is a perfect parent with no faults.|B. 父亲是完美的家长，没有缺点。","C. The story's theme: honest communication heals what silence and shame cannot.|C. 故事的主题：诚实的沟通能治愈沉默和羞耻无法治愈的东西。","D. That failing exams has no consequences in life.|D. 考试失败在生活中没有任何后果。"],
+   correct:"C",
+   rationale:"Correct! The resolution — the father's calm response to honesty — directly reveals the story's theme. How a conflict ends always points to the story's central message.|正确！结局——父亲对诚实的平静回应——直接揭示了故事的主题。冲突的结束方式总是指向故事的核心信息。",
+   rationale_wrong:{A:"The passage does not suggest punishment. The father's response is gentle and forward-looking.|文章没有暗示惩罚。父亲的回应是温和且面向未来的。",B:"The passage does not comment on whether the father is perfect — it focuses on one moment.|文章没有评论父亲是否完美——它聚焦于一个时刻。",D:"The passage is about the power of honesty, not about whether failing exams has consequences.|文章是关于诚实的力量，而非关于考试失败是否有后果。"}}
+];
+
+// WEDNESDAY EXIT
+const WED_EXIT=[
+  {q:"The protagonist is best defined as—",q_cn:"主人公最好被定义为——",opts:["A. the character who is always kind|A. 总是善良的角色","B. the character who causes all problems|B. 制造所有问题的角色","C. the main character the story follows|C. 故事跟随的主要角色","D. the character with the most dialogue|D. 对话最多的角色"],correct:"C",rat:"The protagonist is the main character the story follows — they do not have to be good, just central to the narrative.|主人公是故事跟随的主要角色——他们不必是善良的，只需要是叙事的核心。"},
+  {q:"Which plot element comes IMMEDIATELY after rising action?",q_cn:"哪个情节元素紧接在上升动作之后？",opts:["A. Exposition|A. 故事开端","B. Resolution|B. 结局","C. Climax|C. 高潮","D. Falling action|D. 下降动作"],correct:"C",rat:"Plot order: Exposition → Rising Action → Climax → Falling Action → Resolution. Climax is the peak of tension, coming right after rising action.|情节顺序：故事开端→上升动作→高潮→下降动作→结局。高潮是张力的顶点，紧接在上升动作之后。"},
+  {q:"A drama is divided into large sections called—",q_cn:"戏剧被分成称为……的大部分",opts:["A. stanzas|A. 诗节","B. acts|B. 幕","C. paragraphs|C. 段落","D. chapters|D. 章节"],correct:"B",rat:"Dramas are divided into acts (large) and scenes (smaller sections within acts). Stanzas are in poetry; chapters are in novels.|戏剧被分为幕（大）和场（幕内的小部分）。诗节在诗歌中；章节在小说中。"},
+  {q:"In a drama, the story is communicated mainly through—",q_cn:"在戏剧中，故事主要通过……传达",opts:["A. a narrator who describes everything|A. 描述一切的叙述者","B. footnotes at the bottom of the page|B. 页面底部的脚注","C. dialogue and stage directions|C. 对话和舞台指示","D. the table of contents|D. 目录"],correct:"C",rat:"Drama has no narrator. Dialogue shows what characters say and think; stage directions show physical action and setting. Together they replace narration.|戏剧没有叙述者。对话显示人物说什么和想什么；舞台指示显示肢体动作和环境。两者共同取代了叙述。"},
+  {q:"A correct theme statement about courage would be—",q_cn:"关于勇气的正确主题陈述应该是——",opts:["A. 'Courage'|A. '勇气'","B. 'The main character is brave'|B. '主角很勇敢'","C. 'Courage means acting despite fear, not the absence of fear'|C. '勇气意味着尽管有恐惧仍然行动，而非没有恐惧'","D. 'The story is about a soldier'|D. '这个故事关于一名士兵'"],correct:"C",rat:"A theme is a complete life statement about the topic. 'Courage' alone is a topic. Option C states what courage means — this is a full theme statement.|主题是关于话题的完整人生陈述。单独的'勇气'是一个话题。选项C陈述了勇气的含义——这是完整的主题陈述。"},
+  {q:"A character speaking private thoughts aloud while alone on stage is a—",q_cn:"一个角色在独自在台上时大声说出私密想法，这是——",opts:["A. aside|A. 旁白","B. stage direction|B. 舞台指示","C. soliloquy|C. 独白","D. dialogue|D. 对话"],correct:"C",rat:"A soliloquy is when a character is alone on stage and speaks inner thoughts aloud. An aside is brief and spoken to the audience when others are present.|独白是当一个角色独自在台上并大声说出内心想法时。旁白是简短的，在其他人在场时说给观众听。"},
+  {q:"Internal conflict is best defined as—",q_cn:"内部冲突最好被定义为——",opts:["A. a character vs. another character|A. 人物对另一个人物","B. a character vs. nature or society|B. 人物对自然或社会","C. a character struggling within their own mind or emotions|C. 人物在自己的内心或情感中挣扎","D. a character vs. an antagonist|D. 人物对对立角色"],correct:"C",rat:"Internal conflict is inside a character — a struggle between their own thoughts, values, or emotions. External conflict involves forces outside the character.|内部冲突在角色内部——他们自己的想法、价值观或情感之间的斗争。外部冲突涉及角色外部的力量。"},
+  {q:"Stage directions in a drama tell actors and readers—",q_cn:"戏剧中的舞台指示告诉演员和读者——",opts:["A. the drama's theme|A. 戏剧的主题","B. how to move, where to stand, and what the setting looks like|B. 如何移动、站在哪里以及环境是什么样的","C. what characters are secretly thinking|C. 人物秘密想着什么","D. the order of acts and scenes|D. 幕和场的顺序"],correct:"B",rat:"Stage directions provide physical and visual information — movement, appearance, and setting — for both performers and readers visualizing the play.|舞台指示为演员和想象戏剧的读者提供物理和视觉信息——动作、外观和环境。"},
+  {q:"The resolution of a story—",q_cn:"故事的结局——",opts:["A. introduces the main characters for the first time|A. 首次介绍主要人物","B. is the most tense and exciting moment|B. 是最紧张和激动人心的时刻","C. shows how the central conflict is concluded or solved|C. 展示中心冲突是如何结束或解决的","D. is always a happy ending|D. 总是一个快乐的结局"],correct:"C",rat:"The resolution is where the conflict ends — it may or may not be happy. It simply concludes the central problem of the story.|结局是冲突结束的地方——它可能是也可能不是快乐的。它只是结束了故事的中心问题。"},
+  {q:"What makes drama MOST different from prose fiction?",q_cn:"戏剧与散文小说最重要的区别是什么？",opts:["A. Drama has characters; fiction does not.|A. 戏剧有人物；小说没有。","B. Drama has no dialogue; fiction has lots of dialogue.|B. 戏剧没有对话；小说有大量对话。","C. Drama is written to be performed, uses no narrator, and relies on dialogue and stage directions.|C. 戏剧是为表演而写的，没有叙述者，依赖对话和舞台指示。","D. Drama can only be about historical events.|D. 戏剧只能关于历史事件。"],correct:"C",rat:"Drama is written to be performed (not just read), has no narrator (replaced by dialogue and stage directions), and uses acts/scenes instead of chapters — these features distinguish it from fiction.|戏剧是为表演而写的，没有叙述者（由对话和舞台指示代替），使用幕/场代替章节——这些特征使它区别于小说。"}
+];
+
+// BUILD VOCAB
+function buildVocab(){
+  const g=document.getElementById('vocabGrid');
+  VOCAB.forEach(v=>{
+    const card=document.createElement('div');
+    card.className='vocab-card';
+    const li=(arr)=>arr.map(x=>`<li>${x}</li>`).join('');
+    card.innerHTML=`
+      <div class="vocab-header">
+        <div>
+          <div><span class="vocab-word">${v.word}</span>&ensp;<span class="vocab-pos">${v.pos}</span></div>
+          <div class="vocab-cn-head cn">${v.cn}</div>
+        </div>
+        <button class="speak-btn" title="Pronounce">🔊</button>
+      </div>
+      <div class="frayer-grid">
+        <div class="frayer-cell">
+          <div class="frayer-label def-lbl">📖 Definition | 定义</div>
+          <div class="frayer-def">${v.def}</div>
+          <div class="frayer-cn cn">${v.cn_def}</div>
+        </div>
+        <div class="frayer-cell">
+          <div class="frayer-label char-lbl">✅ Characteristics | 特征</div>
+          <ul>${li(v.characteristics)}</ul>
+          <ul style="margin-top:5px">${li(v.characteristics_cn.map(x=>`<span class="cn">${x}</span>`))}</ul>
+        </div>
+        <div class="frayer-cell">
+          <div class="frayer-label ex-lbl">💡 Examples | 示例</div>
+          <ul>${li(v.examples)}</ul>
+          <ul style="margin-top:5px">${li(v.examples_cn.map(x=>`<span class="cn">${x}</span>`))}</ul>
+        </div>
+        <div class="frayer-cell">
+          <div class="frayer-label nonex-lbl">🚫 Non-Examples | 反例</div>
+          <ul>${li(v.non_examples)}</ul>
+          <ul style="margin-top:5px">${li(v.non_examples_cn.map(x=>`<span class="cn">${x}</span>`))}</ul>
+        </div>
+      </div>
+      <div class="vocab-sentence"><strong>📝 Sample Sentence | 例句</strong>${v.example}</div>`;
+    g.appendChild(card);
+    let clicked=false;
+    card.querySelector('.speak-btn').addEventListener('click',()=>{
+      speakWord(v.word);
+      if(!clicked){clicked=true;addProgress(0.416);}
+    });
+  });
+}
+function speakWord(w){
+  if(!('speechSynthesis'in window))return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(w);
+  u.lang='en-US';
+  u.rate=0.82;
+  u.pitch=1.05;
+  // Try to pick a natural-sounding voice; fall back to default
+  const voices=window.speechSynthesis.getVoices();
+  const preferred=['Samantha','Google US English','Microsoft Aria','Alex','Karen','Moira','Tessa'];
+  const pick=preferred.reduce((found,name)=>found||voices.find(v=>v.name.includes(name)&&v.lang.startsWith('en')),null)
+    ||voices.find(v=>v.lang.startsWith('en-US')&&!v.name.toLowerCase().includes('compact'))
+    ||voices.find(v=>v.lang.startsWith('en'));
+  if(pick)u.voice=pick;
+  window.speechSynthesis.speak(u);
+}
+
+// Data store for practice questions (avoids JSON-in-onclick issues)
+const PRACTICE_STORE={};
+
+// BUILD PRACTICES
+function buildPractices(tabKey,data,containerId){
+  const c=document.getElementById(containerId);
+  data.forEach((q,i)=>{
+    // Store question data by id so onclick handlers can look it up safely
+    PRACTICE_STORE[q.id]={tabKey, q};
+    const card=document.createElement('div');
+    card.className='practice-card';
+    // Build options without any JSON in onclick
+    const optsHtml=q.options.map(o=>{
+      const pts=o.split('|');
+      const letter=pts[0].trim()[0];
+      return `<button class="opt-btn" data-qid="${q.id}" data-letter="${letter}">
+        ${pts[0]}<br><span class="cn" style="font-size:.8rem;opacity:.8">${pts[1]||''}</span></button>`;
+    }).join('');
+    card.innerHTML=`<div class="practice-num">Question ${i+1} of ${data.length}</div>
+      <div class="passage-title">${q.title}</div>
+      <div class="passage-text">${q.passage.replace(/\n/g,'<br>')}</div>
+      <div class="question-text">${q.q}</div>
+      <div class="question-cn cn">${q.q_cn}</div>
+      ${q.hint?`<div class="hint-text">💡 ${q.hint}</div>`:''}
+      <div class="options" id="${q.id}_opts">${optsHtml}</div>
+      <div class="rationale-box" id="${q.id}_rat"></div>`;
+    c.appendChild(card);
+    // Attach click handlers after DOM insertion
+    card.querySelectorAll('.opt-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>selectAnswer(btn));
+    });
+  });
+}
+
+function selectAnswer(btn){
+  const qid=btn.dataset.qid;
+  const selected=btn.dataset.letter;
+  const opts=document.getElementById(qid+'_opts');
+  if(opts.dataset.locked)return;
+  opts.dataset.locked='true';
+  opts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const {tabKey,q}=PRACTICE_STORE[qid];
+  const answers=tabKey==='tue'?tueAnswers:wedAnswers;
+  const correct=q.correct;
+  answers[qid]={selected,correct,isCorrect:selected===correct};
+  const ratBox=document.getElementById(qid+'_rat');
+  if(selected===correct){
+    btn.classList.add('correct');
+    const parts=q.rationale.split('|');
+    ratBox.innerHTML=`✅ ${parts[0]}<div class="rat-cn">${parts[1]||''}</div>`;
+    ratBox.className='rationale-box show correct-rat';
+    if(tabKey==='tue')tueScore++;else wedScore++;
+  }else{
+    btn.classList.add('wrong');
+    opts.querySelectorAll('.opt-btn').forEach(b=>{if(b.dataset.letter===correct)b.classList.add('correct');});
+    const wrongText=q.rationale_wrong[selected]||'Review the passage again.|请再次阅读文章。';
+    const parts=wrongText.split('|');
+    ratBox.innerHTML=`❌ ${parts[0]}<div class="rat-cn">${parts[1]||''}</div>`;
+    ratBox.className='rationale-box show wrong-rat';
+  }
+  addProgress(1);
+}
+
+// Data store for exit questions
+const EXIT_STORE={};
+
+// BUILD EXIT
+function buildExitTicket(tabKey,data,containerId,scoreBoxId,scoreNumId,dlId){
+  const c=document.getElementById(containerId);
+  data.forEach((q,i)=>{
+    const storeKey=`exit_${tabKey}_${i}`;
+    EXIT_STORE[storeKey]={tabKey,idx:i,q,scoreBoxId,scoreNumId,dlId};
+    const card=document.createElement('div');
+    card.className='exit-card';
+    const optsHtml=q.opts.map(o=>{
+      const pts=o.split('|');
+      const letter=pts[0].trim()[0];
+      return `<button class="opt-btn" data-storekey="${storeKey}" data-letter="${letter}">
+        ${pts[0]}<br><span class="cn" style="font-size:.78rem;opacity:.8">${pts[1]||''}</span></button>`;
+    }).join('');
+    card.innerHTML=`<div class="exit-num">Exit Q${i+1}</div>
+      <div class="exit-q">${q.q}</div>
+      <div class="exit-q-cn cn">${q.q_cn}</div>
+      <div class="options" id="${storeKey}_opts">${optsHtml}</div>
+      <div class="rationale-box" id="${storeKey}_rat"></div>`;
+    c.appendChild(card);
+    card.querySelectorAll('.opt-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>selectExit(btn));
+    });
+  });
+}
+
+function selectExit(btn){
+  const storeKey=btn.dataset.storekey;
+  const selected=btn.dataset.letter;
+  const opts=document.getElementById(storeKey+'_opts');
+  if(opts.dataset.locked)return;
+  opts.dataset.locked='true';
+  opts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const {tabKey,idx,q,scoreBoxId,scoreNumId,dlId}=EXIT_STORE[storeKey];
+  const exitAnswers=tabKey==='tue'?tueExitAnswers:wedExitAnswers;
+  const correct=q.correct;
+  exitAnswers[idx]={selected,correct,isCorrect:selected===correct};
+  const ratBox=document.getElementById(storeKey+'_rat');
+  if(selected===correct){
+    btn.classList.add('correct');
+    const parts=q.rat.split('|');
+    ratBox.innerHTML=`✅ ${parts[0]}<div class="rat-cn">${parts[1]||''}</div>`;
+    ratBox.className='rationale-box show correct-rat';
+    if(tabKey==='tue')tueScore++;else wedScore++;
+  }else{
+    btn.classList.add('wrong');
+    opts.querySelectorAll('.opt-btn').forEach(b=>{if(b.dataset.letter===correct)b.classList.add('correct');});
+    const parts=q.rat.split('|');
+    ratBox.innerHTML=`❌ Correct: ${correct}. ${parts[0]}<div class="rat-cn">${parts[1]||''}</div>`;
+    ratBox.className='rationale-box show wrong-rat';
+  }
+  if(tabKey==='tue'){tueExitDone++;if(tueExitDone===10)finishExit('tue',scoreBoxId,scoreNumId,dlId);}
+  else{wedExitDone++;if(wedExitDone===10)finishExit('wed',scoreBoxId,scoreNumId,dlId);}
+  addProgress(1);
+}
+
+function finishExit(tabKey,scoreBoxId,scoreNumId,dlId){
+  const exitCorrect=Object.values(tabKey==='tue'?tueExitAnswers:wedExitAnswers).filter(a=>a.isCorrect).length;
+  const pct=exitCorrect*10;
+  document.getElementById(scoreNumId).textContent=`${pct} / 100`;
+  document.getElementById(scoreBoxId).classList.add('show');
+  const dlBtn=document.getElementById(dlId);
+  dlBtn.classList.add('show');
+  const hintId=tabKey==='tue'?'tueDlHint':'wedDlHint';
+  const hint=document.getElementById(hintId);
+  if(hint)hint.style.display='none';
+  document.getElementById(tabKey==='tue'?'pipTue':'pipWed').classList.add('done');
+}
+
+// DOWNLOAD
+function downloadReport(tabKey){
+  const name=document.getElementById(tabKey==='tue'?'nameInputTue':'nameInputWed').value||'Unknown Student';
+  const date=new Date().toLocaleDateString('en-CA');
+  const label=tabKey==='tue'?'Tuesday':'Wednesday';
+  const practices=tabKey==='tue'?TUE_PRACTICES:WED_PRACTICES;
+  const exits=tabKey==='tue'?TUE_EXIT:WED_EXIT;
+  const pAnswers=tabKey==='tue'?tueAnswers:wedAnswers;
+  const eAnswers=tabKey==='tue'?tueExitAnswers:wedExitAnswers;
+  const ref1=document.getElementById(tabKey==='tue'?'tueRef1':'wedRef1').value||'(No response)';
+  const ref2=document.getElementById(tabKey==='tue'?'tueRef2':'wedRef2').value||'(No response)';
+  const exitCorrect=Object.values(tabKey==='tue'?tueExitAnswers:wedExitAnswers).filter(a=>a.isCorrect).length;
+  const exitPct=exitCorrect*10;
+  let txt=`ESL MODULE REPORT — ANALYZING IDEA AND STORY DEVELOPMENT\n${'='.repeat(55)}\n`;
+  txt+=`Student:        ${name}\nDay:            ${label}\nDate:           ${date}\nSession Time:   ${formatTime(secondsElapsed)}\nLeaves:         ${leaveCount}\nExit Score:     ${exitPct} / 100\n${'='.repeat(55)}\n\nPRACTICE PASSAGES\n${'-'.repeat(40)}\n`;
+  practices.forEach((q,i)=>{
+    const a=pAnswers[q.id];
+    txt+=`Q${i+1}: ${q.title}\nQ: ${q.q}\nYour Answer: ${a?a.selected:'—'} | Correct: ${q.correct} | ${a?(a.isCorrect?'CORRECT':'INCORRECT'):'Not answered'}\n\n`;
+  });
+  txt+=`EXIT TICKET\n${'-'.repeat(40)}\n`;
+  exits.forEach((q,i)=>{
+    const a=eAnswers[i];
+    txt+=`Exit Q${i+1}: ${q.q}\nYour Answer: ${a?a.selected:'—'} | Correct: ${q.correct} | ${a?(a.isCorrect?'CORRECT':'INCORRECT'):'Not answered'}\n\n`;
+  });
+  txt+=`REFLECTION\n${'-'.repeat(40)}\nReflection 1:\n${ref1}\n\nReflection 2:\n${ref2}\n\n${'='.repeat(55)}\nEnd of Report\n`;
+  const blob=new Blob([txt],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`ESL_Lesson5_${label}_${name.replace(/\s+/g,'_')}_${date}.txt`;
+  a.click();
+}
+
+// UTILITY
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function addProgress(pts){
+  progressPoints=Math.min(progressPoints+pts,totalPoints);
+  const pct=(progressPoints/totalPoints)*100;
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('progressText').textContent=`Progress`;
+}
+function startTimer(){setInterval(()=>{secondsElapsed++;document.getElementById('timerDisplay').textContent='⏱ '+formatTime(secondsElapsed);},1000);}
+function formatTime(s){return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function trackNavigation(){
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){leaveCount++;document.getElementById('leaveBadge').textContent=`🚪 Leaves: ${leaveCount}`;}
+  });
+}
+
+window.onload=()=>{
+  // Pre-load voices (async on Chrome/Edge)
+  if('speechSynthesis'in window){
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged=()=>window.speechSynthesis.getVoices();
+  }
+  buildVocab();
+  buildPractices('tue',TUE_PRACTICES,'tuePracticeContainer');
+  buildExitTicket('tue',TUE_EXIT,'tueExitContainer','tueScoreBox','tueScoreNum','tueDlBtn');
+  buildPractices('wed',WED_PRACTICES,'wedPracticeContainer');
+  buildExitTicket('wed',WED_EXIT,'wedExitContainer','wedScoreBox','wedScoreNum','wedDlBtn');
+  startTimer();
+  trackNavigation();
+};
+</script>
+</body>
+</html>
