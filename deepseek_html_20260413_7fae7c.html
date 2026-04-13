@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Test Prep | 词汇考试备考</title>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ml-green:#2d6a4f;--ml-green-dark:#1b4332;--ml-green-light:#d8f3dc;
+  --ml-red:#c1121f;--ml-gold:#e9c46a;--ink:#1a2a1a;--ink2:#2d3748;
+  --mist:#f8faf8;--border:#e2e8e2;--cobalt:#1e3a5f;--amber:#b45309;--amber-light:#fef3c7;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:#f0f4f0;color:var(--ink);min-height:100vh;}
+.wrap{max-width:920px;margin:0 auto;padding:0 12px 80px;}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,var(--ml-green-dark),var(--ml-green));color:#fff;padding:18px 20px 14px;border-radius:0 0 16px 16px;margin-bottom:16px;position:sticky;top:0;z-index:100;box-shadow:0 4px 16px rgba(0,0,0,.18);}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.hdr-title{font-size:1.15rem;font-weight:700;line-height:1.2;}
+.hdr-cn{font-family:'Noto Sans SC',sans-serif;font-size:.8rem;opacity:.8;margin-top:2px;}
+.hdr-badges{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.badge{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:3px 10px;font-size:.75rem;font-weight:600;white-space:nowrap;}
+.badge.warn{background:rgba(233,196,106,.25);border-color:var(--ml-gold);color:var(--ml-gold);}
+.pips{display:flex;gap:5px;align-items:center;}
+.pip{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.5);transition:all .3s;}
+.pip.done{background:var(--ml-gold);border-color:var(--ml-gold);}
+.progress-bar-wrap{margin-top:10px;background:rgba(255,255,255,.2);border-radius:8px;height:6px;overflow:hidden;}
+.progress-bar{height:100%;background:var(--ml-gold);border-radius:8px;width:0%;transition:width .4s;}
+.progress-text{font-size:.7rem;opacity:.75;text-align:right;margin-top:2px;}
+
+/* NOTICE */
+.notice{background:var(--amber-light);border:1px solid var(--ml-gold);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:.82rem;color:var(--amber);}
+.notice b{display:block;margin-bottom:2px;}
+
+/* TABS */
+.tab-nav{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.tab-btn{background:#fff;border:2px solid var(--border);border-radius:10px;padding:9px 16px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--ink2);font-family:'DM Sans',sans-serif;}
+.tab-btn:hover{border-color:var(--ml-green);color:var(--ml-green);}
+.tab-btn.active{background:var(--ml-green);color:#fff;border-color:var(--ml-green);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* CARDS */
+.card{background:#fff;border-radius:14px;border:1px solid var(--border);margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.05);}
+.card-hdr{background:var(--ml-green-light);padding:14px 18px;border-bottom:1px solid var(--border);}
+.card-hdr h2{font-family:'Literata',serif;font-size:1.05rem;color:var(--ml-green-dark);}
+.card-hdr .cn{font-family:'Noto Sans SC',sans-serif;font-size:.8rem;color:var(--ml-green);margin-top:2px;}
+.card-body{padding:16px 18px;}
+
+/* VOCAB */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
+.vocab-card{background:var(--mist);border:1px solid var(--border);border-radius:10px;padding:14px;}
+.vocab-word{font-size:1.1rem;font-weight:700;color:var(--ml-green-dark);display:flex;align-items:center;gap:8px;}
+.vocab-pos{font-size:.72rem;font-weight:500;color:#fff;background:var(--ml-green);border-radius:4px;padding:1px 6px;}
+.vocab-speak{background:none;border:none;cursor:pointer;font-size:1rem;padding:0 2px;}
+.vocab-cn{font-family:'Noto Sans SC',sans-serif;font-size:.88rem;color:var(--cobalt);margin:4px 0 2px;font-weight:500;}
+.vocab-def{font-size:.82rem;color:var(--ink2);line-height:1.5;margin-bottom:6px;}
+.vocab-cn-def{font-family:'Noto Sans SC',sans-serif;font-size:.78rem;color:#555;line-height:1.5;margin-bottom:6px;}
+.vocab-ex{font-family:'Literata',serif;font-size:.82rem;font-style:italic;color:var(--amber);border-left:3px solid var(--ml-gold);padding-left:8px;line-height:1.5;}
+
+/* SECTION LABELS */
+.section-label{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ml-green);margin-bottom:10px;padding-bottom:4px;border-bottom:2px solid var(--ml-green-light);}
+
+/* NAME INPUT */
+.name-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.name-row label{font-size:.85rem;font-weight:600;color:var(--ink2);}
+.name-row input{border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:.88rem;font-family:'DM Sans',sans-serif;flex:1;min-width:160px;max-width:280px;}
+.name-row input:focus{outline:none;border-color:var(--ml-green);}
+
+/* PRACTICE */
+.practice-item{margin-bottom:22px;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.practice-passage{background:#fafcfa;border-bottom:1px solid var(--border);padding:14px 16px;font-family:'Literata',serif;font-size:.88rem;line-height:1.7;color:var(--ink2);}
+.practice-passage .ptitle{font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ml-green);margin-bottom:6px;}
+.practice-q{padding:12px 16px 8px;font-size:.88rem;font-weight:600;color:var(--ink);}
+.practice-q .q-cn{font-family:'Noto Sans SC',sans-serif;font-size:.8rem;color:#666;font-weight:400;margin-top:3px;}
+.opts{display:grid;gap:6px;padding:0 16px 14px;}
+.opt-btn{background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:9px 14px;font-size:.84rem;text-align:left;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;line-height:1.4;}
+.opt-btn:hover:not(:disabled){border-color:var(--ml-green);background:var(--ml-green-light);}
+.opt-btn.correct{background:#d1fae5;border-color:#059669;color:#065f46;}
+.opt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#991b1b;}
+.opt-btn:disabled{cursor:default;}
+.rationale{margin:0 16px 12px;padding:10px 12px;border-radius:8px;font-size:.82rem;line-height:1.5;}
+.rationale.correct{background:#d1fae5;border-left:4px solid #059669;color:#065f46;}
+.rationale.wrong{background:#fee2e2;border-left:4px solid #dc2626;color:#991b1b;}
+.rationale .rat-cn{font-family:'Noto Sans SC',sans-serif;font-size:.78rem;margin-top:4px;opacity:.85;}
+
+/* EXIT */
+.exit-item{margin-bottom:16px;padding:14px 16px;background:var(--mist);border-radius:10px;border:1px solid var(--border);}
+.exit-q{font-size:.88rem;font-weight:600;margin-bottom:4px;}
+.exit-q-cn{font-family:'Noto Sans SC',sans-serif;font-size:.8rem;color:#666;margin-bottom:8px;}
+.exit-opts{display:grid;gap:5px;}
+.exit-opt{background:#fff;border:1.5px solid var(--border);border-radius:7px;padding:8px 12px;font-size:.83rem;cursor:pointer;text-align:left;transition:all .2s;font-family:'DM Sans',sans-serif;}
+.exit-opt:hover:not(:disabled){border-color:var(--cobalt);background:#eef2ff;}
+.exit-opt.correct{background:#d1fae5;border-color:#059669;color:#065f46;}
+.exit-opt.wrong{background:#fee2e2;border-color:#dc2626;color:#991b1b;}
+.exit-opt:disabled{cursor:default;}
+.exit-rat{margin-top:8px;font-size:.8rem;padding:7px 10px;border-radius:6px;}
+.exit-rat.correct{background:#d1fae5;color:#065f46;border-left:3px solid #059669;}
+.exit-rat.wrong{background:#fee2e2;color:#991b1b;border-left:3px solid #dc2626;}
+.exit-rat .rat-cn{font-family:'Noto Sans SC',sans-serif;font-size:.76rem;opacity:.85;margin-top:3px;}
+
+/* SCORE BOX */
+.score-box{background:linear-gradient(135deg,var(--ml-green-dark),var(--ml-green));color:#fff;border-radius:12px;padding:18px 20px;text-align:center;margin:16px 0;}
+.score-box .score-num{font-size:2rem;font-weight:700;}
+.score-box .score-lbl{font-size:.85rem;opacity:.85;margin-top:4px;}
+
+/* REFLECTION */
+.reflect-wrap{margin-top:16px;}
+.reflect-q{font-size:.85rem;font-weight:600;margin-bottom:6px;color:var(--ink2);}
+.reflect-q .cn{font-family:'Noto Sans SC',sans-serif;font-size:.78rem;font-weight:400;color:#666;margin-top:2px;}
+.reflect-wrap textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:.84rem;line-height:1.5;min-height:80px;resize:vertical;margin-bottom:12px;}
+.reflect-wrap textarea:focus{outline:none;border-color:var(--ml-green);}
+
+/* DOWNLOAD */
+.dl-btn{background:var(--ml-green-dark);color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:12px;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.dl-btn:hover{background:var(--ml-green);}
+
+/* TIMER */
+.timer{position:fixed;bottom:18px;right:18px;background:var(--cobalt);color:#fff;border-radius:30px;padding:8px 16px;font-size:.85rem;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:200;}
+
+/* DIVIDER */
+.divider{border:none;border-top:2px solid var(--ml-green-light);margin:20px 0;}
+
+@media(max-width:600px){
+  .vocab-grid{grid-template-columns:1fr;}
+  .hdr-title{font-size:1rem;}
+}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-top">
+    <div>
+      <div class="hdr-title">Vocabulary Test Prep</div>
+      <div class="hdr-cn" style="font-family:'Noto Sans SC',sans-serif;">词汇考试备考 · Grade 11 &amp; 12</div>
+    </div>
+    <div class="hdr-badges">
+      <span class="badge" id="leaveBadge">👁 Leaves: 0</span>
+      <div class="pips">
+        <div class="pip" id="pip-g11" title="Grade 11"></div>
+        <div class="pip" id="pip-g12" title="Grade 12"></div>
+      </div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="progress-text" id="progressText">0 / 45 points</div>
+</div>
+
+<div class="wrap">
+  <div class="notice">
+    <b>⚠️ Academic Integrity Notice | 学术诚信提示</b>
+    Leaving this tab is tracked. Complete all sections honestly. Your answers are recorded for submission. | 离开此标签页将被记录。请诚实完成所有部分。您的答案将被提交。
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('vocab',this)">📚 Vocabulary | 词汇</button>
+    <button class="tab-btn" onclick="switchTab('g11',this)">📖 Grade 11 — The Worst Best Day</button>
+    <button class="tab-btn" onclick="switchTab('g12',this)">✏️ Grade 12 — The Paper</button>
+  </div>
+
+  <!-- VOCAB TAB -->
+  <div id="tab-vocab" class="tab-content active">
+    <div class="card">
+      <div class="card-hdr">
+        <h2>Core Vocabulary | 核心词汇</h2>
+        <div class="cn" style="font-family:'Noto Sans SC',sans-serif;">点击🔊听发音 · Click 🔊 to hear pronunciation</div>
+      </div>
+      <div class="card-body">
+        <p style="font-size:.83rem;color:#555;margin-bottom:12px;">Study all terms before beginning the practice sections. These words appear in your test. | 在开始练习之前，请学习所有术语。这些词汇将出现在您的考试中。</p>
+        <div class="vocab-grid" id="vocabGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRADE 11 TAB -->
+  <div id="tab-g11" class="tab-content">
+    <div class="card">
+      <div class="card-hdr">
+        <h2>Grade 11 Vocab Practice — "The Worst Best Day" | 十一年级词汇练习</h2>
+        <div class="cn" style="font-family:'Noto Sans SC',sans-serif;">文学术语与阅读词汇 · Literary &amp; Reading Vocabulary in Context</div>
+      </div>
+      <div class="card-body">
+        <div class="name-row">
+          <label>Student Name | 姓名:</label>
+          <input type="text" id="g11Name" placeholder="Your name here...">
+        </div>
+        <div class="section-label">Section A — Practice Questions (10) | 练习题</div>
+        <div id="g11PracticeContainer"></div>
+        <hr class="divider">
+        <div class="section-label">Section B — Exit Ticket (10) | 测验</div>
+        <div id="g11ExitContainer"></div>
+        <div id="g11ScoreBox" style="display:none;">
+          <div class="score-box">
+            <div class="score-num" id="g11ScoreNum">—</div>
+            <div class="score-lbl">Exit Ticket Score | 测验得分</div>
+          </div>
+          <div class="reflect-wrap">
+            <div class="reflect-q">
+              Reflection 1: Choose any TWO vocabulary words from this module. Write one sentence using each word correctly.
+              <div class="cn" style="font-family:'Noto Sans SC',sans-serif;">反思1：从本模块中选择任意两个词汇词，各造一个正确使用该词的句子。</div>
+            </div>
+            <textarea id="g11Ref1" placeholder="Write your sentences here... | 在此写下您的句子..."></textarea>
+            <div class="reflect-q">
+              Reflection 2: Think about a time when a situation turned out differently than expected. How does the word "implicit" apply to that experience?
+              <div class="cn" style="font-family:'Noto Sans SC',sans-serif;">反思2：回想一次情况与预期不同的经历。"implicit"（含蓄的）这个词如何适用于那次经历？</div>
+            </div>
+            <textarea id="g11Ref2" placeholder="Write your reflection here... | 在此写下您的反思..."></textarea>
+            <button class="dl-btn" onclick="downloadReport('g11')">⬇ Download Report | 下载报告</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRADE 12 TAB -->
+  <div id="tab-g12" class="tab-content">
+    <div class="card">
+      <div class="card-hdr">
+        <h2>Grade 12 Vocab Practice — "The Paper" | 十二年级词汇练习</h2>
+        <div class="cn" style="font-family:'Noto Sans SC',sans-serif;">学术写作词汇 · Academic Writing Vocabulary in Context</div>
+      </div>
+      <div class="card-body">
+        <div class="name-row">
+          <label>Student Name | 姓名:</label>
+          <input type="text" id="g12Name" placeholder="Your name here...">
+        </div>
+        <div class="section-label">Section A — Practice Questions (10) | 练习题</div>
+        <div id="g12PracticeContainer"></div>
+        <hr class="divider">
+        <div class="section-label">Section B — Exit Ticket (10) | 测验</div>
+        <div id="g12ExitContainer"></div>
+        <div id="g12ScoreBox" style="display:none;">
+          <div class="score-box">
+            <div class="score-num" id="g12ScoreNum">—</div>
+            <div class="score-lbl">Exit Ticket Score | 测验得分</div>
+          </div>
+          <div class="reflect-wrap">
+            <div class="reflect-q">
+              Reflection 1: A good research paper uses credible sources, paraphrasing, and a clear thesis. In your own words, explain why paraphrasing is important.
+              <div class="cn" style="font-family:'Noto Sans SC',sans-serif;">反思1：一篇好的研究论文使用可靠来源、改写和清晰的论点。用你自己的话解释为什么改写很重要。</div>
+            </div>
+            <textarea id="g12Ref1" placeholder="Write your answer here... | 在此写下您的答案..."></textarea>
+            <div class="reflect-q">
+              Reflection 2: Describe one academic writing challenge you personally face. Which vocabulary word from this module best describes that challenge? Explain.
+              <div class="cn" style="font-family:'Noto Sans SC',sans-serif;">反思2：描述一个您个人面临的学术写作挑战。本模块中哪个词汇最能描述这一挑战？请解释。</div>
+            </div>
+            <textarea id="g12Ref2" placeholder="Write your reflection here... | 在此写下您的反思..."></textarea>
+            <button class="dl-btn" onclick="downloadReport('g12')">⬇ Download Report | 下载报告</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="timer" id="timerDisplay">⏱ 00:00</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let leaveCount = 0;
+let secondsElapsed = 0;
+let progressPoints = 0;
+const totalPoints = 45;
+
+const g11Answers = {};
+const g11ExitAnswers = {};
+let g11Score = 0;
+
+const g12Answers = {};
+const g12ExitAnswers = {};
+let g12Score = 0;
+
+let vocabClicks = 0;
+
+// ============================================================
+// VOCAB DATA
+// ============================================================
+const VOCAB = [
+  {word:"conflict",pos:"noun",cn:"冲突",def:"A clash between two opposing forces, ideas, or feelings.",cn_def:"两种对立力量、想法或感情之间的冲突。",example:"The conflict between the students and the teacher created tension in the classroom."},
+  {word:"protagonist",pos:"noun",cn:"主角",def:"The main character a story follows.",cn_def:"故事所跟随的主要角色。",example:"Marcus is the protagonist of the story because we follow his perspective throughout."},
+  {word:"antagonist",pos:"noun",cn:"反派/对立力量",def:"The force or character that works against the main character's goals.",cn_def:"阻碍主角目标的力量或角色。",example:"In some stories, the antagonist is not a person but a problem or situation."},
+  {word:"implicit",pos:"adjective",cn:"含蓄的",def:"Understood without being directly stated; suggested but not spoken.",cn_def:"无需直接说明即可理解的；暗示的但未明说的。",example:"The implicit rule was that students should not talk during the exam."},
+  {word:"explicit",pos:"adjective",cn:"明确的",def:"Clearly and directly stated, leaving no room for confusion.",cn_def:"清晰直接地表达，没有任何歧义。",example:"The teacher gave explicit instructions: no phones during the test."},
+  {word:"infer",pos:"verb",cn:"推断",def:"To reach a conclusion using clues rather than direct information.",cn_def:"利用线索而非直接信息得出结论。",example:"We can infer from his frown that he was unhappy with the result."},
+  {word:"tone",pos:"noun",cn:"语气/态度",def:"The overall attitude or feeling conveyed through someone's behavior or writing.",cn_def:"通过某人的行为或写作传达的整体态度或感觉。",example:"The author's tone shifted from cheerful to serious as the story progressed."},
+  {word:"theme",pos:"noun",cn:"主题",def:"A repeated idea or truth that runs through events or a piece of writing.",cn_def:"贯穿事件或作品的重复思想或真理。",example:"One theme of the story is that unexpected experiences teach us the most."},
+  {word:"thesis statement",pos:"noun",cn:"论点陈述",def:"The main argument or central claim of a research paper or essay.",cn_def:"研究论文或文章的主要论点或中心主张。",example:"A strong thesis statement tells the reader exactly what the paper will argue."},
+  {word:"paraphrase",pos:"verb",cn:"改写",def:"To rewrite someone else's ideas in your own words to show understanding.",cn_def:"用自己的话改写别人的想法以显示理解。",example:"Instead of copying the article, she paraphrased the main ideas in her own words."},
+  {word:"plagiarism",pos:"noun",cn:"剽窃",def:"Using another person's words or ideas without giving them proper credit.",cn_def:"使用他人的文字或想法而不给予适当的引用。",example:"Copying sentences from a website without citation is plagiarism."},
+  {word:"credible",pos:"adjective",cn:"可信的",def:"Trustworthy and believable, based on evidence and expertise.",cn_def:"基于证据和专业知识，值得信赖和相信的。",example:"A credible source has a real author and is published by a reliable institution."},
+  {word:"bibliography",pos:"noun",cn:"参考文献",def:"A list of all the sources used in a piece of writing.",cn_def:"写作中使用的所有来源的列表。",example:"Every research paper must include a bibliography at the end."},
+  {word:"objective",pos:"adjective",cn:"客观的",def:"Fair and based on facts rather than personal feelings.",cn_def:"公平且基于事实而非个人感受的。",example:"A good researcher tries to be objective and not let opinions change the facts."},
+  {word:"citation",pos:"noun",cn:"引用说明",def:"A formal reference that tells the reader where information came from.",cn_def:"告知读者信息来源的正式参考格式。",example:"After each fact from a source, include a citation so readers can find the original."},
+  {word:"evaluate",pos:"verb",cn:"评估",def:"To carefully assess and judge the quality or value of something.",cn_def:"仔细评估和判断某事物的质量或价值。",example:"Students must evaluate each source before using it in their paper."},
+  {word:"bias",pos:"noun",cn:"偏见",def:"An unfair leaning toward one side without full or fair reason.",cn_def:"没有充分或公正理由而偏向一方的不公平倾向。",example:"A news article written with bias only presents one side of the story."},
+  {word:"context",pos:"noun",cn:"背景/语境",def:"The circumstances around something — who created it, why, and for whom.",cn_def:"围绕某事物的情况——谁创造了它，为何，以及为谁而创造。",example:"Understanding the context of a source helps you decide if it is reliable."},
+  {word:"scaffolding",pos:"noun",cn:"支撑结构",def:"A supportive structure that builds from simple ideas to more complex ones.",cn_def:"从简单到复杂的支撑性结构。",example:"The teacher used scaffolding to help students build their arguments step by step."},
+  {word:"taxonomy",pos:"noun",cn:"分类体系",def:"A system for organizing things into ordered categories or levels.",cn_def:"将事物组织成有序类别或层次的系统。",example:"Bloom's taxonomy organizes thinking skills from basic recall to complex evaluation."}
+];
+
+// ============================================================
+// GRADE 11 PRACTICES — NEW VERSION
+// ============================================================
+const G11_PRACTICES = [
+  {
+    id:'g11_p1',
+    title:"The Silent Agreement",
+    passage:"Every morning, the students in Mr. Yamamoto's class followed the same routine. They entered quietly, sat in their assigned seats, and opened their notebooks. No one ever announced these rules. No teacher ever wrote them on the board. Yet everyone knew exactly what to do. The understanding was so complete that new students learned it within days, not because anyone explained it, but because they watched and absorbed. The expectations were everywhere and nowhere, spoken by no one but followed by all.",
+    q:"In this passage, what does implicit most likely mean?",
+    q_cn:"在这段话中，\"implicit\"最可能是什么意思？",
+    options:["A. Written clearly on the board|A. 清晰地写在黑板上","B. Understood without being directly stated|B. 无需直接说明即可理解","C. Announced by the teacher daily|C. 老师每天宣布","D. Difficult for new students to learn|D. 新生难以学习"],
+    correct:"B",
+    rationale:"Correct! Implicit means understood without being directly stated. The classroom rules were never announced, yet everyone followed them.|正确！Implicit意为无需直接说明即可理解。课堂规则从未被宣布，但每个人都遵守。",
+    rationale_wrong:{A:"Incorrect. The passage explicitly says no teacher wrote them on the board.|不正确。段落明确指出没有老师把它们写在黑板上。",C:"Incorrect. No one announced these rules — they were implicit.|不正确。没有人宣布这些规则——它们是含蓄的。",D:"Incorrect. New students learned them quickly, showing they were easy to understand, not difficult.|不正确。新生很快就学会了，说明它们很容易理解，而非困难。"}
+  },
+  {
+    id:'g11_p2',
+    title:"The Basketball Game",
+    passage:"The championship game came down to the final three seconds. The score was tied. Elena had the ball. She could take the shot herself, or she could pass to Marcus in the corner. The coach had drawn up a play during the timeout: ball to Elena, then pass to Marcus. That was the exposition — the setup. As Elena dribbled, a defender blocked the passing lane. This was the rising action, the tension building. Elena decided to shoot. The ball left her hands, time expired, and the ball bounced off the rim. The conflict reached its final moment: the resolution, whether they won or lost.",
+    q:"Based on the passage, what does resolution most likely mean?",
+    q_cn:"根据这段话，\"resolution\"最可能是什么意思？",
+    options:["A. The opening explanation of the plan|A. 计划的开场解释","B. The moment of highest tension before the end|B. 结束前紧张程度最高的时刻","C. The final moment when a conflict is settled|C. 冲突最终解决的时刻","D. The timeout called by the coach|D. 教练叫的暂停"],
+    correct:"C",
+    rationale:"Correct! Resolution means the final moment when a conflict is settled — here, whether the shot goes in determines the game's outcome.|正确！Resolution意为冲突最终解决的时刻——在这里，投篮是否命中决定了比赛的结果。",
+    rationale_wrong:{A:"Incorrect. That describes the exposition (the setup of the play).|不正确。那描述的是exposition（计划的开场设置）。",B:"Incorrect. That describes the rising action or climax, not the resolution.|不正确。那描述的是rising action或climax，而非resolution。",D:"Incorrect. The timeout is part of the setup, not the resolution.|不正确。暂停是开场设置的一部分，而非结局。"}
+  },
+  {
+    id:'g11_p3',
+    title:"The New Student",
+    passage:"When Priya transferred to the school in November, everyone noticed her immediately. She raised her hand before the teacher finished asking questions. She volunteered to read aloud. She joined three clubs in her first week. At lunch, she moved from table to table, introducing herself to everyone. Some students found her exhausting. Others found her inspiring. But no one could ignore her. She was constantly moving, constantly talking, constantly present. The classroom felt different when she was in it — fuller, louder, more alive.",
+    q:"What does dynamic most likely mean in this passage?",
+    q_cn:"在这段话中，\"dynamic\"最可能是什么意思？",
+    options:["A. Shy and uncomfortable around others|A. 在他人面前害羞和不自在","B. Quiet and difficult to notice|B. 安静且难以被注意到","C. Full of energy and constantly active|C. 充满活力且持续活跃","D. Annoying to everyone in the class|D. 让班上每个人都感到烦人"],
+    correct:"C",
+    rationale:"Correct! Dynamic means full of energy and constantly active. Priya raises her hand, volunteers, joins clubs, and moves from table to table.|正确！Dynamic意为充满活力且持续活跃。Priya举手、自愿朗读、加入社团、在桌子间走动。",
+    rationale_wrong:{A:"Incorrect. Priya is the opposite of shy — she introduces herself to everyone.|不正确。Priya与害羞相反——她向每个人介绍自己。",B:"Incorrect. The passage says 'no one could ignore her' — she is very noticeable.|不正确。段落说\"没有人能忽视她\"——她非常引人注目。",D:"Incorrect. Some students find her exhausting, but not everyone — and exhausting is not the definition of dynamic.|不正确。一些学生觉得她让人疲惫，但并非所有人——而且\"让人疲惫\"并非dynamic的定义。"}
+  },
+  {
+    id:'g11_p4',
+    title:"The Missing Wallet",
+    passage:"When Leo's wallet disappeared from his backpack, no one admitted taking it. But Mr. Chen noticed that Maya kept looking at the floor near her desk. She refused to make eye contact during class. When the teacher asked if anyone had seen the wallet, Maya's hands trembled slightly. Mr. Chen did not see Maya take the wallet. No one did. But he could conclude from her behavior — the nervous glances, the trembling hands, the avoided eye contact — that she knew something. The evidence was indirect, but it was enough.",
+    q:"What does infer mean as used in this passage?",
+    q_cn:"在这段话中，\"infer\"是什么意思？",
+    options:["A. To directly observe something happening|A. 直接观察到某事发生","B. To guess randomly without any information|B. 没有任何信息地随机猜测","C. To reach a conclusion using indirect clues|C. 使用间接线索得出结论","D. To accuse someone without evidence|D. 没有证据地指责某人"],
+    correct:"C",
+    rationale:"Correct! To infer means to reach a conclusion using clues and evidence rather than direct observation. Mr. Chen infers Maya's involvement from her nervous behavior.|正确！Infer意为使用线索和证据而非直接观察得出结论。陈老师从Maya紧张的行为推断她与此有关。",
+    rationale_wrong:{A:"Incorrect. Inference is the opposite of direct observation — it uses clues instead.|不正确。推断与直接观察相反——它使用线索代替。",B:"Incorrect. Inference is based on evidence, not random guessing.|不正确。推断基于证据，而非随机猜测。",D:"Incorrect. Mr. Chen has evidence (nervous behavior) — he is not accusing without cause.|不正确。陈老师有证据（紧张行为）——他不是无故指责。"}
+  },
+  {
+    id:'g11_p5',
+    title:"The Lab Safety Rules",
+    passage:"On the first day of chemistry class, Dr. Rivera projected a list of rules onto the screen. 'Number one,' she said, looking directly at each student, 'goggles must be worn at all times. Number two: no eating or drinking in the lab. Number three: report all spills immediately.' She did not suggest these rules. She did not recommend them. She did not imply that students might want to consider them. She stated each one clearly, firmly, with no ambiguity. When a student asked what would happen if someone broke a rule, Dr. Rivera smiled. 'You don't want to find out,' she said.",
+    q:"What does explicit most likely mean in this passage?",
+    q_cn:"在这段话中，\"explicit\"最可能是什么意思？",
+    options:["A. Suggested through hints and gestures|A. 通过暗示和手势建议","B. Stated clearly and directly with no confusion|B. 清晰直接地陈述，没有歧义","C. Written down but never discussed|C. 写下来但从未讨论","D. Recommended as a good idea|D. 作为好主意被推荐"],
+    correct:"B",
+    rationale:"Correct! Explicit means stated clearly and directly. Dr. Rivera projects rules on a screen and reads them firmly with no ambiguity.|正确！Explicit意为清晰直接地陈述。Rivera博士将规则投影到屏幕上并坚定地朗读，没有歧义。",
+    rationale_wrong:{A:"Incorrect. Explicit is the opposite of hinting or suggesting — it is direct and clear.|不正确。Explicit与暗示或建议相反——它是直接和清晰的。",C:"Incorrect. The rules are both written AND discussed aloud.|不正确。规则既被写下来也被大声讨论。",D:"Incorrect. These are rules, not recommendations — they are required, not suggested.|不正确。这些是规则，而非建议——它们是必须遵守的，而非被建议的。"}
+  },
+  {
+    id:'g11_p6',
+    title:"The Principal's Speech",
+    passage:"At the assembly, Principal Morrison gave a speech about school spirit. He told a funny story about a pep rally from his own high school days. The students laughed. Then he told a sad story about a team that lost a championship but gained something better. The students listened quietly. At the end, he said, 'Go out there and make some noise for our team.' The students cheered. But beneath the humor and the emotion, the principal had a clear goal: he wanted students to attend the game on Friday. Everything in his speech — every joke, every story — served that single purpose. He was not just talking. He was persuading.",
+    q:"What does author's purpose most likely mean in this passage?",
+    q_cn:"在这段话中，\"author's purpose\"最可能是什么意思？",
+    options:["A. The jokes and stories told during the speech|A. 演讲中讲述的笑话和故事","B. The reason or intention behind creating something|B. 创作某事物背后的原因或意图","C. The students' reaction to the speech|C. 学生对演讲的反应","D. The length of time the speech took|D. 演讲所用的时间长度"],
+    correct:"B",
+    rationale:"Correct! Author's purpose is the reason or intention behind creating something. The principal's purpose was to persuade students to attend the game — everything served that goal.|正确！作者意图是创作某事物背后的原因或意图。校长的目的是说服学生参加比赛——一切都服务于那个目标。",
+    rationale_wrong:{A:"Incorrect. The jokes and stories are tools the author uses, not the purpose itself.|不正确。笑话和故事是作者使用的工具，而非目的本身。",C:"Incorrect. Student reactions are effects, not the author's purpose.|不正确。学生反应是效果，而非作者意图。",D:"Incorrect. Length has nothing to do with purpose.|不正确。长度与意图无关。"}
+  },
+  {
+    id:'g11_p7',
+    title:"The Lesson Beyond the Lesson",
+    passage:"The history class studied the civil rights movement for three weeks. They learned dates, names, and events. They took notes on the March on Washington and the Voting Rights Act. But Ms. Patel wanted them to understand something bigger than facts. She wanted them to see that ordinary people can change the world when they work together. That was the central idea of the unit — not the dates or the names, but the truth that courage and collective action matter. A student could memorize every date and still miss the central idea. Or a student could forget every date and understand what truly mattered.",
+    q:"What does central idea most likely mean?",
+    q_cn:"\"central idea\"最可能是什么意思？",
+    options:["A. Every fact and detail in the lesson|A. 课程中的每一个事实和细节","B. The most important truth a text builds toward|B. 文本所构建的最重要的真理","C. The teacher's personal opinion about history|C. 老师对历史的个人观点","D. The specific dates and names to memorize|D. 需要记忆的具体日期和名称"],
+    correct:"B",
+    rationale:"Correct! The central idea is the most important truth — here, that ordinary people can change the world through courage and collective action. It is broader than specific facts.|正确！中心思想是最重要的真理——在这里，普通人可以通过勇气和集体行动改变世界。它比具体事实更广泛。",
+    rationale_wrong:{A:"Incorrect. Facts and details support the central idea but are not the idea itself.|不正确。事实和细节支持中心思想，但不是思想本身。",C:"Incorrect. The central idea emerges from the material, not just the teacher's opinion.|不正确。中心思想从材料中浮现，而不仅仅是老师的观点。",D:"Incorrect. Specific dates and names are details that support the central idea.|不正确。具体的日期和名称是支持中心思想的细节。"}
+  },
+  {
+    id:'g11_p8',
+    title:"The Math Student",
+    passage:"When Mr. Kim saw that Elena was Asian American, he immediately assumed she would be the best math student in the class. He called on her first for every problem. He asked her to help other students. Elena was, in fact, excellent at history and writing. Her math grades were average. But Mr. Kim could not see past his assumption. He had a fixed image of what an Asian American student should be good at, and that image did not match the real person sitting in his classroom. Elena grew frustrated. She was not the math genius he imagined. She was something else entirely.",
+    q:"What does stereotype most likely mean?",
+    q_cn:"\"stereotype\"最可能是什么意思？",
+    options:["A. An accurate observation about a group of people|A. 对一群人的准确观察","B. A fixed, oversimplified belief about a type of person|B. 对某类人固定的、过于简化的信念","C. A compliment given to someone|C. 给予某人的赞美","D. A prediction that turns out to be correct|D. 被证明正确的预测"],
+    correct:"B",
+    rationale:"Correct! A stereotype is a fixed, oversimplified belief. Mr. Kim assumes Elena must be good at math because of her ethnicity — this is a stereotype that does not match reality.|正确！刻板印象是固定的、过于简化的信念。Kim老师因为Elena的种族而假设她一定擅长数学——这是一个与现实不符的刻板印象。",
+    rationale_wrong:{A:"Incorrect. Stereotypes are often inaccurate and oversimplified, not accurate observations.|不正确。刻板印象通常不准确且过于简化，而非准确的观察。",C:"Incorrect. The assumption causes frustration, not a compliment.|不正确。这个假设导致了挫折，而非赞美。",D:"Incorrect. The prediction was wrong — Elena's math grades were average.|不正确。这个预测是错误的——Elena的数学成绩是平均的。"}
+  },
+  {
+    id:'g11_p9',
+    title:"The Science Fair Project",
+    passage:"Maria wanted to prove that plants grow faster with classical music. She believed this before she started her experiment. Over two months, she grew six plants: three with music, three without. She carefully measured their growth each week. But the data showed something surprising: the plants without music grew slightly faster. Maria had a choice. She could ignore the data that disagreed with her belief. Or she could change her conclusion based on what the evidence showed. Good scientists follow the evidence. Maria wrote in her report: 'My hypothesis was wrong. Music did not help plants grow.'",
+    q:"What does evidence most likely mean in this passage?",
+    q_cn:"在这段话中，\"evidence\"最可能是什么意思？",
+    options:["A. The original belief Maria started with|A. Maria最初持有的信念","B. The measurements and data collected during the experiment|B. 实验期间收集的测量数据和信息","C. The conclusion Maria wanted to prove|C. Maria想要证明的结论","D. The music played for the plants|D. 为植物播放的音乐"],
+    correct:"B",
+    rationale:"Correct! Evidence means the specific information, data, or measurements that support a conclusion. Maria's evidence was her weekly growth measurements.|正确！Evidence意为支持结论的具体信息、数据或测量结果。Maria的证据是她每周的生长测量数据。",
+    rationale_wrong:{A:"Incorrect. A belief is not evidence — it is an opinion before testing.|不正确。信念不是证据——它是测试前的观点。",C:"Incorrect. The conclusion is what evidence supports or disproves — not evidence itself.|不正确。结论是证据支持或反驳的内容——而非证据本身。",D:"Incorrect. The music was the variable being tested, not the evidence collected.|不正确。音乐是被测试的变量，而非收集的证据。"}
+  },
+  {
+    id:'g11_p10',
+    title:"The Book Report",
+    passage:"Carlos had to write a summary of The Great Gatsby for his English class. He considered writing down everything that happened: the parties, the green light, the car accident, the ending. That would have been ten pages long. Instead, his teacher showed him how to write a real summary: find the most important events that reveal the book's meaning. Carlos wrote: 'Jay Gatsby throws extravagant parties hoping to attract Daisy Buchanan, but his dream of recreating the past ultimately destroys him.' Three sentences captured the whole novel. That was not everything. But it was what mattered.",
+    q:"What does summary most likely mean in this passage?",
+    q_cn:"在这段话中，\"summary\"最可能是什么意思？",
+    options:["A. A long retelling of every event|A. 对每个事件的详细复述","B. A brief statement capturing only the most important points|B. 只捕捉最重要要点的简短陈述","C. An analysis of the author's writing style|C. 对作者写作风格的分析","D. A personal reaction to the book|D. 对书的个人反应"],
+    correct:"B",
+    rationale:"Correct! A summary is brief and focuses on the most important points. Carlos captures the whole novel in three sentences, not ten pages.|正确！总结简短，专注于最重要的要点。Carlos用三句话捕捉了整部小说的核心，而不是十页。",
+    rationale_wrong:{A:"Incorrect. A long retelling of everything is the opposite of a good summary.|不正确。详细复述一切与好的总结相反。",C:"Incorrect. Analysis of writing style is different from summarizing plot.|不正确。分析写作风格与总结情节不同。",D:"Incorrect. A personal reaction is a review or reflection, not a summary.|不正确。个人反应是评论或反思，而非总结。"}
+  }
+];
+
+// ============================================================
+// GRADE 11 EXIT TICKET (same as before)
+// ============================================================
+const G11_EXIT = [
+  {q:"Which word means 'the main character a story follows'?",q_cn:"哪个词的意思是\"故事所跟随的主角\"？",opts:["A. Antagonist|A. 反派","B. Protagonist|B. 主角","C. Narrator|C. 叙述者","D. Theme|D. 主题"],correct:"B",rat:"Protagonist is the main character. Antagonist is the force working against them.|主角是主要角色。反派是与之对立的力量。"},
+  {q:"A smell that everyone notices but no one mentions is an example of what kind of social agreement?",q_cn:"每个人都注意到但没有人提及的气味是哪种社会协议的例子？",opts:["A. Explicit|A. 明确的","B. Dynamic|B. 有活力的","C. Implicit|C. 隐含的","D. Universal|D. 普遍的"],correct:"C",rat:"Implicit means understood without being stated. The agreement was never spoken — just understood.|Implicit意为无需说明即可理解。这个协议从未被说出——只是被理解了。"},
+  {q:"What is the difference between implicit and explicit?",q_cn:"implicit和explicit有什么区别？",opts:["A. Implicit is written; explicit is spoken|A. Implicit是写下来的；explicit是说出来的","B. Implicit is hidden/understood; explicit is clearly stated|B. Implicit是隐含的/被理解的；explicit是清晰陈述的","C. Implicit is formal; explicit is casual|C. Implicit是正式的；explicit是随意的","D. There is no difference|D. 没有区别"],correct:"B",rat:"Implicit = understood without words. Explicit = stated clearly and directly.|Implicit = 无需文字即可理解。Explicit = 清晰直接地陈述。"},
+  {q:"If a student's energy fills a room before they enter it, they can be described as:",q_cn:"如果一个学生的能量在他进入房间之前就充满了整个房间，他可以被描述为：",opts:["A. Gallant|A. 英勇的","B. Universal|B. 普遍的","C. Durable|C. 持久的","D. Dynamic|D. 有活力的"],correct:"D",rat:"Dynamic means full of energy and movement, impossible to ignore.|Dynamic意为充满活力和运动，无法忽视。"},
+  {q:"A reader uses clues from a story to decide what the author means but never says. This skill is called:",q_cn:"读者利用故事中的线索来判断作者的意思但作者从未明说。这种技能叫做：",opts:["A. Summarizing|A. 总结","B. Inferring|B. 推断","C. Evaluating|C. 评估","D. Acknowledging|D. 承认"],correct:"B",rat:"Inferring means reaching a conclusion using clues rather than direct statements.|推断意为利用线索而非直接陈述得出结论。"},
+  {q:"The moment a conflict is finally settled is called the:",q_cn:"冲突最终解决的时刻被称为：",opts:["A. Exposition|A. 开端","B. Theme|B. 主题","C. Resolution|C. 结局","D. Tension|D. 紧张"],correct:"C",rat:"Resolution is the moment a conflict is finally settled. The exposition is the opening setup.|结局是冲突最终解决的时刻。开端是开场设置。"},
+  {q:"A broad truth that a text builds toward — not just events or facts — is best called the:",q_cn:"文本所构建的广泛真理——不仅仅是事件或事实——最好称为：",opts:["A. Central idea|A. 中心思想","B. Exposition|B. 开端","C. Stereotype|C. 刻板印象","D. Dialogue|D. 对话"],correct:"A",rat:"The central idea is the most important truth or point a text builds toward.|中心思想是文本所构建的最重要的真理或观点。"},
+  {q:"When someone assumes all members of a group are the same, they are acting on a:",q_cn:"当某人假设某个群体的所有成员都一样时，他们是在依据：",opts:["A. Theme|A. 主题","B. Stereotype|B. 刻板印象","C. Resolution|C. 结局","D. Diction|D. 措辞"],correct:"B",rat:"A stereotype is a fixed, oversimplified belief about a type of person.|刻板印象是对某类人固定的、过于简化的信念。"},
+  {q:"A writer's reason or intention behind creating something is called the:",q_cn:"作者创作某事物背后的原因或意图被称为：",opts:["A. Topic|A. 话题","B. Summary|B. 总结","C. Author's purpose|C. 作者意图","D. Genre|D. 体裁"],correct:"C",rat:"Author's purpose is the reason or intention behind writing — to persuade, inform, or entertain.|作者意图是写作背后的原因或意图——说服、告知或娱乐。"},
+  {q:"A good inference is based on:",q_cn:"好的推断基于：",opts:["A. Random guessing|A. 随机猜测","B. Evidence and clues from the text|B. 文本中的证据和线索","C. The reader's personal opinion|C. 读者的个人观点","D. The length of the passage|D. 段落的长度"],correct:"B",rat:"A good inference uses evidence and clues from the text, not guessing or opinion.|好的推断使用文本中的证据和线索，而非猜测或观点。"}
+];
+
+// ============================================================
+// GRADE 12 PRACTICES — NEW VERSION
+// ============================================================
+const G12_PRACTICES = [
+  {
+    id:'g12_p1',
+    title:"The First Paragraph",
+    passage:"Jamie had been staring at a blank screen for forty-five minutes. Her research paper was due in three days, and she had written nothing. Finally, she typed: 'This paper will discuss the effects of social media on teenagers.' It was not a good sentence. It was not even a complete introduction. But it was a start. Jamie knew that the first version of any paper is supposed to be messy. The sentences are awkward. The organization is confusing. The arguments are incomplete. That is the nature of a first attempt. The goal is not perfection. The goal is existence. You cannot revise a blank page.",
+    q:"What does rough draft most likely mean?",
+    q_cn:"\"rough draft\"最可能是什么意思？",
+    options:["A. The final version submitted for a grade|A. 提交给老师评分的最终版本","B. An early, unfinished version that will be revised|B. 将会被修改的早期未完成版本","C. An outline written before any sentences|C. 在写任何句子之前写的大纲","D. A paper that has been graded by a teacher|D. 已经被老师评分过的论文"],
+    correct:"B",
+    rationale:"Correct! A rough draft is an early, unfinished version that will be revised. Jamie knows it is supposed to be messy — perfection comes later.|正确！Rough draft是将会被修改的早期未完成版本。Jamie知道它应该是凌乱的——完美是之后的事情。",
+    rationale_wrong:{A:"Incorrect. The final version is the opposite of a rough draft — it is polished and complete.|不正确。最终版本与rough draft相反——它是润色和完整的。",C:"Incorrect. An outline is before the draft — a rough draft contains actual sentences and paragraphs.|不正确。大纲在草稿之前——rough draft包含实际的句子和段落。",D:"Incorrect. A graded paper has already been evaluated — a rough draft comes before that.|不正确。被评分的论文已经被评估——rough draft在此之前。"}
+  },
+  {
+    id:'g12_p2',
+    title:"The Wikipedia Problem",
+    passage:"For his history paper on the Roman Empire, David found most of his information on Wikipedia. The articles were easy to read and seemed accurate. But his teacher returned his outline with a note: 'Wikipedia is not a credible source for college research.' David was confused. The information seemed correct. His teacher explained: credible means trustworthy and based on verifiable expertise. Anyone can edit Wikipedia. There is no guarantee that the author has any qualifications. A credible source has a named author with credentials, a publisher, and a way to verify the information. Wikipedia has none of these things.",
+    q:"What does credible most likely mean?",
+    q_cn:"\"credible\"最可能是什么意思？",
+    options:["A. Easy to read and understand|A. 易于阅读和理解","B. Free to access on the internet|B. 可以在互联网上免费访问","C. Trustworthy, based on evidence and expertise|C. 基于证据和专业知识的可信赖","D. Written in simple language|D. 用简单的语言写成"],
+    correct:"C",
+    rationale:"Correct! Credible means trustworthy and based on evidence and expertise. Wikipedia lacks named authors and verified credentials, so it is not credible for academic research.|正确！Credible意为基于证据和专业知识的可信赖。维基百科缺乏具名作者和经过验证的资历，因此对于学术研究来说不可信。",
+    rationale_wrong:{A:"Incorrect. Ease of reading does not make a source credible — anyone can write easy-to-read false information.|不正确。易读性并不使来源可信——任何人都可以写出易读的错误信息。",B:"Incorrect. Free access has nothing to do with credibility.|不正确。免费访问与可信度无关。",D:"Incorrect. Simple language can be used by anyone — it does not indicate expertise or trustworthiness.|不正确。简单的语言任何人都可以使用——它不代表专业知识或可信度。"}
+  },
+  {
+    id:'g12_p3',
+    title:"The Copy-Paste Mistake",
+    passage:"Tyler found a perfect paragraph in an academic journal. He copied it into his paper, changed 'however' to 'nevertheless,' and replaced two adjectives with synonyms. He thought he had successfully paraphrased. He had not. Paraphrasing is not about changing individual words while keeping the same sentence structure. Real paraphrasing means reading the original, understanding it completely, closing the book, and writing the idea in your own words — your own sentence structure, your own vocabulary, your own way of explaining. If the sentence structure looks the same as the original, you have not paraphrased. You have plagiarized with a thesaurus.",
+    q:"What does paraphrase most likely mean?",
+    q_cn:"\"paraphrase\"最可能是什么意思？",
+    options:["A. Changing a few words in a sentence|A. 改变句子中的几个词","B. Copying a sentence exactly with quotation marks|B. 用引号精确复制一个句子","C. Rewriting an idea completely in your own words and structure|C. 用自己的文字和结构完全重写一个想法","D. Shortening a long passage into one sentence|D. 将长段落缩短为一句话"],
+    correct:"C",
+    rationale:"Correct! Paraphrasing means rewriting an idea completely in your own words and sentence structure — not just swapping synonyms.|正确！改写意为用自己的文字和句子结构完全重写一个想法——而不仅仅是替换同义词。",
+    rationale_wrong:{A:"Incorrect. Changing a few words while keeping the same structure is not paraphrasing — it is still plagiarism.|不正确。保持相同结构只改变几个词不是改写——仍然是剽窃。",B:"Incorrect. That is quoting, not paraphrasing.|不正确。那是引用，而非改写。",D:"Incorrect. That is summarizing. Paraphrasing is similar length to the original.|不正确。那是总结。改写与原文长度相近。"}
+  },
+  {
+    id:'g12_p4',
+    title:"The Executive Summary",
+    passage:"Before submitting her business proposal, Sofia wrote a one-page overview to attach at the beginning. This overview contained the problem her proposal would solve, her recommended solution, the expected costs, and the projected outcomes. A busy executive could read this single page and understand the entire twenty-page document without reading the rest. If the executive wanted more detail, the full proposal was there. If not, the overview was enough. This is the purpose of an abstract or executive summary: to give readers a complete miniature version of the full work so they can decide whether to read further.",
+    q:"What does abstract most likely mean?",
+    q_cn:"\"abstract\"最可能是什么意思？",
+    options:["A. The conclusion at the end of a paper|A. 论文末尾的结论","B. A short overview at the beginning that summarizes the whole work|B. 开头总结整个作品的简短概述","C. A list of sources used in the paper|C. 论文中使用过的来源列表","D. A detailed analysis of the methodology|D. 对方法的详细分析"],
+    correct:"B",
+    rationale:"Correct! An abstract is a short overview at the beginning that summarizes the entire work in miniature. A busy executive can understand the whole proposal from just the abstract.|正确！Abstract是开头的简短概述，微型化地总结整个作品。忙碌的高管仅从摘要就能理解整个提案。",
+    rationale_wrong:{A:"Incorrect. The conclusion comes at the end — an abstract comes at the beginning.|不正确。结论在末尾——abstract在开头。",C:"Incorrect. That describes a bibliography or reference list.|不正确。那描述的是参考文献列表。",D:"Incorrect. An abstract includes methodology briefly, but it is not a detailed analysis.|不正确。Abstract简要包含方法，但不是详细分析。"}
+  },
+  {
+    id:'g12_p5',
+    title:"The Confirmation Trap",
+    passage:"Dr. Williams assigned students to research whether school uniforms improve student behavior. Half the class already believed uniforms were good. The other half believed they made no difference. Dr. Williams warned them: 'Your job is not to prove what you already believe. Your job is to follow the evidence wherever it leads.' The students who believed uniforms were good tended to find studies supporting that view. The students who were skeptical found studies showing no effect. Both groups found what they wanted to find. Dr. Williams explained that this is confirmation bias. Real research requires being objective — setting aside what you want to be true and accepting what the evidence actually shows.",
+    q:"What does objective most likely mean in this passage?",
+    q_cn:"在这段话中，\"objective\"最可能是什么意思？",
+    options:["A. Proving your original belief is correct|A. 证明你原来的信念是正确的","B. Finding only sources that agree with you|B. 只找到同意你的来源","C. Fair and based on evidence, not personal feelings|C. 公平且基于证据而非个人感受","D. Finishing the research as quickly as possible|D. 尽可能快地完成研究"],
+    correct:"C",
+    rationale:"Correct! Objective means fair and based on evidence, not personal feelings or pre-existing beliefs. Confirmation bias is the opposite — finding only what you want to find.|正确！客观意为公平且基于证据，而非个人感受或预先存在的信念。确认偏误是相反——只找到你想找到的东西。",
+    rationale_wrong:{A:"Incorrect. That is the opposite of objective — it is trying to prove your own belief.|不正确。那是客观的反面——试图证明自己的信念。",B:"Incorrect. That is confirmation bias, which the passage says is NOT objective.|不正确。那是确认偏误，段落说这不是客观的。",D:"Incorrect. Speed has nothing to do with being objective.|不正确。速度与客观无关。"}
+  },
+  {
+    id:'g12_p6',
+    title:"Organizing the Argument",
+    passage:"Chen's research paper argued that remote learning has both advantages and disadvantages. His first draft listed points in random order: first a disadvantage, then an advantage, then another disadvantage, then a completely different advantage. The paper was confusing. His tutor showed him how to create a hierarchy. At the top: the thesis statement. Below that: three main arguments. Under each main argument: three pieces of supporting evidence. Chen reorganized his paper so that all the advantages were grouped together and all the disadvantages were grouped together. The hierarchy made the paper easier to follow. Readers could see the structure immediately.",
+    q:"What does hierarchy most likely mean in this passage?",
+    q_cn:"在这段话中，\"hierarchy\"最可能是什么意思？",
+    options:["A. A random collection of ideas|A. 想法的随机集合","B. A system where items are organized from most to least important|B. 将项目从最重要到最不重要组织的系统","C. A list of sources in alphabetical order|C. 按字母顺序排列的来源列表","D. A long paragraph without any structure|D. 没有任何结构的长段落"],
+    correct:"B",
+    rationale:"Correct! A hierarchy organizes information from most to least important — thesis first, then main points, then supporting evidence. This makes the argument clear.|正确！层次结构将信息从最重要到最不重要组织——首先是论点，然后是主要观点，然后是支持证据。这使论证清晰。",
+    rationale_wrong:{A:"Incorrect. A hierarchy is the opposite of random — it is organized by importance.|不正确。层次结构与随机相反——它按重要性组织。",C:"Incorrect. That describes a bibliography, not a hierarchy of ideas.|不正确。那描述的是参考文献，而非想法的层次结构。",D:"Incorrect. A hierarchy creates structure, not lack of structure.|不正确。层次结构创造结构，而非缺乏结构。"}
+  },
+  {
+    id:'g12_p7',
+    title:"Showing Your Work",
+    passage:"In her research paper, Maya wrote: 'Studies show that exercise improves mental health.' But she did not say which studies, who conducted them, or where they were published. Her teacher asked: 'How do I know you didn't make that up?' Maya realized she needed citations. A citation is like showing your work in math class. It tells the reader exactly where each piece of information came from. If the reader wants to check your sources, the citation shows them how. Without citations, a research paper is just a collection of claims. The reader has to trust you. With citations, the reader can verify everything themselves.",
+    q:"What does citation most likely mean?",
+    q_cn:"\"citation\"最可能是什么意思？",
+    options:["A. A punishment for plagiarism|A. 对剽窃的惩罚","B. A formal reference showing where information came from|B. 显示信息来源的正式参考格式","C. A summary of the paper's main argument|C. 论文主要论点的总结","D. A comment written by the teacher|D. 老师写的评论"],
+    correct:"B",
+    rationale:"Correct! A citation is a formal reference that tells readers exactly where information came from — like showing your work in math so others can verify it.|正确！引用是告知读者信息来源的正式参考格式——就像在数学中展示你的解题过程，以便他人可以验证。",
+    rationale_wrong:{A:"Incorrect. A citation is a reference tool, not a punishment.|不正确。引用是参考工具，而非惩罚。",C:"Incorrect. That describes a summary or abstract, not a citation.|不正确。那描述的是总结或摘要，而非引用。",D:"Incorrect. Teacher comments are feedback — citations are references to sources.|不正确。老师评论是反馈——引用是对来源的参考。"}
+  },
+  {
+    id:'g12_p8',
+    title:"Learning to Write",
+    passage:"When Leo first learned to write essays, his teacher gave him a template: introduction with a thesis, three body paragraphs each with a topic sentence and evidence, and a conclusion that restates the main point. Leo followed the template exactly. His essays were predictable but correct. Over time, he needed the template less. He learned when to break the rules and how to create his own structures. The template was scaffolding — temporary support that helped him learn. Once he knew how to write on his own, he no longer needed the template. Good scaffolding disappears when the learner no longer needs it.",
+    q:"What does scaffolding most likely mean in academic writing?",
+    q_cn:"在学术写作中，\"scaffolding\"最可能是什么意思？",
+    options:["A. A permanent requirement for all essays|A. 所有论文的永久要求","B. Temporary support that helps students learn|B. 帮助学生学习的临时支持","C. A type of citation format|C. 一种引用格式","D. The final draft of a paper|D. 论文的最终草稿"],
+    correct:"B",
+    rationale:"Correct! Scaffolding is temporary support that helps students learn. Leo used a template (scaffolding) until he could write independently.|正确！Scaffolding是帮助学生学习的临时支持。Leo使用模板（支架）直到他能独立写作。",
+    rationale_wrong:{A:"Incorrect. Scaffolding is temporary — it disappears when no longer needed.|不正确。Scaffolding是临时的——当不再需要时就会消失。",C:"Incorrect. Citation formats are different from writing support structures.|不正确。引用格式与写作支持结构不同。",D:"Incorrect. A final draft is the finished product — scaffolding helps you get there.|不正确。最终草稿是成品——scaffolding帮助你到达那里。"}
+  },
+  {
+    id:'g12_p9',
+    title:"Who Wrote This?",
+    passage:"Talia found a study claiming that a new diet pill helped people lose ten pounds in one week. The study was published on a website that sold the diet pill. Talia's teacher asked her to consider the context. Context means: who created this source, why did they create it, and for whom? A company selling a product has a strong reason to make the product look good. That does not mean the study is automatically wrong. But it does mean Talia should read it more carefully than a study from an independent university. The context does not determine truth, but it tells you how skeptical to be.",
+    q:"What does context most likely mean?",
+    q_cn:"\"context\"最可能是什么意思？",
+    options:["A. The number of pages in the source|A. 来源中的页数","B. The date the source was published|B. 来源发表的日期","C. The circumstances around a source — who created it, why, and for whom|C. 围绕来源的情况——谁创造了它，为何，以及为谁","D. The font and formatting of the source|D. 来源的字体和格式"],
+    correct:"C",
+    rationale:"Correct! Context means the circumstances — who created it, why, and for whom. A company selling a product has a different context than an independent researcher.|正确！语境意为情况——谁创造了它，为何，以及为谁。销售产品的公司与独立研究者的语境不同。",
+    rationale_wrong:{A:"Incorrect. Page count has nothing to do with context.|不正确。页数与语境无关。",B:"Incorrect. Publication date is one small part of context, not the full definition.|不正确。发表日期是语境的一小部分，而非完整定义。",D:"Incorrect. Formatting is a design choice, not context.|不正确。格式是设计选择，而非语境。"}
+  },
+  {
+    id:'g12_p10',
+    title:"Looking Back",
+    description:"After submitting her final paper, Priya sat down to write a self-assessment. She asked herself three questions: What did I do well? What would I do differently next time? What did I learn? She wrote that her research was thorough but her organization was confusing. Next time, she would create an outline before writing. She also realized that she had learned to identify credible sources — something she could not do before this paper. The self-assessment was not graded. But Priya found it useful anyway. Looking honestly at your own work is the only way to improve.",
+    q:"What does self-assessment most likely mean?",
+    q_cn:"\"self-assessment\"最可能是什么意思？",
+    options:["A. A grade given by the teacher|A. 老师给出的分数","B. An honest personal evaluation of your own work|B. 对自己工作的诚实个人评估","C. A review written by another student|C. 另一名学生写的评论","D. A summary of the paper's argument|D. 论文论点的总结"],
+    correct:"B",
+    rationale:"Correct! Self-assessment means honestly evaluating your own work — what you did well, what you would change, and what you learned.|正确！Self-assessment意为诚实地评估自己的工作——哪些做得好，哪些会改变，以及学到了什么。",
+    rationale_wrong:{A:"Incorrect. A grade is external evaluation, not self-assessment.|不正确。分数是外部评估，而非自我评估。",C:"Incorrect. That is peer review — evaluation by others, not yourself.|不正确。那是同伴评审——由他人评估，而非自己。",D:"Incorrect. A summary is different from evaluating your own performance.|不正确。总结与评估自己的表现不同。"}
+  }
+];
+
+// ============================================================
+// GRADE 12 EXIT TICKET (same as before)
+// ============================================================
+const G12_EXIT = [
+  {q:"What is a thesis statement?",q_cn:"什么是论点陈述？",opts:["A. A list of sources used in a paper|A. 论文中使用的来源列表","B. A summary written at the end|B. 最后写的总结","C. The main argument or central claim of a paper|C. 论文的主要论点或中心主张","D. An early unfinished draft|D. 早期未完成的草稿"],correct:"C",rat:"A thesis statement is the central claim — it tells the reader what the paper will argue.|论点陈述是中心主张——它告诉读者论文将论证什么。"},
+  {q:"What is a bibliography?",q_cn:"什么是参考文献？",opts:["A. The main argument of a paper|A. 论文的主要论点","B. A list of all sources used in a piece of writing|B. 写作中使用的所有来源的列表","C. A short overview at the beginning|C. 开头的简短概述","D. A plan for organizing ideas|D. 组织想法的计划"],correct:"B",rat:"A bibliography lists all sources — it appears at the end of a research paper.|参考文献列出所有来源——它出现在研究论文的末尾。"},
+  {q:"Using someone else's words without giving credit is called:",q_cn:"使用他人文字而不给予信用被称为：",opts:["A. Paraphrasing|A. 改写","B. Citation|B. 引用","C. Plagiarism|C. 剽窃","D. Scaffolding|D. 支架"],correct:"C",rat:"Plagiarism is using another person's words or ideas without credit.|剽窃是使用他人文字或想法而不给予信用。"},
+  {q:"A source that is trustworthy and based on evidence and expertise is:",q_cn:"基于证据和专业知识的可信来源是：",opts:["A. Dynamic|A. 有活力的","B. Objective|B. 客观的","C. Credible|C. 可信的","D. Communal|D. 共同的"],correct:"C",rat:"Credible means trustworthy and based on evidence and expertise.|Credible意为值得信赖，基于证据和专业知识。"},
+  {q:"What does it mean to be objective in research?",q_cn:"在研究中客观意味着什么？",opts:["A. Using only sources you agree with|A. 只使用你同意的来源","B. Letting evidence lead your conclusions, not personal feelings|B. 让证据引导你的结论，而非个人感受","C. Finishing the paper as quickly as possible|C. 尽快完成论文","D. Writing without citations|D. 不带引用写作"],correct:"B",rat:"Objective means fair and based on facts — you follow the evidence, not your feelings.|客观意为公平且基于事实——你跟随证据，而非感受。"},
+  {q:"Rewriting someone else's ideas completely in your own words is called:",q_cn:"用自己的话完全重写别人想法被称为：",opts:["A. Plagiarism|A. 剽窃","B. Summarizing|B. 总结","C. Paraphrasing|C. 改写","D. Evaluating|D. 评估"],correct:"C",rat:"Paraphrasing means rewriting in your own words — not copying, not just changing a few words.|改写意为用自己的话重写——不是复制，也不仅仅是更改几个词。"},
+  {q:"A formal reference that tells a reader where information came from is called a:",q_cn:"告诉读者信息来源的正式参考格式被称为：",opts:["A. Taxonomy|A. 分类体系","B. Schema|B. 心理框架","C. Abstract|C. 摘要","D. Citation|D. 引用"],correct:"D",rat:"A citation is a formal reference identifying the source of information.|引用是标识信息来源的正式参考格式。"},
+  {q:"A supportive structure that helps students move from simple to complex ideas is called:",q_cn:"帮助学生从简单到复杂想法的支撑性结构被称为：",opts:["A. A bibliography|A. 参考文献","B. Scaffolding|B. 支架","C. A rough draft|C. 草稿","D. A thesis statement|D. 论点陈述"],correct:"B",rat:"Scaffolding is the structure that supports learning and builds from simple to complex.|支架是支持学习并从简单构建到复杂的结构。"},
+  {q:"Who, why, and for whom a source was written is called its:",q_cn:"来源的写作者、原因和对象被称为其：",opts:["A. Audience|A. 受众","B. Method|B. 方法","C. Context|C. 语境","D. Abstract|D. 摘要"],correct:"C",rat:"Context means the circumstances around a source — who created it, why, and for whom.|语境意为围绕来源的情况——谁创造了它，为何，以及为谁。"},
+  {q:"An honest personal evaluation of your own work is called:",q_cn:"对自己工作的诚实个人评估被称为：",opts:["A. Peer review|A. 同伴评审","B. Self-assessment|B. 自我评估","C. Citation|C. 引用","D. Classification|D. 分类"],correct:"B",rat:"Self-assessment means honestly evaluating your own performance — not peer review, which is done by others.|自我评估意为诚实评估自己的表现——而非同伴评审，后者由他人完成。"}
+];
+
+// ============================================================
+// BUILD FUNCTIONS
+// ============================================================
+window.onload = () => {
+  buildVocab();
+  buildPractices('g11', G11_PRACTICES, 'g11PracticeContainer');
+  buildExitTicket('g11', G11_EXIT, 'g11ExitContainer');
+  buildPractices('g12', G12_PRACTICES, 'g12PracticeContainer');
+  buildExitTicket('g12', G12_EXIT, 'g12ExitContainer');
+  startTimer();
+  trackNavigation();
+};
+
+function buildVocab() {
+  const grid = document.getElementById('vocabGrid');
+  VOCAB.forEach(v => {
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.innerHTML = `
+      <div class="vocab-word">
+        ${v.word}
+        <span class="vocab-pos">${v.pos}</span>
+        <button class="vocab-speak" onclick="speakWord('${v.word}')" title="Hear pronunciation">🔊</button>
+      </div>
+      <div class="vocab-cn" style="font-family:'Noto Sans SC',sans-serif;">${v.cn}</div>
+      <div class="vocab-def">${v.def}</div>
+      <div class="vocab-cn-def" style="font-family:'Noto Sans SC',sans-serif;">${v.cn_def}</div>
+      <div class="vocab-ex">${v.example}</div>
+    `;
+    card.querySelector('.vocab-speak').addEventListener('click', () => {
+      if(vocabClicks < 5){ vocabClicks++; addProgress(1); }
+    });
+    grid.appendChild(card);
+  });
+}
+
+function speakWord(word) {
+  if('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(word);
+    u.lang = 'en-US'; u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+  }
+}
+
+function buildPractices(tabKey, data, containerId) {
+  const container = document.getElementById(containerId);
+  data.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'practice-item';
+    div.innerHTML = `
+      <div class="practice-passage">
+        <div class="ptitle">Passage ${idx+1}: ${item.title}</div>
+        ${item.passage}
+      </div>
+      <div class="practice-q">
+        ${item.q}
+        <div class="q-cn" style="font-family:'Noto Sans SC',sans-serif;">${item.q_cn}</div>
+      </div>
+      <div class="opts">
+        ${item.options.map((opt,i) => {
+          const letter = ['A','B','C','D'][i];
+          const [en,cn] = opt.split('|');
+          return `<button class="opt-btn" 
+            onclick="selectAnswer('${tabKey}','${item.id}','${letter}',this,'${item.correct}','${encodeURIComponent(item.rationale)}',${JSON.stringify(item.rationale_wrong || {}).replace(/'/g, "\\'")})"
+            data-letter="${letter}">
+            ${en}<br><span style="font-family:'Noto Sans SC',sans-serif;font-size:.78rem;color:#666;">${cn}</span>
+          </button>`;
+        }).join('')}
+      </div>
+      <div class="rationale" id="rat-${item.id}" style="display:none;"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectAnswer(tabKey, qid, selected, btn, correct, ratEnc, wrongObj) {
+  const allBtns = btn.closest('.opts').querySelectorAll('.opt-btn');
+  allBtns.forEach(b => { b.disabled = true; });
+  const ratDiv = document.getElementById('rat-' + qid);
+  const answers = tabKey === 'g11' ? g11Answers : g12Answers;
+  if(answers[qid]) return;
+  answers[qid] = selected;
+  addProgress(1);
+  if(selected === correct) {
+    btn.classList.add('correct');
+    const [enRat, cnRat] = decodeURIComponent(ratEnc).split('|');
+    ratDiv.className = 'rationale correct';
+    ratDiv.innerHTML = `✅ ${enRat}<div class="rat-cn" style="font-family:'Noto Sans SC',sans-serif;">${cnRat||''}</div>`;
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => { if(b.dataset.letter === correct) b.classList.add('correct'); });
+    let wrongMsg = wrongObj[selected] || 'Incorrect. Try to use clues from the passage.|不正确。尝试使用段落中的线索。';
+    const [wEn, wCn] = wrongMsg.split('|');
+    ratDiv.className = 'rationale wrong';
+    ratDiv.innerHTML = `❌ ${wEn}<div class="rat-cn" style="font-family:'Noto Sans SC',sans-serif;">${wCn||''}</div>`;
+  }
+  ratDiv.style.display = 'block';
+}
+
+function buildExitTicket(tabKey, data, containerId) {
+  const container = document.getElementById(containerId);
+  data.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'exit-item';
+    div.innerHTML = `
+      <div class="exit-q">Q${idx+1}. ${item.q}</div>
+      <div class="exit-q-cn" style="font-family:'Noto Sans SC',sans-serif;">${item.q_cn}</div>
+      <div class="exit-opts">
+        ${item.opts.map((opt,i) => {
+          const letter = ['A','B','C','D'][i];
+          const [en,cn] = opt.split('|');
+          return `<button class="exit-opt"
+            onclick="selectExit('${tabKey}',${idx},'${letter}',this,'${item.correct}','${encodeURIComponent(item.rat)}')"
+            data-letter="${letter}">
+            ${en}<span style="font-family:'Noto Sans SC',sans-serif;font-size:.77rem;color:#666;display:block;">${cn}</span>
+          </button>`;
+        }).join('')}
+      </div>
+      <div class="exit-rat" id="exit-rat-${tabKey}-${idx}" style="display:none;"></div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function selectExit(tabKey, idx, selected, btn, correct, ratEnc) {
+  const allBtns = btn.closest('.exit-opts').querySelectorAll('.exit-opt');
+  allBtns.forEach(b => b.disabled = true);
+  const ratDiv = document.getElementById(`exit-rat-${tabKey}-${idx}`);
+  const answers = tabKey === 'g11' ? g11ExitAnswers : g12ExitAnswers;
+  if(answers[idx] !== undefined) return;
+  answers[idx] = selected;
+  addProgress(1);
+  const [enRat, cnRat] = decodeURIComponent(ratEnc).split('|');
+  if(selected === correct) {
+    btn.classList.add('correct');
+    if(tabKey === 'g11') g11Score++; else g12Score++;
+    ratDiv.className = 'exit-rat correct';
+    ratDiv.innerHTML = `✅ ${enRat}<div class="rat-cn" style="font-family:'Noto Sans SC',sans-serif;">${cnRat||''}</div>`;
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => { if(b.dataset.letter === correct) b.classList.add('correct'); });
+    ratDiv.className = 'exit-rat wrong';
+    ratDiv.innerHTML = `❌ ${enRat}<div class="rat-cn" style="font-family:'Noto Sans SC',sans-serif;">${cnRat||''}</div>`;
+  }
+  ratDiv.style.display = 'block';
+  const doneCount = tabKey === 'g11'
+    ? Object.keys(g11ExitAnswers).length
+    : Object.keys(g12ExitAnswers).length;
+  if(doneCount === 10) {
+    const scoreNum = tabKey === 'g11' ? g11Score : g12Score;
+    document.getElementById(tabKey + 'ScoreBox').style.display = 'block';
+    document.getElementById(tabKey + 'ScoreNum').textContent = `${scoreNum} / 10`;
+    document.getElementById('pip-' + tabKey).classList.add('done');
+  }
+}
+
+function downloadReport(tabKey) {
+  const name = document.getElementById(tabKey + 'Name').value || 'Unknown Student';
+  const ref1 = document.getElementById(tabKey + 'Ref1').value || '(no response)';
+  const ref2 = document.getElementById(tabKey + 'Ref2').value || '(no response)';
+  const label = tabKey === 'g11' ? 'Grade 11 — The Worst Best Day' : 'Grade 12 — The Paper';
+  const practices = tabKey === 'g11' ? G11_PRACTICES : G12_PRACTICES;
+  const exits = tabKey === 'g11' ? G11_EXIT : G12_EXIT;
+  const pAnswers = tabKey === 'g11' ? g11Answers : g12Answers;
+  const eAnswers = tabKey === 'g11' ? g11ExitAnswers : g12ExitAnswers;
+  const score = tabKey === 'g11' ? g11Score : g12Score;
+  const now = new Date();
+  const dateStr = now.toLocaleDateString();
+  const timeStr = formatTime(secondsElapsed);
+  let report = `=== ESL VOCABULARY TEST PREP REPORT ===\n`;
+  report += `Tab: ${label}\n`;
+  report += `Student: ${name}\n`;
+  report += `Date: ${dateStr}\n`;
+  report += `Session Time: ${timeStr}\n`;
+  report += `Tab Leaves: ${leaveCount}\n`;
+  report += `Exit Ticket Score: ${score} / 10\n\n`;
+  report += `--- PRACTICE QUESTIONS ---\n`;
+  practices.forEach((item, i) => {
+    const sel = pAnswers[item.id] || '(not answered)';
+    const correct = sel === item.correct ? 'CORRECT' : `WRONG (correct: ${item.correct})`;
+    report += `P${i+1}. ${item.title}\n  Q: ${item.q}\n  Your Answer: ${sel} — ${correct}\n\n`;
+  });
+  report += `--- EXIT TICKET ---\n`;
+  exits.forEach((item, i) => {
+    const sel = eAnswers[i] !== undefined ? eAnswers[i] : '(not answered)';
+    const correct = sel === item.correct ? 'CORRECT' : `WRONG (correct: ${item.correct})`;
+    report += `E${i+1}. ${item.q}\n  Your Answer: ${sel} — ${correct}\n\n`;
+  });
+  report += `--- REFLECTIONS ---\n`;
+  report += `Reflection 1:\n${ref1}\n\n`;
+  report += `Reflection 2:\n${ref2}\n`;
+  const blob = new Blob([report], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `ESL_VocabPrep_${tabKey.toUpperCase()}_${name.replace(/\s+/g,'_')}_${dateStr.replace(/\//g,'-')}.txt`;
+  a.click();
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+function addProgress(pts) {
+  progressPoints = Math.min(progressPoints + pts, totalPoints);
+  const pct = Math.round((progressPoints / totalPoints) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${progressPoints} / ${totalPoints} points`;
+}
+
+function startTimer() {
+  setInterval(() => {
+    secondsElapsed++;
+    document.getElementById('timerDisplay').textContent = '⏱ ' + formatTime(secondsElapsed);
+  }, 1000);
+}
+
+function formatTime(s) {
+  const m = Math.floor(s/60).toString().padStart(2,'0');
+  const sec = (s%60).toString().padStart(2,'0');
+  return `${m}:${sec}`;
+}
+
+function trackNavigation() {
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) {
+      leaveCount++;
+      document.getElementById('leaveBadge').textContent = `👁 Leaves: ${leaveCount}`;
+    }
+  });
+}
+</script>
+</body>
+</html>
