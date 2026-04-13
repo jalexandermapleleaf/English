@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Midterm Study Guide | 期中考试学习指南</title>
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ml-green:#2d6a4f; --ml-green-dark:#1b4332; --ml-green-light:#d8f3dc;
+  --ml-red:#c1121f; --ml-gold:#e9c46a;
+  --ink:#1a2a1a; --ink2:#2d3748; --mist:#f8faf8; --border:#e2e8e2;
+  --cobalt:#1e3a5f; --amber:#b45309; --amber-light:#fef3c7;
+  --purple:#5b21b6; --purple-light:#ede9fe;
+  --teal:#0e7490; --teal-light:#cffafe;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:#f0f4f0;color:var(--ink);min-height:100vh;}
+h1,h2,h3{font-family:'Literata',serif;}
+.cn{font-family:'Noto Sans SC',sans-serif;}
+
+/* Header */
+#header{background:var(--ml-green-dark);color:#fff;padding:14px 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.25);}
+.header-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.header-title{font-family:'Literata',serif;font-size:1.1rem;font-weight:600;}
+.header-sub{font-size:.75rem;opacity:.8;font-family:'Noto Sans SC',sans-serif;}
+.header-right{display:flex;align-items:center;gap:12px;}
+.badge{background:var(--ml-red);color:#fff;border-radius:20px;padding:3px 10px;font-size:.75rem;font-weight:600;}
+.prog-wrap{margin-top:8px;}
+.prog-bar-outer{background:rgba(255,255,255,.25);border-radius:4px;height:6px;width:100%;}
+.prog-bar-inner{background:var(--ml-gold);height:6px;border-radius:4px;width:0%;transition:width .4s;}
+.prog-text{font-size:.7rem;opacity:.8;margin-top:3px;}
+
+/* Notice */
+#notice{background:var(--amber-light);border-left:4px solid var(--amber);padding:10px 16px;font-size:.82rem;color:var(--amber);}
+
+/* Tabs */
+.tabs-wrap{background:#fff;border-bottom:2px solid var(--border);position:sticky;top:68px;z-index:90;overflow-x:auto;}
+.tabs{display:flex;gap:0;min-width:max-content;}
+.tab-btn{padding:12px 20px;border:none;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;color:#666;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;}
+.tab-btn.active{color:var(--ml-green-dark);border-bottom-color:var(--ml-green);}
+.tab-btn:hover:not(.active){background:#f5f5f5;}
+.tab-btn .pip{display:inline-block;width:8px;height:8px;border-radius:50%;background:#ccc;margin-left:6px;vertical-align:middle;}
+.tab-btn .pip.done{background:#22c55e;}
+
+/* Main */
+main{max-width:900px;margin:0 auto;padding:20px 16px 80px;}
+.tab-content{display:none;} .tab-content.active{display:block;}
+
+/* Section cards */
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:20px;}
+.card-title{font-size:1.1rem;font-weight:600;color:var(--ml-green-dark);margin-bottom:4px;}
+.card-sub{font-size:.8rem;color:#888;font-family:'Noto Sans SC',sans-serif;margin-bottom:14px;}
+
+/* Concept box */
+.concept-box{background:var(--ml-green-light);border-left:4px solid var(--ml-green);border-radius:8px;padding:16px;margin-bottom:16px;}
+.concept-box h3{font-size:1rem;color:var(--ml-green-dark);margin-bottom:8px;}
+.concept-box p{font-size:.9rem;line-height:1.7;margin-bottom:8px;}
+.concept-box .cn{font-size:.85rem;color:#444;line-height:1.7;}
+.key-rules{background:#fff;border:1px solid var(--ml-green);border-radius:8px;padding:14px;margin-top:12px;}
+.key-rules h4{font-size:.88rem;font-weight:600;color:var(--ml-green-dark);margin-bottom:8px;}
+.key-rules li{font-size:.86rem;line-height:1.8;margin-left:18px;}
+
+/* Strategy tip */
+.strategy{background:var(--amber-light);border:1px solid #fcd34d;border-radius:8px;padding:14px;margin-bottom:16px;}
+.strategy h4{font-size:.88rem;font-weight:600;color:var(--amber);margin-bottom:8px;}
+.strategy p, .strategy li{font-size:.86rem;line-height:1.7;color:#78350f;}
+.strategy li{margin-left:18px;}
+
+/* Question type badges */
+.q-type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px;}
+.q-type-card{border-radius:8px;padding:12px;text-align:center;}
+.q-type-card.recall{background:#dbeafe;border:1px solid #93c5fd;}
+.q-type-card.infer{background:#ede9fe;border:1px solid #c4b5fd;}
+.q-type-card.craft{background:#fef9c3;border:1px solid #fde047;}
+.q-type-card.vocab{background:#dcfce7;border:1px solid #86efac;}
+.q-type-card h5{font-size:.82rem;font-weight:600;margin-bottom:4px;}
+.q-type-card p{font-size:.75rem;line-height:1.4;}
+.q-type-card.recall h5{color:#1d4ed8;}
+.q-type-card.infer h5{color:#5b21b6;}
+.q-type-card.craft h5{color:#a16207;}
+.q-type-card.vocab h5{color:#15803d;}
+
+/* Passage */
+.passage-wrap{background:var(--mist);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:14px;}
+.passage-title{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#666;margin-bottom:8px;}
+.passage-text{font-family:'Literata',serif;font-size:.95rem;line-height:1.8;color:var(--ink2);}
+
+/* Q block */
+.q-block{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.q-block:last-child{border-bottom:none;}
+.q-num{display:inline-block;background:var(--ml-green-dark);color:#fff;border-radius:6px;padding:2px 8px;font-size:.75rem;font-weight:600;margin-bottom:8px;}
+.q-type-tag{display:inline-block;border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:600;margin-left:6px;}
+.q-type-tag.recall{background:#dbeafe;color:#1d4ed8;}
+.q-type-tag.infer{background:#ede9fe;color:#5b21b6;}
+.q-type-tag.craft{background:#fef9c3;color:#a16207;}
+.q-type-tag.vocab{background:#dcfce7;color:#15803d;}
+.q-stem{font-size:.92rem;font-weight:500;color:var(--ink);margin-bottom:6px;line-height:1.5;}
+.q-stem-cn{font-size:.82rem;color:#666;font-family:'Noto Sans SC',sans-serif;margin-bottom:10px;}
+.options{display:grid;gap:6px;}
+.opt-btn{display:flex;align-items:flex-start;gap:10px;background:#fafafa;border:1.5px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;text-align:left;font-size:.88rem;line-height:1.5;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.opt-btn:hover:not(:disabled){background:var(--ml-green-light);border-color:var(--ml-green);}
+.opt-btn.correct{background:#dcfce7;border-color:#16a34a;color:#15803d;}
+.opt-btn.wrong{background:#fee2e2;border-color:#dc2626;color:#991b1b;}
+.opt-btn:disabled{cursor:default;}
+.opt-letter{font-weight:700;min-width:18px;}
+.rationale{margin-top:10px;padding:10px 14px;border-radius:8px;font-size:.85rem;line-height:1.6;display:none;}
+.rationale.show{display:block;}
+.rationale.correct{background:#dcfce7;border-left:3px solid #16a34a;color:#14532d;}
+.rationale.wrong{background:#fee2e2;border-left:3px solid #dc2626;color:#7f1d1d;}
+.rat-cn{font-family:'Noto Sans SC',sans-serif;font-size:.8rem;margin-top:4px;opacity:.85;}
+
+/* Vocab */
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px;}
+.vocab-card{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:14px;transition:box-shadow .2s;}
+.vocab-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.vocab-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.vocab-word{font-family:'Literata',serif;font-size:1.1rem;font-weight:600;color:var(--ml-green-dark);}
+.vocab-pos{font-size:.72rem;background:var(--ml-green-light);color:var(--ml-green-dark);border-radius:4px;padding:2px 7px;font-weight:600;}
+.vocab-cn-word{font-size:.95rem;color:var(--cobalt);font-family:'Noto Sans SC',sans-serif;margin-bottom:6px;}
+.vocab-def{font-size:.85rem;color:#444;line-height:1.5;margin-bottom:4px;}
+.vocab-cn-def{font-size:.8rem;color:#666;font-family:'Noto Sans SC',sans-serif;margin-bottom:8px;}
+.vocab-ex{font-size:.83rem;font-style:italic;color:#555;border-top:1px solid var(--border);padding-top:8px;}
+.speak-btn{background:none;border:1.5px solid var(--ml-green);color:var(--ml-green);border-radius:6px;padding:3px 8px;cursor:pointer;font-size:.78rem;transition:all .15s;}
+.speak-btn:hover{background:var(--ml-green);color:#fff;}
+
+/* Exit ticket */
+.exit-section{margin-top:24px;border-top:2px solid var(--border);padding-top:20px;}
+.exit-header{font-size:1rem;font-weight:600;color:var(--ml-green-dark);margin-bottom:4px;}
+.exit-sub{font-size:.8rem;color:#888;font-family:'Noto Sans SC',sans-serif;margin-bottom:16px;}
+.exit-q{margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.exit-q:last-of-type{border-bottom:none;}
+.exit-qnum{font-size:.78rem;font-weight:600;color:#888;margin-bottom:6px;}
+.exit-stem{font-size:.9rem;font-weight:500;margin-bottom:4px;line-height:1.5;}
+.exit-stem-cn{font-size:.8rem;color:#666;font-family:'Noto Sans SC',sans-serif;margin-bottom:8px;}
+
+/* Score & reflection */
+.score-box{background:var(--ml-green-light);border:2px solid var(--ml-green);border-radius:10px;padding:16px;text-align:center;margin-bottom:16px;display:none;}
+.score-box.show{display:block;}
+.score-num{font-size:2rem;font-weight:700;color:var(--ml-green-dark);}
+.score-label{font-size:.85rem;color:var(--ml-green-dark);}
+.reflection-wrap{display:none;} .reflection-wrap.show{display:block;}
+.reflection-q{font-size:.9rem;font-weight:500;margin-bottom:6px;}
+.reflection-q-cn{font-size:.8rem;color:#666;font-family:'Noto Sans SC',sans-serif;margin-bottom:8px;}
+textarea.reflect-input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px;font-family:'DM Sans',sans-serif;font-size:.88rem;resize:vertical;min-height:80px;margin-bottom:16px;}
+textarea.reflect-input:focus{outline:none;border-color:var(--ml-green);}
+
+/* Buttons */
+.dl-btn{display:inline-block;background:var(--ml-green-dark);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;margin-top:8px;}
+.dl-btn:hover{background:var(--ml-green);}
+.name-wrap{margin-bottom:16px;}
+.name-wrap label{font-size:.85rem;font-weight:500;display:block;margin-bottom:6px;}
+.name-input{border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.9rem;font-family:'DM Sans',sans-serif;width:100%;max-width:320px;}
+.name-input:focus{outline:none;border-color:var(--ml-green);}
+
+/* Timer */
+#timer{position:fixed;bottom:16px;right:16px;background:var(--ml-green-dark);color:#fff;border-radius:10px;padding:8px 14px;font-size:.85rem;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:200;}
+
+@media(max-width:600px){
+  main{padding:14px 10px 80px;}
+  .card{padding:16px;}
+  .q-type-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div class="header-row">
+    <div>
+      <div class="header-title">Midterm Study Guide — Figurative Language</div>
+      <div class="header-sub cn">期中考试学习指南 · English 11-2</div>
+    </div>
+    <div class="header-right">
+      <span class="badge" id="leaveBadge">👁 Leaves: 0</span>
+    </div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-bar-outer"><div class="prog-bar-inner" id="progressBar"></div></div>
+    <div class="prog-text" id="progressText">Progress: 0 / 65 points</div>
+  </div>
+</div>
+
+<div id="notice">⚠️ This tab is being monitored. Leaving the page will be recorded. | 本页面受到监控，离开页面将被记录。</div>
+
+<div class="tabs-wrap">
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('vocab',this)">📚 Vocabulary<br><small class="cn">词汇</small></button>
+    <button class="tab-btn" onclick="switchTab('literary',this)">📖 Literary Text<br><small class="cn">文学文本 <span class="pip" id="pip-literary"></span></small></button>
+    <button class="tab-btn" onclick="switchTab('info',this)">📰 Informational Text<br><small class="cn">信息文本 <span class="pip" id="pip-info"></span></small></button>
+    <button class="tab-btn" onclick="switchTab('poem',this)">🎭 Poem<br><small class="cn">诗歌 <span class="pip" id="pip-poem"></span></small></button>
+  </div>
+</div>
+
+<main>
+
+<!-- ══════════════ VOCAB TAB ══════════════ -->
+<div id="tab-vocab" class="tab-content active">
+  <div class="card">
+    <div class="card-title">Key Vocabulary 关键词汇</div>
+    <div class="card-sub">Click 🔊 to hear pronunciation · 点击🔊听发音</div>
+    <div class="vocab-grid" id="vocabGrid"></div>
+  </div>
+</div>
+
+<!-- ══════════════ LITERARY TEXT TAB ══════════════ -->
+<div id="tab-literary" class="tab-content">
+  <div class="card">
+    <div class="card-title">📖 Literary Text — How to Approach the Questions</div>
+    <div class="card-sub cn">文学文本 · 如何处理各类题目</div>
+
+    <div class="concept-box">
+      <h3>What is a Literary Text? 什么是文学文本？</h3>
+      <p>A <strong>literary text</strong> is a creative, imaginative story — a short story, novel excerpt, or narrative. It has characters, a setting, a plot, and a theme. On this exam, the literary text will be a short story that uses figurative language.</p>
+      <p class="cn">文学文本是有创意的、有想象力的故事——短篇小说、小说节选或叙事文。它有人物、场景、情节和主题。在这次考试中，文学文本将是一篇使用比喻语言的短篇故事。</p>
+      <div class="key-rules">
+        <h4>📋 The 6-Question Pattern for Literary Text</h4>
+        <ul>
+          <li><strong>Q1 (Recall):</strong> A directly stated fact — find it in the text. 直接在文中找答案。</li>
+          <li><strong>Q2 (Recall):</strong> "According to the passage…" — exact detail. 文中的具体细节。</li>
+          <li><strong>Q3 (Inference):</strong> "Why does…" — read between the lines. 推断角色的动机。</li>
+          <li><strong>Q4 (Inference):</strong> "What can we infer…" — use clues to draw a conclusion. 用线索得出结论。</li>
+          <li><strong>Q5 (Author's Craft):</strong> Identify a literary device — metaphor, simile, personification, etc. 识别修辞手法。</li>
+          <li><strong>Q6 (Vocabulary):</strong> "What does [word] most likely mean?" — use context. 用上下文猜测词义。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q-type-grid">
+      <div class="q-type-card recall"><h5>Q1–2: Recall 回忆</h5><p>The answer is IN the text. Read carefully — don't guess.</p></div>
+      <div class="q-type-card infer"><h5>Q3–4: Inference 推断</h5><p>The answer is SUGGESTED by the text. Use clues.</p></div>
+      <div class="q-type-card craft"><h5>Q5: Author's Craft 写作技巧</h5><p>Name the device. Think about WHY the author used it.</p></div>
+      <div class="q-type-card vocab"><h5>Q6: Vocabulary 词汇</h5><p>Reread the sentence. Replace the word. Which option fits best?</p></div>
+    </div>
+
+    <div class="strategy">
+      <h4>🎯 How to Approach Literary Text Questions</h4>
+      <ul>
+        <li><strong>Read the full story first</strong> before looking at any questions. 先读完整篇文章再看问题。</li>
+        <li><strong>For Recall (Q1–2):</strong> Go back and find the exact line. Don't rely on memory. 回到文中找到确切句子。</li>
+        <li><strong>For Inference (Q3–4):</strong> Ask — what does the character's action/words reveal about them? 角色的行为说明了什么？</li>
+        <li><strong>For Author's Craft (Q5):</strong> Does it use "like" or "as"? → simile. No "like/as" but compares two things? → metaphor. 有没有"like/as"？</li>
+        <li><strong>For Vocabulary (Q6):</strong> Cover the word, read the sentence, think of your own word — then match. 盖住单词，用自己的词替换。</li>
+        <li><strong>Watch for traps:</strong> Antonym traps (opposite meaning), too literal, too extreme. 注意反义词陷阱、过于字面、过于极端的选项。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Practice Questions — Literary Text</div>
+    <div class="card-sub cn">练习题 · 文学文本（全新例文，非考试原文）</div>
+    <div class="name-wrap">
+      <label>Student Name / 学生姓名: <input class="name-input" id="nameL" type="text" placeholder="Enter your name..."></label>
+    </div>
+    <div id="literaryPracticeContainer"></div>
+    <div class="exit-section">
+      <div class="exit-header">✅ Exit Ticket 退出测验</div>
+      <div class="exit-sub cn">10 questions to check your understanding · 10道题检验你的理解</div>
+      <div id="literaryExitContainer"></div>
+      <div class="score-box" id="lScoreBox"><div class="score-num" id="lScoreNum"></div><div class="score-label cn" id="lScoreMsg"></div></div>
+      <div class="reflection-wrap" id="lReflection">
+        <div class="reflection-q">1. Think of a story you know. Choose ONE sentence from the story and explain what literary device it uses and why the author might have chosen it.</div>
+        <div class="reflection-q-cn cn">想一个你知道的故事。选择故事中的一句话，解释它使用了什么修辞手法，以及作者为什么可能选择它。</div>
+        <textarea class="reflect-input" id="lRef1" placeholder="Write your response here... / 在此写下你的回答..."></textarea>
+        <div class="reflection-q">2. In "The Last Letter," Maya struggles to find the right words. Have you ever found it difficult to express something important? What did you do?</div>
+        <div class="reflection-q-cn cn">在考试故事中，Maya很难找到合适的词语。你有没有觉得难以表达某些重要的事情？你是怎么做的？</div>
+        <textarea class="reflect-input" id="lRef2" placeholder="Write your response here... / 在此写下你的回答..."></textarea>
+        <button class="dl-btn" onclick="downloadReport('literary')">⬇ Download My Report / 下载报告</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ INFORMATIONAL TEXT TAB ══════════════ -->
+<div id="tab-info" class="tab-content">
+  <div class="card">
+    <div class="card-title">📰 Informational Text — How to Approach the Questions</div>
+    <div class="card-sub cn">信息文本 · 如何处理各类题目</div>
+
+    <div class="concept-box">
+      <h3>What is an Informational Text? 什么是信息文本？</h3>
+      <p>An <strong>informational text</strong> (also called non-fiction or expository text) presents facts, explains ideas, or provides information about a topic. On this exam, A2 was an <strong>infographic</strong> — a visual information poster. Your questions asked about what the infographic stated, implied, and was designed to do.</p>
+      <p class="cn">信息文本（也称为非虚构或说明性文本）呈现事实、解释想法或提供有关某个主题的信息。在本次考试中，A2是一张信息图——一张视觉信息海报。问题询问信息图陈述了什么、暗示了什么以及其设计目的。</p>
+      <div class="key-rules">
+        <h4>📋 The 6-Question Pattern for Informational Text</h4>
+        <ul>
+          <li><strong>Q7 (Recall):</strong> What does the text DIRECTLY state? 文本直接陈述了什么？</li>
+          <li><strong>Q8 (Recall):</strong> Which example / detail is mentioned? 提到了哪个例子/细节？</li>
+          <li><strong>Q9 (Inference):</strong> WHY does a fact lead to a conclusion? 为什么某个事实导致某个结论？</li>
+          <li><strong>Q10 (Inference):</strong> What is the DIFFERENCE between two concepts? 两个概念的区别是什么？</li>
+          <li><strong>Q11 (Author's Craft):</strong> What is the PURPOSE of this text? 这篇文章的目的是什么？</li>
+          <li><strong>Q12 (Vocabulary):</strong> What does [term] mean in this context? 这个词在此处的含义是什么？</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q-type-grid">
+      <div class="q-type-card recall"><h5>Q7–8: Recall 回忆</h5><p>Scan back to find the fact. It is stated clearly.</p></div>
+      <div class="q-type-card infer"><h5>Q9–10: Inference 推断</h5><p>Connect two facts. The answer is suggested, not stated.</p></div>
+      <div class="q-type-card craft"><h5>Q11: Purpose 目的</h5><p>Inform / Persuade / Entertain / Instruct — pick the best one.</p></div>
+      <div class="q-type-card vocab"><h5>Q12: Vocabulary 词汇</h5><p>Use the surrounding words to figure out the meaning.</p></div>
+    </div>
+
+    <div class="strategy">
+      <h4>🎯 How to Approach Informational Text Questions</h4>
+      <ul>
+        <li><strong>For Recall (Q7–8):</strong> The answer is written in the text. Find the section and re-read carefully. 答案就在文中，找到相关部分仔细重读。</li>
+        <li><strong>For Inference (Q9–10):</strong> Ask — "If the text says X, what must also be true?" 如果文章说X，那么什么也一定是真的？</li>
+        <li><strong>For Purpose (Q11):</strong> Inform = gives facts. Persuade = wants you to agree. Entertain = funny/engaging. Instruct = how-to. 告知=给出事实。说服=希望你同意。娱乐=有趣。指导=方法步骤。</li>
+        <li><strong>For Vocabulary (Q12):</strong> Read the FULL sentence around the word — what feeling/meaning does the sentence need? 读包含该词的完整句子——句子需要什么感觉/含义？</li>
+        <li><strong>Distractor watch:</strong> "Too narrow" (only one detail when the answer is bigger), "too extreme" (always/never), "off-topic." 注意"太窄"、"太极端"和"偏离主题"的干扰项。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Practice Questions — Informational Text</div>
+    <div class="card-sub cn">练习题 · 信息文本（全新例文，非考试原文）</div>
+    <div class="name-wrap">
+      <label>Student Name / 学生姓名: <input class="name-input" id="nameI" type="text" placeholder="Enter your name..."></label>
+    </div>
+    <div id="infoPracticeContainer"></div>
+    <div class="exit-section">
+      <div class="exit-header">✅ Exit Ticket 退出测验</div>
+      <div class="exit-sub cn">10 questions · 10道题</div>
+      <div id="infoExitContainer"></div>
+      <div class="score-box" id="iScoreBox"><div class="score-num" id="iScoreNum"></div><div class="score-label cn" id="iScoreMsg"></div></div>
+      <div class="reflection-wrap" id="iReflection">
+        <div class="reflection-q">1. An informational text can use many structures (compare/contrast, cause/effect, problem/solution). Find ONE example of each from any informational text you have read.</div>
+        <div class="reflection-q-cn cn">信息文本可以使用多种结构（对比、因果、问题/解决方案）。从你读过的任何信息文本中各找一个例子。</div>
+        <textarea class="reflect-input" id="iRef1" placeholder="Write your response here... / 在此写下你的回答..."></textarea>
+        <div class="reflection-q">2. Why is it important to understand the PURPOSE of a text before answering questions about it?</div>
+        <div class="reflection-q-cn cn">为什么在回答有关文章的问题之前，理解文章的目的很重要？</div>
+        <textarea class="reflect-input" id="iRef2" placeholder="Write your response here... / 在此写下你的回答..."></textarea>
+        <button class="dl-btn" onclick="downloadReport('info')">⬇ Download My Report / 下载报告</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ POEM TAB ══════════════ -->
+<div id="tab-poem" class="tab-content">
+  <div class="card">
+    <div class="card-title">🎭 Poem — How to Approach the Questions</div>
+    <div class="card-sub cn">诗歌 · 如何处理各类题目</div>
+
+    <div class="concept-box">
+      <h3>What makes poetry different? 诗歌有什么不同？</h3>
+      <p>Poetry uses <strong>compressed language</strong> — every word counts. Poets use figurative language (metaphor, simile, personification), <strong>tone</strong>, and <strong>imagery</strong> to communicate ideas and feelings. You don't need to understand every line — focus on the overall feeling and the key images.</p>
+      <p class="cn">诗歌使用"压缩的语言"——每个词都很重要。诗人用比喻语言（隐喻、明喻、拟人）、语气和意象来传达思想和感情。你不需要理解每一行——专注于整体感觉和关键意象。</p>
+      <div class="key-rules">
+        <h4>📋 The 6-Question Pattern for Poem</h4>
+        <ul>
+          <li><strong>Q13 (Recall):</strong> What does the poem say about [subject]? 诗歌对[主题]说了什么？</li>
+          <li><strong>Q14 (Recall):</strong> What is compared to what? 什么与什么相比较？</li>
+          <li><strong>Q15 (Inference):</strong> What does the speaker MEAN by this image/line? 诗人通过这个意象/诗行想表达什么？</li>
+          <li><strong>Q16 (Inference):</strong> What is the CENTRAL THEME? 中心主题是什么？</li>
+          <li><strong>Q17 (Author's Craft):</strong> What is the TONE? 语气是什么？</li>
+          <li><strong>Q18 (Vocabulary):</strong> What does [word/phrase] suggest in this context? 这个词/短语在此处暗示什么？</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="q-type-grid">
+      <div class="q-type-card recall"><h5>Q13–14: Recall 回忆</h5><p>Find the comparison or image in the poem. It is there.</p></div>
+      <div class="q-type-card infer"><h5>Q15–16: Inference 推断</h5><p>What feeling / idea is behind the image? Go deeper.</p></div>
+      <div class="q-type-card craft"><h5>Q17: Tone 语气</h5><p>What FEELING does the poet have? Choose the best word.</p></div>
+      <div class="q-type-card vocab"><h5>Q18: Suggestion 暗示</h5><p>"Suggest" = what does the image/word imply? Not literal.</p></div>
+    </div>
+
+    <div class="strategy">
+      <h4>🎯 How to Approach Poem Questions</h4>
+      <ul>
+        <li><strong>Read the poem TWICE</strong> — first for feeling, second for meaning. 读两遍——第一遍感受，第二遍理解。</li>
+        <li><strong>For Recall (Q13–14):</strong> Find the exact stanza/line that answers the question. 找到回答问题的确切诗节/诗行。</li>
+        <li><strong>For Inference (Q15–16):</strong> Ask — "If the poet compares X to Y, what are they saying about X?" 如果诗人将X比作Y，他们在说X的什么？</li>
+        <li><strong>For Tone (Q17):</strong> Common tones: reflective (思考的), melancholic (忧郁的), hopeful (充满希望的), joyful (欢乐的), bitter (痛苦的). 常见语气词汇。</li>
+        <li><strong>For "Suggest" (Q18):</strong> The question is NOT asking what literally happens — it asks what the image MEANS emotionally or symbolically. 问题不是问字面上发生了什么，而是意象的情感或象征意义。</li>
+        <li><strong>Trap: Literal reading.</strong> "Rain fell like apologies" does NOT mean it was actually raining apologies. 陷阱：字面理解。比喻不是字面意思。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Practice Questions — Poem</div>
+    <div class="card-sub cn">练习题 · 诗歌（全新例诗，非考试原文）</div>
+    <div class="name-wrap">
+      <label>Student Name / 学生姓名: <input class="name-input" id="nameP" type="text" placeholder="Enter your name..."></label>
+    </div>
+    <div id="poemPracticeContainer"></div>
+    <div class="exit-section">
+      <div class="exit-header">✅ Exit Ticket 退出测验</div>
+      <div class="exit-sub cn">10 questions · 10道题</div>
+      <div id="poemExitContainer"></div>
+      <div class="score-box" id="pScoreBox"><div class="score-num" id="pScoreNum"></div><div class="score-label cn" id="pScoreMsg"></div></div>
+      <div class="reflection-wrap" id="pReflection">
+        <div class="reflection-q">1. Choose ONE image from the practice poem and explain: (a) what device it uses, (b) what it literally describes, and (c) what it means emotionally.</div>
+        <div class="reflection-q-cn cn">从练习诗歌中选择一个意象并解释：(a) 它使用了什么修辞手法，(b) 它字面上描述了什么，(c) 它在情感上意味着什么。</div>
+        <textarea class="reflect-input" id="pRef1" placeholder="Write your response here... / 在此写下你的回答..."></textarea>
+        <div class="reflection-q">2. The poem "What the Storm Said" in the exam uses a storm to express human emotions. Can you think of another natural event (e.g., sunrise, snow, drought) that could represent a human feeling? Explain.</div>
+        <div class="reflection-q-cn cn">考试中的诗歌"风暴说的话"用风暴来表达人类的情感。你能想到另一个自然事件（例如日出、雪、干旱）可以代表人类的感情吗？请解释。</div>
+        <textarea class="reflect-input" id="pRef2" placeholder="Write your response here... / 在此写下你的回答..."></textarea>
+        <button class="dl-btn" onclick="downloadReport('poem')">⬇ Download My Report / 下载报告</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<div id="timer">⏱ 00:00</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────
+let leaveCount=0, secondsElapsed=0, progressPoints=0;
+const totalPoints=65; // 5 vocab + 10×3 practices + 10×3 exits... simplified: 10*3 practices + 10*3 exits + 5 vocab
+// Actually: 10 practices per tab × 3 tabs = 30, 10 exits × 3 = 30, 5 vocab = 5 → 65
+const literaryAnswers={}, literaryExitAnswers={};
+const infoAnswers={}, infoExitAnswers={};
+const poemAnswers={}, poemExitAnswers={};
+let literaryScore=0, infoScore=0, poemScore=0;
+let literaryExitDone=0, infoExitDone=0, poemExitDone=0;
+
+// ── VOCAB ──────────────────────────────────────────────
+const VOCAB=[
+  {word:"metaphor",pos:"noun",cn:"隐喻",def:"A direct comparison that says one thing IS another thing (no 'like' or 'as').",cn_def:"直接比较，说一件事就是另一件事（不使用'like'或'as'）。",example:"His words were a sharp knife, cutting through the silence."},
+  {word:"simile",pos:"noun",cn:"明喻",def:"A comparison using 'like' or 'as' to show how two different things are similar.",cn_def:"使用'like'或'as'来说明两件不同事物相似之处的比较。",example:"She moved through the crowd like a fish through water."},
+  {word:"implicit",pos:"adjective",cn:"隐含的",def:"Suggested or understood without being directly stated.",cn_def:"暗示的，不直接陈述但可以理解的。",example:"His silence gave an implicit message that he disagreed."},
+  {word:"explicit",pos:"adjective",cn:"明确的",def:"Clearly and directly stated, with nothing left to guess.",cn_def:"清楚直接地陈述，没有任何需要猜测的地方。",example:"The teacher gave explicit instructions for the assignment."},
+  {word:"tone",pos:"noun",cn:"语气/基调",def:"The feeling or attitude that a writer expresses toward a subject.",cn_def:"作者对某一主题所表达的感情或态度。",example:"The poem's tone was melancholic, full of quiet sadness."},
+  {word:"imagery",pos:"noun",cn:"意象",def:"Descriptive language that creates a picture or feeling in the reader's mind.",cn_def:"在读者脑海中创造图像或感觉的描述性语言。",example:"The imagery of the crashing waves made readers feel the storm."},
+  {word:"figurative language",pos:"noun",cn:"比喻语言",def:"Language that uses figures of speech (metaphor, simile, etc.) rather than literal meaning.",cn_def:"使用修辞手法（隐喻、明喻等）而非字面意义的语言。",example:"The poem was full of figurative language that gave the storm human feelings."},
+  {word:"inference",pos:"noun",cn:"推断",def:"A conclusion reached by using clues in the text, not directly stated information.",cn_def:"通过文本中的线索得出的结论，而非直接陈述的信息。",example:"We made the inference that she was nervous from her shaking hands."},
+  {word:"theme",pos:"noun",cn:"主题",def:"The central message or big idea that a text explores.",cn_def:"文本所探讨的中心信息或重要思想。",example:"The theme of the story was the power of words to heal."},
+  {word:"personification",pos:"noun",cn:"拟人",def:"Giving human qualities, feelings, or actions to a non-human thing.",cn_def:"赋予非人类事物以人类的品质、感情或行为。",example:"The wind whispered secrets through the old trees."},
+  {word:"rationale",pos:"noun",cn:"理由/依据",def:"The reason or explanation behind a choice or decision.",cn_def:"某个选择或决定背后的原因或解释。",example:"She explained the rationale for choosing the metaphor over a simile."},
+  {word:"context clue",pos:"noun",cn:"上下文线索",def:"Words or phrases around an unfamiliar word that help you understand its meaning.",cn_def:"帮助你理解陌生词义的周围词语或短语。",example:"The context clue 'shivering in the cold' helped me understand 'frigid.'"}
+];
+
+function buildVocab(){
+  const g=document.getElementById('vocabGrid');
+  VOCAB.forEach(v=>{
+    g.innerHTML+=`<div class="vocab-card">
+      <div class="vocab-top">
+        <span class="vocab-word">${v.word}</span>
+        <span class="vocab-pos">${v.pos}</span>
+      </div>
+      <div class="vocab-cn-word cn">${v.cn}</div>
+      <div class="vocab-def">${v.def}</div>
+      <div class="vocab-cn-def cn">${v.cn_def}</div>
+      <div class="vocab-ex">"${v.example}"</div>
+      <button class="speak-btn" onclick="speakWord('${v.word}')">🔊 Pronounce</button>
+    </div>`;
+  });
+}
+function speakWord(w){
+  if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(w);u.lang='en-US';u.rate=0.85;speechSynthesis.speak(u);}
+}
+
+// ── LITERARY PRACTICES ─────────────────────────────────
+const LITERARY_PRACTICES=[
+  {id:'lq1',title:"The Empty Canvas",
+   passage:"Chen had been staring at the blank canvas for three hours. Around him, his classmates painted mountains, rivers, and city streets. He could see what he wanted to paint — the feeling of standing in his grandmother's kitchen, the smell of star anise and ginger, the way the afternoon light turned everything golden. But every time he lifted his brush, the image dissolved. His teacher, Ms. Wang, stopped behind him. She placed her hand gently on his shoulder and said nothing. Sometimes, Chen realized, silence is its own kind of language.",
+   q:"According to the passage, how long had Chen been staring at the blank canvas?",q_cn:"根据文章，Chen盯着空白画布看了多久？",hint:null,
+   options:["A. One hour|A. 一个小时","B. Two hours|B. 两个小时","C. Three hours|C. 三个小时","D. All morning|D. 整个上午"],correct:"C",
+   rationale:"Correct! The text directly states 'Chen had been staring at the blank canvas for three hours.'|正确！文本直接说明'Chen盯着空白画布看了三个小时'。",
+   rationale_wrong:{A:"Incorrect. One hour is not mentioned. Look for the exact time stated.|不正确。文中没有提到一小时。找文中明确说明的时间。",B:"Incorrect. Two hours is not mentioned. The answer is stated clearly in the first sentence.|不正确。文中没有两小时。答案在第一句明确说明。",D:"'All morning' is not stated. The passage gives an exact number of hours.|'整个上午'没有在文中提到。文章给出了确切的小时数。"}},
+  {id:'lq2',title:"The Empty Canvas",
+   passage:"Chen had been staring at the blank canvas for three hours. Around him, his classmates painted mountains, rivers, and city streets. He could see what he wanted to paint — the feeling of standing in his grandmother's kitchen, the smell of star anise and ginger, the way the afternoon light turned everything golden. But every time he lifted his brush, the image dissolved. His teacher, Ms. Wang, stopped behind him. She placed her hand gently on his shoulder and said nothing. Sometimes, Chen realized, silence is its own kind of language.",
+   q:"What was Chen trying to paint?",q_cn:"Chen想画什么？",hint:null,
+   options:["A. A mountain landscape|A. 山地风景","B. The feeling of his grandmother's kitchen|B. 奶奶厨房的感觉","C. His teacher, Ms. Wang|C. 他的老师王老师","D. A city street scene|D. 城市街道场景"],correct:"B",
+   rationale:"Correct! The text states he wanted to paint 'the feeling of standing in his grandmother's kitchen.'|正确！文本说他想画'站在奶奶厨房里的感觉'。",
+   rationale_wrong:{A:"Mountains are mentioned as what his classmates painted, not Chen.|山是同学们画的，不是Chen。",C:"Ms. Wang is Chen's teacher who observes him — not the subject of his painting.|王老师是观察他的老师，不是他想画的主题。",D:"City streets are painted by his classmates, not what Chen wants to paint.|城市街道是同学们画的场景。"}},
+  {id:'lq3',title:"The Empty Canvas",
+   passage:"Chen had been staring at the blank canvas for three hours. Around him, his classmates painted mountains, rivers, and city streets. He could see what he wanted to paint — the feeling of standing in his grandmother's kitchen, the smell of star anise and ginger, the way the afternoon light turned everything golden. But every time he lifted his brush, the image dissolved. His painting teacher, Ms. Wang, stopped behind him. She placed her hand gently on his shoulder and said nothing. Sometimes, Chen realized, silence is its own kind of language.",
+   q:"Why does Chen struggle to paint even though he knows what he wants to show?",q_cn:"为什么Chen知道想画什么却仍然难以下笔？",hint:null,
+   options:["A. He does not have the right art supplies.|A. 他没有合适的绘画材料。","B. He is distracted by his noisy classmates.|B. 他被吵闹的同学分心了。","C. He does not really like painting.|C. 他其实不喜欢画画。","D. He wants to capture a feeling, not just an image — which is harder to paint.|D. 他想捕捉一种感觉，而不只是一个图像——这更难画。"],correct:"D",
+   rationale:"Correct! Chen isn't struggling with skill — he wants to paint 'the feeling' of the kitchen, which is abstract and emotional, not a physical scene.|正确！Chen不是缺乏技巧——他想画厨房的'感觉'，这是抽象和情感性的，而不是具体的场景。",
+   rationale_wrong:{A:"Art supplies are not mentioned as a problem in the passage.|文中没有提到绘画材料有问题。",B:"Classmates are mentioned only to contrast with Chen — they are not described as noisy.|同学只是用来与Chen对比，没有描述为吵闹。",C:"The opposite is implied — Chen wants very much to paint, he just struggles to translate his feelings.|相反，Chen非常想画画，只是难以将感受转化为画作。"}},
+  {id:'lq4',title:"The Empty Canvas",
+   passage:"Chen had been staring at the blank canvas for three hours. Around him, his classmates painted mountains, rivers, and city streets. He could see what he wanted to paint — the feeling of standing in his grandmother's kitchen, the smell of star anise and ginger, the way the afternoon light turned everything golden. But every time he lifted his brush, the image dissolved. His teacher, Ms. Wang, stopped behind him. She placed her hand gently on his shoulder and said nothing. Sometimes, Chen realized, silence is its own kind of language.",
+   q:"What can we infer about Ms. Wang as a teacher?",q_cn:"我们可以从Ms. Wang身上推断出她是一位怎样的老师？",hint:null,
+   options:["A. She is frustrated that Chen has not started painting.|A. 她对Chen没有开始画画感到沮丧。","B. She understands that sometimes saying nothing is the most supportive thing.|B. 她理解有时候沉默是最有支持性的做法。","C. She does not notice that Chen is struggling.|C. 她没有注意到Chen在挣扎。","D. She is about to tell Chen to choose a different subject.|D. 她正要告诉Chen选择不同的主题。"],correct:"B",
+   rationale:"Correct! Ms. Wang stops, touches Chen's shoulder gently, and says nothing — the passage tells us Chen then realizes 'silence is its own kind of language,' implying her silence was meaningful and supportive.|正确！王老师停下来，轻轻触碰Chen的肩膀，什么也没说——这让Chen意识到'沉默是一种语言'，说明她的沉默是有意义的支持。",
+   rationale_wrong:{A:"There is no evidence of frustration. Her gesture (gentle hand on shoulder) suggests warmth, not frustration.|没有证据显示她沮丧。她的动作（轻轻放手在肩上）暗示温暖，而非沮丧。",C:"She clearly notices — she stops and places her hand on his shoulder.|她明显注意到了——她停下来并将手放在他肩上。",D:"There is no suggestion she is about to speak or redirect him.|没有任何迹象表明她要说话或重新引导他。"}},
+  {id:'lq5',title:"The Empty Canvas",
+   passage:"Chen had been staring at the blank canvas for three hours. Around him, his classmates painted mountains, rivers, and city streets. He could see what he wanted to paint — the feeling of standing in his grandmother's kitchen, the smell of star anise and ginger, the way the afternoon light turned everything golden. But every time he lifted his brush, the image dissolved. His teacher, Ms. Wang, stopped behind him. She placed her hand gently on his shoulder and said nothing. Sometimes, Chen realized, silence is its own kind of language.",
+   q:"What literary device is used in the line: 'silence is its own kind of language'?",q_cn:"'沉默是一种语言'这句话使用了什么修辞手法？",hint:null,
+   options:["A. Simile — it compares silence to language using 'like' or 'as'|A. 明喻——用'like'或'as'将沉默与语言比较","B. Personification — silence is given a human action|B. 拟人——给沉默赋予人类的行为","C. Hyperbole — it is an extreme exaggeration|C. 夸张——这是一种极度夸大","D. Metaphor — it directly states that silence IS a kind of language|D. 隐喻——直接说沉默就是一种语言"],correct:"D",
+   rationale:"Correct! A metaphor directly compares two things WITHOUT 'like' or 'as.' The phrase says silence IS language — a direct comparison.|正确！隐喻直接比较两件事，不使用'like'或'as'。这句话说沉默就是语言——直接比较。",
+   rationale_wrong:{A:"A simile requires 'like' or 'as.' This sentence does not use either word.|明喻需要'like'或'as'，这句话两个词都没有使用。",B:"Personification gives human traits to non-human things. Silence is not doing something human here — it is being compared to language.|拟人给非人类事物赋予人类特征。这里沉默不是在做人类的行为，而是在与语言比较。",C:"Hyperbole is an extreme exaggeration for effect (e.g., 'I've told you a million times'). This is not an exaggeration — it is a comparison.|夸张是为了效果而极度夸大。这不是夸张，而是一种比较。"}},
+  {id:'lq6',title:"The Letter That Arrived Too Late",
+   passage:"Ling found the envelope tucked under a stack of old books. The paper inside was fragile, the ink faded to a pale whisper of blue. Her grandfather had written it forty years ago, before she was born. She read it three times, moving her lips without making a sound. By the end, she felt hollow — not empty in a sad way, but empty the way a room feels after someone has just left, warm and full of echoes.",
+   q:"In the passage, what does the word 'hollow' most likely mean as Ling uses it?",q_cn:"在文章中，Ling使用'hollow'（空洞）这个词最可能的含义是什么？",hint:null,
+   options:["A. Frightened and confused|A. 恐惧而困惑","B. Happy and relieved|B. 快乐而宽慰","C. A strange, bittersweet emptiness — not purely sad|C. 一种奇怪的苦乐参半的空虚感——不纯粹是悲伤","D. Completely empty and meaningless|D. 完全空洞和毫无意义"],correct:"C",
+   rationale:"Correct! The text immediately defines 'hollow' for us: 'not empty in a sad way, but empty the way a room feels after someone has just left, warm and full of echoes.' This is a complex, mixed feeling.|正确！文本立即为我们定义了'hollow'：'不是悲伤的那种空，而是像刚有人离开的房间，温暖而充满回响。'这是一种复杂的混合感受。",
+   rationale_wrong:{A:"Fear and confusion are not mentioned or implied by the context.|恐惧和困惑没有被文章提及或暗示。",B:"'Happy' contradicts the quiet, bittersweet tone of reading a letter from a deceased grandfather.|'快乐'与阅读已故祖父信件的安静而苦乐参半的基调相矛盾。",D:"The text explicitly says NOT empty in a purely sad or meaningless way — the image of echoes suggests something meaningful remains.|文本明确说不是纯粹悲伤或毫无意义的空。回响的意象表明有些有意义的东西留了下来。"}},
+  {id:'lq7',title:"The Painter's Secret",
+   passage:"Wang Lin discovered her mother's old sketchbook hidden in a drawer. The drawings were rough and hurried, filled with sketches of birds mid-flight, hands reaching for things just out of frame, and faces that were almost recognizable. At the bottom of one page, her mother had written in small, careful letters: 'Art is a window you build yourself.' Wang Lin didn't know her mother had ever been an artist.",
+   q:"What can we infer about Wang Lin's mother from the sketchbook?",q_cn:"我们可以从素描本推断出Wang Lin的母亲是怎样的人？",hint:null,
+   options:["A. She was a professional artist who sold her paintings.|A. 她是一位出售画作的职业艺术家。","B. She never showed her artistic side to her family.|B. 她从未向家人展示过她的艺术一面。","C. She stopped drawing because she was too busy.|C. 她因为太忙而停止了绘画。","D. She wanted Wang Lin to become an artist.|D. 她希望Wang Lin成为一名艺术家。"],correct:"B",
+   rationale:"Correct! The final line — 'Wang Lin didn't know her mother had ever been an artist' — directly tells us the mother kept this part of herself hidden from her daughter.|正确！最后一句——'Wang Lin不知道她的母亲曾经是一名艺术家'——直接告诉我们母亲对女儿隐藏了自己的这一面。",
+   rationale_wrong:{A:"There is no evidence she sold paintings — the sketchbook is described as hidden, suggesting it was private.|没有证据表明她出售画作——素描本被描述为藏着的，暗示这是私人的。",C:"Her reasons for stopping (if she stopped) are not mentioned.|她停止画画的原因（如果她停了的话）没有被提及。",D:"Nothing in the passage suggests the mother had intentions for Wang Lin's career.|文章中没有任何内容表明母亲对Wang Lin的职业有期望。"}},
+  {id:'lq8',title:"The Painter's Secret",
+   passage:"Wang Lin discovered her mother's old sketchbook hidden in a drawer. The drawings were rough and hurried, filled with sketches of birds mid-flight, hands reaching for things just out of frame, and faces that were almost recognizable. At the bottom of one page, her mother had written in small, careful letters: 'Art is a window you build yourself.' Wang Lin didn't know her mother had ever been an artist.",
+   q:"The line 'Art is a window you build yourself' is an example of which literary device?",q_cn:"'艺术是你自己建造的窗户'这句话是哪种修辞手法的例子？",hint:null,
+   options:["A. Simile — art is compared to a window using 'like'|A. 明喻——用'like'将艺术与窗户比较","B. Hyperbole — an extreme and obvious exaggeration|B. 夸张——明显极端的夸张","C. Personification — the window is given human abilities|C. 拟人——给窗户赋予人类能力","D. Metaphor — art is directly called a window|D. 隐喻——直接将艺术称为窗户"],correct:"D",
+   rationale:"Correct! A metaphor says one thing IS another. Art IS a window — no 'like' or 'as' used.|正确！隐喻说一件事就是另一件事。艺术就是窗户——没有使用'like'或'as'。",
+   rationale_wrong:{A:"There is no 'like' or 'as' in this sentence. It is not a simile.|这句话中没有'like'或'as'，所以不是明喻。",B:"This is not an exaggeration. Art really can function like a window into personal expression.|这不是夸张。艺术真的可以像一扇窗户一样展示个人表达。",C:"The window is not doing anything human — it is being used as a symbol for self-expression.|窗户没有做任何人类的事情——它被用作自我表达的象征。"}},
+  {id:'lq9',title:"Before the Concert",
+   passage:"Ming stood backstage, his violin case in his hand. The audience was a roar behind the curtain — a hundred separate heartbeats becoming one enormous wave. He had practiced this piece five hundred times. He knew every note the way he knew the layout of his own house in the dark. But knowing something and performing it are two completely different worlds. He tightened his bow, took a breath, and stepped toward the light.",
+   q:"What does the phrase 'he knew every note the way he knew the layout of his own house in the dark' most likely mean?",q_cn:"'他了解每一个音符，就像他在黑暗中了解自己家的布局一样'这句话最可能的含义是什么？",hint:null,
+   options:["A. He had memorized the piece so well he could play it without thinking|A. 他已经记住了乐曲，可以不假思索地演奏","B. He practices violin at home every night|B. 他每天晚上在家练习小提琴","C. He is afraid of the dark|C. 他害怕黑暗","D. He is not ready to perform|D. 他还没有准备好表演"],correct:"A",
+   rationale:"Correct! The simile compares his knowledge of the music to navigating his own home in the dark — something so familiar it requires no conscious thought.|正确！这个明喻将他对音乐的了解比作在黑暗中走过自己的家——如此熟悉，不需要有意识的思考。",
+   rationale_wrong:{A:"This is the correct answer.|这是正确答案。",B:"This is a literal reading that misses the figurative meaning. The point is about deep familiarity, not where he practices.|这是字面理解，错过了比喻含义。重点是深度熟悉，而不是他在哪里练习。",C:"Fear of the dark is not suggested anywhere. The darkness is used figuratively.|文中没有暗示他害怕黑暗。黑暗是比喻性的使用。",D:"The passage actually suggests the opposite — he is deeply prepared. He just feels the difference between knowing and performing.|文章实际上暗示相反——他准备充分。他只是感受到知道和表演之间的差异。"}},
+  {id:'lq10',title:"Before the Concert",
+   passage:"Ming stood backstage, his violin case in his hand. The audience was a roar behind the curtain — a hundred separate heartbeats becoming one enormous wave. He had practiced this piece five hundred times. He knew every note the way he knew the layout of his own house in the dark. But knowing something and performing it are two completely different worlds. He tightened his bow, took a breath, and stepped toward the light.",
+   q:"In the passage, 'The audience was a roar behind the curtain — a hundred separate heartbeats becoming one enormous wave.' What device is used and what does it convey?",q_cn:"'观众是幕后的咆哮——一百颗独立的心跳变成了一个巨大的浪潮。'使用了什么修辞手法，它传达了什么？",hint:null,
+   options:["A. Simile — it shows the audience is politely clapping|A. 明喻——表示观众在礼貌地鼓掌","B. Personification — the audience is given animal characteristics|B. 拟人——给观众赋予动物特征","C. Metaphor — the crowd's energy is described as a powerful, unified force|C. 隐喻——将人群的能量描述为强大而统一的力量","D. Hyperbole — the audience's heartbeats are obviously exaggerated|D. 夸张——观众的心跳显然是夸大的"],correct:"C",
+   rationale:"Correct! 'A roar' and 'an enormous wave' are metaphors — the audience is directly called these things to show how powerful and unified their presence feels to Ming.|正确！'咆哮'和'巨大的浪潮'是隐喻——观众被直接称为这些东西，显示他们的存在对Ming来说多么有力量和统一。",
+   rationale_wrong:{A:"The passage does not describe polite clapping — the word 'roar' suggests intense energy.|文章没有描述礼貌的鼓掌——'咆哮'一词表示强烈的能量。",B:"The audience is not given animal traits. The comparison is to a wave, a natural force.|观众没有被赋予动物特征。比较是与浪潮，一种自然力量。",D:"Hyperbole requires extreme, impossible exaggeration. A crowd feeling like a wave is a metaphor, not a physical impossibility.|夸张需要极端、不可能的夸大。人群感觉像浪潮是隐喻，不是物理上不可能的事情。"}}
+];
+
+// ── INFO PRACTICES ─────────────────────────────────────
+const INFO_PRACTICES=[
+  {id:'iq1',title:"What Is Body Language?",
+   passage:"Body language is a form of non-verbal communication. Instead of using words, people use facial expressions, gestures, posture, and eye contact to send messages. Researchers estimate that up to 70% of communication is non-verbal. A person who crosses their arms may be feeling defensive, while someone who leans forward may be showing interest. However, body language can vary across cultures — a gesture that is friendly in one country may be rude in another. Understanding body language helps people communicate more effectively and avoid misunderstandings.",
+   q:"According to the passage, approximately what percentage of communication is non-verbal?",q_cn:"根据文章，大约多少百分比的交流是非语言的？",hint:null,
+   options:["A. 30%|A. 30%","B. 50%|B. 50%","C. 60%|C. 60%","D. 70%|D. 70%"],correct:"D",
+   rationale:"Correct! The text directly states 'up to 70% of communication is non-verbal.'|正确！文本直接说明'高达70%的交流是非语言的'。",
+   rationale_wrong:{A:"30% is not mentioned. Scan for the specific number the passage provides.|30%没有被提及。扫描文章找到具体数字。",B:"50% is not the number given. Re-read the second sentence carefully.|50%不是文中给出的数字。仔细重读第二句话。",C:"60% is close but incorrect. The exact figure stated is 70%.|60%接近但不正确。文中说明的确切数字是70%。"}},
+  {id:'iq2',title:"What Is Body Language?",
+   passage:"Body language is a form of non-verbal communication. Instead of using words, people use facial expressions, gestures, posture, and eye contact to send messages. Researchers estimate that up to 70% of communication is non-verbal. A person who crosses their arms may be feeling defensive, while someone who leans forward may be showing interest. However, body language can vary across cultures — a gesture that is friendly in one country may be rude in another. Understanding body language helps people communicate more effectively and avoid misunderstandings.",
+   q:"According to the passage, which of the following is listed as an example of body language?",q_cn:"根据文章，以下哪一项被列为肢体语言的例子？",hint:null,
+   options:["A. Tone of voice|A. 声调","B. Written words|B. 书面文字","C. Eye contact|C. 眼神接触","D. Vocabulary choice|D. 词汇选择"],correct:"C",
+   rationale:"Correct! The text lists 'facial expressions, gestures, posture, and eye contact' as examples of body language.|正确！文本列出'面部表情、手势、姿势和眼神接触'作为肢体语言的例子。",
+   rationale_wrong:{A:"Tone of voice is verbal/vocal — not listed in this passage as body language.|声调是语音/声音的——文章没有将其列为肢体语言。",B:"Written words are verbal communication, not body language.|书面文字是语言交流，不是肢体语言。",D:"Vocabulary is a verbal element — not listed as body language in this passage.|词汇是语言元素——文章没有将其列为肢体语言。"}},
+  {id:'iq3',title:"What Is Body Language?",
+   passage:"Body language is a form of non-verbal communication. Instead of using words, people use facial expressions, gestures, posture, and eye contact to send messages. Researchers estimate that up to 70% of communication is non-verbal. A person who crosses their arms may be feeling defensive, while someone who leans forward may be showing interest. However, body language can vary across cultures — a gesture that is friendly in one country may be rude in another. Understanding body language helps people communicate more effectively and avoid misunderstandings.",
+   q:"Why is it important to understand that body language varies across cultures?",q_cn:"为什么了解肢体语言因文化不同而变化很重要？",hint:null,
+   options:["A. So people can learn to avoid using body language completely|A. 这样人们就可以学会完全避免使用肢体语言","B. Because it proves body language is not real communication|B. 因为这证明肢体语言不是真正的交流","C. To avoid misunderstandings when communicating with people from different backgrounds|C. 为了避免与不同背景的人交流时产生误解","D. Because eye contact is always considered rude|D. 因为眼神接触总是被认为是粗鲁的"],correct:"C",
+   rationale:"Correct! The passage says understanding body language 'helps people communicate more effectively and avoid misunderstandings' — and cultural variation is why this understanding matters.|正确！文章说理解肢体语言'帮助人们更有效地交流并避免误解'——文化差异就是为什么这种理解很重要。",
+   rationale_wrong:{A:"The passage does not suggest avoiding body language — it suggests understanding it.|文章没有建议避免肢体语言——而是建议理解它。",B:"The opposite is implied — 70% of communication is non-verbal, making it very real.|相反，70%的交流是非语言的，使其非常真实。",D:"This is too extreme. The passage says gestures can VARY by culture — not that eye contact is always rude.|这太极端了。文章说手势可能因文化而不同——不是说眼神接触总是粗鲁的。"}},
+  {id:'iq4',title:"The Science of Color",
+   passage:"Color is not just something we see — it is something we feel. Scientists who study color psychology have found that different colors produce different emotional responses in people. Red is associated with energy, urgency, and passion. Blue is linked to calmness and trust, which is why many banks and hospitals use it in their branding. Yellow is connected to happiness and optimism. However, these associations are not universal. In some cultures, white represents purity; in others, it is the color of mourning.",
+   q:"Based on the passage, why might a hospital choose to use blue in its design?",q_cn:"根据文章，为什么医院可能选择在其设计中使用蓝色？",hint:null,
+   options:["A. Because blue is the cheapest paint color available|A. 因为蓝色是最便宜的油漆颜色","B. Because blue is associated with calmness and trust|B. 因为蓝色与平静和信任相关","C. Because doctors prefer working in blue environments|C. 因为医生更喜欢在蓝色环境中工作","D. Because blue is the color of medical equipment|D. 因为蓝色是医疗设备的颜色"],correct:"B",
+   rationale:"Correct! The text directly states 'Blue is linked to calmness and trust, which is why many banks and hospitals use it in their branding.'|正确！文本直接说明'蓝色与平静和信任相关，这就是为什么许多银行和医院在其品牌中使用它'。",
+   rationale_wrong:{A:"Cost of paint is not mentioned. This is an invented reason.|油漆成本没有被提及。这是一个编造的原因。",C:"Doctor preferences are not mentioned. The reason given is about emotional response.|医生偏好没有被提及。给出的原因是关于情感反应的。",D:"Medical equipment color is not mentioned in the passage.|医疗设备颜色没有在文章中提到。"}},
+  {id:'iq5',title:"The Science of Color",
+   passage:"Color is not just something we see — it is something we feel. Scientists who study color psychology have found that different colors produce different emotional responses in people. Red is associated with energy, urgency, and passion. Blue is linked to calmness and trust, which is why many banks and hospitals use it in their branding. Yellow is connected to happiness and optimism. However, these associations are not universal. In some cultures, white represents purity; in others, it is the color of mourning.",
+   q:"What is the main purpose of this informational passage?",q_cn:"这篇信息文本的主要目的是什么？",hint:null,
+   options:["A. To persuade readers to paint their rooms blue|A. 说服读者将房间涂成蓝色","B. To entertain readers with a funny story about colors|B. 用一个关于颜色的有趣故事来娱乐读者","C. To inform readers about how colors affect emotions and vary by culture|C. 告知读者颜色如何影响情绪以及在不同文化中的不同含义","D. To instruct readers on how to mix paint colors|D. 指导读者如何混合颜料颜色"],correct:"C",
+   rationale:"Correct! The passage presents facts about color psychology and cultural differences — this is informative writing. It does not try to persuade, entertain with a story, or give how-to instructions.|正确！文章呈现了关于色彩心理学和文化差异的事实——这是信息性写作。它不尝试说服、用故事娱乐或提供操作指导。",
+   rationale_wrong:{A:"The passage does not tell readers what color to paint anything. It presents facts, not recommendations.|文章没有告诉读者涂什么颜色。它呈现事实，不是建议。",B:"The passage is academic and informational — it is not a funny story.|文章是学术性和信息性的——不是有趣的故事。",D:"No instructions for mixing paint are given. The passage explains psychology, not technique.|没有给出混合颜料的指导。文章解释心理学，不是技术。"}},
+  {id:'iq6',title:"The Science of Color",
+   passage:"Color is not just something we see — it is something we feel. Scientists who study color psychology have found that different colors produce different emotional responses in people. Red is associated with energy, urgency, and passion. Blue is linked to calmness and trust, which is why many banks and hospitals use it in their branding. Yellow is connected to happiness and optimism. However, these associations are not universal. In some cultures, white represents purity; in others, it is the color of mourning.",
+   q:"In the passage, what does 'universal' most likely mean?",q_cn:"在文章中，'universal'最可能的含义是什么？",hint:null,
+   options:["A. Related to the universe and outer space|A. 与宇宙和外太空相关","B. True or applying to all people everywhere|B. 对所有地方的所有人都适用","C. Changing and unpredictable|C. 不断变化且不可预测","D. Limited to one specific country|D. 仅限于一个特定国家"],correct:"B",
+   rationale:"Correct! Context clue: the sentence says these associations are NOT universal, and then gives the example that white means different things in different cultures — showing 'universal' means 'applying to everyone everywhere.'|正确！上下文线索：句子说这些联系不是universal的，然后举例白色在不同文化中有不同含义——表明'universal'意思是'适用于所有地方的所有人'。",
+   rationale_wrong:{A:"'Universal' can relate to the universe in some contexts, but here the context is cultural difference — not astronomy.|'Universal'在某些上下文中可以与宇宙相关，但这里的上下文是文化差异——不是天文学。",C:"'Changing and unpredictable' is the opposite of universal. Universal means consistent and unchanging.|'不断变化且不可预测'与universal相反。Universal意味着一致和不变。",D:"Limited to one country is the opposite of universal — universal means it applies everywhere.|限于一个国家与universal相反——universal意味着它在任何地方都适用。"}},
+  {id:'iq7',title:"How Advertising Uses Emotion",
+   passage:"Advertisers know that people rarely make decisions based on logic alone. Instead, emotions drive most purchasing choices. Fear makes people buy insurance. Happiness makes them choose foods that remind them of good times. Pride makes them spend more on brand-name products. One strategy advertisers use is called 'emotional appeal' — they show images or tell stories that produce a feeling, rather than simply listing facts. A car advertisement might not mention speed or fuel efficiency at all. Instead, it shows a family laughing together on a road trip, making viewers feel that buying this car will bring joy.",
+   q:"According to the passage, what is 'emotional appeal'?",q_cn:"根据文章，'情感诉求'是什么？",hint:null,
+   options:["A. A strategy that uses facts and data to convince buyers|A. 使用事实和数据说服买家的策略","B. A trick that makes advertisements longer|B. 使广告更长的技巧","C. A method that produces feelings to influence decisions rather than listing facts|C. 通过引发感情来影响决策而非列举事实的方法","D. A legal rule that protects customers from false advertising|D. 保护消费者免受虚假广告的法律规定"],correct:"C",
+   rationale:"Correct! The passage defines emotional appeal as showing images or stories that 'produce a feeling, rather than simply listing facts.'|正确！文章将情感诉求定义为展示'引发感情而不是简单列举事实'的图像或故事。",
+   rationale_wrong:{A:"This describes the opposite of emotional appeal — emotional appeal avoids logic and facts.|这描述了情感诉求的反面——情感诉求避免逻辑和事实。",B:"Length of advertisements is not mentioned.|广告长度没有被提及。",D:"Legal protection is not discussed. This is about an advertising strategy, not a regulation.|法律保护没有被讨论。这是关于广告策略，不是法规。"}},
+  {id:'iq8',title:"How Advertising Uses Emotion",
+   passage:"Advertisers know that people rarely make decisions based on logic alone. Instead, emotions drive most purchasing choices. Fear makes people buy insurance. Happiness makes them choose foods that remind them of good times. Pride makes them spend more on brand-name products. One strategy advertisers use is called 'emotional appeal' — they show images or tell stories that produce a feeling, rather than simply listing facts. A car advertisement might not mention speed or fuel efficiency at all. Instead, it shows a family laughing together on a road trip, making viewers feel that buying this car will bring joy.",
+   q:"Based on the passage, what can we infer about why advertisers avoid listing facts?",q_cn:"根据文章，我们可以推断出广告商为什么避免列举事实？",hint:null,
+   options:["A. Facts are too expensive to research and include|A. 事实研究和包含的成本太高","B. Emotions are more powerful drivers of decisions than facts alone|B. 情感是比单纯事实更强大的决策驱动力","C. Customers already know all the facts about products|C. 顾客已经知道所有关于产品的事实","D. Facts make advertisements too long|D. 事实使广告太长"],correct:"B",
+   rationale:"Correct! The passage states 'emotions drive most purchasing choices' — this is the reason advertisers use emotional appeal instead of facts.|正确！文章说明'情感驱动大多数购买决策'——这就是广告商使用情感诉求而非事实的原因。",
+   rationale_wrong:{A:"Cost of research is not mentioned. This is not implied by the passage.|研究成本没有被提及。文章没有暗示这一点。",C:"The passage does not claim customers already know the facts — it suggests emotions work better regardless.|文章没有声称顾客已经知道事实——它暗示无论如何情感更有效。",D:"Length is not mentioned as a reason.|长度没有被提到作为原因。"}},
+  {id:'iq9',title:"Reading Food Labels",
+   passage:"Many shoppers look at the front of food packaging to decide what to buy, but nutrition experts say the real information is on the back. The Nutrition Facts panel shows serving size, calories, and the amounts of fat, sugar, sodium, and protein per serving. One key tip: check the serving size first. A bag of chips might say '150 calories' but if the serving size is only 10 chips and you eat 30, you are actually consuming 450 calories. Ingredients are also listed in order from greatest to least amount. If sugar appears in the first three ingredients, the food is likely high in sugar.",
+   q:"What does the passage instruct readers to check FIRST when reading a nutrition label?",q_cn:"文章指导读者在阅读营养标签时首先查看什么？",hint:null,
+   options:["A. The calorie count|A. 卡路里数量","B. The serving size|B. 份量大小","C. The sodium amount|C. 钠含量","D. The brand name|D. 品牌名称"],correct:"B",
+   rationale:"Correct! The passage directly states: 'One key tip: check the serving size first.'|正确！文章直接说明：'一个关键提示：首先检查份量大小。'",
+   rationale_wrong:{A:"Calories are important, but the passage specifically says to check serving size FIRST.|卡路里很重要，但文章特别说要首先检查份量大小。",C:"Sodium is listed as one nutrient shown, but the passage does not say to check it first.|钠被列为显示的营养素之一，但文章没有说要首先检查它。",D:"Brand name is not mentioned in the passage at all.|品牌名称根本没有在文章中提及。"}},
+  {id:'iq10',title:"Reading Food Labels",
+   passage:"Many shoppers look at the front of food packaging to decide what to buy, but nutrition experts say the real information is on the back. The Nutrition Facts panel shows serving size, calories, and the amounts of fat, sugar, sodium, and protein per serving. One key tip: check the serving size first. A bag of chips might say '150 calories' but if the serving size is only 10 chips and you eat 30, you are actually consuming 450 calories. Ingredients are also listed in order from greatest to least amount. If sugar appears in the first three ingredients, the food is likely high in sugar.",
+   q:"In the passage, what does the word 'consuming' most likely mean?",q_cn:"在文章中，'consuming'最可能的含义是什么？",hint:null,
+   options:["A. Buying at a store|A. 在商店购买","B. Cooking and preparing|B. 烹饪和准备","C. Eating or taking in|C. 吃或摄入","D. Wasting and discarding|D. 浪费和丢弃"],correct:"C",
+   rationale:"Correct! Context: 'you eat 30 [chips], you are actually consuming 450 calories.' The word replaces 'eating' — consuming = eating/taking in.|正确！上下文：'你吃了30个[薯片]，你实际上正在consuming 450卡路里。'这个词替代了'吃'——consuming = 吃/摄入。",
+   rationale_wrong:{A:"Buying is mentioned at the start, but 'consuming' in this sentence refers to eating, not purchasing.|购买在开头提到，但这句话中'consuming'指的是吃，不是购买。",B:"Cooking is not mentioned in this section. The context is about eating the chips.|烹饪在这一部分没有被提及。上下文是关于吃薯片。",D:"Wasting is the opposite of consuming. You consume by using/eating, not discarding.|浪费与consuming相反。consuming是通过使用/吃，不是丢弃。"}}
+];
+
+// ── POEM PRACTICES ─────────────────────────────────────
+const POEM_PRACTICES=[
+  {id:'pq1',title:"Poem: The River Speaks",
+   passage:`I have carried stones
+for ten thousand years,
+smoothing their rough edges
+into silence.
+
+I do not rush.
+I do not argue.
+I simply move
+the way time moves —
+without asking permission.
+
+The stones call me patient.
+I call them witnesses.
+We have both forgotten
+who was here first.`,
+   q:"According to the poem, what has the river been doing for ten thousand years?",q_cn:"根据诗歌，河流一万年来一直在做什么？",hint:null,
+   options:["A. Arguing with the stones|A. 与石头争论","B. Rushing toward the sea|B. 向大海奔涌","C. Carrying and smoothing stones|C. 搬运和磨平石头","D. Asking for permission to move|D. 寻求移动的许可"],correct:"C",
+   rationale:"Correct! The poem opens: 'I have carried stones / for ten thousand years, / smoothing their rough edges / into silence.'|正确！诗歌开头：'我已经搬运石头/一万年，/磨平它们的粗糙边缘/化为沉默。'",
+   rationale_wrong:{A:"The poem says 'I do not argue' — the opposite.|诗歌说'我不争论'——恰好相反。",B:"'I do not rush' is stated directly in the poem.|诗歌直接说明'我不急'。",D:"'Without asking permission' describes how the river moves — it does NOT ask. This is the opposite.|'不求许可'描述河流移动的方式——它不问。这是相反的。"}},
+  {id:'pq2',title:"Poem: The River Speaks",
+   passage:`I have carried stones
+for ten thousand years,
+smoothing their rough edges
+into silence.
+
+I do not rush.
+I do not argue.
+I simply move
+the way time moves —
+without asking permission.
+
+The stones call me patient.
+I call them witnesses.
+We have both forgotten
+who was here first.`,
+   q:"In the poem, the river is compared to time with the line 'the way time moves.' What literary device is this?",q_cn:"在诗歌中，'时间移动的方式'这句话将河流与时间比较。这是什么修辞手法？",hint:null,
+   options:["A. Metaphor — time IS the river|A. 隐喻——时间就是河流","B. Personification — time is given human feelings|B. 拟人——给时间赋予人类感情","C. Simile — the river moves LIKE time, using an implied comparison|C. 明喻——河流像时间一样移动，使用隐含比较","D. Hyperbole — time is exaggerated as ten thousand years|D. 夸张——时间被夸大为一万年"],correct:"C",
+   rationale:"Correct! 'The way time moves' is a simile structure — it compares the river's movement TO time's movement. Although 'like' or 'as' is not written, 'the way' functions as a comparison word here.|正确！'时间移动的方式'是明喻结构——将河流的运动与时间的运动比较。虽然没有写'like'或'as'，但'the way'在这里起到比较词的作用。",
+   rationale_wrong:{A:"A metaphor would say 'I am time' — not 'I move the way time moves.'|隐喻会说'我就是时间'——而不是'我像时间移动那样移动'。",B:"Time is not given feelings here — the river is being compared to how time moves, not making time act human.|这里时间没有被赋予感情——河流被比作时间移动的方式，而不是让时间表现得像人类。",D:"Ten thousand years might feel hyperbolic, but the simile device is in the 'way time moves' phrase, not the number.|一万年可能感觉夸张，但明喻手法在'时间移动的方式'这个短语中，而不是数字。"}},
+  {id:'pq3',title:"Poem: The River Speaks",
+   passage:`I have carried stones
+for ten thousand years,
+smoothing their rough edges
+into silence.
+
+I do not rush.
+I do not argue.
+I simply move
+the way time moves —
+without asking permission.
+
+The stones call me patient.
+I call them witnesses.
+We have both forgotten
+who was here first.`,
+   q:"What does the speaker most likely mean by calling the stones 'witnesses'?",q_cn:"诗人称石头为'见证者'最可能表达什么含义？",hint:null,
+   options:["A. The stones are watching the river and recording what they see|A. 石头在观察河流并记录它们所看到的","B. The stones are testifying in a legal trial|B. 石头正在法庭上作证","C. The stones have been present long enough to have seen everything happen|C. 石头在场的时间足够长，见证了一切的发生","D. The stones are angry and want to leave the river|D. 石头很生气，想要离开河流"],correct:"C",
+   rationale:"Correct! A witness is someone who has seen something happen. The river calls the stones witnesses because they have been there so long — they have 'seen' everything the river has done over thousands of years.|正确！见证者是看到某事发生的人。河流称石头为见证者，因为它们在那里已经很久了——它们'看到'了河流几千年来所做的一切。",
+   rationale_wrong:{A:"Stones cannot literally watch or record. This is a literal misreading of figurative language.|石头不能字面上地观察或记录。这是对比喻语言的字面误读。",B:"There is no legal context in the poem. 'Witness' here is used in its broader sense of having observed something.|诗中没有法律背景。'见证者'在这里用于更广泛的含义——已经观察到了某事。",D:"The poem does not suggest the stones are angry or want to leave.|诗歌没有暗示石头生气或想要离开。"}},
+  {id:'pq4',title:"Poem: The River Speaks",
+   passage:`I have carried stones
+for ten thousand years,
+smoothing their rough edges
+into silence.
+
+I do not rush.
+I do not argue.
+I simply move
+the way time moves —
+without asking permission.
+
+The stones call me patient.
+I call them witnesses.
+We have both forgotten
+who was here first.`,
+   q:"What is the central theme of this poem?",q_cn:"这首诗的中心主题是什么？",hint:null,
+   options:["A. Nature is more powerful than human beings|A. 大自然比人类更强大","B. Rivers are important for the environment|B. 河流对环境很重要","C. Time and patience gradually transform everything|C. 时间和耐心逐渐改变一切","D. Stones are stronger than water|D. 石头比水更坚硬"],correct:"C",
+   rationale:"Correct! The poem describes a river slowly smoothing stones over thousands of years, moving like time, without rushing. The theme is that patience and time create transformation — rough edges become smooth.|正确！诗歌描述了一条河流在数千年中慢慢磨平石头，像时间一样移动，不急不躁。主题是耐心和时间创造转变——粗糙的边缘变得光滑。",
+   rationale_wrong:{A:"Human power vs. nature is not the focus — the poem is about the river's relationship with time and the stones.|人类力量与自然不是重点——诗歌是关于河流与时间和石头的关系。",B:"Environmental importance is not discussed. The river is used as a symbol, not an ecological argument.|环境重要性没有被讨论。河流被用作象征，而不是生态论点。",D:"The poem actually shows water transforming stones — water wins through patience, not strength.|诗歌实际上展示了水改变石头——水通过耐心而非力量获胜。"}},
+  {id:'pq5',title:"Poem: The River Speaks",
+   passage:`I have carried stones
+for ten thousand years,
+smoothing their rough edges
+into silence.
+
+I do not rush.
+I do not argue.
+I simply move
+the way time moves —
+without asking permission.
+
+The stones call me patient.
+I call them witnesses.
+We have both forgotten
+who was here first.`,
+   q:"What is the tone of this poem?",q_cn:"这首诗的语气是什么？",hint:null,
+   options:["A. Angry and frustrated|A. 愤怒和沮丧","B. Excited and energetic|B. 兴奋和充满活力","C. Calm and philosophical|C. 平静和富有哲理的","D. Frightened and uncertain|D. 恐惧和不确定"],correct:"C",
+   rationale:"Correct! The river speaks without rushing, without arguing, simply moving — this creates a calm, thoughtful, almost wise tone. 'Philosophical' means thinking deeply about big questions — which the ending does ('who was here first').|正确！河流不急不躁地说话，不争论，只是移动——这创造了一种平静、深思熟虑、几乎是智慧的语气。'哲理性'意味着对大问题的深度思考——结尾就是这样（'谁先到这里'）。",
+   rationale_wrong:{A:"The river explicitly says 'I do not argue' — no anger.|河流明确说'我不争论'——没有愤怒。",B:"The opposite is true — the river says 'I do not rush.' The language is slow and deliberate.|相反，河流说'我不急'。语言是缓慢而深思熟虑的。",D:"There is no fear or uncertainty in the poem — the river moves with quiet confidence.|诗中没有恐惧或不确定——河流以平静的自信移动。"}},
+  {id:'pq6',title:"Poem: The River Speaks",
+   passage:`I have carried stones
+for ten thousand years,
+smoothing their rough edges
+into silence.
+
+I do not rush.
+I do not argue.
+I simply move
+the way time moves —
+without asking permission.
+
+The stones call me patient.
+I call them witnesses.
+We have both forgotten
+who was here first.`,
+   q:"In the poem, 'smoothing their rough edges / into silence' suggests:",q_cn:"诗中'磨平它们的粗糙边缘/化为沉默'暗示：",hint:null,
+   options:["A. The stones literally stop making noise|A. 石头字面上停止发出噪音","B. The process of change can erase the original sharpness of things over time|B. 变化的过程可以随着时间磨去事物原本的锐利","C. The river is trying to break the stones completely|C. 河流试图完全打碎石头","D. Silence is always a negative and painful experience|D. 沉默总是一种消极和痛苦的体验"],correct:"B",
+   rationale:"Correct! The metaphor of smoothing rough edges into silence suggests that time and patience gradually soften things — not just physically (stones) but emotionally and symbolically (sharp feelings, conflicts, edges of personality).|正确！将粗糙边缘磨平为沉默的隐喻暗示时间和耐心逐渐软化事物——不仅是物理上的（石头），也是情感和象征性的（尖锐的感情、冲突、个性的棱角）。",
+   rationale_wrong:{A:"A literal reading misses the figurative meaning. Stones don't make noise that stops.|字面理解错过了比喻含义。石头不会发出停止的噪音。",C:"The poem shows smoothing, not breaking — the river's method is gentle and gradual.|诗歌展示了磨平，而不是打碎——河流的方法是温和而渐进的。",D:"Silence here is peaceful and complete, not painful. Read the context — it follows 'smoothing their rough edges.'|这里的沉默是平静而完整的，不是痛苦的。读上下文——它跟在'磨平它们的粗糙边缘'之后。"}},
+  {id:'pq7',title:"Poem: Empty Nest",
+   passage:`She cleared the last drawer today.
+Folded the small shirts into squares,
+pressed each crease like a sentence
+she was not ready to finish.
+
+The room is museum-quiet now.
+Her footsteps echo on the floor
+the way questions echo
+in an empty hallway.
+
+Outside, the tree she planted
+the year he was born
+is taller than the house.
+She had not noticed until today.`,
+   q:"In the poem, the mother 'pressed each crease like a sentence / she was not ready to finish.' What literary device is this?",q_cn:"诗中'像一个她还不准备结束的句子/压平每一道褶皱'使用了什么修辞手法？",hint:null,
+   options:["A. Metaphor — the crease IS a sentence|A. 隐喻——褶皱就是句子","B. Simile — the crease is compared to a sentence using 'like'|B. 明喻——用'like'将褶皱与句子比较","C. Personification — the crease is given human feelings|C. 拟人——给褶皱赋予人类感情","D. Hyperbole — pressing a crease is exaggerated as writing a sentence|D. 夸张——压褶皱被夸大为写句子"],correct:"B",
+   rationale:"Correct! 'Like a sentence' uses 'like' — making this a simile. It compares pressing a crease (physical action) to finishing a sentence (emotional metaphor for completion and closure).|正确！'像一个句子'使用了'like'——这是明喻。它将压褶皱（物理动作）与结束一个句子（完成和结束的情感隐喻）相比较。",
+   rationale_wrong:{A:"A metaphor would say 'the crease IS a sentence' — no 'like' or 'as.' Here 'like' is used.|隐喻会说'褶皱就是句子'——没有'like'或'as'。这里使用了'like'。",C:"The crease is not given human feelings — it is being compared to a sentence, which is a human communication tool.|褶皱没有被赋予人类感情——它被比作句子，这是一种人类交流工具。",D:"This is not an exaggeration for comic effect — it is a careful, emotional comparison.|这不是为了喜剧效果而夸张——这是一种细致的、情感性的比较。"}},
+  {id:'pq8',title:"Poem: Empty Nest",
+   passage:`She cleared the last drawer today.
+Folded the small shirts into squares,
+pressed each crease like a sentence
+she was not ready to finish.
+
+The room is museum-quiet now.
+Her footsteps echo on the floor
+the way questions echo
+in an empty hallway.
+
+Outside, the tree she planted
+the year he was born
+is taller than the house.
+She had not noticed until today.`,
+   q:"What does the phrase 'museum-quiet' suggest about the room?",q_cn:"'博物馆般的安静'这个短语对房间暗示了什么？",hint:null,
+   options:["A. The room is full of valuable objects on display|A. 房间里摆满了展示的有价值物品","B. The room is still, preserved, and feels like something important is frozen in time|B. 房间静止、被保存，感觉像是某些重要的东西被时间冻结","C. The mother has decided to turn the room into a museum|C. 母亲决定将房间变成博物馆","D. The room is being cleaned for visitors|D. 房间正在为访客清洁"],correct:"B",
+   rationale:"Correct! A museum is very quiet, still, and preserves things from the past. Calling the room 'museum-quiet' suggests it feels frozen, preserved — like a memory that cannot change. It also implies sadness and stillness.|正确！博物馆非常安静、静止，保存着过去的东西。称房间为'博物馆般的安静'表明它感觉被冻结、被保存——像一个无法改变的记忆。它也暗示悲伤和静止。",
+   rationale_wrong:{A:"There are no objects on display. This is a literal misreading of a metaphorical description.|没有展示的物品。这是对比喻性描述的字面误读。",C:"There is no plan to make it a museum — 'museum-quiet' is a descriptive metaphor.|没有将其变成博物馆的计划——'博物馆般的安静'是描述性隐喻。",D:"Visitors and cleaning are not mentioned.|访客和清洁没有被提及。"}},
+  {id:'pq9',title:"Poem: Empty Nest",
+   passage:`She cleared the last drawer today.
+Folded the small shirts into squares,
+pressed each crease like a sentence
+she was not ready to finish.
+
+The room is museum-quiet now.
+Her footsteps echo on the floor
+the way questions echo
+in an empty hallway.
+
+Outside, the tree she planted
+the year he was born
+is taller than the house.
+She had not noticed until today.`,
+   q:"What is the central theme of 'Empty Nest'?",q_cn:"'空巢'的中心主题是什么？",hint:null,
+   options:["A. The importance of keeping your house clean and organized|A. 保持房屋整洁有序的重要性","B. How trees grow faster than we expect|B. 树木的生长速度比我们预期的快","C. The bittersweet experience of a parent facing a child's absence and the passage of time|C. 父母面对孩子离开和时间流逝的苦乐参半体验","D. Why museums are important for society|D. 为什么博物馆对社会很重要"],correct:"C",
+   rationale:"Correct! Every image in the poem — the small shirts, the echo, the tree grown taller than the house — speaks to a parent realizing how much time has passed and feeling the quiet grief of an empty home.|正确！诗歌中的每个意象——小衬衫、回声、长得比房子还高的树——都在诉说一个父母意识到时间流逝了多少，感受到空屋的安静悲伤。",
+   rationale_wrong:{A:"Housecleaning is a surface event — the poem uses it to explore emotional meaning, not give cleaning advice.|清洁房屋是表面事件——诗歌用它来探索情感含义，而不是提供清洁建议。",B:"The tree growing tall is one image — but it is used symbolically to show the passage of time, not as the main point.|树长高是一个意象——但它被象征性地用来展示时间的流逝，而不是主要观点。",D:"Museums are mentioned only in a metaphor ('museum-quiet') — not as the poem's subject.|博物馆只在隐喻中被提及（'博物馆般的安静'）——不是诗歌的主题。"}},
+  {id:'pq10',title:"Poem: Empty Nest",
+   passage:`She cleared the last drawer today.
+Folded the small shirts into squares,
+pressed each crease like a sentence
+she was not ready to finish.
+
+The room is museum-quiet now.
+Her footsteps echo on the floor
+the way questions echo
+in an empty hallway.
+
+Outside, the tree she planted
+the year he was born
+is taller than the house.
+She had not noticed until today.`,
+   q:"The final two lines — 'She had not noticed until today' — suggest which of the following?",q_cn:"最后两行——'她今天才注意到'——暗示以下哪一点？",hint:null,
+   options:["A. She is not a careful observer of her garden|A. 她不是花园的细心观察者","B. The tree grew very quickly and unusually|B. 树长得非常快，非同寻常","C. She was too busy with daily life to notice how much time had passed — until this moment of reflection|C. 她忙于日常生活，没有注意到时间流逝了多少——直到这个反思时刻","D. She planted the tree in the wrong place|D. 她把树种在了错误的地方"],correct:"C",
+   rationale:"Correct! The ending is a moment of realization — time has passed, her child has grown (like the tree), and she only truly notices this now, in the quiet of the empty room. This is the emotional heart of the poem.|正确！结尾是一个意识到的时刻——时间已经过去，她的孩子已经成长（像树一样），她只是在现在，在空房间的安静中，才真正注意到这一点。这是诗歌的情感核心。",
+   rationale_wrong:{A:"The poem does not suggest she is inattentive — the point is that grief and daily routine can make us miss things.|诗歌没有暗示她粗心——重点是悲伤和日常生活会让我们错过一些事情。",B:"The tree's growth rate is not the focus — its height is a symbol for how much time has passed.|树的生长速度不是重点——它的高度是时间流逝多少的象征。",D:"Where the tree is planted is not mentioned as a problem.|树种在哪里没有被提到是问题。"}}
+];
+
+// ── EXIT TICKETS ───────────────────────────────────────
+const LITERARY_EXIT=[
+  {q:"A metaphor compares two things by:",q_cn:"隐喻通过以下方式比较两件事：",opts:["A. Using 'like' or 'as'|A. 使用'like'或'as'","B. Directly saying one thing IS another|B. 直接说一件事就是另一件事","C. Using the word 'similar'|C. 使用'similar'这个词","D. Describing an exaggerated action|D. 描述一种夸张的行为"],correct:"B",rat:"A metaphor says one thing IS another without comparison words. 'His heart is a stone' = metaphor.|隐喻直接说一件事就是另一件事，不使用比较词。'他的心是一块石头'= 隐喻。"},
+  {q:"A simile MUST use which words?",q_cn:"明喻必须使用哪些词？",opts:["A. Is / are|A. Is / are","B. Like / as|B. Like / as","C. More / than|C. More / than","D. Because / therefore|D. Because / therefore"],correct:"B",rat:"A simile uses 'like' or 'as' to make an explicit comparison. 'She runs like the wind'.|明喻使用'like'或'as'进行明确的比较。'她跑得像风一样'。"},
+  {q:"Which question type asks you to find a fact directly stated in the text?",q_cn:"哪种题型要求你找到文中直接陈述的事实？",opts:["A. Inference|A. 推断题","B. Author's Craft|B. 写作技巧题","C. Recall|C. 回忆题","D. Vocabulary|D. 词汇题"],correct:"C",rat:"Recall questions ask about information directly in the text. Just scan and find it. 回忆题询问文中直接提供的信息。只需扫描并找到它。"},
+  {q:"For an Inference question, you should:",q_cn:"对于推断题，你应该：",opts:["A. Find the exact sentence that answers the question|A. 找到回答问题的确切句子","B. Use clues in the text to figure out something not directly stated|B. 利用文中线索推断未直接陈述的内容","C. Look up the word in a dictionary|C. 在字典中查找该词","D. Focus only on the first paragraph|D. 只关注第一段"],correct:"B",rat:"Inference = reading between the lines. Use clues to reach a conclusion the author implies but doesn't state directly. 推断=字里行间阅读。使用线索得出作者暗示但未直接说明的结论。"},
+  {q:"'Personification' means:",q_cn:"'拟人'的含义是：",opts:["A. Comparing a person to an animal|A. 将一个人比作动物","B. Giving human traits to a non-human thing|B. 给非人类事物赋予人类特征","C. Using 'like' or 'as' to compare|C. 使用'like'或'as'进行比较","D. Exaggerating something for effect|D. 为了效果而夸大某事"],correct:"B",rat:"Personification = non-human things acting or feeling like humans. 'The wind whispered.' 拟人=非人类事物像人类一样行动或感受。'风低语着。'"},
+  {q:"For Vocabulary questions, the best strategy is to:",q_cn:"对于词汇题，最佳策略是：",opts:["A. Choose the longest answer|A. 选择最长的答案","B. Guess based on the word's appearance|B. 根据单词的外观猜测","C. Re-read the full sentence around the word and look for context clues|C. 重新阅读包含该词的完整句子并寻找上下文线索","D. Always choose the option with the simplest words|D. 总是选择措辞最简单的选项"],correct:"C",rat:"Context clues in the surrounding sentences tell you what the word means in that specific situation. 周围句子的上下文线索告诉你这个词在那个具体情境中的含义。"},
+  {q:"Which of the following is a SIMILE?",q_cn:"以下哪一项是明喻？",opts:["A. Time is a thief|A. 时间是小偷","B. Her laughter filled the room|B. 她的笑声充满了房间","C. He was as stubborn as a mule|C. 他像骡子一样固执","D. The storm was angry|D. 风暴很愤怒"],correct:"C",rat:"'As stubborn as a mule' uses 'as...as' — the simile structure. Compare two unlike things using 'as.' '像骡子一样固执'使用'as...as'——明喻结构。"},
+  {q:"Which of the following is a METAPHOR?",q_cn:"以下哪一项是隐喻？",opts:["A. She ran like the wind|A. 她跑得像风一样","B. His anger is a fire that burns everything|B. 他的愤怒是燃烧一切的火","C. The cat was as quiet as a mouse|C. 猫像老鼠一样安静","D. He yelled louder than thunder|D. 他喊得比雷声还响"],correct:"B",rat:"'His anger is a fire' — anger IS fire. No 'like' or 'as.' Direct comparison = metaphor. '他的愤怒是火'——愤怒就是火。没有'like'或'as'。直接比较=隐喻。"},
+  {q:"When a literary text question asks 'What can we INFER about the character?' you should:",q_cn:"当文学文本题询问'我们可以推断出关于角色什么？'时，你应该：",opts:["A. Find where the character is directly described|A. 找到直接描述角色的地方","B. Use the character's actions and words as clues to draw a conclusion|B. 使用角色的行为和语言作为线索得出结论","C. Read only the final paragraph|C. 只读最后一段","D. Look for the author's biography|D. 寻找作者的传记"],correct:"B",rat:"Character inferences come from actions, dialogue, and reactions — not stated descriptions. 角色推断来自行为、对话和反应——不是直接的描述。"},
+  {q:"An Author's Craft question about a literary text will most likely ask you to:",q_cn:"关于文学文本的写作技巧题最可能要求你：",opts:["A. Summarize the whole story in your own words|A. 用自己的话总结整个故事","B. Identify a literary device and explain its purpose|B. 识别修辞手法并解释其目的","C. Describe your personal reaction to the story|C. 描述你对故事的个人反应","D. Count the number of paragraphs|D. 计算段落数量"],correct:"B",rat:"Author's Craft = identify the device (metaphor, simile, etc.) and understand WHY the author used it. 写作技巧=识别手法（隐喻、明喻等）并理解作者为什么使用它。"}
+];
+
+const INFO_EXIT=[
+  {q:"An informational text primarily aims to:",q_cn:"信息文本主要目的是：",opts:["A. Entertain with a fictional story|A. 用虚构故事娱乐","B. Present facts and explain ideas about a real topic|B. 呈现事实并解释真实主题的想法","C. Persuade readers to take political action|C. 说服读者采取政治行动","D. Express the writer's personal feelings|D. 表达作者的个人感情"],correct:"B",rat:"Informational text presents real facts, explains concepts, and informs the reader — it is non-fiction. 信息文本呈现真实事实，解释概念，并通知读者——它是非虚构的。"},
+  {q:"A 'Recall' question for informational text asks you to:",q_cn:"信息文本的'回忆题'要求你：",opts:["A. Guess what the author might have meant|A. 猜测作者可能的意思","B. Find a fact that is directly stated in the text|B. 找到文中直接陈述的事实","C. Compare the text to another text|C. 将文本与另一个文本比较","D. Write your opinion about the topic|D. 写下你对主题的看法"],correct:"B",rat:"Recall = directly stated. Scan the text to find the exact fact. 回忆=直接陈述。扫描文本找到确切的事实。"},
+  {q:"When an informational text question asks about PURPOSE, the options are usually:",q_cn:"当信息文本题询问目的时，选项通常是：",opts:["A. Metaphor / simile / personification / hyperbole|A. 隐喻/明喻/拟人/夸张","B. Introduction / body / conclusion / appendix|B. 引言/主体/结论/附录","C. Inform / persuade / entertain / instruct|C. 告知/说服/娱乐/指导","D. Narrative / expository / descriptive / argumentative|D. 叙事/说明/描述/论证"],correct:"C",rat:"The four main purposes of writing: Inform (facts), Persuade (change opinion), Entertain (story/fun), Instruct (how-to). 写作的四个主要目的：告知（事实）、说服（改变观点）、娱乐（故事/乐趣）、指导（方法）。"},
+  {q:"For an informational text INFERENCE question, you should:",q_cn:"对于信息文本推断题，你应该：",opts:["A. Find the answer in the first paragraph only|A. 只在第一段找答案","B. Connect two facts from the text to reach a conclusion|B. 连接文中两个事实得出结论","C. Use your own background knowledge, not the text|C. 使用自己的背景知识，而不是文本","D. Skip the question if the answer is not obvious|D. 如果答案不明显就跳过问题"],correct:"B",rat:"Inference = connecting dots. Use what the text GIVES you to figure out what it IMPLIES. 推断=连点成线。使用文本给你的内容来弄清楚它暗示的内容。"},
+  {q:"Which of the following is an example of an 'inform' purpose?",q_cn:"以下哪一项是'告知'目的的例子？",opts:["A. 'You MUST recycle to save the planet!'|A. '你必须回收以拯救地球！'","B. 'The Amazon rainforest produces 20% of the world's oxygen.'|B. '亚马逊雨林产生世界20%的氧气。'","C. 'Once upon a time, a tree fell in love with the moon.'|C. '从前，一棵树爱上了月亮。'","D. 'Step 1: Plant the seed. Step 2: Water daily.'|D. '步骤1：种下种子。步骤2：每天浇水。'"],correct:"B",rat:"Option B presents a fact with no emotional push or instructions — pure information. Option A = persuade. C = entertain. D = instruct. B选项呈现了没有情感推动或指令的事实——纯粹的信息。A = 说服。C = 娱乐。D = 指导。"},
+  {q:"What is the BEST strategy for a Vocabulary question on an informational text?",q_cn:"信息文本词汇题的最佳策略是什么？",opts:["A. Pick the answer that sounds most scientific|A. 选择听起来最科学的答案","B. Translate the word to Chinese first|B. 先将单词翻译成中文","C. Reread the full sentence, cover the word, and think of a replacement|C. 重读完整句子，盖住单词，想一个替代词","D. Always choose option B|D. 总是选择选项B"],correct:"C",rat:"Context clue strategy: cover the unknown word, read the sentence, think of a word that fits, then match your word to the options. 上下文线索策略：盖住未知词，读句子，想一个合适的词，然后将你的词与选项匹配。"},
+  {q:"The word 'association' in 'color associations vary by culture' most likely means:",q_cn:"'颜色联系因文化而异'中的'association'最可能的含义是：",opts:["A. A club or organization|A. 一个俱乐部或组织","B. A connection between one thing and a feeling or idea|B. 一件事与一种感觉或想法之间的联系","C. A type of scientific experiment|C. 一种科学实验","D. A legal agreement|D. 一种法律协议"],correct:"B",rat:"Context: color → feeling (red = energy, blue = calm). An 'association' is a mental connection between two things. 上下文：颜色→感觉（红色=能量，蓝色=平静）。'联系'是两件事之间的心理连接。"},
+  {q:"An infographic is DIFFERENT from a regular article because it:",q_cn:"信息图与普通文章不同，因为它：",opts:["A. Contains longer paragraphs with more details|A. 包含更长的段落和更多细节","B. Uses images and visual layout to present information quickly|B. 使用图像和视觉布局快速呈现信息","C. Is always persuasive and tries to change your opinion|C. 总是说服性的并试图改变你的观点","D. Contains only numerical data and charts|D. 只包含数字数据和图表"],correct:"B",rat:"Infographics use visuals — icons, colors, layout — to communicate key facts quickly and clearly. 信息图使用视觉元素——图标、颜色、布局——快速清晰地传达关键事实。"},
+  {q:"If a question asks you 'What can we INFER about why the author includes this detail?' you should ask yourself:",q_cn:"如果题目问你'我们可以推断出作者为什么包含这个细节？'你应该问自己：",opts:["A. Is this detail from the first paragraph?|A. 这个细节是来自第一段吗？","B. What does this detail ADD to the reader's understanding?|B. 这个细节为读者的理解增加了什么？","C. How long is the detail?|C. 这个细节有多长？","D. Does the detail use figurative language?|D. 这个细节使用了比喻语言吗？"],correct:"B",rat:"Author's choices are always purposeful. Ask: why is this here? What does it help the reader understand? 作者的选择总是有目的的。问：为什么这个在这里？它帮助读者理解了什么？"},
+  {q:"A 'too extreme' distractor in an informational text MCQ will often use words like:",q_cn:"信息文本选择题中'过于极端'的干扰项通常使用以下词语：",opts:["A. Sometimes / usually / often|A. 有时/通常/经常","B. Always / never / all / none / completely|B. 总是/从不/所有/没有/完全","C. Because / therefore / however|C. 因为/因此/然而","D. First / second / finally|D. 首先/其次/最后"],correct:"B",rat:"Extreme words (always, never, all, none) are rarely correct in informational text — real information is usually more nuanced. 极端词（总是、从不、所有、没有）在信息文本中很少是正确的——真实信息通常更加细致。"}
+];
+
+const POEM_EXIT=[
+  {q:"Poetry is DIFFERENT from prose mainly because:",q_cn:"诗歌与散文的主要区别是：",opts:["A. Poetry never uses metaphors|A. 诗歌从不使用隐喻","B. Poetry uses line breaks and compressed language to create meaning|B. 诗歌使用换行和压缩语言来创造含义","C. Poetry always rhymes|C. 诗歌总是押韵","D. Poetry is always about nature|D. 诗歌总是关于自然的"],correct:"B",rat:"Poetry uses line structure, compressed language, and figurative devices — it doesn't need to rhyme or have a fixed topic. 诗歌使用行结构、压缩语言和比喻手法——它不需要押韵或有固定主题。"},
+  {q:"In a poem question, 'tone' refers to:",q_cn:"在诗歌题中，'语气'指的是：",opts:["A. How loud the poem sounds when read aloud|A. 大声朗读诗歌时听起来有多响","B. The rhyme scheme of the poem|B. 诗歌的押韵方案","C. The attitude or feeling the poet expresses toward the subject|C. 诗人对主题所表达的态度或感情","D. The length of each line|D. 每行的长度"],correct:"C",rat:"Tone = the poet's attitude. Is the poet sad? Angry? Hopeful? Reflective? This is the tone. 语气=诗人的态度。诗人是悲伤的？愤怒的？充满希望的？反思的？这就是语气。"},
+  {q:"A poem question asking what an image 'suggests' is asking for:",q_cn:"诗歌题询问意象'暗示'什么，是在要求：",opts:["A. The literal, physical meaning of the image|A. 意象的字面、物理含义","B. The emotional or symbolic meaning behind the image|B. 意象背后的情感或象征含义","C. The grammar structure of the image|C. 意象的语法结构","D. How many words the image contains|D. 意象包含多少个词"],correct:"B",rat:"'Suggests' = what does it mean emotionally/symbolically? Not the literal surface meaning. '暗示'=它在情感/象征上意味着什么？不是字面的表面含义。"},
+  {q:"When reading a poem for the first time, you should focus on:",q_cn:"第一次阅读诗歌时，你应该关注：",opts:["A. Counting how many times each word appears|A. 计算每个词出现多少次","B. The overall feeling and key images before analyzing details|B. 在分析细节之前关注整体感觉和关键意象","C. Finding every grammar mistake|C. 找出每个语法错误","D. Looking up every unfamiliar word|D. 查找每个不熟悉的单词"],correct:"B",rat:"Read for feeling first (what is the mood?), then for meaning (what are the images doing?). 首先读感觉（气氛如何？），然后读含义（意象在做什么？）。"},
+  {q:"Which of the following describes PERSONIFICATION?",q_cn:"以下哪一项描述了拟人手法？",opts:["A. 'The ocean was as cold as ice'|A. '海洋像冰一样冷'","B. 'The moon was a silver coin'|B. '月亮是一枚银币'","C. 'The forest whispered warnings to the travelers'|C. '森林向旅行者低声警告'","D. 'She cried for a million years'|D. '她哭了一百万年'"],correct:"C",rat:"Personification: a non-human thing (forest) does a human action (whispers, warns). 拟人：非人类事物（森林）做人类的动作（低语、警告）。"},
+  {q:"The question 'What is the speaker MOST LIKELY feeling?' on a poem MCQ requires you to:",q_cn:"诗歌选择题中'诗人最可能感受到什么？'这个问题要求你：",opts:["A. Find the word 'feeling' in the poem|A. 在诗歌中找到'feeling'这个词","B. Use imagery and word choices to infer the emotional state|B. 使用意象和词汇选择来推断情感状态","C. Ask your teacher what the poem means|C. 问你的老师诗歌的含义","D. Read only the first stanza|D. 只读第一诗节"],correct:"B",rat:"Infer the speaker's emotion from the language — word choices, imagery, and what is described will all give clues. 从语言推断说话者的情感——词汇选择、意象和所描述的内容都会给出线索。"},
+  {q:"Which word is a common description of TONE in a sad or thoughtful poem?",q_cn:"以下哪个词是对悲伤或深思诗歌的常见语气描述？",opts:["A. Joyful|A. 欢乐的","B. Aggressive|B. 好斗的","C. Melancholic|C. 忧郁的","D. Sarcastic|D. 讽刺的"],correct:"C",rat:"Melancholic = a gentle, reflective sadness. Common in poems about loss, memory, time. 忧郁的=一种温和的、反思性的悲伤。常见于关于失去、记忆、时间的诗歌。"},
+  {q:"A 'literal misreading' trap in a poem question means:",q_cn:"诗歌题中'字面误读'陷阱的意思是：",opts:["A. Choosing the answer that uses figurative language|A. 选择使用比喻语言的答案","B. Interpreting a figurative image as if it were physically real|B. 将比喻意象解释为物理上真实的","C. Reading the poem too slowly|C. 读诗歌太慢","D. Choosing the longest answer option|D. 选择最长的答案选项"],correct:"B",rat:"If rain is described as 'apologies,' a literal misread answers 'it rained apologies.' The correct reading finds the emotional meaning. 如果雨被描述为'道歉'，字面误读会回答'下了道歉雨'。正确的阅读找到情感含义。"},
+  {q:"In a poem, an image of 'an unfinished letter on a desk' most likely SUGGESTS:",q_cn:"在诗歌中，'桌上未完成的信'这个意象最可能暗示：",opts:["A. The character forgot to write their homework|A. 角色忘记写作业","B. Something important was left unsaid between two people|B. 两人之间有重要的事情未说出口","C. The desk is very messy|C. 桌子非常凌乱","D. The character enjoys writing letters|D. 角色喜欢写信"],correct:"B",rat:"An unfinished letter = unfinished communication, unsaid feelings. In poetry, objects become symbols. 未完成的信=未完成的交流，未说出的感情。在诗歌中，物体成为象征。"},
+  {q:"What should you do FIRST when you see an unfamiliar word in a poem question?",q_cn:"当你在诗歌题中看到不熟悉的单词时，你应该首先做什么？",opts:["A. Skip the question|A. 跳过这道题","B. Re-read the stanza the word appears in and look for surrounding clues|B. 重新阅读该词所在的诗节并寻找周围的线索","C. Choose option A|C. 选择选项A","D. Translate each word separately|D. 分别翻译每个词"],correct:"B",rat:"Context is your best tool. Re-read the lines around the word. What feeling/idea does the whole section convey? 上下文是你最好的工具。重新阅读该词周围的诗行。整个部分传达了什么感觉/想法？"}
+];
+
+// ── BUILD FUNCTIONS ────────────────────────────────────
+function buildVocab(){
+  const g=document.getElementById('vocabGrid');
+  VOCAB.forEach(v=>{
+    const div=document.createElement('div');div.className='vocab-card';
+    div.innerHTML=`<div class="vocab-top"><span class="vocab-word">${v.word}</span><span class="vocab-pos">${v.pos}</span></div>
+    <div class="vocab-cn-word cn">${v.cn}</div>
+    <div class="vocab-def">${v.def}</div>
+    <div class="vocab-cn-def cn">${v.cn_def}</div>
+    <div class="vocab-ex">"${v.example}"</div>
+    <button class="speak-btn" onclick="speakWord('${v.word}')">🔊 Pronounce</button>`;
+    g.appendChild(div);
+    addProgress(0.4); // 5 points across 12 = ~0.4 each
+  });
+}
+
+function speakWord(w){
+  if('speechSynthesis' in window){const u=new SpeechSynthesisUtterance(w);u.lang='en-US';u.rate=0.85;speechSynthesis.speak(u);}
+}
+
+function buildPractices(tabKey,data,containerId){
+  const c=document.getElementById(containerId);
+  data.forEach((item,idx)=>{
+    const div=document.createElement('div');div.className='q-block';
+    const typeMap={lq:'literary',iq:'info',pq:'poem'};
+    const tabPrefix=item.id.slice(0,2);
+    const typeClass=tabPrefix==='lq'?'craft':tabPrefix==='iq'?'recall':'craft';
+    // determine question type label
+    let qtag='Recall';let qclass='recall';
+    if(idx===2||idx===3){qtag='Inference';qclass='infer';}
+    else if(idx===4){qtag="Author's Craft";qclass='craft';}
+    else if(idx===5){qtag='Vocabulary';qclass='vocab';}
+    else if(idx>=6&&idx<=9){
+      if(idx===6){qtag='Recall';qclass='recall';}
+      else if(idx===7){qtag='Inference';qclass='infer';}
+      else if(idx===8){qtag="Author's Craft";qclass='craft';}
+      else{qtag='Vocabulary';qclass='vocab';}
+    }
+
+    const optsHtml=item.options.map((o,oi)=>{
+      const letter=['A','B','C','D'][oi];
+      const [en,cn]=o.split('|');
+      const wrongDataAttr=item.rationale_wrong&&item.rationale_wrong[letter]?
+        `data-wrong-${letter}="${encodeURIComponent(item.rationale_wrong[letter])}"`:'' ;
+      return `<button class="opt-btn" id="${item.id}_${letter}"
+        onclick="selectAnswer('${tabKey}','${item.id}','${letter}',this,'${item.correct}')"
+        ${wrongDataAttr}>
+        <span class="opt-letter">${letter}</span>
+        <span>${en}<br><span class="cn" style="font-size:.8rem;color:#666;">${cn||''}</span></span>
+      </button>`;
+    }).join('');
+
+    const wrongAttrs=item.options.map((o,oi)=>{
+      const letter=['A','B','C','D'][oi];
+      if(item.rationale_wrong&&item.rationale_wrong[letter]){
+        return `data-wrong-${letter}="${encodeURIComponent(item.rationale_wrong[letter])}"`;
+      }return '';
+    }).join(' ');
+
+    div.innerHTML=`
+      <div>
+        <span class="q-num">Q${idx+1}</span>
+        <span class="q-type-tag ${qclass}">${qtag}</span>
+      </div>
+      ${item.passage?`<div class="passage-wrap"><div class="passage-title">📄 ${item.title}</div><div class="passage-text">${item.passage.replace(/\n/g,'<br>')}</div></div>`:''}
+      <div class="q-stem">${item.q}</div>
+      <div class="q-stem-cn cn">${item.q_cn}</div>
+      <div class="options" id="${item.id}_opts" ${wrongAttrs}>${optsHtml}</div>
+      <div class="rationale" id="${item.id}_rat"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function selectAnswer(tabKey,qid,selected,btn,correct){
+  const opts=document.getElementById(qid+'_opts');
+  if(opts.dataset.locked)return;
+  opts.dataset.locked='1';
+  const btns=opts.querySelectorAll('.opt-btn');
+  btns.forEach(b=>b.disabled=true);
+  const rat=document.getElementById(qid+'_rat');
+  const ansObj=tabKey==='literary'?literaryAnswers:tabKey==='info'?infoAnswers:poemAnswers;
+  if(ansObj[qid])return;
+  ansObj[qid]={selected,correct:selected===correct};
+  if(selected===correct){
+    btn.classList.add('correct');
+    const [en,cn]=(tabKey==='literary'?LITERARY_PRACTICES:tabKey==='info'?INFO_PRACTICES:POEM_PRACTICES)
+      .find(p=>p.id===qid).rationale.split('|');
+    rat.className='rationale correct show';
+    rat.innerHTML=`✅ ${en}<div class="rat-cn cn">${cn||''}</div>`;
+    if(tabKey==='literary')literaryScore++;
+    else if(tabKey==='info')infoScore++;
+    else poemScore++;
+    addProgress(1);
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById(qid+'_'+correct)?.classList.add('correct');
+    const dataArr=tabKey==='literary'?LITERARY_PRACTICES:tabKey==='info'?INFO_PRACTICES:POEM_PRACTICES;
+    const item=dataArr.find(p=>p.id===qid);
+    const wrongKey=`data-wrong-${selected}`;
+    const wrongRaw=opts.getAttribute(wrongKey)||opts.getAttribute(`data-wrong-${selected}`);
+    let wrongMsg='Review the passage again.|再次阅读文章。';
+    if(item.rationale_wrong&&item.rationale_wrong[selected]){wrongMsg=item.rationale_wrong[selected];}
+    const [en,cn]=wrongMsg.split('|');
+    rat.className='rationale wrong show';
+    rat.innerHTML=`❌ ${en||wrongMsg}<div class="rat-cn cn">${cn||''}</div>`;
+    addProgress(0.5);
+  }
+}
+
+function buildExitTicket(tabKey,data,containerId,scoreBoxId,scoreNumId,scoreMsgId,reflId,dlId){
+  const c=document.getElementById(containerId);
+  data.forEach((item,idx)=>{
+    const div=document.createElement('div');div.className='exit-q';
+    const optsHtml=item.opts.map((o,oi)=>{
+      const letter=['A','B','C','D'][oi];
+      const [en,cn]=o.split('|');
+      return `<button class="opt-btn" id="ex_${tabKey}_${idx}_${letter}"
+        onclick="selectExit('${tabKey}',${idx},'${letter}',this,'${item.correct}','${scoreBoxId}','${scoreNumId}','${scoreMsgId}','${reflId}','${dlId}')">
+        <span class="opt-letter">${letter}</span>
+        <span>${en}<br><span class="cn" style="font-size:.8rem;color:#666;">${cn||''}</span></span>
+      </button>`;
+    }).join('');
+    div.innerHTML=`<div class="exit-qnum">Exit Q${idx+1}</div>
+      <div class="exit-stem">${item.q}</div>
+      <div class="exit-stem-cn cn">${item.q_cn}</div>
+      <div class="options" id="exopts_${tabKey}_${idx}">${optsHtml}</div>
+      <div class="rationale" id="exrat_${tabKey}_${idx}"></div>`;
+    c.appendChild(div);
+  });
+}
+
+function selectExit(tabKey,idx,selected,btn,correct,sbId,snId,smId,reflId,dlId){
+  const opts=document.getElementById(`exopts_${tabKey}_${idx}`);
+  if(opts.dataset.locked)return;
+  opts.dataset.locked='1';
+  opts.querySelectorAll('.opt-btn').forEach(b=>b.disabled=true);
+  const rat=document.getElementById(`exrat_${tabKey}_${idx}`);
+  const ansObj=tabKey==='literary'?literaryExitAnswers:tabKey==='info'?infoExitAnswers:poemExitAnswers;
+  ansObj[idx]={selected,correct:selected===correct};
+  const data=tabKey==='literary'?LITERARY_EXIT:tabKey==='info'?INFO_EXIT:POEM_EXIT;
+  const [en,cn]=(data[idx].rat||'').split('|');
+  if(selected===correct){
+    btn.classList.add('correct');
+    rat.className='rationale correct show';
+    rat.innerHTML=`✅ ${en||''}<div class="rat-cn cn">${cn||''}</div>`;
+    addProgress(1);
+  } else {
+    btn.classList.add('wrong');
+    document.getElementById(`ex_${tabKey}_${idx}_${correct}`)?.classList.add('correct');
+    rat.className='rationale wrong show';
+    rat.innerHTML=`❌ Incorrect. ${en||''}<div class="rat-cn cn">${cn||''}</div>`;
+    addProgress(0.5);
+  }
+  if(tabKey==='literary'){literaryExitDone++; if(literaryExitDone===10)showExitResults('literary',sbId,snId,smId,reflId,dlId);}
+  else if(tabKey==='info'){infoExitDone++; if(infoExitDone===10)showExitResults('info',sbId,snId,smId,reflId,dlId);}
+  else{poemExitDone++; if(poemExitDone===10)showExitResults('poem',sbId,snId,smId,reflId,dlId);}
+}
+
+function showExitResults(tabKey,sbId,snId,smId,reflId,dlId){
+  const ansObj=tabKey==='literary'?literaryExitAnswers:tabKey==='info'?infoExitAnswers:poemExitAnswers;
+  const score=Object.values(ansObj).filter(a=>a.correct).length;
+  document.getElementById(sbId).className='score-box show';
+  document.getElementById(snId).textContent=`${score}/10`;
+  document.getElementById(smId).textContent=score>=8?'Excellent! 优秀！':score>=6?'Good work! 做得好！':'Keep practising! 继续练习！';
+  document.getElementById(reflId).className='reflection-wrap show';
+  document.getElementById('pip-'+tabKey).className='pip done';
+}
+
+function downloadReport(tabKey){
+  const nameEl=tabKey==='literary'?'nameL':tabKey==='info'?'nameI':'nameP';
+  const name=document.getElementById(nameEl).value||'Student';
+  const date=new Date().toLocaleDateString();
+  const time=formatTime(secondsElapsed);
+  const practices=tabKey==='literary'?LITERARY_PRACTICES:tabKey==='info'?INFO_PRACTICES:POEM_PRACTICES;
+  const exit=tabKey==='literary'?LITERARY_EXIT:tabKey==='info'?INFO_EXIT:POEM_EXIT;
+  const pAns=tabKey==='literary'?literaryAnswers:tabKey==='info'?infoAnswers:poemAnswers;
+  const eAns=tabKey==='literary'?literaryExitAnswers:tabKey==='info'?infoExitAnswers:poemExitAnswers;
+  const pScore=Object.values(pAns).filter(a=>a.correct).length;
+  const eScore=Object.values(eAns).filter(a=>a.correct).length;
+  const ref1Id=tabKey==='literary'?'lRef1':tabKey==='info'?'iRef1':'pRef1';
+  const ref2Id=tabKey==='literary'?'lRef2':tabKey==='info'?'iRef2':'pRef2';
+  let txt=`MLWS ENG 11-2 MIDTERM STUDY GUIDE — ${tabKey.toUpperCase()} TAB\n`;
+  txt+=`Student: ${name} | Date: ${date} | Time: ${time} | Tab Leaves: ${leaveCount}\n`;
+  txt+=`Practice Score: ${pScore}/10 | Exit Score: ${eScore}/10\n${'='.repeat(60)}\n\nPRACTICE QUESTIONS:\n`;
+  practices.forEach((p,i)=>{const a=pAns[p.id];txt+=`Q${i+1}: ${p.q}\nYour Answer: ${a?a.selected:'Not answered'} | Correct: ${p.correct} | ${a&&a.correct?'CORRECT':'INCORRECT'}\n\n`;});
+  txt+=`\nEXIT TICKET:\n`;
+  exit.forEach((q,i)=>{const a=eAns[i];txt+=`Exit Q${i+1}: ${q.q}\nYour Answer: ${a?a.selected:'Not answered'} | Correct: ${q.correct} | ${a&&a.correct?'CORRECT':'INCORRECT'}\n\n`;});
+  txt+=`\nREFLECTION:\nQ1: ${document.getElementById(ref1Id).value||'No response'}\n\nQ2: ${document.getElementById(ref2Id).value||'No response'}\n`;
+  const blob=new Blob([txt],{type:'text/plain'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`StudyGuide_${tabKey}_${name}_${date}.txt`;a.click();
+}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function addProgress(pts){
+  progressPoints+=pts;
+  const pct=Math.min(100,(progressPoints/totalPoints)*100);
+  document.getElementById('progressBar').style.width=pct.toFixed(1)+'%';
+  document.getElementById('progressText').textContent=`Progress: ${Math.round(progressPoints)} / ${totalPoints} points`;
+}
+function startTimer(){setInterval(()=>{secondsElapsed++;document.getElementById('timer').textContent='⏱ '+formatTime(secondsElapsed);},1000);}
+function formatTime(s){const m=Math.floor(s/60);const sec=s%60;return String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
+function trackNavigation(){document.addEventListener('visibilitychange',()=>{if(document.hidden){leaveCount++;document.getElementById('leaveBadge').textContent='👁 Leaves: '+leaveCount;}});}
+
+window.onload=()=>{
+  buildVocab();
+  buildPractices('literary',LITERARY_PRACTICES,'literaryPracticeContainer');
+  buildExitTicket('literary',LITERARY_EXIT,'literaryExitContainer','lScoreBox','lScoreNum','lScoreMsg','lReflection','lDl');
+  buildPractices('info',INFO_PRACTICES,'infoPracticeContainer');
+  buildExitTicket('info',INFO_EXIT,'infoExitContainer','iScoreBox','iScoreNum','iScoreMsg','iReflection','iDl');
+  buildPractices('poem',POEM_PRACTICES,'poemPracticeContainer');
+  buildExitTicket('poem',POEM_EXIT,'poemExitContainer','pScoreBox','pScoreNum','pScoreMsg','pReflection','pDl');
+  startTimer();
+  trackNavigation();
+};
+</script>
+</body>
+</html>
