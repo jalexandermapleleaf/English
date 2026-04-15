@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Dad's Brain Works 🧠</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fef9f0;
+    --warm: #fff8ec;
+    --card: #ffffff;
+    --asd: #4f8ef7;
+    --asd-light: #e8f0ff;
+    --adhd: #ff7f3f;
+    --adhd-light: #fff0e8;
+    --nt: #3dbb7a;
+    --nt-light: #e6f9ef;
+    --purple: #9b5de5;
+    --yellow: #f9c74f;
+    --pink: #f72585;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 4px 24px rgba(0,0,0,0.07);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito Sans', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ─── AGE SELECTOR ─── */
+  #age-picker {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    gap: 32px;
+    padding: 24px;
+  }
+
+  #age-picker .brain-emoji {
+    font-size: 72px;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  #age-picker h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: clamp(26px, 6vw, 44px);
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  #age-picker p {
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+    text-align: center;
+    max-width: 380px;
+  }
+
+  .age-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .age-btn {
+    border: none;
+    border-radius: 20px;
+    padding: 18px 28px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+
+  .age-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
+  .age-btn:active { transform: translateY(0); }
+
+  .age-btn .btn-emoji { font-size: 28px; }
+  .age-btn .btn-text { display: flex; flex-direction: column; gap: 2px; }
+  .age-btn .btn-label { font-size: 18px; }
+  .age-btn .btn-sub { font-size: 12px; font-weight: 400; opacity: 0.75; }
+
+  .btn-tiny { background: #f9c74f; color: #1a1a2e; }
+  .btn-kid  { background: #4f8ef7; color: #fff; }
+  .btn-teen { background: #9b5de5; color: #fff; }
+  .btn-adult { background: #3dbb7a; color: #fff; }
+
+  /* ─── MAIN APP ─── */
+  #app { display: none; }
+  #app.visible { display: block; }
+
+  /* ─── NAV ─── */
+  nav {
+    background: var(--card);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    white-space: nowrap;
+    padding: 16px 0;
+    color: var(--text);
+    margin-right: 8px;
+  }
+
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 10px 14px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 10px;
+    white-space: nowrap;
+    color: var(--muted);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .nav-btn:hover { background: var(--asd-light); color: var(--asd); }
+  .nav-btn.active { background: var(--asd); color: #fff; }
+
+  .change-age-btn {
+    margin-left: auto;
+    background: var(--warm);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    padding: 6px 12px;
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: #fff;
+    padding: 56px 20px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(79,142,247,0.2), transparent);
+  }
+
+  .hero-emoji { font-size: 64px; display: block; margin-bottom: 16px; animation: float 3s ease-in-out infinite; position: relative; }
+
+  .hero h1 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 7vw, 52px);
+    line-height: 1.1;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .hero p {
+    font-size: clamp(14px, 3vw, 18px);
+    color: rgba(255,255,255,0.7);
+    max-width: 520px;
+    margin: 0 auto 32px;
+    position: relative;
+  }
+
+  .mode-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    position: relative;
+  }
+
+  /* ─── CONTENT ─── */
+  .content { max-width: 900px; margin: 0 auto; padding: 40px 20px 80px; }
+
+  /* ─── SECTION PAGES ─── */
+  .section-page { display: none; }
+  .section-page.active { display: block; }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .card-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: clamp(18px, 3vw, 22px);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card p, .card li {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .card ul { padding-left: 20px; }
+  .card li { margin-bottom: 6px; }
+
+  /* ─── HIGHLIGHTED QUOTE ─── */
+  .big-quote {
+    background: linear-gradient(135deg, var(--asd-light), #f0f4ff);
+    border-left: 5px solid var(--asd);
+    border-radius: 0 16px 16px 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: clamp(15px, 2.5vw, 18px);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .big-quote.orange { background: linear-gradient(135deg, var(--adhd-light), #fff5ee); border-color: var(--adhd); }
+  .big-quote.green  { background: linear-gradient(135deg, var(--nt-light), #edfff6); border-color: var(--nt); }
+  .big-quote.purple { background: linear-gradient(135deg, #f3ecff, #ede0ff); border-color: var(--purple); }
+
+  /* ─── BRAIN VISUAL ─── */
+  .brain-compare {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  @media (max-width: 580px) {
+    .brain-compare { grid-template-columns: 1fr; }
+  }
+
+  .brain-box {
+    border-radius: 16px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+
+  .brain-box.asd  { background: var(--asd-light); border: 2px solid rgba(79,142,247,0.3); }
+  .brain-box.adhd { background: var(--adhd-light); border: 2px solid rgba(255,127,63,0.3); }
+  .brain-box.nt   { background: var(--nt-light); border: 2px solid rgba(61,187,122,0.3); }
+
+  .brain-box .bb-emoji { font-size: 36px; display: block; margin-bottom: 8px; }
+  .brain-box .bb-label {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .brain-box.asd  .bb-label { color: var(--asd); }
+  .brain-box.adhd .bb-label { color: var(--adhd); }
+  .brain-box.nt   .bb-label { color: var(--nt); }
+
+  .brain-box p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── INTERACTIVE NOISE METER ─── */
+  .noise-meter {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+  }
+
+  .noise-title {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .noise-desc { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+
+  .noise-slider-wrap { margin-bottom: 24px; }
+
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #4f8ef7, #f72585);
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    cursor: pointer;
+    border: 3px solid #4f8ef7;
+    transition: border-color 0.2s;
+  }
+
+  .noise-brains {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 500px) {
+    .noise-brains { grid-template-columns: 1fr; }
+  }
+
+  .noise-brain {
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.3s;
+  }
+
+  .noise-brain .nb-emoji { font-size: 32px; display: block; margin-bottom: 6px; transition: all 0.3s; }
+  .noise-brain .nb-label { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+  .noise-brain .nb-status { font-size: 12px; color: var(--muted); line-height: 1.5; min-height: 54px; transition: all 0.3s; }
+
+  .nb-asd { background: var(--asd-light); }
+  .nb-asd .nb-label { color: var(--asd); }
+  .nb-adhd { background: var(--adhd-light); }
+  .nb-adhd .nb-label { color: var(--adhd); }
+  .nb-nt { background: var(--nt-light); }
+  .nb-nt .nb-label { color: var(--nt); }
+
+  /* ─── SCENARIO CARDS ─── */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .scenario-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: var(--shadow);
+  }
+
+  .scenario-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+  .sc-header {
+    padding: 20px 20px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sc-emoji { font-size: 32px; }
+  .sc-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 16px; }
+  .sc-hint { font-size: 11px; color: var(--muted); font-style: italic; }
+
+  .sc-body { padding: 0 20px 20px; }
+
+  .sc-expand { display: none; }
+  .sc-expand.open { display: block; }
+
+  .sc-brain-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .sc-brain-item {
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .sc-brain-item .sbi-name {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .sbi-asd  { background: var(--asd-light); }
+  .sbi-asd .sbi-name  { color: var(--asd); }
+  .sbi-adhd { background: var(--adhd-light); }
+  .sbi-adhd .sbi-name { color: var(--adhd); }
+  .sbi-nt   { background: var(--nt-light); }
+  .sbi-nt .sbi-name   { color: var(--nt); }
+
+  .sc-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s;
+    margin-top: 4px;
+  }
+
+  .sc-toggle:hover { background: var(--asd-light); color: var(--asd); border-color: var(--asd); }
+
+  /* ─── SYNAPTIC VISUAL ─── */
+  .synapse-vis {
+    background: #1a1a2e;
+    border-radius: 20px;
+    padding: 32px 24px;
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .synapse-vis h3 {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .synapse-vis p { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+
+  .syn-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 500px) { .syn-row { grid-template-columns: 1fr; } }
+
+  .syn-box { text-align: center; }
+  .syn-box .syn-label {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+
+  .syn-box.s-asd .syn-label  { color: var(--asd); }
+  .syn-box.s-adhd .syn-label { color: var(--adhd); }
+  .syn-box.s-nt .syn-label   { color: var(--nt); }
+
+  .syn-dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .syn-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    transition: all 0.3s;
+  }
+
+  .syn-dot.kept { opacity: 1; }
+  .syn-dot.pruned { opacity: 0.12; }
+  .syn-dot.s-asd { background: var(--asd); }
+  .syn-dot.s-adhd { background: var(--adhd); }
+  .syn-dot.s-nt { background: var(--nt); }
+
+  .syn-stat {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    font-size: 22px;
+    color: #fff;
+    display: block;
+  }
+
+  .syn-sub { font-size: 11px; color: rgba(255,255,255,0.4); }
+
+  /* ─── HELP TIPS ─── */
+  .tip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+  }
+
+  .tip-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+  }
+
+  .tip-card .tip-emoji { font-size: 28px; display: block; margin-bottom: 8px; }
+  .tip-card .tip-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+  .tip-card p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  /* ─── FEELINGS CHART ─── */
+  .feelings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .feeling-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .feeling-card:hover { transform: scale(1.05); box-shadow: var(--shadow-lg); }
+  .feeling-card .fe { font-size: 32px; display: block; margin-bottom: 6px; }
+  .feeling-card .fn { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 13px; }
+  .feeling-card .fd { font-size: 11px; color: var(--muted); margin-top: 4px; line-height: 1.5; display: none; }
+  .feeling-card.open .fd { display: block; }
+  .feeling-card.open { border-color: var(--asd); background: var(--asd-light); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  footer strong { color: var(--text); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-page.active .card,
+  .section-page.active .noise-meter,
+  .section-page.active .scenario-card,
+  .section-page.active .tip-card,
+  .section-page.active .feeling-card {
+    animation: fadeUp 0.4s ease both;
+  }
+
+  /* stagger */
+  .section-page.active .card:nth-child(2) { animation-delay: 0.05s; }
+  .section-page.active .card:nth-child(3) { animation-delay: 0.1s; }
+  .section-page.active .card:nth-child(4) { animation-delay: 0.15s; }
+
+  /* tiny mode overrides */
+  body.mode-tiny .card p,
+  body.mode-tiny .card li {
+    font-size: 17px;
+    line-height: 1.9;
+  }
+
+  body.mode-tiny .card-title { font-size: 22px; }
+  body.mode-tiny .tip-card p { font-size: 15px; }
+  body.mode-tiny .feeling-card .fn { font-size: 15px; }
+
+</style>
+</head>
+<body>
+
+<!-- ─── AGE PICKER ─── -->
+<div id="age-picker">
+  <span class="brain-emoji">🧠</span>
+  <h1>How Dad's<br>Brain Works</h1>
+  <p>Pick who's reading so we can use the right words!</p>
+  <div class="age-buttons">
+    <button class="age-btn btn-tiny" onclick="pickAge('tiny')">
+      <span class="btn-emoji">🧸</span>
+      <span class="btn-text">
+        <span class="btn-label">HGL</span>
+        <span class="btn-sub">Big pictures, simple words</span>
+      </span>
+    </button>
+    <button class="age-btn btn-kid" onclick="pickAge('kid')">
+      <span class="btn-emoji">⚡</span>
+      <span class="btn-text">
+        <span class="btn-label">SEA</span>
+        <span class="btn-sub">Cool science, fun examples</span>
+      </span>
+    </button>
+    <button class="age-btn btn-teen" onclick="pickAge('teen')">
+      <span class="btn-emoji">🎧</span>
+      <span class="btn-text">
+        <span class="btn-label">K</span>
+        <span class="btn-sub">Real talk, actual science</span>
+      </span>
+    </button>
+    <button class="age-btn btn-adult" onclick="pickAge('adult')">
+      <span class="btn-emoji">☕</span>
+      <span class="btn-text">
+        <span class="btn-label">I'm a grown-up</span>
+        <span class="btn-sub">Full detail, clinical context</span>
+      </span>
+    </button>
+  </div>
+</div>
+
+<!-- ─── MAIN APP ─── -->
+<div id="app">
+
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-title">🧠</span>
+      <button class="nav-btn active" onclick="showSection('brain', this)">The Brain</button>
+      <button class="nav-btn" onclick="showSection('senses', this)">Senses</button>
+      <button class="nav-btn" onclick="showSection('feelings', this)">Feelings</button>
+      <button class="nav-btn" onclick="showSection('home', this)">At Home</button>
+      <button class="nav-btn" onclick="showSection('help', this)">How to Help</button>
+      <button class="change-age-btn" onclick="changeAge()">Change Reader</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <span class="hero-emoji">🧠</span>
+    <h1 id="hero-title">How Dad's Brain Works</h1>
+    <p id="hero-sub">A guide for our whole family</p>
+    <div class="mode-badge" id="mode-badge"></div>
+  </div>
+
+  <div class="content">
+
+    <!-- ══════ BRAIN SECTION ══════ -->
+    <div class="section-page active" id="sec-brain">
+
+      <!-- TINY MODE -->
+      <div class="age-content mode-tiny">
+        <div class="card">
+          <div class="card-title">🧠 Brains are all different!</div>
+          <p>Did you know every brain is different, just like every face is different?</p>
+          <br>
+          <div class="brain-compare">
+            <div class="brain-box asd">
+              <span class="bb-emoji">🔬</span>
+              <div class="bb-label">Dad's Brain</div>
+              <p>Notices <strong>everything</strong>. Lots of wires!</p>
+            </div>
+            <div class="brain-box adhd">
+              <span class="bb-emoji">⚡</span>
+              <div class="bb-label">ADHD Brain</div>
+              <p>Jumps around! Full of sparks!</p>
+            </div>
+            <div class="brain-box nt">
+              <span class="bb-emoji">🌿</span>
+              <div class="bb-label">Most Brains</div>
+              <p>Quieter inside. Less wires.</p>
+            </div>
+          </div>
+          <div class="big-quote" style="margin-top:16px;">
+            Dad's brain has MORE connections than most people's. That means it works really, really hard all day! 💪
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🌟 Being different is okay!</div>
+          <p>Dad's brain makes him <strong>really good</strong> at some things — like noticing tiny details, remembering facts, and caring very deeply about the people he loves. ❤️</p>
+          <br>
+          <p>But sometimes it also makes things <strong>harder</strong> — like when the house is very noisy or messy. That's not anyone's fault. It's just how his brain is built!</p>
+        </div>
+      </div>
+
+      <!-- KID MODE -->
+      <div class="age-content mode-kid">
+        <div class="card">
+          <div class="card-title">⚡ Three Different Brains</div>
+          <p>Scientists have found that brains can be wired in totally different ways. Let's compare three types:</p>
+          <div class="brain-compare" style="margin-top:16px;">
+            <div class="brain-box asd">
+              <span class="bb-emoji">🔬</span>
+              <div class="bb-label">ASD (Dad)</div>
+              <p>Super detailed. Notices everything. Runs really hot. Very strong feelings even when he can't name them.</p>
+            </div>
+            <div class="brain-box adhd">
+              <span class="bb-emoji">⚡</span>
+              <div class="bb-label">ADHD</div>
+              <p>Fast-switching. Gets bored easily. Jumps between ideas. Has trouble with time.</p>
+            </div>
+            <div class="brain-box nt">
+              <span class="bb-emoji">🌿</span>
+              <div class="bb-label">Neurotypical</div>
+              <p>The most common type. Filters out background stuff more easily.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="synapse-vis">
+          <h3>🔌 Brain Connections (Synapses)</h3>
+          <p>During childhood, brains prune connections they don't need. ASD brains prune way less.</p>
+          <div class="syn-row">
+            <div class="syn-box s-asd">
+              <div class="syn-label">Dad (ASD)</div>
+              <div class="syn-dots" id="dots-asd"></div>
+              <span class="syn-stat">~3x more</span>
+              <div class="syn-sub">connections kept</div>
+            </div>
+            <div class="syn-box s-adhd">
+              <div class="syn-label">ADHD</div>
+              <div class="syn-dots" id="dots-adhd"></div>
+              <span class="syn-stat">~1.5x more</span>
+              <div class="syn-sub">connections kept</div>
+            </div>
+            <div class="syn-box s-nt">
+              <div class="syn-label">Neurotypical</div>
+              <div class="syn-dots" id="dots-nt"></div>
+              <span class="syn-stat">Baseline</span>
+              <div class="syn-sub">normal pruning</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🦸 ASD Superpowers <em>and</em> Hard Parts</div>
+          <p><strong>The good stuff:</strong></p>
+          <ul>
+            <li>Incredible memory for details and facts</li>
+            <li>Notices things others completely miss</li>
+            <li>Very loyal and deep in relationships</li>
+            <li>Thinks in original, creative ways</li>
+          </ul>
+          <br>
+          <p><strong>The hard stuff:</strong></p>
+          <ul>
+            <li>Noise, mess, and chaos feel physically overwhelming</li>
+            <li>Transitions (changing tasks suddenly) are jarring</li>
+            <li>Feelings are hard to name, even when they're BIG</li>
+            <li>Social situations take a lot of brain energy</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TEEN MODE -->
+      <div class="age-content mode-teen">
+        <div class="card">
+          <div class="card-title">🔬 Neurodivergence — The Real Science</div>
+          <p>ASD (Level 1), ADHD, and neurotypical brains all differ structurally and functionally. The key differences come down to <strong>connectivity patterns, sensory gating, and executive function architecture</strong>.</p>
+          <div class="brain-compare" style="margin-top:16px;">
+            <div class="brain-box asd">
+              <span class="bb-emoji">🔬</span>
+              <div class="bb-label">ASD — Level 1</div>
+              <p>Hyper-local connectivity. Reduced top-down sensory filtering. Less synaptic pruning = more raw sensory input processed simultaneously. Strong pattern recognition. Alexithymia present in ~50%.</p>
+            </div>
+            <div class="brain-box adhd">
+              <span class="bb-emoji">⚡</span>
+              <div class="bb-label">ADHD</div>
+              <p>Dopamine/norepinephrine dysregulation. Underactivated frontal lobe. Reward-seeking loops. Poor working memory. Paradoxically excellent in high-stimulation environments.</p>
+            </div>
+            <div class="brain-box nt">
+              <span class="bb-emoji">🌿</span>
+              <div class="bb-label">Neurotypical</div>
+              <p>Strong default mode network. Efficient sensory gating filters "irrelevant" signals automatically. Interoception (body-sensing) more reliable. Social cognition more intuitive.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="synapse-vis">
+          <h3>🔌 Synaptic Pruning — Why It Matters</h3>
+          <p>The brain normally prunes ~40% of synaptic connections during adolescence. ASD brains prune at roughly 1/3 that rate.</p>
+          <div class="syn-row">
+            <div class="syn-box s-asd">
+              <div class="syn-label">ASD</div>
+              <div class="syn-dots" id="dots-asd-t"></div>
+              <span class="syn-stat">~3x density</span>
+              <div class="syn-sub">hyperconnected local networks → sensory overload</div>
+            </div>
+            <div class="syn-box s-adhd">
+              <div class="syn-label">ADHD</div>
+              <div class="syn-dots" id="dots-adhd-t"></div>
+              <span class="syn-stat">Variable</span>
+              <div class="syn-sub">frontal-subcortical loops under-connected</div>
+            </div>
+            <div class="syn-box s-nt">
+              <div class="syn-label">Neurotypical</div>
+              <div class="syn-dots" id="dots-nt-t"></div>
+              <span class="syn-stat">Baseline</span>
+              <div class="syn-sub">efficient pruning = cleaner signal processing</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="big-quote purple">
+          ASD isn't a "broken" version of neurotypical. It's a different hardware architecture — with genuine advantages in pattern recognition, detail processing, and depth of focus, alongside real costs in sensory regulation and emotional labelling.
+        </div>
+      </div>
+
+      <!-- ADULT MODE -->
+      <div class="age-content mode-adult">
+        <div class="card">
+          <div class="card-title">🧠 ASD Level 1 — Clinical Context</div>
+          <p>Autism Spectrum Disorder Level 1 (formerly Asperger's) is characterized by atypical sensory processing, reduced social intuition, and executive function differences — without significant language delay. It is fundamentally a difference in <strong>neural architecture</strong>, not a deficit.</p>
+          <br>
+          <p>Key structural differences include:</p>
+          <ul>
+            <li><strong>Synaptic over-connectivity:</strong> Reduced pruning in the mTOR/PTEN pathway results in ~3x greater synapse density in local cortical networks, producing sensory hyper-reactivity</li>
+            <li><strong>Amygdala hyperactivation:</strong> Heightened threat/novelty detection, contributing to anxiety and sensory aversion</li>
+            <li><strong>Reduced interoceptive accuracy:</strong> The insular cortex processes body-state signals less reliably, underlying alexithymia</li>
+            <li><strong>Default Mode Network differences:</strong> Less suppression of self-referential processing during task engagement (explains difficulty with cognitive switching)</li>
+          </ul>
+        </div>
+
+        <div class="synapse-vis">
+          <h3>🔌 Synaptic Pruning in ASD</h3>
+          <p>mTOR pathway dysregulation results in approximately 1/3 the normal pruning rate during neurodevelopment</p>
+          <div class="syn-row">
+            <div class="syn-box s-asd">
+              <div class="syn-label">ASD</div>
+              <div class="syn-dots" id="dots-asd-a"></div>
+              <span class="syn-stat">~3x density</span>
+              <div class="syn-sub">hyperlocal connectivity → simultaneous multi-channel sensory processing without inhibition</div>
+            </div>
+            <div class="syn-box s-adhd">
+              <div class="syn-label">ADHD</div>
+              <div class="syn-dots" id="dots-adhd-a"></div>
+              <span class="syn-stat">Disrupted</span>
+              <div class="syn-sub">fronto-striatal circuit under-connectivity; different mechanism, different presentation</div>
+            </div>
+            <div class="syn-box s-nt">
+              <div class="syn-label">Neurotypical</div>
+              <div class="syn-dots" id="dots-nt-a"></div>
+              <span class="syn-stat">Baseline</span>
+              <div class="syn-sub">efficient thalamic gating suppresses ~85% of incoming sensory data before cortical processing</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="big-quote purple">
+          The key distinction from ADHD: ADHD presents as dopaminergic dysregulation driving attention/impulse dyscontrol. ASD presents as sensory hyperconnectivity + social cognition differences. Co-occurrence rate is 30–50%, which creates compounding executive function challenges.
+        </div>
+      </div>
+
+    </div><!-- /sec-brain -->
+
+    <!-- ══════ SENSES SECTION ══════ -->
+    <div class="section-page" id="sec-senses">
+
+      <div class="age-content mode-tiny">
+        <div class="card">
+          <div class="card-title">👂 Dad hears things REALLY loud</div>
+          <p>Imagine if every sound in the house was turned up really, really loud — like if someone turned the TV all the way up and you couldn't turn it back down.</p>
+          <br>
+          <p>That's what loud noises feel like to Dad's brain sometimes!</p>
+          <div class="big-quote" style="margin-top:16px;">
+            🎵 The TV + 🗣️ talking + 🚿 water running = that feels like a LOT for Dad's ears!
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">👀 Dad sees lots of stuff too</div>
+          <p>When there are lots of toys on the floor, or lots of stuff on the table, Dad's eyes try to look at ALL of it at the same time. It's hard for his brain to pick just one thing!</p>
+          <br>
+          <p>That's why a <strong>tidy room</strong> helps Dad feel calm. ✨</p>
+        </div>
+      </div>
+
+      <div class="age-content mode-kid">
+        <div class="noise-meter">
+          <div class="noise-title">🔊 The Noise Meter</div>
+          <div class="noise-desc">Drag the slider to see how each brain handles different noise levels at home</div>
+          <div class="noise-slider-wrap">
+            <div class="slider-label"><span>🤫 Quiet</span><span>😬 Medium</span><span>🤯 Chaos</span></div>
+            <input type="range" min="0" max="100" value="30" id="noise-slider" oninput="updateNoise(this.value)">
+          </div>
+          <div class="noise-brains">
+            <div class="noise-brain nb-asd">
+              <span class="nb-emoji" id="nb-emoji-asd">😌</span>
+              <div class="nb-label">Dad (ASD)</div>
+              <div class="nb-status" id="nb-status-asd">Quiet is great. Brain can focus well.</div>
+            </div>
+            <div class="noise-brain nb-adhd">
+              <span class="nb-emoji" id="nb-emoji-adhd">😴</span>
+              <div class="nb-label">ADHD Brain</div>
+              <div class="nb-status" id="nb-status-adhd">Too quiet = boring. Hard to pay attention.</div>
+            </div>
+            <div class="noise-brain nb-nt">
+              <span class="nb-emoji" id="nb-emoji-nt">😊</span>
+              <div class="nb-label">Most People</div>
+              <div class="nb-status" id="nb-status-nt">Fine. Background noise is just... background.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">👁️ Visual Clutter — What Dad Sees</div>
+          <p>Most people's brains automatically blur out background stuff — like how you can focus on talking to someone at a noisy party. Dad's brain <strong>can't do that as easily</strong>.</p>
+          <br>
+          <p>When there are toys everywhere, dishes out, papers on tables — Dad's brain tries to process <strong>all of it at once</strong>. It's like trying to read 10 books simultaneously. Exhausting!</p>
+          <div class="big-quote" style="margin-top:12px;">
+            This is why a messy house isn't just "messy" to Dad — it's actively loud in his brain, even though it makes no sound. 🧠
+          </div>
+        </div>
+      </div>
+
+      <div class="age-content mode-teen">
+        <div class="noise-meter">
+          <div class="noise-title">🔊 Sensory Load Simulator</div>
+          <div class="noise-desc">ASD brains lack the thalamic gating that filters irrelevant sensory input. Every channel stays open.</div>
+          <div class="noise-slider-wrap">
+            <div class="slider-label"><span>🤫 Low stimulation</span><span>😬 Moderate</span><span>🤯 Sensory overload</span></div>
+            <input type="range" min="0" max="100" value="30" id="noise-slider-t" oninput="updateNoise(this.value, 't')">
+          </div>
+          <div class="noise-brains">
+            <div class="noise-brain nb-asd">
+              <span class="nb-emoji" id="nb-emoji-asd-t">😌</span>
+              <div class="nb-label">ASD (Dad)</div>
+              <div class="nb-status" id="nb-status-asd-t">Manageable. Can function, maybe even thrive.</div>
+            </div>
+            <div class="noise-brain nb-adhd">
+              <span class="nb-emoji" id="nb-emoji-adhd-t">😴</span>
+              <div class="nb-label">ADHD</div>
+              <div class="nb-status" id="nb-status-adhd-t">Paradoxically under-stimulated. Needs more input.</div>
+            </div>
+            <div class="noise-brain nb-nt">
+              <span class="nb-emoji" id="nb-emoji-nt-t">😊</span>
+              <div class="nb-label">Neurotypical</div>
+              <div class="nb-status" id="nb-status-nt-t">Filtering works. Background is background.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎯 Why Sensory Differences Hit Harder With Kids Around</div>
+          <p>A house with a teenager, a 9-year-old, and a toddler is a high-stimulus environment by design. Unpredictable noise, sudden transitions, visual disorder, competing demands — each of those independently costs cognitive resources for an ASD brain. Together, they stack.</p>
+          <br>
+          <p>This isn't weakness or bad parenting. It's a <strong>neurological resource management problem</strong>. The tank runs dry faster than in a neurotypical parent, and refilling it requires genuine low-stimulation time.</p>
+        </div>
+      </div>
+
+      <div class="age-content mode-adult">
+        <div class="noise-meter">
+          <div class="noise-title">🔊 Sensory Processing Architecture</div>
+          <div class="noise-desc">Thalamic gating deficits in ASD result in unfiltered multi-channel sensory processing. Adjust the load to see differential response profiles.</div>
+          <div class="noise-slider-wrap">
+            <div class="slider-label"><span>🤫 Minimal stimulation</span><span>😬 Moderate household noise</span><span>🤯 Cumulative overload</span></div>
+            <input type="range" min="0" max="100" value="30" id="noise-slider-a" oninput="updateNoise(this.value, 'a')">
+          </div>
+          <div class="noise-brains">
+            <div class="noise-brain nb-asd">
+              <span class="nb-emoji" id="nb-emoji-asd-a">😌</span>
+              <div class="nb-label">ASD (Level 1)</div>
+              <div class="nb-status" id="nb-status-asd-a">Baseline manageable. Compensatory masking active but sustainable.</div>
+            </div>
+            <div class="noise-brain nb-adhd">
+              <span class="nb-emoji" id="nb-emoji-adhd-a">😴</span>
+              <div class="nb-label">ADHD</div>
+              <div class="nb-status" id="nb-status-adhd-a">Under-aroused. Dopaminergic system seeks stimulation to reach activation threshold.</div>
+            </div>
+            <div class="noise-brain nb-nt">
+              <span class="nb-emoji" id="nb-emoji-nt-a">😊</span>
+              <div class="nb-label">Neurotypical</div>
+              <div class="nb-status" id="nb-status-nt-a">Habituation active. Reticular formation suppresses non-salient input effectively.</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎯 Cumulative Load in a Multi-Child Household</div>
+          <p>The sensory environment of a home with a teenager, pre-teen, and toddler presents compounding challenges: unpredictable acoustic bursts (toddler), high-volume media (pre-teen), emotional dysregulation broadcasts (teenager), competing olfactory inputs, visual disorder, and rapid contextual switching between parenting modes. Each element individually taxes thalamic gating. Cumulatively, they produce faster depletion of the cognitive-sensory regulatory budget — what clinicians sometimes call <strong>autistic burnout</strong> when sustained.</p>
+          <br>
+          <p>The critical distinction from ADHD: an ADHD parent may actually <em>improve</em> in this environment due to ambient stimulation raising dopamine to functional threshold. An ASD parent deteriorates with the same stimulus load due to absent inhibitory filtering.</p>
+        </div>
+      </div>
+
+    </div><!-- /sec-senses -->
+
+    <!-- ══════ FEELINGS SECTION ══════ -->
+    <div class="section-page" id="sec-feelings">
+
+      <div class="age-content mode-tiny">
+        <div class="card">
+          <div class="card-title">❤️ Dad feels things a lot!</div>
+          <p>Dad loves you so, so much. But sometimes it's hard for him to <strong>say</strong> what he is feeling — even when he feels something really big inside.</p>
+          <br>
+          <p>It's like having a really full feeling in your tummy but not knowing the word for it! That's how it works for him sometimes. 🤍</p>
+          <div class="big-quote" style="margin-top:16px;">
+            If Dad looks quiet, it doesn't mean he's sad or angry at you. His brain might just be working very hard! 💪
+          </div>
+        </div>
+      </div>
+
+      <div class="age-content mode-kid">
+        <div class="card">
+          <div class="card-title">🫀 Alexithymia — The Feelings Puzzle</div>
+          <p>About half of people with ASD have something called <strong>alexithymia</strong> — which is a fancy word that means <em>"can't find the words for feelings."</em></p>
+          <br>
+          <p>Here's the weird thing: <strong>the feelings are still there.</strong> Dad still feels happy, stressed, proud, overwhelmed. But the signal from his body to the word-part of his brain sometimes gets fuzzy.</p>
+          <div class="big-quote" style="margin-top:16px;">
+            It's like having a text message that gets delivered but the autocorrect scrambled all the words. The message came, you just can't read it easily. 📱
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎯 Tap on a feeling to understand it</div>
+          <p style="margin-bottom:12px;">These are things Dad might feel but have trouble saying out loud:</p>
+          <div class="feelings-grid">
+            <div class="feeling-card" onclick="toggleFeeling(this)">
+              <span class="fe">😤</span>
+              <div class="fn">Overwhelmed</div>
+              <div class="fd">Too many things happening at once. Brain is at full capacity. Needs quiet, not more questions.</div>
+            </div>
+            <div class="feeling-card" onclick="toggleFeeling(this)">
+              <span class="fe">😶</span>
+              <div class="fn">Shut Down</div>
+              <div class="fd">When it's TOO much, sometimes Dad goes very quiet. He's not ignoring you — his brain needs to reboot.</div>
+            </div>
+            <div class="feeling-card" onclick="toggleFeeling(this)">
+              <span class="fe">😬</span>
+              <div class="fn">Sensory Pain</div>
+              <div class="fd">Loud noise or bright lights can actually feel physically uncomfortable — like a headache but for all senses.</div>
+            </div>
+            <div class="feeling-card" onclick="toggleFeeling(this)">
+              <span class="fe">🤍</span>
+              <div class="fn">Deep Love</div>
+              <div class="fd">Even when he's quiet or in his head, Dad loves his family more than he can say. ASD love is deep, loyal, and lifelong.</div>
+            </div>
+            <div class="feeling-card" onclick="toggleFeeling(this)">
+              <span class="fe">🧩</span>
+              <div class="fn">Confusion</div>
+              <div class="fd">Sometimes social situations feel like everyone got a rulebook that Dad didn't receive. Not his fault!</div>
+            </div>
+            <div class="feeling-card" onclick="toggleFeeling(this)">
+              <span class="fe">🔋</span>
+              <div class="fn">Drained</div>
+              <div class="fd">Being a teacher AND a dad with ASD uses an enormous amount of energy. Dad refuels by having some quiet alone time.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="age-content mode-teen">
+        <div class="card">
+          <div class="card-title">🫀 Alexithymia — Interoception Deficit</div>
+          <p>Alexithymia isn't an emotional problem — it's an <strong>interoceptive processing problem</strong>. The insular cortex, which maps body states to emotional labels, functions atypically in ~50% of autistic people. Feelings register physiologically (elevated heart rate, muscle tension, gut response) but the labelling pathway between body and language misfires.</p>
+          <br>
+          <p>The result: Dad may be significantly stressed, grieving, or joyful, and genuinely not be able to tell you which — not because he's avoiding it, but because the <strong>internal map is blurry</strong>. This is often misread as coldness or disinterest. It isn't.</p>
+          <div class="big-quote purple" style="margin-top:16px;">
+            Autistic people often love intensely and permanently. The difficulty is in the translation, not the signal.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">⚡ What "Shutdown" Actually Looks Like</div>
+          <p>Unlike meltdowns (which are more visible), <strong>autistic shutdown</strong> looks like withdrawal, silence, going flat. It's not the silent treatment. It's the brain's emergency conservation mode — like a laptop going to sleep when the battery hits 5%. Triggering it harder doesn't help. Giving space does.</p>
+          <br>
+          <p>As a teenager, you have the language to understand this. It also means you can be genuinely helpful to younger siblings in translating what's happening.</p>
+        </div>
+      </div>
+
+      <div class="age-content mode-adult">
+        <div class="card">
+          <div class="card-title">🫀 Alexithymia — Clinical Picture</div>
+          <p>Alexithymia (estimated prevalence: 50–85% in ASD) is characterized by reduced ability to identify and describe internal emotional states, reduced imaginative processing, and externally-oriented thinking style. It is distinct from emotional absence — interoceptive signals are generated but the insular-prefrontal labelling pathway is unreliable.</p>
+          <br>
+          <p>For a father navigating a high-demand household, this creates a specific pattern: physiological stress accumulates without the early-warning system that emotional awareness provides. The first signal may be shutdown or irritability rather than "I am feeling overwhelmed." <strong>This is not stonewalling — it is neurological.</strong></p>
+          <br>
+          <p>Biofeedback tools (e.g., HRV monitoring) can serve as an external interoceptive scaffold — providing the data the insular cortex isn't reliably generating internally.</p>
+        </div>
+      </div>
+
+    </div><!-- /sec-feelings -->
+
+    <!-- ══════ AT HOME SECTION ══════ -->
+    <div class="section-page" id="sec-home">
+
+      <div class="age-content mode-tiny">
+        <div class="card">
+          <div class="card-title">🏠 Things that help Dad at home</div>
+          <ul>
+            <li>🧸 Picking up toys so the floor is clear</li>
+            <li>🤫 Using a quiet voice when Dad looks tired</li>
+            <li>⏰ Not surprising Dad with big changes suddenly</li>
+            <li>🤗 A hug (when he says it's okay) can help a lot!</li>
+          </ul>
+          <div class="big-quote" style="margin-top:16px;">
+            Helping Dad feel calm means everyone in the house gets the best version of Dad! 🌟
+          </div>
+        </div>
+      </div>
+
+      <div class="age-content mode-kid mode-teen mode-adult">
+        <div class="card">
+          <div class="card-title">🎬 Real Scenarios — Tap to See What Each Brain Experiences</div>
+          <p style="margin-bottom:0; color:var(--muted); font-size:14px;">Tap any card to see the difference</p>
+        </div>
+        <div class="scenario-grid">
+
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-emoji">📺</span>
+              <div>
+                <div class="sc-title">TV + talking + toddler</div>
+                <div class="sc-hint">tap to see inside each brain</div>
+              </div>
+            </div>
+            <div class="sc-body">
+              <button class="sc-toggle" onclick="toggleScenario(this)">Show brain responses ▼</button>
+              <div class="sc-expand">
+                <div class="sc-brain-row">
+                  <div class="sc-brain-item sbi-asd"><div class="sbi-name">ASD (Dad)</div>Every audio channel arrives at equal volume. TV dialogue, your conversation, and toddler sounds compete for processing simultaneously. Can feel physically painful within minutes.</div>
+                  <div class="sc-brain-item sbi-adhd"><div class="sbi-name">ADHD</div>Attention bounces between sources. May actually engage better — the stimulation helps. Probably starts talking about something unrelated.</div>
+                  <div class="sc-brain-item sbi-nt"><div class="sbi-name">Neurotypical</div>Filters background noise automatically. Focuses on whoever's talking. Barely notices the TV is on.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-emoji">🧹</span>
+              <div>
+                <div class="sc-title">Messy living room</div>
+                <div class="sc-hint">tap to see inside each brain</div>
+              </div>
+            </div>
+            <div class="sc-body">
+              <button class="sc-toggle" onclick="toggleScenario(this)">Show brain responses ▼</button>
+              <div class="sc-expand">
+                <div class="sc-brain-row">
+                  <div class="sc-brain-item sbi-asd"><div class="sbi-name">ASD (Dad)</div>Visual cortex processes every item individually. Disorder creates a constant low-level "noise" in the visual field that can't be background-filtered. Hard to think clearly until it's resolved.</div>
+                  <div class="sc-brain-item sbi-adhd"><div class="sbi-name">ADHD</div>Doesn't notice or doesn't care much. May find it stimulating. Would start cleaning something random in the mess and forget what they were doing.</div>
+                  <div class="sc-brain-item sbi-nt"><div class="sbi-name">Neurotypical</div>May notice but easily ignores it. "I'll clean it later" — and actually can.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-emoji">📅</span>
+              <div>
+                <div class="sc-title">Plans change suddenly</div>
+                <div class="sc-hint">tap to see inside each brain</div>
+              </div>
+            </div>
+            <div class="sc-body">
+              <button class="sc-toggle" onclick="toggleScenario(this)">Show brain responses ▼</button>
+              <div class="sc-expand">
+                <div class="sc-brain-row">
+                  <div class="sc-brain-item sbi-asd"><div class="sbi-name">ASD (Dad)</div>Mental model of the day was already fully constructed. Sudden change requires rebuilding it from scratch — cognitively expensive. May go quiet, seem annoyed. Needs a few minutes.</div>
+                  <div class="sc-brain-item sbi-adhd"><div class="sbi-name">ADHD</div>Actually fine with changes — novelty can help. But may have already forgotten the original plan anyway.</div>
+                  <div class="sc-brain-item sbi-nt"><div class="sbi-name">Neurotypical</div>Minor adjustment. Adapts quickly. May be briefly annoyed but it passes fast.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-emoji">🍽️</span>
+              <div>
+                <div class="sc-title">Busy dinner table</div>
+                <div class="sc-hint">tap to see inside each brain</div>
+              </div>
+            </div>
+            <div class="sc-body">
+              <button class="sc-toggle" onclick="toggleScenario(this)">Show brain responses ▼</button>
+              <div class="sc-expand">
+                <div class="sc-brain-row">
+                  <div class="sc-brain-item sbi-asd"><div class="sbi-name">ASD (Dad)</div>Three conversations, clinking dishes, toddler sounds, food textures, smells — each arrives unfiltered. What looks like Dad "zoning out" is sensory triage. He's not being rude; he's coping.</div>
+                  <div class="sc-brain-item sbi-adhd"><div class="sbi-name">ADHD</div>Joins every conversation simultaneously, finishes none. Gets up twice for no reason. Genuinely engaged but scattered.</div>
+                  <div class="sc-brain-item sbi-nt"><div class="sbi-name">Neurotypical</div>Normal family dinner. Maybe a little loud, but manageable and maybe even fun.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-emoji">😤</span>
+              <div>
+                <div class="sc-title">Someone's having a meltdown</div>
+                <div class="sc-hint">tap to see inside each brain</div>
+              </div>
+            </div>
+            <div class="sc-body">
+              <button class="sc-toggle" onclick="toggleScenario(this)">Show brain responses ▼</button>
+              <div class="sc-expand">
+                <div class="sc-brain-row">
+                  <div class="sc-brain-item sbi-asd"><div class="sbi-name">ASD (Dad)</div>Elevated emotional noise is perceived as both auditory overload AND emotional contagion. Amygdala activates hard. Dad may need to step away not because he doesn't care, but because staying means his regulation goes too.</div>
+                  <div class="sc-brain-item sbi-adhd"><div class="sbi-name">ADHD</div>Emotional dysregulation (RSD) means they may escalate WITH the emotional environment — absorbing the feeling fast and intensely.</div>
+                  <div class="sc-brain-item sbi-nt"><div class="sbi-name">Neurotypical</div>May feel stressed but maintains top-down emotional regulation more easily. Can stay calm while others aren't.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card">
+            <div class="sc-header">
+              <span class="sc-emoji">🌙</span>
+              <div>
+                <div class="sc-title">After a hard day at school</div>
+                <div class="sc-hint">tap to see inside each brain</div>
+              </div>
+            </div>
+            <div class="sc-body">
+              <button class="sc-toggle" onclick="toggleScenario(this)">Show brain responses ▼</button>
+              <div class="sc-expand">
+                <div class="sc-brain-row">
+                  <div class="sc-brain-item sbi-asd"><div class="sbi-name">ASD (Dad)</div>Teaching all day = 6–8 hours of masking social norms, processing a noisy classroom, and managing transitions. He walks in the door running near empty. The first 20–30 minutes are critical decompression time.</div>
+                  <div class="sc-brain-item sbi-adhd"><div class="sbi-name">ADHD</div>May feel restless coming home — needs movement or stimulation to shift contexts. Hard to wind down.</div>
+                  <div class="sc-brain-item sbi-nt"><div class="sbi-name">Neurotypical</div>Tired from a long day, but socially available sooner. Can decompress while still engaging.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /sec-home -->
+
+    <!-- ══════ HOW TO HELP SECTION ══════ -->
+    <div class="section-page" id="sec-help">
+
+      <div class="age-content mode-tiny">
+        <div class="card">
+          <div class="card-title">💛 How YOU can help Dad!</div>
+          <div class="tip-grid">
+            <div class="tip-card">
+              <span class="tip-emoji">🧸</span>
+              <div class="tip-title">Pick up your toys</div>
+              <p>When the floor is tidy, Dad's brain feels much more calm!</p>
+            </div>
+            <div class="tip-card">
+              <span class="tip-emoji">🗣️</span>
+              <div class="tip-title">Use a normal voice</div>
+              <p>Try to use a normal voice when you can — not too loud, not a shout. Come close to talk instead of calling from far away!</p>
+            </div>
+            <div class="tip-card">
+              <span class="tip-emoji">🫧</span>
+              <div class="tip-title">Ask to get in Dad's bubble</div>
+              <p>Dad has a personal bubble — the space right around him. Ask first before jumping on him or getting very close. Just say "Can I come in your bubble?"</p>
+            </div>
+            <div class="tip-card">
+              <span class="tip-emoji">🤗</span>
+              <div class="tip-title">Ask before hugging</div>
+              <p>Sometimes Dad loves hugs! Sometimes his skin feels too sensitive. Just ask: "Can I have a hug?"</p>
+            </div>
+            <div class="tip-card">
+              <span class="tip-emoji">⏰</span>
+              <div class="tip-title">Tell him plans early</div>
+              <p>If something is going to happen, tell Dad early so his brain can get ready!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="age-content mode-kid mode-teen mode-adult">
+        <div class="card">
+          <div class="card-title">💛 Practical Ways to Help</div>
+        </div>
+        <div class="tip-grid">
+          <div class="tip-card">
+            <span class="tip-emoji">🔇</span>
+            <div class="tip-title">Sound management</div>
+            <p>Headphones for TV. One audio source at a time when Dad's home. Warn before loud sounds (blender, vacuum). Try to use a normal voice when you can — these aren't preferences, they're regulation tools.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">🧹</span>
+            <div class="tip-title">Visual tidiness</div>
+            <p>Clear surfaces reduce visual "noise" that Dad's brain processes constantly. Shared spaces tidy = measurably lower cognitive load for him.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">🫧</span>
+            <div class="tip-title">Respect Dad's bubble</div>
+            <p>Dad has a personal space bubble around him. Ask before jumping on him, leaning over him, or getting very close — especially when he's already at capacity. A quick "Can I come in your bubble?" goes a long way.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">📱</span>
+            <div class="tip-title">Different brains, different settings</div>
+            <p>Think of it like devices — an iPhone, a laptop, a TV, and an Xbox all work differently. You can't use the same button to do the same thing on each one. Dad's brain runs on different settings. That's not wrong, it's just a different operating system.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">⏰</span>
+            <div class="tip-title">Transition warnings</div>
+            <p>Give Dad a 10-minute heads up before plans change. "Hey, we're leaving in 10" is much easier than "Let's go — right now."</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">🌬️</span>
+            <div class="tip-title">Decompression time</div>
+            <p>The first 20–30 minutes after Dad gets home are recovery time from a full day of masking. A brief quiet window isn't him being withdrawn — it's charging the battery.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">💬</span>
+            <div class="tip-title">Don't need a feelings explanation</div>
+            <p>If Dad can't explain why he's quiet or stressed, that's okay. Don't push for the "right words." Presence and patience help more than interrogation.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">❤️</span>
+            <div class="tip-title">Know it's not personal</div>
+            <p>When Dad shuts down, steps away, or seems "flat" — it's neurological, not emotional rejection. The love is constant. The processing bandwidth varies.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">📋</span>
+            <div class="tip-title">Predictable routines</div>
+            <p>Consistent dinner times, bedtimes, morning routines — each predictable moment is one fewer context-switch the brain has to manage. Structure is a gift, not a cage.</p>
+          </div>
+          <div class="tip-card">
+            <span class="tip-emoji">🎯</span>
+            <div class="tip-title">One thing at a time</div>
+            <p>Ask one question at a time. Give one instruction at a time. Multiple simultaneous requests stack fast. Serial > parallel when Dad is at capacity.</p>
+          </div>
+        </div>
+
+        <div class="big-quote" style="margin-top:24px;">
+          💛 Having an ASD brain doesn't make someone less of a father, partner, or person. It means the same love, effort, and dedication — running on a different operating system. Understanding the OS helps everyone in the house work better together.
+        </div>
+      </div>
+
+    </div><!-- /sec-help -->
+
+  </div><!-- /content -->
+
+  <footer>
+    <strong>Made with love for our family 💛</strong><br>
+    <span>ASD Level 1 · Sensory Processing Differences · Alexithymia</span>
+  </footer>
+
+</div><!-- /app -->
+
+<script>
+  let currentMode = 'adult';
+
+  const noiseData = {
+    asd: [
+      { max: 20, emoji: '😌', text: 'Quiet is wonderful. Brain can focus deeply.' },
+      { max: 40, emoji: '🙂', text: 'Manageable. Some filtering effort required.' },
+      { max: 60, emoji: '😬', text: 'Getting loud. Concentration is harder. Feeling edgy.' },
+      { max: 80, emoji: '😰', text: 'Sensory overload building. Hard to stay regulated.' },
+      { max: 100, emoji: '🤯', text: 'Shutdown or meltdown territory. Need to leave now.' }
+    ],
+    adhd: [
+      { max: 20, emoji: '😴', text: 'Too quiet. Hard to focus. Brain craves stimulation.' },
+      { max: 40, emoji: '😑', text: 'Still a bit dull. Attention drifts.' },
+      { max: 60, emoji: '😊', text: 'This is actually good! Finally engaged.' },
+      { max: 80, emoji: '😄', text: 'High energy! Very switched on right now.' },
+      { max: 100, emoji: '😵', text: 'Okay even this is a lot. Scattered everywhere.' }
+    ],
+    nt: [
+      { max: 20, emoji: '😌', text: 'Calm and peaceful. Easy to think.' },
+      { max: 40, emoji: '😊', text: 'Fine. Normal household noise.' },
+      { max: 60, emoji: '🙂', text: 'Bit loud, but filtering works. Still functional.' },
+      { max: 80, emoji: '😬', text: 'Getting a bit much. Hard to have a conversation.' },
+      { max: 100, emoji: '😤', text: 'Too chaotic. Stressed, but can still regulate.' }
+    ]
+  };
+
+  function getLevel(val, arr) {
+    for (let item of arr) {
+      if (val <= item.max) return item;
+    }
+    return arr[arr.length - 1];
+  }
+
+  function updateNoise(val, suffix = '') {
+    const s = suffix ? '-' + suffix : '';
+    ['asd', 'adhd', 'nt'].forEach(type => {
+      const level = getLevel(parseInt(val), noiseData[type]);
+      const el = document.getElementById('nb-emoji-' + type + s);
+      const st = document.getElementById('nb-status-' + type + s);
+      if (el) el.textContent = level.emoji;
+      if (st) st.textContent = level.text;
+    });
+  }
+
+  function buildDots(containerId, kept, total, colorClass) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'syn-dot ' + colorClass + (i < kept ? ' kept' : ' pruned');
+      el.appendChild(d);
+    }
+  }
+
+  function buildAllDots() {
+    // kid mode
+    buildDots('dots-asd', 30, 36, 's-asd');
+    buildDots('dots-adhd', 22, 36, 's-adhd');
+    buildDots('dots-nt', 18, 36, 's-nt');
+    // teen mode
+    buildDots('dots-asd-t', 30, 36, 's-asd');
+    buildDots('dots-adhd-t', 22, 36, 's-adhd');
+    buildDots('dots-nt-t', 18, 36, 's-nt');
+    // adult mode
+    buildDots('dots-asd-a', 30, 36, 's-asd');
+    buildDots('dots-adhd-a', 22, 36, 's-adhd');
+    buildDots('dots-nt-a', 18, 36, 's-nt');
+  }
+
+  function pickAge(mode) {
+    currentMode = mode;
+    document.getElementById('age-picker').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+    document.body.className = 'mode-' + mode;
+
+    // Show correct age content
+    document.querySelectorAll('.age-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.age-content.mode-' + mode).forEach(el => el.style.display = 'block');
+
+    // Also show shared content
+    if (mode === 'teen' || mode === 'adult') {
+      document.querySelectorAll('.age-content.mode-kid.mode-teen.mode-adult').forEach(el => el.style.display = 'block');
+    }
+
+    const titles = {
+      tiny:  ['How Dad\'s Brain Works 🧸', 'A picture book for little ones'],
+      kid:   ['How Dad\'s Brain Works ⚡', 'The science made fun'],
+      teen:  ['Understanding Dad\'s Brain 🧠', 'The real neuroscience'],
+      adult: ['ASD Level 1 — A Family Guide', 'Clinical context for the household']
+    };
+
+    const badges = {
+      tiny:  { text: '🧸 For little ones', bg: '#f9c74f', color: '#1a1a2e' },
+      kid:   { text: '⚡ Kid edition', bg: '#4f8ef7', color: '#fff' },
+      teen:  { text: '🎧 Teen edition', bg: '#9b5de5', color: '#fff' },
+      adult: { text: '☕ Grown-up edition', bg: '#3dbb7a', color: '#fff' }
+    };
+
+    document.getElementById('hero-title').textContent = titles[mode][0];
+    document.getElementById('hero-sub').textContent = titles[mode][1];
+
+    const badge = badges[mode];
+    const badgeEl = document.getElementById('mode-badge');
+    badgeEl.textContent = badge.text;
+    badgeEl.style.background = badge.bg;
+    badgeEl.style.color = badge.color;
+
+    buildAllDots();
+    updateNoise(30);
+    updateNoise(30, 't');
+    updateNoise(30, 'a');
+  }
+
+  function changeAge() {
+    // Reset to Brain tab before showing picker
+    document.querySelectorAll('.section-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-brain').classList.add('active');
+    const brainBtn = document.querySelector('.nav-btn');
+    if (brainBtn) brainBtn.classList.add('active');
+
+    document.getElementById('age-picker').style.display = 'flex';
+    document.getElementById('app').classList.remove('visible');
+  }
+
+  function showSection(id, btn) {
+    document.querySelectorAll('.section-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    btn.classList.add('active');
+
+    // Re-show correct age content for new section
+    document.querySelectorAll('#sec-' + id + ' .age-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('#sec-' + id + ' .age-content.mode-' + currentMode).forEach(el => el.style.display = 'block');
+    if (currentMode === 'teen' || currentMode === 'adult') {
+      document.querySelectorAll('#sec-' + id + ' .age-content.mode-kid.mode-teen.mode-adult').forEach(el => el.style.display = 'block');
+    }
+  }
+
+  function toggleScenario(btn) {
+    const expand = btn.nextElementSibling;
+    const isOpen = expand.classList.contains('open');
+    expand.classList.toggle('open');
+    btn.textContent = isOpen ? 'Show brain responses ▼' : 'Hide responses ▲';
+  }
+
+  function toggleFeeling(card) {
+    card.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
